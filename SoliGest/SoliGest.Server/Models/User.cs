@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace SoliGest.Server.Models
 {
@@ -20,6 +21,7 @@ namespace SoliGest.Server.Models
 
         [Required(ErrorMessage = "O email é obrigatório.")]
         [Display(Name = "Email")]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "O número de telemóvel é obrigatório.")]

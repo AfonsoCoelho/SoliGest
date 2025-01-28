@@ -12,6 +12,7 @@ namespace SoliGest.Server.Models
 
         [Required(ErrorMessage = "É obrigatório indicar um email.")]
         [Display(Name = "Email")]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "É obrigatório indicar uma morada.")]
