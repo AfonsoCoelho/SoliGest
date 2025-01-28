@@ -1,4 +1,9 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using SoliGest.Server.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<SoliGestServerContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SoliGestServerContext") ?? throw new InvalidOperationException("Connection string 'SoliGestServerContext' not found.")));
 
 // Add services to the container.
 
