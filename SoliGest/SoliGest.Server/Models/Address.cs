@@ -6,26 +6,27 @@ namespace SoliGest.Server.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "O nome do projeto é obrigatório.")]
-        [Display(Name = "Nome do Projeto")]
+        [Required(ErrorMessage = "É obrigatório a morada possuir pelo menos uma linha.")]
+        [Display(Name = "Linha 1")]
         public string Line1 { get; set; }
 
-        [Display(Name = "Descrição")]
+        [Display(Name = "Linha 2")]
         public string Line2 { get; set; }
 
-        [Required(ErrorMessage = "A localização é obrigatória.")]
-        [Display(Name = "Localização")]
+        [Required(ErrorMessage = "É obrigatório indicar um código postal.")]
+        [Display(Name = "Código Postal")]
         public string PostalCode { get; set; }
 
-        [Required(ErrorMessage = "A capacidade é obrigatória.")]
-        [Range(1, int.MaxValue, ErrorMessage = "A capacidade deve ser um número positivo.")]
-        [Display(Name = "Capacidade")]
+        [Required(ErrorMessage = "É obrigatório indicar uma localidade.")]
+        [Display(Name = "Localidade")]
         public string Locality { get; set; }
 
-        // Propriedade de navegação para os voluntários associados ao projeto
-        [Display(Name = "Voluntários")]
+        [Required(ErrorMessage = "É obrigatório indicar uma cidade.")]
+        [Display(Name = "Localidade")]
         public string City { get; set; }
 
+        [Required(ErrorMessage = "É obrigatório indicar um país.")]
+        [Display(Name = "País")]
         public string Country { get; set; }
     }
 }
