@@ -1,7 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
 
-SoliGest/.vs/SoliGest/FileContentIndex/11d92d2c-853b-44e3-8ed0-b8378d559dd8.vsidx
-SoliGest/.vs/SoliGest/FileContentIndex/31a4109b-9be7-451b-8f7b-961f76d67f61.vsidx
-SoliGest/.vs/SoliGest/FileContentIndex/40ae6939-b3d3-4cdc-b99c-3a79758bbd47.vsidx
-SoliGest/.vs/SoliGest/FileContentIndex/6b0117ed-c2fc-496b-a873-3b60a69b22ad.vsidx
-SoliGest/.vs/SoliGest/FileContentIndex/937bf7e9-f37b-4394-a8af-cf43e6ecd55c.vsidx
-SoliGest/.vs/SoliGest/FileContentIndex/c6bdd891-79b6-4779-b6e4-ba70200a7571.vsidx
+/SoliGest/.vs/SoliGest/FileContentIndex
+SoliGest/.vs/ProjectEvaluation/soligest.metadata.v9.bin
+SoliGest/.vs/ProjectEvaluation/soligest.projects.v9.bin
+SoliGest/.vs/ProjectEvaluation/soligest.strings.v9.bin
+SoliGest/.vs/SoliGest/v17/.futdcache.v2
+SoliGest/.vs/SoliGest/v17/.suo
+SoliGest/.vs/SoliGest/v17/.suo
