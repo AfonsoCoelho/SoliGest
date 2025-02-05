@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SoliGest.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+162c4aad95f57aebcdf3d867a128af9a15912559")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ed0fbb0507cd1c8031f1ec003d09aa610989009d")]
 [assembly: System.Reflection.AssemblyProductAttribute("SoliGest.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SoliGest.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
