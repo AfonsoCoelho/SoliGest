@@ -3,52 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Migrations\\20250128224356_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SoliGest.Server\\Migrations\\20250128224356_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.client\\src\\app\\home\\home.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\home\\home.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.server\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|solutionrelative:soligest.server\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.client\\src\\app\\home\\home.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\home\\home.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.server\\controllers\\addressescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|solutionrelative:soligest.server\\controllers\\addressescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.client\\src\\app\\app.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\app.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Migrations\\20250128224037_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SoliGest.Server\\Migrations\\20250128224037_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.client\\angular.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\angular.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.server\\controllers\\assistancerequestscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|solutionrelative:soligest.server\\controllers\\assistancerequestscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.client\\src\\app\\app-routing.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\app-routing.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.server\\controllers\\solarpanelscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|solutionrelative:soligest.server\\controllers\\solarpanelscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.client\\src\\app\\app.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\app.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Migrations\\20250128223602_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SoliGest.Server\\Migrations\\20250128223602_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.client\\src\\app\\app.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\app.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.server\\soligest.server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|solutionrelative:soligest.server\\soligest.server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.server\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|solutionrelative:soligest.server\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.server\\models\\solarpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|solutionrelative:soligest.server\\models\\solarpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.server\\models\\assistancerequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|solutionrelative:soligest.server\\models\\assistancerequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.server\\models\\address.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|solutionrelative:soligest.server\\models\\address.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.client\\src\\app\\app.component.spec.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\app.component.spec.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -58,162 +42,103 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20250128224356_init.cs",
-              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Migrations\\20250128224356_init.cs",
-              "RelativeDocumentMoniker": "SoliGest.Server\\Migrations\\20250128224356_init.cs",
-              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Migrations\\20250128224356_init.cs",
-              "RelativeToolTip": "SoliGest.Server\\Migrations\\20250128224356_init.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-28T22:43:56.683Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "20250128224037_init.cs",
-              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Migrations\\20250128224037_init.cs",
-              "RelativeDocumentMoniker": "SoliGest.Server\\Migrations\\20250128224037_init.cs",
-              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Migrations\\20250128224037_init.cs",
-              "RelativeToolTip": "SoliGest.Server\\Migrations\\20250128224037_init.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-28T22:40:37.649Z",
-              "EditorCaption": ""
+              "Title": "angular.json",
+              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\soligest.client\\angular.json",
+              "RelativeDocumentMoniker": "soligest.client\\angular.json",
+              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\soligest.client\\angular.json",
+              "RelativeToolTip": "soligest.client\\angular.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-02-05T16:34:06.17Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "AssistanceRequestsController.cs",
-              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Controllers\\AssistanceRequestsController.cs",
-              "RelativeDocumentMoniker": "SoliGest.Server\\Controllers\\AssistanceRequestsController.cs",
-              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Controllers\\AssistanceRequestsController.cs",
-              "RelativeToolTip": "SoliGest.Server\\Controllers\\AssistanceRequestsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-28T22:40:10.298Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UsersController.cs",
-              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Controllers\\UsersController.cs",
-              "RelativeDocumentMoniker": "SoliGest.Server\\Controllers\\UsersController.cs",
-              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Controllers\\UsersController.cs",
-              "RelativeToolTip": "SoliGest.Server\\Controllers\\UsersController.cs",
-              "ViewState": "AgIAAHoAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-28T22:39:46.758Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "SolarPanelsController.cs",
-              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Controllers\\SolarPanelsController.cs",
-              "RelativeDocumentMoniker": "SoliGest.Server\\Controllers\\SolarPanelsController.cs",
-              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Controllers\\SolarPanelsController.cs",
-              "RelativeToolTip": "SoliGest.Server\\Controllers\\SolarPanelsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-28T22:39:19.181Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AddressesController.cs",
-              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Controllers\\AddressesController.cs",
-              "RelativeDocumentMoniker": "SoliGest.Server\\Controllers\\AddressesController.cs",
-              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Controllers\\AddressesController.cs",
-              "RelativeToolTip": "SoliGest.Server\\Controllers\\AddressesController.cs",
-              "ViewState": "AgIAAIMAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-28T22:38:44.678Z",
-              "EditorCaption": ""
+              "Title": "app-routing.module.ts",
+              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\soligest.client\\src\\app\\app-routing.module.ts",
+              "RelativeDocumentMoniker": "soligest.client\\src\\app\\app-routing.module.ts",
+              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\soligest.client\\src\\app\\app-routing.module.ts",
+              "RelativeToolTip": "soligest.client\\src\\app\\app-routing.module.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-02-05T16:31:03.103Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "20250128223602_init.cs",
-              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Migrations\\20250128223602_init.cs",
-              "RelativeDocumentMoniker": "SoliGest.Server\\Migrations\\20250128223602_init.cs",
-              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Migrations\\20250128223602_init.cs",
-              "RelativeToolTip": "SoliGest.Server\\Migrations\\20250128223602_init.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-28T22:36:03.034Z",
-              "EditorCaption": ""
+              "Title": "app.module.ts",
+              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\soligest.client\\src\\app\\app.module.ts",
+              "RelativeDocumentMoniker": "soligest.client\\src\\app\\app.module.ts",
+              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\soligest.client\\src\\app\\app.module.ts",
+              "RelativeToolTip": "soligest.client\\src\\app\\app.module.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-02-05T16:02:06.725Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "app.component.ts",
+              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\soligest.client\\src\\app\\app.component.ts",
+              "RelativeDocumentMoniker": "soligest.client\\src\\app\\app.component.ts",
+              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\soligest.client\\src\\app\\app.component.ts",
+              "RelativeToolTip": "soligest.client\\src\\app\\app.component.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-02-05T16:00:48.962Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "SoliGest.Server",
-              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj",
-              "RelativeDocumentMoniker": "SoliGest.Server\\SoliGest.Server.csproj",
-              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj",
-              "RelativeToolTip": "SoliGest.Server\\SoliGest.Server.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-01-28T22:09:43.419Z",
-              "EditorCaption": ""
+              "Title": "app.component.spec.ts",
+              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\soligest.client\\src\\app\\app.component.spec.ts",
+              "RelativeDocumentMoniker": "soligest.client\\src\\app\\app.component.spec.ts",
+              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\soligest.client\\src\\app\\app.component.spec.ts",
+              "RelativeToolTip": "soligest.client\\src\\app\\app.component.spec.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-02-05T16:00:47.347Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Models\\User.cs",
-              "RelativeDocumentMoniker": "SoliGest.Server\\Models\\User.cs",
-              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Models\\User.cs",
-              "RelativeToolTip": "SoliGest.Server\\Models\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAABcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-11T10:24:37.428Z",
-              "EditorCaption": ""
+              "DocumentIndex": 2,
+              "Title": "app.component.html",
+              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\soligest.client\\src\\app\\app.component.html",
+              "RelativeDocumentMoniker": "soligest.client\\src\\app\\app.component.html",
+              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\soligest.client\\src\\app\\app.component.html",
+              "RelativeToolTip": "soligest.client\\src\\app\\app.component.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-05T16:00:44.485Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "SolarPanel.cs",
-              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Models\\SolarPanel.cs",
-              "RelativeDocumentMoniker": "SoliGest.Server\\Models\\SolarPanel.cs",
-              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Models\\SolarPanel.cs",
-              "RelativeToolTip": "SoliGest.Server\\Models\\SolarPanel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-11T10:23:52.746Z",
-              "EditorCaption": ""
+              "DocumentIndex": 1,
+              "Title": "home.component.ts",
+              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\soligest.client\\src\\app\\home\\home.component.ts",
+              "RelativeDocumentMoniker": "soligest.client\\src\\app\\home\\home.component.ts",
+              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\soligest.client\\src\\app\\home\\home.component.ts",
+              "RelativeToolTip": "soligest.client\\src\\app\\home\\home.component.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-02-05T16:00:30.064Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "AssistanceRequest.cs",
-              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Models\\AssistanceRequest.cs",
-              "RelativeDocumentMoniker": "SoliGest.Server\\Models\\AssistanceRequest.cs",
-              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Models\\AssistanceRequest.cs",
-              "RelativeToolTip": "SoliGest.Server\\Models\\AssistanceRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-11T10:23:19.265Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Address.cs",
-              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Models\\Address.cs",
-              "RelativeDocumentMoniker": "SoliGest.Server\\Models\\Address.cs",
-              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Models\\Address.cs",
-              "RelativeToolTip": "SoliGest.Server\\Models\\Address.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-11T10:22:47.427Z",
+              "DocumentIndex": 0,
+              "Title": "home.component.html",
+              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\soligest.client\\src\\app\\home\\home.component.html",
+              "RelativeDocumentMoniker": "soligest.client\\src\\app\\home\\home.component.html",
+              "ToolTip": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\soligest.client\\src\\app\\home\\home.component.html",
+              "RelativeToolTip": "soligest.client\\src\\app\\home\\home.component.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-05T15:59:08.56Z",
               "EditorCaption": ""
             }
           ]
