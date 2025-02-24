@@ -1,0 +1,57 @@
+#sideMenu {
+  width: 25%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+}
+
+#map {
+  height: 100%;
+  width: 75%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+}
+
+#upperMenu, #lowerMenu {
+  background-color: #37AFE1;
+  position: relative;
+}
+
+#menuOptions {
+    background-color: white;
+    position: relative;
+}
+
+  #menuOptions a {
+    background-color: #FFC300;
+    font-size: 20pt;
+    width: 100%;
+  }
+
+#lowerMenu {
+    position: absolute;
+    top: 230%;
+    width: 100%
+}
+
+h1 {
+  font-size: 28pt;
+  left: 5%;
+  top: 0;
+  position: absolute;
+}
+
+h2 {
+  font-size: 22pt;
+  left: 5%;
+  top: 50%;
+  position: absolute;
+}
+
+#profile {
+  left: 25%;
+  position: relative;
+}
