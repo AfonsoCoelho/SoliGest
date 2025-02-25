@@ -4,6 +4,7 @@
   "Documents": [
     {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       "AbsoluteMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.server\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|solutionrelative:soligest.server\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -51,6 +52,8 @@
       "AbsoluteMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|c:\\users\\dpoup\\documents\\github\\soligest\\soligest\\soligest.server\\soligest.server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|solutionrelative:soligest.server\\soligest.server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
 =======
+=======
+>>>>>>> Stashed changes
       "AbsoluteMoniker": "D:0:0:{296A7914-82DF-40D5-BE82-BDFC7D28BA19}|SoliGest\\SoliGest.csproj|c:\\users\\balau\\desktop\\uni\\esa\\projeto\\soligest\\soligest\\models\\solarpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{296A7914-82DF-40D5-BE82-BDFC7D28BA19}|SoliGest\\SoliGest.csproj|solutionrelative:soligest\\models\\solarpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -76,7 +79,11 @@
         {
           "DockedWidth": 200,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
           "SelectedChildIndex": 8,
+=======
+          "SelectedChildIndex": 3,
+>>>>>>> Stashed changes
 =======
           "SelectedChildIndex": 3,
 >>>>>>> Stashed changes
@@ -92,6 +99,7 @@
             {
               "$type": "Document",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
               "DocumentIndex": 5,
               "Title": "20250128224356_init.cs",
               "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Migrations\\20250128224356_init.cs",
@@ -100,6 +108,8 @@
               "RelativeToolTip": "SoliGest.Server\\Migrations\\20250128224356_init.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
 =======
+=======
+>>>>>>> Stashed changes
               "DocumentIndex": 1,
               "Title": "AssistanceRequest.cs",
               "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest\\Models\\AssistanceRequest.cs",
@@ -107,6 +117,9 @@
               "ToolTip": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest\\Models\\AssistanceRequest.cs",
               "RelativeToolTip": "SoliGest\\Models\\AssistanceRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-28T22:43:56.683Z",
@@ -114,6 +127,7 @@
             },
             {
               "$type": "Document",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
               "DocumentIndex": 7,
               "Title": "20250128224037_init.cs",
@@ -123,6 +137,8 @@
               "RelativeToolTip": "SoliGest.Server\\Migrations\\20250128224037_init.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
 =======
+=======
+>>>>>>> Stashed changes
               "DocumentIndex": 0,
               "Title": "SolarPanel.cs",
               "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest\\Models\\SolarPanel.cs",
@@ -137,6 +153,7 @@
             },
             {
               "$type": "Document",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
               "DocumentIndex": 8,
               "Title": "AssistanceRequestsController.cs",
@@ -280,6 +297,22 @@
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "User.cs",
+=======
+              "DocumentIndex": 3,
+              "Title": "Address.cs",
+              "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest\\Models\\Address.cs",
+              "RelativeDocumentMoniker": "SoliGest\\Models\\Address.cs",
+              "ToolTip": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest\\Models\\Address.cs",
+              "RelativeToolTip": "SoliGest\\Models\\Address.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-09T08:49:18.201Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "User.cs",
+>>>>>>> Stashed changes
               "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest\\Models\\User.cs",
               "RelativeDocumentMoniker": "SoliGest\\Models\\User.cs",
               "ToolTip": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest\\Models\\User.cs",
@@ -287,6 +320,9 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-09T08:46:55.064Z"
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
             }
           ]
