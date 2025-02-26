@@ -1,0 +1,160 @@
+/* Container principal */
+.login-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+/* Barra superior */
+.login-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1e88e5; /* Azul */
+  color: white;
+  padding: 15px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Para ficar sobre outros elementos */
+}
+
+/* Logo no canto esquerdo */
+.header-logo {
+  width: 40px;
+  height: auto;
+  margin-right: 10px;
+  position: absolute;
+  left: 20px;
+}
+
+/* Nome do sistema */
+.header-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+}
+
+
+/* Estilo da seção esquerda */
+.login-left {
+  background: linear-gradient(to bottom, #d1d1d1, #ffffff);
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+}
+
+
+.title {
+  font-size: 28px;
+  color: #004b8d;
+  font-weight: bold;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Estilo da seção direita */
+.login-right {
+  width: 60%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+
+}
+
+h2 {
+  background-color: #1e88e5;
+  color: black;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+/* Campos de entrada */
+.form-group {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  background-color: #ffca28;
+  padding: 5px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+/* Esqueceu a senha */
+.forgot-password {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+  .forgot-password a {
+    color: #1e88e5;
+    text-decoration: none;
+  }
+
+/* Botão de submeter */
+.submit-btn {
+  background-color: #ffca28;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+  .submit-btn:hover {
+    background-color: #ffb300;
+  }
+
+/* Rodapé */
+footer {
+  margin-top: 30px;
+  text-align: center;
+  background-color: #1e88e5; /* Cor azul */
+  color: black; /* Texto branco para contraste */
+  padding: 15px; /* Espaçamento interno */
+  width: 100%; /* Para cobrir toda a largura */
+}
+
+  footer p {
+    font-weight: bold;
+    margin: 0;
+  }
+
+  footer a {
+    text-decoration: none;
+    color: black; /* Links brancos para combinar com o fundo */
+    margin: 0 5px;
+    font-weight: bold;
+  }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
