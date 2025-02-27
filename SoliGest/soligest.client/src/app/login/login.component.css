@@ -1,0 +1,166 @@
+/* Importar fonte Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+/* Aplicar Roboto globalmente */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Barra superior */
+.login-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Alinhar à esquerda */
+  background-color: #37AFE1;
+  color: black;
+  padding: 15px 20px; /* Ajuste o padding para dar espaço à esquerda */
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.header-logo {
+  width: 40px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 10px; /* Espaço entre o logo e o título */
+}
+
+/* Container principal */
+.login-container {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  padding-top: 70px; /* Ajuste para não ficar atrás do header */
+}
+
+/* Estilo da seção esquerda */
+.login-left {
+  background: linear-gradient(to bottom, #d1d1d1, #ffffff);
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+}
+
+.title {
+  font-size: 28px;
+  color: #004b8d;
+  font-weight: bold;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Estilo da seção direita */
+.login-right {
+  width: 60%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+h2 {
+  background-color: #37AFE1;
+  color: black;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+/* Campos de entrada */
+.form-group {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  background-color: #FFC300;
+  padding: 5px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+/* Esqueceu a senha */
+.forgot-password {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+  .forgot-password a {
+    color: #37AFE1;
+    text-decoration: none;
+  }
+
+/* Botão de submeter */
+.submit-btn {
+  background-color: #FFC300;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+  .submit-btn:hover {
+    background-color: #ffb300;
+  }
+
+/* Rodapé */
+footer {
+  text-align: center;
+  background-color: #37AFE1;
+  color: black;
+  padding: 15px;
+  width: 100%;
+  margin-top: auto; /* Empurra o footer para o fundo */
+}
+
+  footer p {
+    font-weight: bold;
+    margin: 0;
+  }
+
+  footer a {
+    text-decoration: none;
+    color: black;
+    margin: 0 5px;
+    font-weight: bold;
+  }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
