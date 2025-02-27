@@ -3,8 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\balau\\desktop\\uni\\esa\\projeto\\soligest\\soligest.client\\src\\app\\app-routing.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\app-routing.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\balau\\desktop\\uni\\esa\\projeto\\soligest\\soligest.client\\src\\app\\login\\login.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\login\\login.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\balau\\desktop\\uni\\esa\\projeto\\soligest\\soligest.client\\src\\app\\login\\login.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\login\\login.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\balau\\desktop\\uni\\esa\\projeto\\soligest\\soligest.client\\src\\app\\registar\\registar.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\registar\\registar.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\balau\\desktop\\uni\\esa\\projeto\\soligest\\soligest.client\\src\\app\\login\\login.component.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\login\\login.component.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\balau\\desktop\\uni\\esa\\projeto\\soligest\\soligest.client\\src\\app\\registar\\registar.component.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\registar\\registar.component.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\balau\\desktop\\uni\\esa\\projeto\\soligest\\soligest.client\\src\\app\\app.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\app.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\balau\\desktop\\uni\\esa\\projeto\\soligest\\soligest.client\\src\\app\\app.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -15,20 +39,8 @@
       "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\login\\login.component.spec.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\balau\\desktop\\uni\\esa\\projeto\\soligest\\soligest.client\\src\\app\\login\\login.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\login\\login.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\balau\\desktop\\uni\\esa\\projeto\\soligest\\soligest.client\\src\\app\\login\\login.component.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\login\\login.component.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\balau\\desktop\\uni\\esa\\projeto\\soligest\\soligest.client\\src\\app\\app.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
       "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\app.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\balau\\desktop\\uni\\esa\\projeto\\soligest\\soligest.client\\src\\app\\app-routing.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\app-routing.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|c:\\users\\balau\\desktop\\uni\\esa\\projeto\\soligest\\soligest.server\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -96,19 +108,31 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "login.component.spec.ts",
-              "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\login\\login.component.spec.ts",
-              "RelativeDocumentMoniker": "soligest.client\\src\\app\\login\\login.component.spec.ts",
-              "ToolTip": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\login\\login.component.spec.ts",
-              "RelativeToolTip": "soligest.client\\src\\app\\login\\login.component.spec.ts",
+              "DocumentIndex": 6,
+              "Title": "app.component.ts",
+              "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\app.component.ts",
+              "RelativeDocumentMoniker": "soligest.client\\src\\app\\app.component.ts",
+              "ToolTip": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\app.component.ts",
+              "RelativeToolTip": "soligest.client\\src\\app\\app.component.ts",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-02-26T16:15:06.325Z"
+              "WhenOpened": "2025-02-27T12:27:04.725Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "registar.component.html",
+              "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\registar\\registar.component.html",
+              "RelativeDocumentMoniker": "soligest.client\\src\\app\\registar\\registar.component.html",
+              "ToolTip": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\registar\\registar.component.html",
+              "RelativeToolTip": "soligest.client\\src\\app\\registar\\registar.component.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-27T12:29:45.412Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "login.component.ts",
               "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\login\\login.component.ts",
               "RelativeDocumentMoniker": "soligest.client\\src\\app\\login\\login.component.ts",
@@ -126,13 +150,62 @@
               "RelativeDocumentMoniker": "soligest.client\\src\\app\\login\\login.component.css",
               "ToolTip": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\login\\login.component.css",
               "RelativeToolTip": "soligest.client\\src\\app\\login\\login.component.css",
-              "ViewState": "AgIAAHUAAAAAAAAAAAAAAIsAAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
               "WhenOpened": "2025-02-25T13:08:57.895Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "login.component.html",
+              "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\login\\login.component.html",
+              "RelativeDocumentMoniker": "soligest.client\\src\\app\\login\\login.component.html",
+              "ToolTip": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\login\\login.component.html",
+              "RelativeToolTip": "soligest.client\\src\\app\\login\\login.component.html",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAABYAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-25T10:17:40.095Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "app-routing.module.ts",
+              "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\app-routing.module.ts",
+              "RelativeDocumentMoniker": "soligest.client\\src\\app\\app-routing.module.ts",
+              "ToolTip": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\app-routing.module.ts*",
+              "RelativeToolTip": "soligest.client\\src\\app\\app-routing.module.ts*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-02-25T10:13:23.024Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "registar.component.css",
+              "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\registar\\registar.component.css",
+              "RelativeDocumentMoniker": "soligest.client\\src\\app\\registar\\registar.component.css",
+              "ToolTip": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\registar\\registar.component.css",
+              "RelativeToolTip": "soligest.client\\src\\app\\registar\\registar.component.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-02-27T12:29:47.342Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "login.component.spec.ts",
+              "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\login\\login.component.spec.ts",
+              "RelativeDocumentMoniker": "soligest.client\\src\\app\\login\\login.component.spec.ts",
+              "ToolTip": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\login\\login.component.spec.ts",
+              "RelativeToolTip": "soligest.client\\src\\app\\login\\login.component.spec.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-02-26T16:15:06.325Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "app.component.html",
               "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\app.component.html",
               "RelativeDocumentMoniker": "soligest.client\\src\\app\\app.component.html",
@@ -144,7 +217,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "app.module.ts",
               "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\app.module.ts",
               "RelativeDocumentMoniker": "soligest.client\\src\\app\\app.module.ts",
@@ -156,32 +229,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "login.component.html",
-              "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\login\\login.component.html",
-              "RelativeDocumentMoniker": "soligest.client\\src\\app\\login\\login.component.html",
-              "ToolTip": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\login\\login.component.html",
-              "RelativeToolTip": "soligest.client\\src\\app\\login\\login.component.html",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2025-02-25T10:17:40.095Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "app-routing.module.ts",
-              "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\app-routing.module.ts",
-              "RelativeDocumentMoniker": "soligest.client\\src\\app\\app-routing.module.ts",
-              "ToolTip": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\src\\app\\app-routing.module.ts",
-              "RelativeToolTip": "soligest.client\\src\\app\\app-routing.module.ts",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-02-25T10:13:23.024Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "AssistanceRequestsController.cs",
               "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\Controllers\\AssistanceRequestsController.cs",
               "RelativeDocumentMoniker": "SoliGest.Server\\Controllers\\AssistanceRequestsController.cs",
@@ -193,7 +241,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "UsersController.cs",
               "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\Controllers\\UsersController.cs",
               "RelativeDocumentMoniker": "SoliGest.Server\\Controllers\\UsersController.cs",
@@ -205,7 +253,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "AddressesController.cs",
               "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\Controllers\\AddressesController.cs",
               "RelativeDocumentMoniker": "SoliGest.Server\\Controllers\\AddressesController.cs",
@@ -217,7 +265,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "Address.cs",
               "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\Models\\Address.cs",
               "RelativeDocumentMoniker": "SoliGest.Server\\Models\\Address.cs",
@@ -229,7 +277,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "AssistanceRequest.cs",
               "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\Models\\AssistanceRequest.cs",
               "RelativeDocumentMoniker": "SoliGest.Server\\Models\\AssistanceRequest.cs",
@@ -241,7 +289,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\Models\\User.cs",
               "RelativeDocumentMoniker": "SoliGest.Server\\Models\\User.cs",
@@ -253,7 +301,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "20250128224037_init.cs",
               "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Migrations\\20250128224037_init.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Migrations\\20250128224037_init.cs",
@@ -265,7 +313,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 21,
               "Title": "20250128224356_init.cs",
               "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\Migrations\\20250128224356_init.cs",
               "RelativeDocumentMoniker": "SoliGest.Server\\Migrations\\20250128224356_init.cs",
@@ -277,7 +325,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "SolarPanel.cs",
               "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\Models\\SolarPanel.cs",
               "RelativeDocumentMoniker": "SoliGest.Server\\Models\\SolarPanel.cs",
@@ -289,7 +337,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 18,
               "Title": "SolarPanelsController.cs",
               "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\Controllers\\SolarPanelsController.cs",
               "RelativeDocumentMoniker": "SoliGest.Server\\Controllers\\SolarPanelsController.cs",
@@ -301,7 +349,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 19,
               "Title": "20250128223602_init.cs",
               "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Migrations\\20250128223602_init.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\Migrations\\20250128223602_init.cs",
@@ -313,7 +361,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 20,
               "Title": "SoliGest.Server.csproj",
               "DocumentMoniker": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj",
               "RelativeDocumentMoniker": "SoliGest.Server\\SoliGest.Server.csproj",

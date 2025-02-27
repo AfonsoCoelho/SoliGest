@@ -1,41 +1,50 @@
-/* Container principal */
-.login-container {
-  display: flex;
+/* Importar fonte Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+/* Aplicar Roboto globalmente */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
   height: 100vh;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Barra superior */
 .login-header {
   display: flex;
   align-items: center;
-  justify-content: center;
-  background-color: #37AFE1; /* Azul */
+  justify-content: flex-start; /* Alinhar à esquerda */
+  background-color: #37AFE1;
   color: black;
-  padding: 15px;
+  padding: 15px 20px; /* Ajuste o padding para dar espaço à esquerda */
   width: 100%;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000; /* Para ficar sobre outros elementos */
+  z-index: 1000;
 }
 
-/* Logo no canto esquerdo */
 .header-logo {
   width: 40px;
   height: auto;
   margin-right: 10px;
-  position: absolute;
-  left: 20px;
 }
 
-/* Nome do sistema */
 .header-title {
   font-size: 24px;
   font-weight: bold;
-  color: black;
+  margin-left: 10px; /* Espaço entre o logo e o título */
 }
 
+/* Container principal */
+.login-container {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  padding-top: 70px; /* Ajuste para não ficar atrás do header */
+}
 
 /* Estilo da seção esquerda */
 .login-left {
@@ -52,7 +61,6 @@
   width: 150px;
   height: auto;
 }
-
 
 .title {
   font-size: 28px;
@@ -74,7 +82,6 @@
   justify-content: center;
   align-items: center;
   padding: 40px;
-
 }
 
 h2 {
@@ -134,12 +141,12 @@ input {
 
 /* Rodapé */
 footer {
-  margin-top: 30px;
   text-align: center;
-  background-color: #37AFE1; /* Cor azul */
-  color: black; /* Texto branco para contraste */
-  padding: 15px; /* Espaçamento interno */
-  width: 100%; /* Para cobrir toda a largura */
+  background-color: #37AFE1;
+  color: black;
+  padding: 15px;
+  width: 100%;
+  margin-top: auto; /* Empurra o footer para o fundo */
 }
 
   footer p {
@@ -149,7 +156,7 @@ footer {
 
   footer a {
     text-decoration: none;
-    color: black; /* Links brancos para combinar com o fundo */
+    color: black;
     margin: 0 5px;
     font-weight: bold;
   }
@@ -157,4 +164,3 @@ footer {
     footer a:hover {
       text-decoration: underline;
     }
-
