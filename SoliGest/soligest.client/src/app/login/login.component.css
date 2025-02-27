@@ -10,8 +10,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #1e88e5; /* Azul */
-  color: white;
+  background-color: #37AFE1; /* Azul */
+  color: black;
   padding: 15px;
   width: 100%;
   position: fixed;
@@ -78,7 +78,7 @@
 }
 
 h2 {
-  background-color: #1e88e5;
+  background-color: #37AFE1;
   color: black;
   width: 100%;
   text-align: center;
@@ -97,7 +97,7 @@ h2 {
 
 label {
   font-weight: bold;
-  background-color: #ffca28;
+  background-color: #FFC300;
   padding: 5px;
 }
 
@@ -114,13 +114,13 @@ input {
 }
 
   .forgot-password a {
-    color: #1e88e5;
+    color: #37AFE1;
     text-decoration: none;
   }
 
 /* Botão de submeter */
 .submit-btn {
-  background-color: #ffca28;
+  background-color: #FFC300;
   color: black;
   border: none;
   padding: 10px 20px;
@@ -136,7 +136,7 @@ input {
 footer {
   margin-top: 30px;
   text-align: center;
-  background-color: #1e88e5; /* Cor azul */
+  background-color: #37AFE1; /* Cor azul */
   color: black; /* Texto branco para contraste */
   padding: 15px; /* Espaçamento interno */
   width: 100%; /* Para cobrir toda a largura */

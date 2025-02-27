@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XcNS5PEPQco=",
+  "dgSpecHash": "XZj0MnKaK18=",
   "success": true,
-  "projectFilePath": "C:\\Users\\balau\\Desktop\\uni\\ESA\\Projeto\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj",
+  "projectFilePath": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\balau\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\balau\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

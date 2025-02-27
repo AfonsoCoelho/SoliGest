@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\balau\\Desktop\\uni\\ESA\\Projeto\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj": {}
+    "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\balau\\Desktop\\uni\\ESA\\Projeto\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj": {
+    "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\balau\\Desktop\\uni\\ESA\\Projeto\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj",
+        "projectUniqueName": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj",
         "projectName": "SoliGest.Server",
-        "projectPath": "C:\\Users\\balau\\Desktop\\uni\\ESA\\Projeto\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj",
+        "projectPath": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj",
         "packagesPath": "C:\\Users\\balau\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\obj\\",
         "projectStyle": "PackageReference",

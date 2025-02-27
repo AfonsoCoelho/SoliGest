@@ -9,8 +9,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="src\app\login\NovaPasta1\**" />
-    <None Remove="src\app\login\NovaPasta\**" />
     <TypeScriptConfiguration Remove="src\app\login\NovaPasta1\**" />
-    <TypeScriptConfiguration Remove="src\app\login\NovaPasta\**" />
   </ItemGroup>
 </Project>
