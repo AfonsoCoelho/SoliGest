@@ -20,38 +20,81 @@
   position: relative;
 }
 
-#menuOptions {
-    background-color: white;
-    position: relative;
+#upperMenu {
+  margin-bottom: 10%;
 }
 
-  #menuOptions a {
-    background-color: #FFC300;
-    font-size: 20pt;
-    width: 100%;
-  }
+#upperMenu h2 {
+    padding-bottom: 2%;
+    position: relative;
+    text-align: left;
+}
+
+#upperMenu h2 img {
+    padding-left: 2%;
+}
+
+#menuOptions a {
+  background-color: #FFC300;
+  display: flex;
+  font-size: 20pt;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  padding: 2%;
+}
+
+#menuOptions a span, #menuOptions a img {
+    margin-left: 10%;
+    font-family: Roboto;
+}
 
 #lowerMenu {
     position: absolute;
-    top: 230%;
-    width: 100%
+    top: 156%;
+    width: 100%;
+    font-family: Roboto;
+}
+
+#lowerMenu img {
+    margin-top: 2%;
+    margin-left: 2%
 }
 
 h1 {
   font-size: 28pt;
   left: 5%;
-  top: 0;
   position: absolute;
+  font-family: Roboto;
 }
 
 h2 {
   font-size: 22pt;
   left: 5%;
-  top: 50%;
   position: absolute;
+  font-family: Roboto;
 }
 
 #profile {
   left: 25%;
   position: relative;
+}
+
+#mapOptions {
+    position:absolute;
+    width: 1%;
+    left: 1%;
+    top: 1%;
+}
+
+tr {
+    background-color: white;
+}
+
+table {
+    border: solid
+}
+
+#mapFilters {
+    left: 500%;
+    position: relative
 }
