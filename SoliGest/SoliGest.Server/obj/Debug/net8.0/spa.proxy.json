@@ -3,7 +3,7 @@
 "ServerUrl": "https://localhost:49893",
 "RedirectUrl": "",
 "LaunchCommand": "npm start",
-"WorkingDirectory": "C:\\Users\\afons\\Source\\Repos\\SoliGest\\SoliGest\\SoliGest.Server\\..\\soligest.client",
+"WorkingDirectory": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\SoliGest.Server\\..\\soligest.client",
 "MaxTimeoutInSeconds": "120",
 "KeepRunning": "false"
 }
