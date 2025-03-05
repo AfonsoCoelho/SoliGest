@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 C:\Users\dpoup\Documents\GitHub\SoliGest\SoliGest\SoliGest.Server\bin\Debug\net8.0\spa.proxy.json
 C:\Users\dpoup\Documents\GitHub\SoliGest\SoliGest\SoliGest.Server\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\dpoup\Documents\GitHub\SoliGest\SoliGest\SoliGest.Server\bin\Debug\net8.0\appsettings.json
@@ -825,3 +827,4 @@ C:\Users\afons\Source\Repos\SoliGest\SoliGest\SoliGest.Server\obj\Debug\net8.0\S
 C:\Users\afons\Source\Repos\SoliGest\SoliGest\SoliGest.Server\obj\Debug\net8.0\ref\SoliGest.Server.dll
 C:\Users\afons\Source\Repos\SoliGest\SoliGest\SoliGest.Server\bin\Debug\net8.0\Microsoft.AspNetCore.SpaProxy.dll
 C:\Users\balau\Desktop\uni\ESA\projeto\SoliGest\SoliGest.Server\bin\Debug\net8.0\Microsoft.AspNetCore.SpaProxy.dll
+>>>>>>> main
