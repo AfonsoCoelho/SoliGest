@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "Hash": "Mmf21PndgBIoTJfQl4gQ+eRThlzm+ThzvE00fHXbk1s=",
+  "Hash": "wOtbTRQyqkvYTGn6ujviseMq09dOgk6UPGihtOE9sVM=",
   "Source": "SoliGest.Server",
   "BasePath": "_content/SoliGest.Server",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [
     {
-      "Identity": "C:\\Users\\afons\\Source\\Repos\\SoliGest\\SoliGest\\soligest.client\\soligest.client.esproj",
+      "Identity": "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\soligest.client\\soligest.client.esproj",
       "Version": 2,
       "Source": "soligest.client",
       "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
@@ -19,5 +19,6 @@
     }
   ],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }
