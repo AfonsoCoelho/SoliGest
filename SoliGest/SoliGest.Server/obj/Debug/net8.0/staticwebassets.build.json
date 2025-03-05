@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Hash": "8tKPM6L4Zr4W46Xrvlx1N+DNjKfFPwd9jfAeY6FNTQY=",
+  "Source": "SoliGest.Server",
+  "BasePath": "_content/SoliGest.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\balau\\Desktop\\uni\\ESA\\projeto\\SoliGest\\soligest.client\\soligest.client.esproj",
+      "Version": 2,
+      "Source": "soligest.client",
+      "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
