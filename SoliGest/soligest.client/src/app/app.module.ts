@@ -4,19 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { RegistarComponent } from './registar/registar.component';
-import { PwrecoveryComponent } from './pwrecovery/pwrecovery.component';
-import { ChangepwComponent } from './changepw/changepw.component';
 import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
-    RegistarComponent,
-    PwrecoveryComponent,
-    ChangepwComponent
     AppComponent,
     HomeComponent
   ],

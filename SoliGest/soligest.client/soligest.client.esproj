@@ -13,8 +13,4 @@
   <ItemGroup>
     <Folder Include="src\app\home\images\" />
   </ItemGroup>
-  <ItemGroup>
-    <None Remove="src\app\login\NovaPasta1\**" />
-    <TypeScriptConfiguration Remove="src\app\login\NovaPasta1\**" />
-  </ItemGroup>
 </Project>
