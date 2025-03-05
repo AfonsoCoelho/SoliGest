@@ -6,12 +6,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegistarComponent } from './registar/registar.component';
+import { PwrecoveryComponent } from './pwrecovery/pwrecovery.component';
+import { ChangepwComponent } from './changepw/changepw.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegistarComponent
+    RegistarComponent,
+    PwrecoveryComponent,
+    ChangepwComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
