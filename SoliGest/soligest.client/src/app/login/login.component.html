@@ -23,7 +23,7 @@
     <div class="login-right">
       <h2>Login/Iniciar Sessão</h2>
 
-      <form action="login.html" method="POST">
+      <form [formGroup]="loginForm" (submit)="signIn($event)">
         <div class="form-group">
           <label for="email">Email:</label>
           <input type="email" id="email" name="email" placeholder="Digite seu email" required>
