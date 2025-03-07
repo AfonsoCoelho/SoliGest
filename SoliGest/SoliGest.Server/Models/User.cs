@@ -8,7 +8,7 @@ namespace SoliGest.Server.Models
     {
         [Required(ErrorMessage = "O nome é obrigatório.")]
         [Display(Name = "Nome")]
-        public required string Name { get; set; }
+        public string Name { get; set; }
 
         [Required(ErrorMessage = "A data de nascimento é obrigatória.")]
         [Display(Name = "Data de nascimento")]

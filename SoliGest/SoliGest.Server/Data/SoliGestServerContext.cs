@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SoliGest.Server.Models;
 
 namespace SoliGest.Server.Data
 {
-    public class SoliGestServerContext : DbContext
+    public class SoliGestServerContext : IdentityDbContext<User>
     {
         public SoliGestServerContext (DbContextOptions<SoliGestServerContext> options)
             : base(options)
