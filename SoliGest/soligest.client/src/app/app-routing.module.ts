@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 
 
-const routes: Routes = [{ path: '', component: LoginComponent }];
+const routes: Routes = [{ path: '', component: LoginComponent }, { path: 'register-user', component: RegistarComponent}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
