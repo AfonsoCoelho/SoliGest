@@ -1,10 +1,7 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { LoginDto } from '../models/login-dto';
-import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { AuthorizeService } from "../../api-authorization/authorize.service";
 
 @Component({
   selector: 'app-login',
@@ -12,14 +9,16 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-  loginData: LoginDto = new LoginDto('', '');
   authFailed: boolean = false;
+  signedIn: boolean = false;
 
-  constructor(private authService: AuthService, private http: HttpClient,
-    private router: Router,
-    private formBuilder: FormBuilder) { }
+  constructor(private authService: AuthorizeService,
+    private formBuilder: FormBuilder,
+    private router: Router) {
+    this.signedIn = this.authService.isSignedIn();
+  }
 
   ngOnInit(): void {
     this.authFailed = false;
@@ -30,22 +29,11 @@ export class LoginComponent {
       });
   }
 
-  login(event: Event) {
-    //this.http.post("/api/registar", );
-    //this.authService.login(this.loginData).subscribe({
-    //  next: (response) => {
-    //    localStorage.setItem('token', response.token);
-    //    console.log('Login successful', response);
-    //  },
-    //  error: (err) => console.error('Login failed', err)
-    //});
-
-
-    
+  public login(event: Event): void {
     event.preventDefault(); // Previne o comportamento padrão do formulário
-    //if (!this.loginForm.valid) {
-    //  return;
-    //}
+    if (!this.loginForm.valid) {
+      return;
+    }
 
     const email = this.loginForm.get('email')?.value;
     const password = this.loginForm.get('password')?.value;
@@ -53,11 +41,11 @@ export class LoginComponent {
     this.authService.signIn(email, password).subscribe({
       next: (response) => {
         if (response) {
-          this.router.navigateByUrl("/registar"); // Redireciona para a página inicial
+          this.router.navigateByUrl("/"); // Redireciona para a página inicial
         }
       },
       error: () => {
-        alert("Erro!"); // Mostra mensagem de erro se falhar
+        this.authFailed = true; // Mostra mensagem de erro se falhar
       }
     });
   }

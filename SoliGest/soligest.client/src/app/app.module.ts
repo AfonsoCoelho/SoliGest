@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -7,6 +7,10 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ApiAuthorizationModule } from '../api-authorization/api-authorization.module';
+import { AuthInterceptor } from '../api-authorization/authorize.interceptor';
+import { AuthGuard } from '../api-authorization/authorize.guard';
+import { AuthorizeService } from '../api-authorization/authorize.service';
 
 @NgModule({
   declarations: [
@@ -16,9 +20,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     BrowserModule, HttpClientModule,
-    AppRoutingModule, FormsModule, ReactiveFormsModule
+    AppRoutingModule, FormsModule, ReactiveFormsModule, ApiAuthorizationModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    AuthGuard,
+    AuthorizeService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
