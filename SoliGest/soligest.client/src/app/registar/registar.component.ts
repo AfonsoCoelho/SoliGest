@@ -3,9 +3,10 @@ import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from
 import { AuthorizeService } from "../../api-authorization/authorize.service";
 
 @Component({
-  selector: 'app-register-component',
+  selector: 'app-registar-component',
   standalone: false,
-  templateUrl: './register.component.html'
+  templateUrl: './registar.component.html',
+  styleUrl: './registar.component.css'
 })
 export class RegistarComponent implements OnInit {
   errors: string[] = [];

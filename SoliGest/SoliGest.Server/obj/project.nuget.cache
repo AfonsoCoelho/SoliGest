@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "kYyuBwZ93k0=",
+  "dgSpecHash": "7rlYnW7FCL8=",
   "success": true,
-  "projectFilePath": "C:\\Users\\dpoup\\Documents\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj",
+  "projectFilePath": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dpoup\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\dpoup\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
