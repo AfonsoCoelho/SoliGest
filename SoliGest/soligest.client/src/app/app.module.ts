@@ -11,12 +11,14 @@ import { ApiAuthorizationModule } from '../api-authorization/api-authorization.m
 import { AuthInterceptor } from '../api-authorization/authorize.interceptor';
 import { AuthGuard } from '../api-authorization/authorize.guard';
 import { AuthorizeService } from '../api-authorization/authorize.service';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegistarComponent
+    RegistarComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
