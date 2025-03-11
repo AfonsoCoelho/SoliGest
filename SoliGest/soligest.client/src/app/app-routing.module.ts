@@ -6,19 +6,10 @@ import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 
 
-const routes: Routes = [{ path: '', component: LoginComponent }, { path: 'register-user', component: RegistarComponent}];
+const routes: Routes = [{ path: '', component: LoginComponent }, { path: 'registar', component: RegistarComponent }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
-  canActivate(): boolean {
-    return !!localStorage.getItem('token');
-  }
-}

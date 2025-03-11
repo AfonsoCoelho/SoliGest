@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj": {}
+    "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj": {
+    "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj",
+        "projectUniqueName": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj",
         "projectName": "SoliGest.Server",
-        "projectPath": "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj",
-        "packagesPath": "C:\\Users\\Victus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\SoliGest.Server\\obj\\",
+        "projectPath": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\SoliGest.Server.csproj",
+        "packagesPath": "C:\\Users\\dpoup\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Victus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\dpoup\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -50,6 +50,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.13, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.0, )"

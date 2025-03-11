@@ -1,25 +1,96 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { RegisterDto } from '../models/register-dto';
+import { Component, OnInit } from "@angular/core";
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from "@angular/forms";
+import { AuthorizeService } from "../../api-authorization/authorize.service";
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html'
+  selector: 'app-registar-component',
+  standalone: false,
+  templateUrl: './registar.component.html',
+  styleUrl: './registar.component.css'
 })
+export class RegistarComponent implements OnInit {
+  errors: string[] = [];
+  registerForm!: FormGroup;
+  registerFailed: boolean = false;
+  registerSucceeded: boolean = false;
+  signedIn: boolean = false;
 
-export class RegistarComponent {
-  registerData: RegisterDto = new RegisterDto("", "", "", "", "", new Date());
-  addressLine1: string = "";
-  addressLine2: string = "";
+  constructor(private authService: AuthorizeService,
+    private formBuilder: FormBuilder) {
 
-  constructor(private authService: AuthService) { }
+    // Verificar se o utilizador j� est� autenticado
+    this.signedIn = this.authService.isSignedIn();
+  }
 
-  register() {
-    this.registerData.address = this.addressLine1 + '\n' + this.addressLine2;
+  ngOnInit(): void {
+    this.registerFailed = false;
+    this.registerSucceeded = false;
+    this.errors = [];
 
-    this.authService.register(this.registerData).subscribe({
-      next: () => console.log('User registered successfully'),
-      error: (err) => console.error('Registration failed', err)
-    });
+    // Inicializar o formulário com validações
+    this.registerForm = this.formBuilder.group(
+      {
+        name: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.pattern(/(?=.*[^a-zA-Z0-9 ])/)]],
+        confirmPassword: ['', [Validators.required]]
+      }, { validators: this.passwordMatchValidator });
+  }
+
+  // Validador para confirmar que password e confirmPassword coincidem
+  passwordMatchValidator: ValidatorFn = (control: AbstractControl): null | object => {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+    if (!password || !confirmPassword) {
+      return null;
+    }
+    return password.value !== confirmPassword.value
+      ? { passwordMismatch: true }
+      : null;
+  }
+
+  // M�todo chamado ao submeter o formul�rio
+  public register(): void {
+    if (!this.registerForm.valid) {
+      alert("Form inv�lido!" + this.registerForm.get('name')?.value)
+      return;
+    }
+
+    this.registerFailed = false;
+    this.errors = [];
+
+    const name = this.registerForm.get('name')?.value;
+    const email = this.registerForm.get('email')?.value;
+    const password = this.registerForm.get('password')?.value;
+
+    // Chamada ao serviço de registo
+    this.authService.register(name, email, password).forEach(
+      response => {
+        if (response) {
+          this.registerSucceeded = true;
+          alert("Registo bem sucedido!")
+        }
+      }).catch(
+        error => {
+          this.registerFailed = true;
+          if (error.error) {
+            const errorObj = JSON.parse(error.error);
+            if (errorObj && errorObj.errors) {
+              // Processar os erros detalhados
+              const errorList = errorObj.errors;
+              for (let field in errorList) {
+                if (Object.hasOwn(errorList, field)) {
+                  let list: string[] = errorList[field];
+                  for (let idx = 0; idx < list.length; idx += 1) {
+                    this.errors.push(`${field}: ${list[idx]}`);
+                  }
+                }
+              }
+            }
+          }
+        });
   }
 }

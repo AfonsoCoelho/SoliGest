@@ -3,7 +3,7 @@
 "ServerUrl": "https://localhost:49893",
 "RedirectUrl": "",
 "LaunchCommand": "npm start",
-"WorkingDirectory": "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\SoliGest.Server\\..\\soligest.client",
+"WorkingDirectory": "C:\\Users\\dpoup\\Documents\\GitHub\\SoliGest\\SoliGest\\SoliGest.Server\\..\\soligest.client",
 "MaxTimeoutInSeconds": "120",
 "KeepRunning": "false"
 }
