@@ -50,7 +50,4 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-  openForgotPassword():void {
-    this.router.navigate(['/pwrecovery'])
-  }
 }
