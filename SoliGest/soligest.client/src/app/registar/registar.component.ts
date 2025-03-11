@@ -55,6 +55,7 @@ export class RegistarComponent implements OnInit {
   // Método chamado ao submeter o formulário
   public register(): void {
     if (!this.registerForm.valid) {
+      alert("Form inválido!" + this.registerForm.get('name')?.value)
       return;
     }
 
@@ -70,6 +71,7 @@ export class RegistarComponent implements OnInit {
       response => {
         if (response) {
           this.registerSucceeded = true;
+          alert("Registo bem sucedido!")
         }
       }).catch(
         error => {
