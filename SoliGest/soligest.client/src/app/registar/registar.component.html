@@ -13,6 +13,9 @@
           <div class="form-group">
             <label for="name">Nome Completo*</label>
             <input type="text" id="name" name="name" formControlName="name">
+            <div class="error-feedback" *ngIf="registerForm.get('name')?.hasError('required') && registerForm.get('name')?.touched">
+              Por favor introduza o seu nome.
+            </div>
           </div>
           <div class="form-group">
             <label for="address1">Morada 1:</label>
@@ -23,7 +26,7 @@
             <input type="text" id="address2" name="address2" formControlName="address2">
           </div>
           <div class="form-group">
-            <label for="phoneNumber">Telemóvel*</label>
+            <label for="phoneNumber">Telemóvel</label>
             <input type="text" id="phoneNumber" name="phoneNumber" formControlName="phoneNumber">
           </div>
           <div class="form-group">
@@ -33,14 +36,36 @@
           <div class="form-group">
             <label for="email">Email*</label>
             <input type="email" id="email" name="email" formControlName="email">
+            <div class="error-feedback" *ngIf="registerForm.get('email')?.hasError('required') && registerForm.get('email')?.touched">
+              Por favor introduza o seu email.
+            </div>
+            <div class="error-feedback" *ngIf="registerForm.get('email')?.hasError('email') && registerForm.get('email')?.touched">
+              Por favor insira um email válido.
+            </div>
           </div>
           <div class="form-group">
             <label for="password">Password*</label>
             <input type="password" id="password" name="password" formControlName="password">
+            <div class="error-feedback" *ngIf="registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched">
+              Por favor introduza a sua palavra-passe.
+            </div>
+            <div class="error-feedback" *ngIf="registerForm.get('password')?.hasError('minlength') && registerForm.get('password')?.touched">
+              A Palavra-passe deve ter pelo menos 6 caracteres.
+            </div>
+            <div class="error-feedback" *ngIf="registerForm.get('password')?.hasError('pattern') && registerForm.get('password')?.touched">
+              A Palavra-passe deve incluir pelo menos 1 caracteres especial.
+            </div>
           </div>
           <div class="form-group">
             <label for="confirmPassword">Confirmar Password*</label>
             <input type="password" id="confirmPassword" name="confirmPassword" formControlName="confirmPassword">
+            <div class="error-feedback" *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
+              As palavras-passes não coincidem.
+            </div>
+          </div>
+          <div class="form-errors" *ngIf="registerFailed">
+            <div class="error-feedback">Registration failed.</div>
+            <div class="error-feedback" *ngFor="let error of errors">{{ error }}</div>
           </div>
           <button class="submit-btn" type="submit">Submeter</button>
         </div>

@@ -18,7 +18,7 @@ export class RegistarComponent implements OnInit {
   constructor(private authService: AuthorizeService,
     private formBuilder: FormBuilder) {
 
-    // Verificar se o utilizador j� est� autenticado
+    // Verificar se o utilizador já está autenticado
     this.signedIn = this.authService.isSignedIn();
   }
 
@@ -52,10 +52,9 @@ export class RegistarComponent implements OnInit {
       : null;
   }
 
-  // M�todo chamado ao submeter o formul�rio
+  // Método chamado ao submeter o formulário
   public register(): void {
     if (!this.registerForm.valid) {
-      alert("Form inv�lido!" + this.registerForm.get('name')?.value)
       return;
     }
 
@@ -71,7 +70,6 @@ export class RegistarComponent implements OnInit {
       response => {
         if (response) {
           this.registerSucceeded = true;
-          alert("Registo bem sucedido!")
         }
       }).catch(
         error => {
