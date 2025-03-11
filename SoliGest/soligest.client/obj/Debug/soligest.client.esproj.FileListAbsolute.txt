@@ -1,1 +1,5 @@
 C:\Users\dpoup\Documents\GitHub\SoliGest\SoliGest\soligest.client\obj\Debug\soligest.client.esproj.CoreCompileInputs.cache
+C:\Users\balau\Desktop\uni\ESA\projeto\SoliGest\soligest.client\obj\Debug\soligest.client.esproj.CoreCompileInputs.cache
+C:\Users\afons\Source\Repos\SoliGest\SoliGest\soligest.client\obj\Debug\soligest.client.esproj.CoreCompileInputs.cache
+C:\Users\Victus\source\repos\SoliGest\SoliGest\soligest.client\obj\Debug\soligest.client.esproj.CoreCompileInputs.cache
+C:\Users\dpoup\Documents\SoliGest\soligest.client\obj\Debug\soligest.client.esproj.CoreCompileInputs.cache

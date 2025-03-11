@@ -13,9 +13,5 @@ namespace SoliGest.Server.Models
         [Required(ErrorMessage = "A data de nascimento é obrigatória.")]
         [Display(Name = "Data de nascimento")]
         public DateOnly BirthDate { get; set; }
-
-        [Required(ErrorMessage = "A morada é obrigatória.")]
-        [Display(Name = "Morada")]
-        public Address Address { get; set; }
     }
 }

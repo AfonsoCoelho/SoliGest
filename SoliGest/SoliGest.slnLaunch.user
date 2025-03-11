@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Novo Perfil",
+    "Projects": [
+      {
+        "Path": "SoliGest.Server\\SoliGest.Server.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "soligest.client\\soligest.client.esproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
