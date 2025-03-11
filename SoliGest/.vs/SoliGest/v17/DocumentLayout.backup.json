@@ -1,25 +1,25 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\",
+  "WorkspaceRootPath": "C:\\Users\\dpoup\\Documents\\SoliGest\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\victus\\source\\repos\\soligest\\soligest\\soligest.client\\src\\app\\models\\auth-response-dto.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\models\\auth-response-dto.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\dpoup\\documents\\soligest\\soligest.client\\src\\main.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\main.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\victus\\source\\repos\\soligest\\soligest\\soligest.client\\src\\app\\models\\login-dto.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\models\\login-dto.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\dpoup\\documents\\soligest\\soligest.client\\src\\proxy.conf.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\proxy.conf.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\victus\\source\\repos\\soligest\\soligest\\soligest.client\\src\\app\\models\\register-dto.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\models\\register-dto.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\dpoup\\documents\\soligest\\soligest.client\\src\\api-authorization\\api-authorization.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\api-authorization\\api-authorization.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\victus\\source\\repos\\soligest\\soligest\\soligest.client\\src\\app\\app-routing.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "AbsoluteMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|c:\\users\\dpoup\\documents\\soligest\\soligest.client\\src\\app\\app-routing.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
       "RelativeMoniker": "D:0:0:{FBB982CD-9DCB-4FBB-847C-CC9658D9FE90}|soligest.client\\soligest.client.esproj|solutionrelative:soligest.client\\src\\app\\app-routing.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|c:\\users\\victus\\source\\repos\\soligest\\soligest\\soligest.server\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|c:\\users\\dpoup\\documents\\soligest\\soligest.server\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F333B813-F365-41C0-B7B3-5CD49D6C2DEE}|SoliGest.Server\\SoliGest.Server.csproj|solutionrelative:soligest.server\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -30,76 +30,68 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "auth-response-dto.ts",
-              "DocumentMoniker": "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\soligest.client\\src\\app\\models\\auth-response-dto.ts",
-              "RelativeDocumentMoniker": "soligest.client\\src\\app\\models\\auth-response-dto.ts",
-              "ToolTip": "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\soligest.client\\src\\app\\models\\auth-response-dto.ts",
-              "RelativeToolTip": "soligest.client\\src\\app\\models\\auth-response-dto.ts",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "api-authorization.module.ts",
+              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\SoliGest\\soligest.client\\src\\api-authorization\\api-authorization.module.ts",
+              "RelativeDocumentMoniker": "soligest.client\\src\\api-authorization\\api-authorization.module.ts",
+              "ToolTip": "C:\\Users\\dpoup\\Documents\\SoliGest\\soligest.client\\src\\api-authorization\\api-authorization.module.ts",
+              "RelativeToolTip": "soligest.client\\src\\api-authorization\\api-authorization.module.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-03-05T14:05:04.604Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-09T10:44:57.424Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "login-dto.ts",
-              "DocumentMoniker": "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\soligest.client\\src\\app\\models\\login-dto.ts",
-              "RelativeDocumentMoniker": "soligest.client\\src\\app\\models\\login-dto.ts",
-              "ToolTip": "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\soligest.client\\src\\app\\models\\login-dto.ts",
-              "RelativeToolTip": "soligest.client\\src\\app\\models\\login-dto.ts",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-03-05T14:04:44.962Z",
-              "EditorCaption": ""
+              "Title": "proxy.conf.js",
+              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\SoliGest\\soligest.client\\src\\proxy.conf.js",
+              "RelativeDocumentMoniker": "soligest.client\\src\\proxy.conf.js",
+              "ToolTip": "C:\\Users\\dpoup\\Documents\\SoliGest\\soligest.client\\src\\proxy.conf.js",
+              "RelativeToolTip": "soligest.client\\src\\proxy.conf.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-03-09T10:30:17.013Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "register-dto.ts",
-              "DocumentMoniker": "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\soligest.client\\src\\app\\models\\register-dto.ts",
-              "RelativeDocumentMoniker": "soligest.client\\src\\app\\models\\register-dto.ts",
-              "ToolTip": "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\soligest.client\\src\\app\\models\\register-dto.ts",
-              "RelativeToolTip": "soligest.client\\src\\app\\models\\register-dto.ts",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAbAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "main.ts",
+              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\SoliGest\\soligest.client\\src\\main.ts",
+              "RelativeDocumentMoniker": "soligest.client\\src\\main.ts",
+              "ToolTip": "C:\\Users\\dpoup\\Documents\\SoliGest\\soligest.client\\src\\main.ts",
+              "RelativeToolTip": "soligest.client\\src\\main.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-03-05T14:02:39.856Z",
+              "WhenOpened": "2025-03-09T10:12:43.755Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "UsersController.cs",
-              "DocumentMoniker": "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\SoliGest.Server\\Controllers\\UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\SoliGest\\SoliGest.Server\\Controllers\\UsersController.cs",
               "RelativeDocumentMoniker": "SoliGest.Server\\Controllers\\UsersController.cs",
-              "ToolTip": "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\SoliGest.Server\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\dpoup\\Documents\\SoliGest\\SoliGest.Server\\Controllers\\UsersController.cs",
               "RelativeToolTip": "SoliGest.Server\\Controllers\\UsersController.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-05T13:58:28.032Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-05T13:58:28.032Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "app-routing.module.ts",
-              "DocumentMoniker": "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\soligest.client\\src\\app\\app-routing.module.ts",
+              "DocumentMoniker": "C:\\Users\\dpoup\\Documents\\SoliGest\\soligest.client\\src\\app\\app-routing.module.ts",
               "RelativeDocumentMoniker": "soligest.client\\src\\app\\app-routing.module.ts",
-              "ToolTip": "C:\\Users\\Victus\\source\\repos\\SoliGest\\SoliGest\\soligest.client\\src\\app\\app-routing.module.ts",
+              "ToolTip": "C:\\Users\\dpoup\\Documents\\SoliGest\\soligest.client\\src\\app\\app-routing.module.ts",
               "RelativeToolTip": "soligest.client\\src\\app\\app-routing.module.ts",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-03-05T12:33:03.16Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-05T12:33:03.16Z"
             }
           ]
         }

@@ -13,12 +13,3 @@ const routes: Routes = [{ path: '', component: LoginComponent }, { path: 'regist
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
-  canActivate(): boolean {
-    return !!localStorage.getItem('token');
-  }
-}
