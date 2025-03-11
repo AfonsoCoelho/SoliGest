@@ -3,42 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - SoliGest</title>
-
+  <title>Recuperação de Password - SoliGest</title>
+ 
 </head>
 <body>
-
   <header class="login-header">
     <img src="imgs/logo.jpg" alt="SoliGest Logo" class="header-logo">
     <h1 class="header-title">SoliGest</h1>
   </header>
 
-  <div class="login-container">
-    <div class="login-left">
+  <div class="container">
+    <div class="left-section">
       <img src="../../assets/logo.jpg" alt="SoliGest Logo" class="logo">
       <h1 class="title">SoliGest</h1>
       <p class="subtitle">Technical Assistance for Solar Panels</p>
     </div>
-
-    <div class="login-right">
-      <h2>Login/Iniciar Sessão</h2>
-
-      <form [formGroup]="loginForm" (submit)="login($event)">
+    <div class="right-section">
+      <h2>Recuperação de Password</h2>
+      <form>
         <div class="form-group">
           <label for="email">Email:</label>
-          <input type="email" id="email" name="email" formControlName="email" placeholder="Digite seu email" required>
+          <input type="email" id="email" name="email" placeholder="Digite seu email" required>
         </div>
-
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password" formControlName="password" placeholder="Digite sua senha" required>
-        </div>
-
-        <div class="forgot-password">
-          <a (click)="openForgotPassword()">Esqueceu a sua palavra-passe?</a>
-
-        </div>
-
         <button type="submit" class="submit-btn">Submeter</button>
       </form>
     </div>
@@ -48,6 +34,5 @@
     <p>Sistema de assistência a painéis solares</p>
     <a href="#">Ajuda (?)</a> | <a href="#">Criadores</a>
   </footer>
-
 </body>
 </html>

@@ -33,7 +33,7 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "src/app/home/images"
               }
             ],
             "styles": [
@@ -107,8 +107,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "analytics": false
   }
 }
