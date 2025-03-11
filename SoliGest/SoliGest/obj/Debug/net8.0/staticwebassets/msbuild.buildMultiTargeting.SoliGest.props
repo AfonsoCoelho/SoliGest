@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\SoliGest.props" />
-</Project>
