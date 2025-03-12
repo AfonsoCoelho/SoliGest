@@ -91,4 +91,16 @@ export class AuthorizeService {
       catchError(() => of({} as UserInfo))
     );
   }
+
+  public resetPassword(password: string): Observable<boolean> {
+    const token = localStorage.getItem('authToken');
+    const email = this.user().pipe(
+      map((res) => res.email)
+    );
+
+    return this.http.post<{ token: string }>('/api/myResetPassword', { email, token, password }, { observe: 'response' }).pipe(
+      map((res) => res.ok),
+      catchError(() => of(false))
+    );
+  }
 }

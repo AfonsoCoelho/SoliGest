@@ -51,7 +51,7 @@ export class ChangepwComponent implements OnInit{
 
     const password = this.resetPasswordForm.get('password')?.value;
 
-    this.authService.resetPassword(email, password).subscribe({
+    this.authService.resetPassword(password).subscribe({
       next: (response) => {
         if (response) {
           this.router.navigateByUrl("/");

@@ -85,7 +85,7 @@ namespace SoliGest.Server.Controllers
             });
         }
 
-        [HttpPost("api/resetPassword")]
+        [HttpPost("api/myResetPassword")]
         public async Task<IActionResult> ResetPassword([FromBody] UserResetPasswordModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
