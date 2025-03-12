@@ -85,6 +85,23 @@ namespace SoliGest.Server.Controllers
             });
         }
 
+        [HttpPost("api/resetPassword")]
+        public async Task<IActionResult> ResetPassword([FromBody] UserResetPasswordModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return BadRequest(new { message = "Invalid Email." });
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { message = "Password changed successfully." });
+            }
+
+            return BadRequest(result.Errors);
+        }
+
     }
 
     public class UserLoginModel
@@ -100,5 +117,12 @@ namespace SoliGest.Server.Controllers
         public string Email { get; set; }
         public string Password { get; set; }
         public DateOnly BirthDate { get; set; }
+    }
+
+    public class UserResetPasswordModel
+    {
+        public string Email { get; set; }
+        public string Token { get; set; }
+        public string NewPassword { get; set; }
     }
 }
