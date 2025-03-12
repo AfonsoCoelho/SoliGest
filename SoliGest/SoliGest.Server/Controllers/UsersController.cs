@@ -84,7 +84,6 @@ namespace SoliGest.Server.Controllers
                 expiration = token.ValidTo
             });
         }
-
     }
 
     public class UserLoginModel
@@ -92,7 +91,6 @@ namespace SoliGest.Server.Controllers
         public string Email { get; set; }
         public string Password { get; set; }
     }
-
 
     public class UserRegistrationModel
     {
