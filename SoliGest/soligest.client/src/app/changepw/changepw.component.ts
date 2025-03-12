@@ -24,7 +24,7 @@ export class ChangepwComponent implements OnInit{
     this.authFailed = false;
     this.resetPasswordForm = this.formBuilder.group(
       {
-        password: ['', [
+        newPassword: ['', [
           Validators.required,
           Validators.minLength(6),
           Validators.pattern(/(?=.*[^a-zA-Z0-9 ])/)]],
@@ -33,8 +33,8 @@ export class ChangepwComponent implements OnInit{
   }
 
   passwordMatchValidator: ValidatorFn = (control: AbstractControl): null | object => {
-    const password = control.get('password');
-    const confirmPassword = control.get('confirmPassword');
+    const password = control.get('newPassword')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
     if (!password || !confirmPassword) {
       return null;
     }
@@ -43,8 +43,8 @@ export class ChangepwComponent implements OnInit{
       : null;
   }
 
-  public resetPasssword(event: Event): void {
-    event.preventDefault(); // Previne o comportamento padrão do formulário
+  public resetPasssword(): void {
+    //event.preventDefault(); // Previne o comportamento padrão do formulário
     if (!this.resetPasswordForm.valid) {
       return;
     }
