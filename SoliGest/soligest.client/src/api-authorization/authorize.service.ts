@@ -91,4 +91,11 @@ export class AuthorizeService {
       catchError(() => of({} as UserInfo))
     );
   }
+
+  public pwRecovery(email: string): Observable<boolean> {
+    return this.http.post('api/forgot-password', { email }, { observe: 'response' }).pipe(
+      map((res) => res.ok),
+      catchError(() => of(false))
+    );
+  }
 }
