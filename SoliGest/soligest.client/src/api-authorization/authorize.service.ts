@@ -94,13 +94,14 @@ export class AuthorizeService {
   }
 
   public resetPassword(newPassword: string): Observable<boolean> {
-    var email;
+    var email, token;
 
     this.route.queryParams.subscribe(params => {
       email = params['email'];
+      token = params['token'];
     });
 
-    return this.http.post('/api/reset-password', { email, newPassword }, { observe: 'response' }).pipe(
+    return this.http.post('/api/reset-password', { email, token, newPassword }, { observe: 'response' }).pipe(
       map((res) => res.ok),
       catchError(() => of(false))
     );

@@ -94,13 +94,11 @@ namespace SoliGest.Server.Controllers
         public async Task<IActionResult> ResetPassword([FromBody] UserResetPasswordModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-            //var user = await _userManager.FindByEmailAsync("diogo@mail.com");
+
             if (user == null)
                 return BadRequest(new { message = "Invalid Email." });
 
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-
-            var result = await _userManager.ResetPasswordAsync(user, token, model.NewPassword);
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
 
             if (result.Succeeded)
             {
@@ -161,6 +159,7 @@ namespace SoliGest.Server.Controllers
     public class UserResetPasswordModel
     {
         public string Email { get; set; }
+        public string Token { get; set; }
         public string NewPassword { get; set; }
     }
   
