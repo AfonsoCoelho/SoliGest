@@ -117,30 +117,28 @@ namespace SoliGest.Server.Controllers
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null)
-                    return BadRequest(new { message = "Invalid email." });
+                    return BadRequest(new { message = "Email inválido." });
 
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var encodedToken = WebUtility.UrlEncode(token);
 
-                var resetLink = $"{_configuration["Frontend:BaseUrl"]}/reset-password?email={user.Email}&token={encodedToken}";
-                Console.WriteLine($"[DEBUG] Password Reset Token: {token}"); // Pode ser removido depois (DEBUG)
-                Console.WriteLine(user.Email);
+                var resetLink = $"{_configuration["Frontend:BaseUrl"]}/changepw?email={user.Email}&token={encodedToken}";
 
                 await _emailService.SendEmailAsync(
                     user.Email!,
-                    "Password Reset Request",
-                    $"<p>Hello {user.Name},</p>" +
-                    $"<p>We received a request to reset your password. Click the link below do proceed:</p>" +
-                    $"<p><a href='{resetLink}'>Reset Password</a></p>" +
-                    $"<p>If you didn't request this, please ignore this email.</p>"
+                    "Pedido de reposição de Palavra-passe",
+                    $"<p>Olá {user.Name},</p>" +
+                    $"<p>Esqueceste-te da tua palavra-passe? Não faz mal, acontece a todos! Carrega no link abaixo para continuar:</p>" +
+                    $"<p><a href='{resetLink}'>Configurar nova palavra-passe</a></p>" +
+                    $"<p>Se não fizeste este pedido, pedimos que ignores este email e tenhas atenção a qualquer atividade suspeita.</p>"
                 );
 
-                return Ok(new { message = "A password reset link has been sent to your email." });
+                return Ok(new { message = "Pedido de recuperação de palavra-passe enviado para o email!" });
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"[ERROR] {ex.Message}");
-                return StatusCode(500, new { message = "An error occurred while processing your request." });
+                return StatusCode(500, new { message = "Ocorreu um erro ao tentar processar o teu pedido." });
             }
             
         }
