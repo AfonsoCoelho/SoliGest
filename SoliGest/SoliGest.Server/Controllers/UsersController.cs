@@ -4,8 +4,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using SoliGest.Server.Models;
+using SoliGest.Server.Services;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 
@@ -16,11 +19,13 @@ namespace SoliGest.Server.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly SendGridEmailService _emailService;
 
         public UsersController(UserManager<User> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _configuration = configuration;
+            _emailService = new SendGridEmailService(_configuration);
         }
 
         [HttpPost("api/signup")]
@@ -105,6 +110,40 @@ namespace SoliGest.Server.Controllers
             return BadRequest(result.Errors);
         }
 
+        [HttpPost("api/forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordModel model)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                    return BadRequest(new { message = "Invalid email." });
+
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var encodedToken = WebUtility.UrlEncode(token);
+
+                var resetLink = $"{_configuration["Frontend:BaseUrl"]}/reset-password?email={user.Email}&token={encodedToken}";
+                Console.WriteLine($"[DEBUG] Password Reset Token: {token}"); // Pode ser removido depois (DEBUG)
+                Console.WriteLine(user.Email);
+
+                await _emailService.SendEmailAsync(
+                    user.Email!,
+                    "Password Reset Request",
+                    $"<p>Hello {user.Name},</p>" +
+                    $"<p>We received a request to reset your password. Click the link below do proceed:</p>" +
+                    $"<p><a href='{resetLink}'>Reset Password</a></p>" +
+                    $"<p>If you didn't request this, please ignore this email.</p>"
+                );
+
+                return Ok(new { message = "A password reset link has been sent to your email." });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] {ex.Message}");
+                return StatusCode(500, new { message = "An error occurred while processing your request." });
+            }
+            
+        }
     }
 
     public class UserLoginModel
@@ -112,7 +151,6 @@ namespace SoliGest.Server.Controllers
         public string Email { get; set; }
         public string Password { get; set; }
     }
-
 
     public class UserRegistrationModel
     {
@@ -126,5 +164,10 @@ namespace SoliGest.Server.Controllers
     {
         public string Email { get; set; }
         public string NewPassword { get; set; }
+    }
+  
+    public class ForgotPasswordModel
+    {
+        public string Email { get; set; }
     }
 }

@@ -13,14 +13,16 @@ import { AuthGuard } from '../api-authorization/authorize.guard';
 import { AuthorizeService } from '../api-authorization/authorize.service';
 import { HomeComponent } from './home/home.component';
 import { ChangepwComponent } from './changepw/changepw.component';
+import { PwrecoveryComponent } from './pwrecovery/pwrecovery.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegistarComponent,
-    HomeComponent,
     ChangepwComponent
+    PwrecoveryComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
