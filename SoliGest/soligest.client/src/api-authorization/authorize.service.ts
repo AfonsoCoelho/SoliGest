@@ -95,7 +95,6 @@ export class AuthorizeService {
 
   public resetPassword(newPassword: string): Observable<boolean> {
     var email;
-    alert(newPassword);
 
     this.route.queryParams.subscribe(params => {
       email = params['email'];

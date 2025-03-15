@@ -20,7 +20,7 @@ import { PwrecoveryComponent } from './pwrecovery/pwrecovery.component';
     AppComponent,
     LoginComponent,
     RegistarComponent,
-    ChangepwComponent
+    ChangepwComponent,
     PwrecoveryComponent,
     HomeComponent
   ],
