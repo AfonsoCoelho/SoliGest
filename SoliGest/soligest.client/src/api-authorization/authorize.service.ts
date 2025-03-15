@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angul
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, catchError, map, of } from 'rxjs';
 import { UserInfo } from './authorize.dto';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Injectable({
@@ -11,7 +12,7 @@ export class AuthorizeService {
 
   private _authStateChanged: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.hasToken());
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute) { }
 
   public onStateChanged() {
     return this._authStateChanged.asObservable();
@@ -92,13 +93,15 @@ export class AuthorizeService {
     );
   }
 
-  public resetPassword(password: string): Observable<boolean> {
-    const token = localStorage.getItem('authToken');
-    const email = this.user().pipe(
-      map((res) => res.email)
-    );
+  public resetPassword(newPassword: string): Observable<boolean> {
+    var email;
+    alert(newPassword);
 
-    return this.http.post<{ token: string }>('/api/myResetPassword', { email, token, password }, { observe: 'response' }).pipe(
+    this.route.queryParams.subscribe(params => {
+      email = params['email'];
+    });
+
+    return this.http.post('/api/reset-password', { email, newPassword }, { observe: 'response' }).pipe(
       map((res) => res.ok),
       catchError(() => of(false))
     );

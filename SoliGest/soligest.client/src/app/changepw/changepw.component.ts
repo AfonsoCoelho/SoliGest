@@ -49,7 +49,7 @@ export class ChangepwComponent implements OnInit{
       return;
     }
 
-    const password = this.resetPasswordForm.get('password')?.value;
+    const password = this.resetPasswordForm.get('newPassword')?.value;
 
     this.authService.resetPassword(password).subscribe({
       next: (response) => {

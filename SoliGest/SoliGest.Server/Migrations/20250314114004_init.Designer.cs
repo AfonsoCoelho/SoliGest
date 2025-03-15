@@ -12,7 +12,7 @@ using SoliGest.Server.Data;
 namespace SoliGest.Server.Migrations
 {
     [DbContext(typeof(SoliGestServerContext))]
-    [Migration("20250312235458_init")]
+    [Migration("20250314114004_init")]
     partial class init
     {
         /// <inheritdoc />
