@@ -12,6 +12,7 @@ import { AuthInterceptor } from '../api-authorization/authorize.interceptor';
 import { AuthGuard } from '../api-authorization/authorize.guard';
 import { AuthorizeService } from '../api-authorization/authorize.service';
 import { HomeComponent } from './home/home.component';
+import { ChangepwComponent } from './changepw/changepw.component';
 import { PwrecoveryComponent } from './pwrecovery/pwrecovery.component';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { PwrecoveryComponent } from './pwrecovery/pwrecovery.component';
     AppComponent,
     LoginComponent,
     RegistarComponent,
+    ChangepwComponent
     PwrecoveryComponent,
     HomeComponent
   ],
