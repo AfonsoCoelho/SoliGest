@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent }, // Corrigido para exibir a página de login corretamente
   { path: 'pwrecovery', component: PwrecoveryComponent },
   { path: 'changepw', component: ChangepwComponent },
-  { path: '**', redirectTo: 'registar' } // Qualquer rota inválida vai para registar
+  { path: '**', redirectTo: '' } // Qualquer rota inválida vai para registar
 ];
 
 @NgModule({
