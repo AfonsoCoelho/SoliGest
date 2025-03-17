@@ -12,7 +12,7 @@
           <h2>Criar Conta/Registar</h2>
           <div class="form-group">
             <label for="name">Nome Completo*</label>
-            <input type="text" id="name" name="name" formControlName="name">
+            <input type="text" id="name" name="name" formControlName="name" autocomplete="on">
             <div class="error-feedback" *ngIf="registerForm.get('name')?.hasError('required') && registerForm.get('name')?.touched">
               Por favor introduza o seu nome.
             </div>
@@ -35,7 +35,7 @@
           </div>
           <div class="form-group">
             <label for="email">Email*</label>
-            <input type="email" id="email" name="email" formControlName="email">
+            <input type="email" id="email" name="email" formControlName="email" autocomplete="on">
             <div class="error-feedback" *ngIf="registerForm.get('email')?.hasError('required') && registerForm.get('email')?.touched">
               Por favor introduza o seu email.
             </div>

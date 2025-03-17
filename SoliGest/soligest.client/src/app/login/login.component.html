@@ -26,7 +26,7 @@
       <form [formGroup]="loginForm" (submit)="login($event)">
         <div class="form-group">
           <label for="email">Email:</label>
-          <input type="email" id="email" name="email" formControlName="email" placeholder="Digite seu email" required>
+          <input type="email" id="email" name="email" formControlName="email" placeholder="Digite seu email" autocomplete="on" required>
           <div class="error-feedback" *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched">
             Por favor introduza o seu email.
           </div>
