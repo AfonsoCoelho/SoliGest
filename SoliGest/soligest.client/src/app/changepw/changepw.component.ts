@@ -33,8 +33,8 @@ export class ChangepwComponent implements OnInit{
   }
 
   passwordMatchValidator: ValidatorFn = (control: AbstractControl): null | object => {
-    const password = control.get('newPassword')?.value;
-    const confirmPassword = control.get('confirmPassword')?.value;
+    const password = control.get('newPassword');
+    const confirmPassword = control.get('confirmPassword');
     if (!password || !confirmPassword) {
       return null;
     }

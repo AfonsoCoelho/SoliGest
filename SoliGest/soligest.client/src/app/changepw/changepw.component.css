@@ -147,3 +147,9 @@ footer {
     footer a:hover {
       text-decoration: underline;
     }
+
+.error-feedback {
+  color: red;
+  display: inline-block;
+  width: fit-content;
+}
