@@ -4,8 +4,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using SoliGest.Server.Models;
+using SoliGest.Server.Services;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 
@@ -16,11 +19,13 @@ namespace SoliGest.Server.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly SendGridEmailService _emailService;
 
         public UsersController(UserManager<User> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _configuration = configuration;
+            _emailService = new SendGridEmailService(_configuration);
         }
 
         [HttpPost("api/signup")]
@@ -85,6 +90,56 @@ namespace SoliGest.Server.Controllers
             });
         }
 
+        [HttpPost("api/reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] UserResetPasswordModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user == null)
+                return BadRequest(new { message = "Invalid Email." });
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { message = "Password changed successfully." });
+            }
+
+            return BadRequest(result.Errors);
+        }
+
+        [HttpPost("api/forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordModel model)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                    return BadRequest(new { message = "Email inválido." });
+
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var encodedToken = WebUtility.UrlEncode(token);
+
+                var resetLink = $"{_configuration["Frontend:BaseUrl"]}/changepw?email={user.Email}&token={encodedToken}";
+
+                await _emailService.SendEmailAsync(
+                    user.Email!,
+                    "Pedido de reposição de Palavra-passe",
+                    $"<p>Olá {user.Name},</p>" +
+                    $"<p>Esqueceste-te da tua palavra-passe? Não faz mal, acontece a todos! Carrega no link abaixo para continuar:</p>" +
+                    $"<p><a href='{resetLink}'>Configurar nova palavra-passe</a></p>" +
+                    $"<p>Se não fizeste este pedido, pedimos que ignores este email e tenhas atenção a qualquer atividade suspeita.</p>"
+                );
+
+                return Ok(new { message = "Pedido de recuperação de palavra-passe enviado para o email!" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] {ex.Message}");
+                return StatusCode(500, new { message = "Ocorreu um erro ao tentar processar o teu pedido." });
+            }
+            
+        }
     }
 
     public class UserLoginModel
@@ -93,12 +148,23 @@ namespace SoliGest.Server.Controllers
         public string Password { get; set; }
     }
 
-
     public class UserRegistrationModel
     {
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public DateOnly BirthDate { get; set; }
+    }
+
+    public class UserResetPasswordModel
+    {
+        public string Email { get; set; }
+        public string Token { get; set; }
+        public string NewPassword { get; set; }
+    }
+  
+    public class ForgotPasswordModel
+    {
+        public string Email { get; set; }
     }
 }
