@@ -88,9 +88,11 @@ namespace SoliGestTest
             var model = new ForgotPasswordModel { Email = "nonexistent@test.com" };
             _mockUserManager.Setup(um => um.FindByEmailAsync(model.Email)).ReturnsAsync((User)null);
 
-            var result = await _controller.ForgotPassword(model);
+            var result = await _controller.ForgotPassword(model) as BadRequestObjectResult;
 
             Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal(400, result.StatusCode);
+            Assert.Contains("Email inválido.", result.Value.ToString());
         }
 
         [Fact]
@@ -101,10 +103,12 @@ namespace SoliGestTest
             _mockUserManager.Setup(um => um.GeneratePasswordResetTokenAsync(user)).ReturnsAsync("mocked-token");
 
             var model = new ForgotPasswordModel { Email = user.Email };
-            var result = await _controller.ForgotPassword(model);
+            var result = await _controller.ForgotPassword(model) as OkObjectResult;
 
             _mockEmailService.Verify(e => e.SendEmailAsync(user.Email, It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(200, result.StatusCode);
+            Assert.Contains("Pedido de recuperação de palavra-passe enviado para o email!", result.Value.ToString());
         }
 
         [Fact]
