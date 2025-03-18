@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SoliGest.Server.Data;
 using SoliGest.Server.Models;
+using SoliGest.Server.Services;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<SoliGestServerContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SoliGestServerContext") ?? throw new InvalidOperationException("Connection string 'SoliGestServerContext' not found.")));
@@ -27,6 +29,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
+builder.Services.AddTransient<IEmailService, SendGridEmailService>();
 builder.Services.AddIdentityApiEndpoints<User>()
     .AddEntityFrameworkStores<SoliGestServerContext>();
 builder.Services.AddControllers();

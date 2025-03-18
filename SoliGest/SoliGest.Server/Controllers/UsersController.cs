@@ -19,13 +19,13 @@ namespace SoliGest.Server.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
-        private readonly SendGridEmailService _emailService;
+        private readonly IEmailService _emailService;
 
-        public UsersController(UserManager<User> userManager, IConfiguration configuration)
+        public UsersController(UserManager<User> userManager, IConfiguration configuration, IEmailService emailService)
         {
             _userManager = userManager;
             _configuration = configuration;
-            _emailService = new SendGridEmailService(_configuration);
+            _emailService = emailService;
         }
 
         [HttpPost("api/signup")]
@@ -135,7 +135,6 @@ namespace SoliGest.Server.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[ERROR] {ex.Message}");
                 return StatusCode(500, new { message = "Ocorreu um erro ao tentar processar o teu pedido." });
             }
             
