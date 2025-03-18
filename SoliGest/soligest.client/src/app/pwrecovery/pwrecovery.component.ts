@@ -37,6 +37,8 @@ export class PwrecoveryComponent implements OnInit {
         if (response) {
           //this.router.navigateByUrl("/");
           alert("Email enviado com sucesso!!"); // Redireciona para a página inicial
+        } else {
+          alert("Não existe uma conta com esse email no sistema!");
         }
       },
       error: () => {

@@ -24,6 +24,12 @@
         <div class="form-group">
           <label for="email">Email:</label>
           <input type="email" id="email" name="email" formControlName="email" placeholder="Digite seu email" autocomplete="on" required>
+          <div class="error-feedback" *ngIf="pwRecoveryForm.get('email')?.hasError('required') && pwRecoveryForm.get('email')?.touched">
+            Por favor introduza o seu email.
+          </div>
+          <div class="error-feedback" *ngIf="pwRecoveryForm.get('email')?.hasError('email') && pwRecoveryForm.get('email')?.touched">
+            Por favor insira um email válido.
+          </div>
         </div>
         <button type="submit" class="submit-btn">Submeter</button>
       </form>

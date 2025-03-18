@@ -57,6 +57,8 @@ export class ChangepwComponent implements OnInit{
         if (response) {
           this.router.navigateByUrl("/");
           alert("Palavra-passe reposta com sucesso!"); // Redireciona para a página inicial
+        } else {
+          alert("Ocorreu um erro! Por favor tente novamente mais tarde.");
         }
       },
       error: () => {
