@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from "@angular/forms";
 import { AuthorizeService } from "../../api-authorization/authorize.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-registar-component',
@@ -16,9 +17,10 @@ export class RegistarComponent implements OnInit {
   signedIn: boolean = false;
 
   constructor(private authService: AuthorizeService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private router: Router) {
 
-    // Verificar se o utilizador j� est� autenticado
+    // Verificar se o utilizador já está autenticado
     this.signedIn = this.authService.isSignedIn();
   }
 
@@ -52,10 +54,10 @@ export class RegistarComponent implements OnInit {
       : null;
   }
 
-  // M�todo chamado ao submeter o formul�rio
+  // Método chamado ao submeter o formulário
   public register(): void {
     if (!this.registerForm.valid) {
-      alert("Form inv�lido!" + this.registerForm.get('name')?.value)
+      alert("Por favor corriga os erros do formulário!");
       return;
     }
 
@@ -71,11 +73,13 @@ export class RegistarComponent implements OnInit {
       response => {
         if (response) {
           this.registerSucceeded = true;
-          alert("Registo bem sucedido!")
+          this.router.navigateByUrl("/");
+          alert("Registo bem sucedido!");
         }
       }).catch(
         error => {
           this.registerFailed = true;
+          alert("Ocorreu um erro! Por favor tente novamente mais tarde.");
           if (error.error) {
             const errorObj = JSON.parse(error.error);
             if (errorObj && errorObj.errors) {

@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angul
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, catchError, map, of } from 'rxjs';
 import { UserInfo } from './authorize.dto';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Injectable({
@@ -11,7 +12,7 @@ export class AuthorizeService {
 
   private _authStateChanged: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.hasToken());
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute) { }
 
   public onStateChanged() {
     return this._authStateChanged.asObservable();
@@ -89,6 +90,27 @@ export class AuthorizeService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<UserInfo>('/api/userinfo', { headers }).pipe(
       catchError(() => of({} as UserInfo))
+    );
+  }
+
+  public resetPassword(newPassword: string): Observable<boolean> {
+    var email, token;
+
+    this.route.queryParams.subscribe(params => {
+      email = params['email'];
+      token = params['token'];
+    });
+
+    return this.http.post('/api/reset-password', { email, token, newPassword }, { observe: 'response' }).pipe(
+      map((res) => res.ok),
+      catchError(() => of(false))
+    );
+  }
+  
+  public pwRecovery(email: string): Observable<boolean> {
+    return this.http.post('api/forgot-password', { email }, { observe: 'response' }).pipe(
+      map((res) => res.ok),
+      catchError(() => of(false))
     );
   }
 }

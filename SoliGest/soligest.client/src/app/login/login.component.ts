@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
   public login(event: Event): void {
     event.preventDefault(); // Previne o comportamento padrão do formulário
     if (!this.loginForm.valid) {
+      alert("Por favor corriga os erros do formulário!");
       return;
     }
 
@@ -43,10 +44,13 @@ export class LoginComponent implements OnInit {
         if (response) {
           this.router.navigateByUrl("/");
           alert("Login efetuado com sucesso!"); // Redireciona para a página inicial
+        } else {
+          alert("Email ou password inválidos!");
         }
       },
       error: () => {
         this.authFailed = true; // Mostra mensagem de erro se falhar
+        alert("Ocorreu um erro! Por favor tente novamente mais tarde.");
       }
     });
   }
