@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit {
       },
       error: () => {
         this.authFailed = true; // Mostra mensagem de erro se falhar
+        alert("Ocorreu um erro! Por favor tente novamente mais tarde.");
       }
     });
   }
