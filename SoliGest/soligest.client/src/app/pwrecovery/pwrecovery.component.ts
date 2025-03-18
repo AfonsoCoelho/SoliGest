@@ -26,6 +26,7 @@ export class PwrecoveryComponent implements OnInit {
 
   public pwRecovery(): void {
     if (!this.pwRecoveryForm.valid) {
+      alert("Por favor corriga os erros do formulário!");
       return;
     }
 
@@ -39,7 +40,7 @@ export class PwrecoveryComponent implements OnInit {
         }
       },
       error: () => {
-        alert("Erro!");
+        alert("Ocorreu um erro! Por favor tente novamente mais tarde.");
       }
     });
   }

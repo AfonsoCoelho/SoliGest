@@ -46,6 +46,7 @@ export class ChangepwComponent implements OnInit{
   public resetPasssword(): void {
     //event.preventDefault(); // Previne o comportamento padrão do formulário
     if (!this.resetPasswordForm.valid) {
+      alert("Por favor corriga os erros do formulário!");
       return;
     }
 
@@ -60,6 +61,7 @@ export class ChangepwComponent implements OnInit{
       },
       error: () => {
         this.authFailed = true; // Mostra mensagem de erro se falhar
+        alert("Ocorreu um erro! Por favor tente novamente mais tarde.");
       }
     });
   }
