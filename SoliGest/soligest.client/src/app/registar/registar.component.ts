@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from "@angular/forms";
 import { AuthorizeService } from "../../api-authorization/authorize.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-registar-component',
@@ -16,7 +17,8 @@ export class RegistarComponent implements OnInit {
   signedIn: boolean = false;
 
   constructor(private authService: AuthorizeService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private router: Router) {
 
     // Verificar se o utilizador já está autenticado
     this.signedIn = this.authService.isSignedIn();
@@ -71,6 +73,7 @@ export class RegistarComponent implements OnInit {
       response => {
         if (response) {
           this.registerSucceeded = true;
+          this.router.navigateByUrl("/");
           alert("Registo bem sucedido!");
         }
       }).catch(
