@@ -24,7 +24,7 @@ export class RegistarComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerFailed = false;
-    this.registerSucceeded = false;
+    this.registerSucceeded = true;
     this.errors = [];
 
     // Inicializar o formulário com validações

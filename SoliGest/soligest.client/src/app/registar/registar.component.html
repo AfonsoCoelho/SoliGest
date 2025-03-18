@@ -2,6 +2,9 @@
     <img src="/logo.jpg" alt="SoliGest Logo" class="header-logo">
     <span class="header-title">SoliGest</span>
   </header>
+  <div class="success-bar"  *ngIf="registerSucceeded">
+    <p>Registo efetuado com sucesso!</p>
+  </div>
   <div class="container">
     <div class="left-section">
       <img src="/logo.jpg" alt="SoliGest">
@@ -70,7 +73,7 @@
           <button class="submit-btn" type="submit">Submeter</button>
         </div>
       </form>
-</div>
+    </div>
   </div>
   <footer>
     <p>Sistema de assistência a painéis solares</p>
