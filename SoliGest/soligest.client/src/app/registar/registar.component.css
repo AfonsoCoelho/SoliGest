@@ -78,18 +78,18 @@ body {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  flex-wrap: wrap;
 }
 
   .form-group label {
     background-color: #FFC300;
     padding: 5px;
-    width: 150px;
+    width: 200px;
     text-align: right;
     font-weight: bold;
   }
 
   .form-group input {
-    flex: 1;
     padding: 8px;
     border: 1px solid #ccc;
   }
@@ -123,4 +123,8 @@ footer {
     text-decoration: none;
   }
 
-
+.error-feedback {
+  color: red;
+  display: inline-block;
+  width: fit-content;
+}

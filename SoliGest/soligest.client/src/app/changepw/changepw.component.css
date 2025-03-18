@@ -87,8 +87,6 @@ h2 {
 }
 
 .form-group {
-  width: 100%;
-  max-width: 350px;
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
@@ -147,3 +145,9 @@ footer {
     footer a:hover {
       text-decoration: underline;
     }
+
+.error-feedback {
+  color: red;
+  display: inline-block;
+  width: fit-content;
+}

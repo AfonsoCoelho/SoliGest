@@ -23,12 +23,24 @@
       <h2>Alteração de Password</h2>
       <form [formGroup]="resetPasswordForm" (submit)="resetPasssword()">
         <div class="form-group">
-          <label for="new-password">Nova Password:</label>
+          <label for="newPassword">Nova Password:</label>
           <input type="password" id="newPassword" name="newPassword" placeholder="Digite sua nova senha" formControlName="newPassword" required>
+          <div class="error-feedback" *ngIf="resetPasswordForm.get('newPassword')?.hasError('required') && resetPasswordForm.get('newPassword')?.touched">
+            Por favor introduza a sua palavra-passe.
+          </div>
+          <div class="error-feedback" *ngIf="resetPasswordForm.get('newPassword')?.hasError('minlength') && resetPasswordForm.get('newPassword')?.touched">
+            A Palavra-passe deve ter pelo menos 6 caracteres.
+          </div>
+          <div class="error-feedback" *ngIf="resetPasswordForm.get('newPassword')?.hasError('pattern') && resetPasswordForm.get('newPassword')?.touched">
+            A Palavra-passe deve incluir pelo menos 1 caracteres especial.
+          </div>
         </div>
         <div class="form-group">
-          <label for="confirm-password">Confirmar Password:</label>
+          <label for="confirmPassword">Confirmar Password:</label>
           <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirme sua nova senha" formControlName="confirmPassword" required>
+          <div class="error-feedback" *ngIf="resetPasswordForm.hasError('passwordMismatch') && resetPasswordForm.get('confirmPassword')?.touched">
+            As palavras-passes não coincidem.
+          </div>
         </div>
         <button type="submit" class="submit-btn">Alterar Password</button>
       </form>

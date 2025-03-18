@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
   public login(event: Event): void {
     event.preventDefault(); // Previne o comportamento padrão do formulário
     if (!this.loginForm.valid) {
+      alert("Por favor corriga os erros do formulário!");
       return;
     }
 
@@ -47,6 +48,7 @@ export class LoginComponent implements OnInit {
       },
       error: () => {
         this.authFailed = true; // Mostra mensagem de erro se falhar
+        alert("Email ou password inválidos!");
       }
     });
   }
