@@ -7,12 +7,12 @@ using Xunit;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 
-public class RegistarTest2 : IDisposable
+public class ChangePasswordTest1 : IDisposable
 {
     private readonly IWebDriver _driver;
     private readonly WebDriverWait _wait;
 
-    public RegistarTest2()
+    public ChangePasswordTest1()
     {
         var options = new ChromeOptions();
         options.AddArgument("--ignore-certificate-errors");
@@ -24,36 +24,22 @@ public class RegistarTest2 : IDisposable
     }
 
     [Fact]
-    public void Register_Should_Show_Error_With_Invalid_Email_Message()
+    public void ChangePassword_Should_Show_Error_When_Passwords_Do_Not_Match()
     {
-        //WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+        _driver.Navigate().GoToUrl("https://127.0.0.1:49893/changepw");
 
-        _driver.Navigate().GoToUrl("https://127.0.0.1:49893/registar");
+        // Fill the form
+        TypeSlowly(_driver.FindElement(By.Id("newPassword")), "NewPassword123!");
+        TypeSlowly(_driver.FindElement(By.Id("confirmPassword")), "DifferentPassword456!");
 
-        _wait.Until(ExpectedConditions.ElementIsVisible(By.Id("email")));
-
-        // Fill the form slowly to prevent UI race conditions
-        TypeSlowly(_driver.FindElement(By.Id("name")), "afonso");
-        TypeSlowly(_driver.FindElement(By.Id("email")), "aiooo");
-        TypeSlowly(_driver.FindElement(By.Id("password")), "Password1!");
-        TypeSlowly(_driver.FindElement(By.Id("confirmPassword")), "Password1!");
+        _driver.FindElement(By.TagName("body")).Click();
 
         // Click submit
         //_driver.FindElement(By.ClassName("submit-btn")).Click();
 
         // Wait for validation message to appear
         IWebElement errorFeedback = _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("error-feedback")));
-        Assert.Contains("Por favor insira um email válido.", errorFeedback.Text);
-
-        // Wait for alert
-        //wait.Until(ExpectedConditions.AlertIsPresent());
-
-        // Switch to alert
-        //IAlert alert = _driver.SwitchTo().Alert();
-
-        // Validate and accept the alert
-        //Assert.Equal("Por favor corriga os erros do formulário!", alert.Text);
-        //alert.Accept();
+        Assert.Contains("As palavras-passes não coincidem.", errorFeedback.Text);
     }
 
     // Function to type text character by character with small delay
