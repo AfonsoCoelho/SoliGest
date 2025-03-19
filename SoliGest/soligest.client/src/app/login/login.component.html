@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - SoliGest</title>
+
+</head>
+<body>
+
+  <header class="login-header" routerLink="/">
+    <img src="/logo.jpg" alt="SoliGest Logo" class="header-logo">
+    <h1 class="header-title">SoliGest</h1>
+  </header>
+
+  <div class="login-container">
+    <div class="login-left">
+      <img src="/logo.jpg" alt="SoliGest Logo" class="logo">
+      <h1 class="title">SoliGest</h1>
+      <p class="subtitle">Technical Assistance for Solar Panels</p>
+    </div>
+
+    <div class="login-right">
+      <h2>Login/Iniciar Sessão</h2>
+
+      <form [formGroup]="loginForm" (submit)="login($event)">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" formControlName="email" placeholder="Digite seu email" autocomplete="on" required>
+          <div class="error-feedback" *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched">
+            Por favor introduza o seu email.
+          </div>
+          <div class="error-feedback" *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched">
+            Por favor insira um email válido.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" formControlName="password" placeholder="Digite sua senha" required>
+          <div class="error-feedback" *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+            Por favor introduza a sua palavra-passe.
+          </div>
+        </div>
+
+        <div class="forgot-password">
+          <a routerLink="/pwrecovery">Esqueceu-se da sua palavra-passe?</a>
+        </div>
+
+        <button type="submit" class="submit-btn">Submeter</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>Sistema de assistência a painéis solares</p>
+    <a href="#">Ajuda (?)</a> | <a href="#">Criadores</a>
+  </footer>
+
+</body>
+</html>

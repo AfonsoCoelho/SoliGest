@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recuperação de Password - SoliGest</title>
+ 
+</head>
+<body>
+  <header class="login-header" routerLink="/">
+    <img src="/logo.jpg" alt="SoliGest Logo" class="header-logo">
+    <h1 class="header-title">SoliGest</h1>
+  </header>
+
+  <div class="container">
+    <div class="left-section">
+      <img src="/logo.jpg" alt="SoliGest Logo" class="logo">
+      <h1 class="title">SoliGest</h1>
+      <p class="subtitle">Technical Assistance for Solar Panels</p>
+    </div>
+    <div class="right-section">
+      <h2>Recuperação de Password</h2>
+      <form [formGroup]="pwRecoveryForm" (submit)="pwRecovery()">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" formControlName="email" placeholder="Digite seu email" autocomplete="on" required>
+          <div class="error-feedback" *ngIf="pwRecoveryForm.get('email')?.hasError('required') && pwRecoveryForm.get('email')?.touched">
+            Por favor introduza o seu email.
+          </div>
+          <div class="error-feedback" *ngIf="pwRecoveryForm.get('email')?.hasError('email') && pwRecoveryForm.get('email')?.touched">
+            Por favor insira um email válido.
+          </div>
+        </div>
+        <button type="submit" class="submit-btn">Submeter</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>Sistema de assistência a painéis solares</p>
+    <a href="#">Ajuda (?)</a> | <a href="#">Criadores</a>
+  </footer>
+</body>
+</html>

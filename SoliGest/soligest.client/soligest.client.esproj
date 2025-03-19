@@ -7,4 +7,12 @@
     <!-- Folder where production build objects will be placed -->
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\soligest.client\browser\</BuildOutputFolder>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="src\app\login\NovaPasta1\**" />
+    <None Remove="src\app\register\**" />
+    <None Remove="src\app\services\**" />
+    <TypeScriptConfiguration Remove="src\app\login\NovaPasta1\**" />
+    <TypeScriptConfiguration Remove="src\app\register\**" />
+    <TypeScriptConfiguration Remove="src\app\services\**" />
+  </ItemGroup>
 </Project>

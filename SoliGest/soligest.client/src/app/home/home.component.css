@@ -1,0 +1,100 @@
+#sideMenu {
+  width: 25%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+}
+
+#map {
+  height: 100%;
+  width: 75%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+}
+
+#upperMenu, #lowerMenu {
+  background-color: #37AFE1;
+  position: relative;
+}
+
+#upperMenu {
+  margin-bottom: 10%;
+}
+
+#upperMenu h2 {
+    padding-bottom: 2%;
+    position: relative;
+    text-align: left;
+}
+
+#upperMenu h2 img {
+    padding-left: 2%;
+}
+
+#menuOptions a {
+  background-color: #FFC300;
+  display: flex;
+  font-size: 20pt;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  padding: 2%;
+}
+
+#menuOptions a span, #menuOptions a img {
+    margin-left: 10%;
+    font-family: Roboto;
+}
+
+#lowerMenu {
+    position: absolute;
+    top: 156%;
+    width: 100%;
+    font-family: Roboto;
+}
+
+#lowerMenu img {
+    margin-top: 2%;
+    margin-left: 2%
+}
+
+h1 {
+  font-size: 28pt;
+  left: 5%;
+  position: absolute;
+  font-family: Roboto;
+}
+
+h2 {
+  font-size: 22pt;
+  left: 5%;
+  position: absolute;
+  font-family: Roboto;
+}
+
+#profile {
+  left: 25%;
+  position: relative;
+}
+
+#mapOptions {
+    position:absolute;
+    width: 1%;
+    left: 1%;
+    top: 1%;
+}
+
+tr {
+    background-color: white;
+}
+
+table {
+    border: solid
+}
+
+#mapFilters {
+    left: 500%;
+    position: relative
+}
