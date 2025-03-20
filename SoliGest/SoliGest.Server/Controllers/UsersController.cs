@@ -3,10 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using SendGrid.Helpers.Mail;
+using SoliGest.Server.Data;
 using SoliGest.Server.Models;
 using SoliGest.Server.Services;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
@@ -20,12 +24,14 @@ namespace SoliGest.Server.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
+        private readonly SoliGestServerContext _context;
 
-        public UsersController(UserManager<User> userManager, IConfiguration configuration, IEmailService emailService)
+        public UsersController(UserManager<User> userManager, IConfiguration configuration, IEmailService emailService, SoliGestServerContext context)
         {
             _userManager = userManager;
             _configuration = configuration;
             _emailService = emailService;
+            _context = context;
         }
 
         [HttpPost("api/signup")]
@@ -137,8 +143,42 @@ namespace SoliGest.Server.Controllers
             {
                 return StatusCode(500, new { message = "Ocorreu um erro ao tentar processar o teu pedido." });
             }
-            
         }
+
+        // PUT: api/People/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutPerson(int id, User user)
+        //{
+        //    if (!id.Equals(user.Id))
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    _context.Entry(user).State = EntityState.Modified;
+
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!PersonExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+        //    return NoContent();
+        //}
+
+        //private bool UserExists(string id)
+        //{
+        //    return _context.Person.Any(e => e.Id.Equals(id));
+        //}
     }
 
     public class UserLoginModel
