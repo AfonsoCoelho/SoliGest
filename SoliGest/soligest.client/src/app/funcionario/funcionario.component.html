@@ -1,43 +1,146 @@
-<h1 id="tableLabel">Funcionários</h1>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabela - SoliGest</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f4f4f4;
+    }
 
-<p *ngIf="!funcionarios"><em>Loading...</em></p>
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      background-color: #37AFE1;
+      color: black;
+      padding: 15px 20px;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
 
-<div *ngIf="funcionarios">
-  <a routerLink="/funcionario/create" class="btn btn-success">Adicionar Novo Funcionário</a>
+    .header-logo {
+      width: 40px;
+      height: auto;
+      margin-right: 10px;
+    }
 
-  <table class='table table-striped' aria-labelledby="tableLabel">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>Cargo</th>
-        <th>E-mail</th>
-        <th>Data de Nascimento</th>
-        <th>Telemóvel</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let funcionario of funcionarios"
-          (click)="onSelectFuncionario(funcionario)"
-          [class.table-primary]="funcionario === selectedFuncionario">
-        <td>{{ funcionario.id }}</td>
-        <td>{{ funcionario.nome }}</td>
-        <td>{{ funcionario.cargo }}</td>
-        <td>{{ funcionario.email }}</td>
-        <td>{{ funcionario.dataNascimento | date:'dd/MM/yyyy' }}</td>
-        <td>{{ funcionario.telemovel }}</td>
-        <td>
-          <a [routerLink]="['/funcionario/detalhes', funcionario.id]" class="btn btn-info">Detalhes</a>
-          <a [routerLink]="['/funcionario/editar', funcionario.id]" class="btn btn-primary">Editar</a>
-          <a [routerLink]="['/funcionario/excluir', funcionario.id]" class="btn btn-danger">Excluir</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+    .header-title {
+      font-size: 24px;
+      font-weight: bold;
+    }
 
-<div *ngIf="selectedFuncionario">
-  <p><strong>Selecionado:</strong> {{ selectedFuncionario.nome }}</p>
-  <app-funcionario-detalhes [funcionario]="selectedFuncionario"></app-funcionario-detalhes>
-</div>
+    .table-container {
+      margin-top: 80px;
+      width: 80%;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #FFC300;
+      color: black;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .select-cell {
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      background-color: #37AFE1;
+      color: black;
+      padding: 15px;
+      width: 100%;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <img src="/logo.jpg" alt="SoliGest Logo" class="header-logo">
+    <h1 class="header-title">SoliGest</h1>
+  </header>
+
+  <div class="table-container">
+    <h2>Lista de Utilizadores Ativos</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Selecionar</th>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Cargo</th>
+          <th>Email</th>
+          <th>Data de Nascimento</th>
+          <th>Telemóvel</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="select-cell"><input type="checkbox"></td>
+          <td>1</td>
+          <td>João Silva</td>
+          <td>Administrador</td>
+          <td>joao&#64;email.com</td>
+          <td>15/03/1985</td>
+          <td>912345678</td>
+        </tr>
+        <tr>
+          <td class="select-cell"><input type="checkbox"></td>
+          <td>2</td>
+          <td>Maria Souza</td>
+          <td>Gestora</td>
+          <td>maria&#64;email.com</td>
+          <td>22/07/1990</td>
+          <td>923456789</td>
+        </tr>
+        <tr>
+          <td class="select-cell"><input type="checkbox"></td>
+          <td>3</td>
+          <td>Carlos Oliveira</td>
+          <td>Técnico</td>
+          <td>carlos&#64;email.com</td>
+          <td>05/11/1988</td>
+          <td>934567890</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <p>Sistema de assistência a painéis solares</p>
+    <a href="#">Ajuda (?)</a> | <a href="#">Criadores</a>
+  </footer>
+
+</body>
+</html>
