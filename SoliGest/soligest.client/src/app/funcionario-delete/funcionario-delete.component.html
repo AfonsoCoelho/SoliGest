@@ -1,0 +1,14 @@
+<div *ngIf="funcionario">
+  <h2>Tem certeza de que deseja excluir este funcionário?</h2>
+  <p>
+    <strong>Nome:</strong> {{ funcionario.nome }}<br>
+    <strong>Cargo:</strong> {{ funcionario.cargo }}<br>
+    <strong>E-mail:</strong> {{ funcionario.email }}<br>
+    <strong>Data de Nascimento:</strong> {{ funcionario.dataNascimento | date:'dd/MM/yyyy' }}<br>
+    <strong>Telemóvel:</strong> {{ funcionario.telemovel }}<br>
+    <strong>Dia de Folga:</strong> {{ funcionario.diaFolga }}<br>
+    <strong>Período de Férias:</strong> {{ funcionario.feriasInicio | date:'dd/MM/yyyy' }} - {{ funcionario.feriasFim | date:'dd/MM/yyyy' }}
+  </p>
+  <button (click)="onDelete()" class="btn btn-danger spaced-button">Excluir</button>
+  <button (click)="onCancel()" class="btn btn-secondary">Cancelar</button>
+</div>

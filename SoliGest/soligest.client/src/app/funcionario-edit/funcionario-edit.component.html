@@ -1,0 +1,49 @@
+<h4>Editar Funcionário</h4>
+
+<form #editarForm="ngForm" (ngSubmit)="onSaveChanges(editarForm)">
+  <div class="form-group">
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" name="nome" #nome="ngModel" [(ngModel)]="funcionario.nome" required minlength="2" class="form-control">
+    <div *ngIf="nome.invalid && (nome.dirty || nome.touched)">
+      <div *ngIf="nome.errors?.['required']">O nome é obrigatório.</div>
+      <div *ngIf="nome.errors?.['minlength']">O nome deve ter pelo menos {{ nome.errors?.['minlength'].requiredLength }} caracteres.</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="idade">Idade:</label>
+    <input type="number" id="idade" name="idade" #idade="ngModel" [(ngModel)]="funcionario.idade" class="form-control">
+  </div>
+
+  <div class="form-group">
+    <label for="cargo">Cargo:</label>
+    <select id="cargo" name="cargo" #cargo="ngModel" [(ngModel)]="funcionario.cargo" required class="form-control">
+      <option value="Técnico">Técnico</option>
+      <option value="Administrativo">Administrativo</option>
+      <option value="Supervisor">Supervisor</option>
+    </select>
+    <div *ngIf="cargo.invalid && (cargo.dirty || cargo.touched)">
+      <div *ngIf="cargo.errors?.['required']">O cargo é obrigatório.</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="diaFolga">Dia de Folga:</label>
+    <select id="diaFolga" name="diaFolga" #diaFolga="ngModel" [(ngModel)]="funcionario.diaFolga" required class="form-control">
+      <option *ngFor="let dia of diasSemana" [value]="dia">{{ dia }}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="feriasInicio">Período de Férias (Início):</label>
+    <input type="date" id="feriasInicio" name="feriasInicio" #feriasInicio="ngModel" [(ngModel)]="funcionario.feriasInicio" class="form-control">
+  </div>
+
+  <div class="form-group">
+    <label for="feriasFim">Período de Férias (Fim):</label>
+    <input type="date" id="feriasFim" name="feriasFim" #feriasFim="ngModel" [(ngModel)]="funcionario.feriasFim" class="form-control">
+  </div>
+
+  <button type="submit" class="btn btn-primary" [disabled]="!editarForm.form.valid">Guardar Alterações</button>
+  <button type="button" (click)="onDiscardChanges()" class="btn btn-secondary">Descartar Alterações</button>
+</form>

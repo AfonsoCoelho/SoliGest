@@ -1,0 +1,43 @@
+<h1 id="tableLabel">Funcionários</h1>
+
+<p *ngIf="!funcionarios"><em>Loading...</em></p>
+
+<div *ngIf="funcionarios">
+  <a routerLink="/funcionario/create" class="btn btn-success">Adicionar Novo Funcionário</a>
+
+  <table class='table table-striped' aria-labelledby="tableLabel">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Cargo</th>
+        <th>E-mail</th>
+        <th>Data de Nascimento</th>
+        <th>Telemóvel</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let funcionario of funcionarios"
+          (click)="onSelectFuncionario(funcionario)"
+          [class.table-primary]="funcionario === selectedFuncionario">
+        <td>{{ funcionario.id }}</td>
+        <td>{{ funcionario.nome }}</td>
+        <td>{{ funcionario.cargo }}</td>
+        <td>{{ funcionario.email }}</td>
+        <td>{{ funcionario.dataNascimento | date:'dd/MM/yyyy' }}</td>
+        <td>{{ funcionario.telemovel }}</td>
+        <td>
+          <a [routerLink]="['/funcionario/detalhes', funcionario.id]" class="btn btn-info">Detalhes</a>
+          <a [routerLink]="['/funcionario/editar', funcionario.id]" class="btn btn-primary">Editar</a>
+          <a [routerLink]="['/funcionario/excluir', funcionario.id]" class="btn btn-danger">Excluir</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="selectedFuncionario">
+  <p><strong>Selecionado:</strong> {{ selectedFuncionario.nome }}</p>
+  <app-funcionario-detalhes [funcionario]="selectedFuncionario"></app-funcionario-detalhes>
+</div>

@@ -14,6 +14,11 @@ import { AuthorizeService } from '../api-authorization/authorize.service';
 import { HomeComponent } from './home/home.component';
 import { ChangepwComponent } from './changepw/changepw.component';
 import { PwrecoveryComponent } from './pwrecovery/pwrecovery.component';
+import { FuncionarioComponent } from './funcionario/funcionario.component';
+import { FuncionarioCreateComponent } from './funcionario-create/funcionario-create.component';
+import { FuncionarioDeleteComponent } from './funcionario-delete/funcionario-delete.component';
+import { FuncionarioEditComponent } from './funcionario-edit/funcionario-edit.component';
+import { FuncionarioDetailsComponent } from './funcionario-details/funcionario-details.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +27,12 @@ import { PwrecoveryComponent } from './pwrecovery/pwrecovery.component';
     RegistarComponent,
     ChangepwComponent,
     PwrecoveryComponent,
-    HomeComponent
+    HomeComponent,
+    FuncionarioComponent,
+    FuncionarioCreateComponent,
+    FuncionarioDeleteComponent,
+    FuncionarioEditComponent,
+    FuncionarioDetailsComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
