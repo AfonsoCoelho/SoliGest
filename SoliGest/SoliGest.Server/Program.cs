@@ -31,8 +31,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 builder.Services.AddTransient<IEmailService, SendGridEmailService>();
-builder.Services.AddIdentityApiEndpoints<User>()
-    .AddEntityFrameworkStores<SoliGestServerContext>();
+builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<SoliGestServerContext>();
+builder.Services.AddIdentityApiEndpoints<User>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

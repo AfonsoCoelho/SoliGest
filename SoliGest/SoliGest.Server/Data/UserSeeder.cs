@@ -12,19 +12,21 @@ namespace SoliGest.Server.Data
                 User user = new User
                 {
                     Email = "soligestesa@gmail.com",
-                    Name = "SoliGest Admin"
+                    Name = "SoliGest Admin",
+                    UserName = "soligestesa@gmail.com"
                 };
 
                 await userManager.CreateAsync(user, "Admin1!");
-                await userManager.AddToRoleAsync(user, "Admin");
+                await userManager.AddToRoleAsync(user, "Supervisor");
             }
 
             if (userManager.FindByEmailAsync("administrative@mail.com").Result == null)
             {
                 User user = new User
                 {
-                    Email = "administrative@gmail.com",
-                    Name = "SoliGest Administrative"
+                    Email = "administrative@mail.com",
+                    Name = "SoliGest Administrative",
+                    UserName = "administrative@mail.com"
                 };
 
                 await userManager.CreateAsync(user, "Admin1!");
@@ -36,7 +38,8 @@ namespace SoliGest.Server.Data
                 User user = new User
                 {
                     Email = "technician@mail.com",
-                    Name = "SoliGest Technician"
+                    Name = "SoliGest Technician",
+                    UserName = "technician@mail.com"
                 };
 
                 await userManager.CreateAsync(user, "Tech1!");
