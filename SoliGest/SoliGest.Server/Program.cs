@@ -13,9 +13,13 @@ builder.Services.AddDbContext<SoliGestServerContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SoliGestServerContext") ?? throw new InvalidOperationException("Connection string 'SoliGestServerContext' not found.")));
 
 // Add services to the container.
+builder.Services.AddIdentityCore<User>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<SoliGestServerContext>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+builder.Services.Configure<JwtBearerOptions>(
+    IdentityConstants.BearerScheme,
+    options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -29,10 +33,27 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//    .AddJwtBearer(options =>
+//    {
+//        options.TokenValidationParameters = new TokenValidationParameters
+//        {
+//            ValidateIssuer = true,
+//            ValidateAudience = true,
+//            ValidateLifetime = true,
+//            ValidateIssuerSigningKey = true,
+//            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+//            ValidAudience = builder.Configuration["Jwt:Audience"],
+//            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+//        };
+//    });
+
 builder.Services.AddAuthorization();
 builder.Services.AddTransient<IEmailService, SendGridEmailService>();
-builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<SoliGestServerContext>();
+
 builder.Services.AddIdentityApiEndpoints<User>();
+
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
