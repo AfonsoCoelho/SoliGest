@@ -27,7 +27,7 @@ namespace SoliGestTest
 
             _mockEmailService = new Mock<IEmailService>();
             _mockConfiguration = new Mock<IConfiguration>();
-            _mockContext = new Mock<SoliGestServerContext>(new DbContextOptionsBuilder());
+            _mockContext = new Mock<SoliGestServerContext>(new DbContextOptionsBuilder<SoliGestServerContext>().Options);
 
             _controller = new UsersController(
                 _mockUserManager.Object,
