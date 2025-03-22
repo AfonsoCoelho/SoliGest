@@ -222,6 +222,13 @@ namespace SoliGest.Server.Controllers
 
             return CreatedAtAction("GetPerson", new { id = user.Id }, user);
         }
+
+        // GET: api/People
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<User>>> GetPerson()
+        {
+            return await _context.Users.ToListAsync();
+        }
     }
 
     public class UserLoginModel
