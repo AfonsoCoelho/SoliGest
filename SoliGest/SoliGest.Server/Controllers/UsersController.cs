@@ -148,38 +148,39 @@ namespace SoliGest.Server.Controllers
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutPerson(int id, User user)
-        //{
-        //    if (!id.Equals(user.Id))
-        //    {
-        //        return BadRequest();
-        //    }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutPerson(string id, User user)
+        {
+            if (!id.Equals(user.Id))
+            {
+                return BadRequest();
+            }
 
-        //    _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(user).State = EntityState.Modified;
 
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!PersonExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-        //    return NoContent();
-        //}
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    Console.WriteLine("Erro");
+                    throw;
+                }
+            }
+            return NoContent();
+        }
 
-        //private bool UserExists(string id)
-        //{
-        //    return _context.Person.Any(e => e.Id.Equals(id));
-        //}
+        private bool UserExists(string id)
+        {
+            return _context.Users.Any(e => e.Id.Equals(id));
+        }
     }
 
     public class UserLoginModel
