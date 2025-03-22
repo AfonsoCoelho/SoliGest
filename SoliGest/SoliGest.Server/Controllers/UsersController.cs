@@ -181,6 +181,20 @@ namespace SoliGest.Server.Controllers
         {
             return _context.Users.Any(e => e.Id.Equals(id));
         }
+
+        // GET: api/People/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetPerson(string id)
+        {
+            var person = await _context.Users.FindAsync(id);
+
+            if (person == null)
+            {
+                return NotFound();
+            }
+
+            return person;
+        }
     }
 
     public class UserLoginModel
