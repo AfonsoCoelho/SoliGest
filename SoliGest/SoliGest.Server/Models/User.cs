@@ -13,5 +13,8 @@ namespace SoliGest.Server.Models
         [Required(ErrorMessage = "A data de nascimento é obrigatória.")]
         [Display(Name = "Data de nascimento")]
         public DateOnly BirthDate { get; set; }
+
+        [Display(Name = "Dia de folga.")]
+        public WeekDaysEnum DayOff { get; set; }
     }
 }
