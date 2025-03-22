@@ -18,6 +18,6 @@ namespace SoliGest.Server.Data
         public DbSet<SoliGest.Server.Models.SolarPanel> SolarPanel { get; set; } = default!;
         public DbSet<SoliGest.Server.Models.Address> Address { get; set; } = default!;
         public DbSet<SoliGest.Server.Models.AssistanceRequest> AssistanceRequest { get; set; } = default!;
-        public DbSet<SoliGest.Server.Models.User> User { get; set; } = default!;
+        //public DbSet<SoliGest.Server.Models.User> User { get; set; } = default!;
     }
 }
