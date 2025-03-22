@@ -211,6 +211,17 @@ namespace SoliGest.Server.Controllers
 
             return NoContent();
         }
+
+        // POST: api/People
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<User>> PostPerson(User user)
+        {
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetPerson", new { id = user.Id }, user);
+        }
     }
 
     public class UserLoginModel
