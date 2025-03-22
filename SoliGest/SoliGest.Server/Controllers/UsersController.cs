@@ -18,6 +18,7 @@ using System.Text;
 
 namespace SoliGest.Server.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -34,7 +35,7 @@ namespace SoliGest.Server.Controllers
             _context = context;
         }
 
-        [HttpPost("api/signup")]
+        [HttpPost("signup")]
         public async Task<IActionResult> Register([FromBody] UserRegistrationModel model)
         {
             var userExists = await _userManager.FindByEmailAsync(model.Email);
@@ -53,7 +54,7 @@ namespace SoliGest.Server.Controllers
             return BadRequest(result.Errors);
         }
 
-        [HttpPost("api/signin")]
+        [HttpPost("signin")]
         public async Task<IActionResult> Login([FromBody] UserLoginModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
@@ -96,7 +97,7 @@ namespace SoliGest.Server.Controllers
             });
         }
 
-        [HttpPost("api/reset-password")]
+        [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] UserResetPasswordModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
@@ -114,7 +115,7 @@ namespace SoliGest.Server.Controllers
             return BadRequest(result.Errors);
         }
 
-        [HttpPost("api/forgot-password")]
+        [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordModel model)
         {
             try
@@ -145,7 +146,7 @@ namespace SoliGest.Server.Controllers
             }
         }
 
-        // PUT: api/People/5
+        // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         //[HttpPut("{id}")]
         //public async Task<IActionResult> PutPerson(int id, User user)
