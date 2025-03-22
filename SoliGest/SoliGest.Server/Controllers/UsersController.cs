@@ -195,6 +195,22 @@ namespace SoliGest.Server.Controllers
 
             return person;
         }
+
+        // DELETE: api/People/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePerson(string id)
+        {
+            var person = await _context.Users.FindAsync(id);
+            if (person == null)
+            {
+                return NotFound();
+            }
+
+            _context.Users.Remove(person);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 
     public class UserLoginModel
