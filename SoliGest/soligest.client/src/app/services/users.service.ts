@@ -33,5 +33,8 @@ export class UsersService {
 export interface User {
   id: string;
   name: string;
-  age: number;
+  birthDate: undefined;
+  role: string;
+  email: string;
+  phoneNumber: number;
 }
