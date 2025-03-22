@@ -5,84 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tabela - SoliGest</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap">
-  <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background-color: #f4f4f4;
-    }
-
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      background-color: #37AFE1;
-      color: black;
-      padding: 15px 20px;
-      width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-    }
-
-    .header-logo {
-      width: 40px;
-      height: auto;
-      margin-right: 10px;
-    }
-
-    .header-title {
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .table-container {
-      margin-top: 80px;
-      width: 80%;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: left;
-    }
-
-    th {
-      background-color: #FFC300;
-      color: black;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-
-    .select-cell {
-      text-align: center;
-    }
-
-    footer {
-      text-align: center;
-      background-color: #37AFE1;
-      color: black;
-      padding: 15px;
-      width: 100%;
-      margin-top: 20px;
-    }
-  </style>
 </head>
 <body>
 
@@ -106,36 +28,30 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngFor="let user of users"
+            (click)="onSelectUser(user)"
+            [class.table-primary]="user === selectedUser">
           <td class="select-cell"><input type="checkbox"></td>
-          <td>1</td>
-          <td>João Silva</td>
-          <td>Administrador</td>
-          <td>joao&#64;email.com</td>
-          <td>15/03/1985</td>
-          <td>912345678</td>
-        </tr>
-        <tr>
-          <td class="select-cell"><input type="checkbox"></td>
-          <td>2</td>
-          <td>Maria Souza</td>
-          <td>Gestora</td>
-          <td>maria&#64;email.com</td>
-          <td>22/07/1990</td>
-          <td>923456789</td>
-        </tr>
-        <tr>
-          <td class="select-cell"><input type="checkbox"></td>
-          <td>3</td>
-          <td>Carlos Oliveira</td>
-          <td>Técnico</td>
-          <td>carlos&#64;email.com</td>
-          <td>05/11/1988</td>
-          <td>934567890</td>
+          <td [textContent]="user.id"></td>
+          <td>{{ user.name }}</td>
+          <td>Role</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.birthDate }}</td>
+          <td>{{ user.phoneNumber }}</td>
         </tr>
       </tbody>
     </table>
   </div>
+
+  <!--<div *ngIf="selectedUser">
+    <p style="display:inline">Selected: {{selectedUser.name}} </p>
+    <img style="display:inline" [src]="imagepath" *ngIf="selectedUser.birthDate >= 18" class="img-responsive" />
+  </div>-->
+
+  <!--<div *ngIf="selectedUser">
+    <app-user [user]="selectedUser"></app-user>
+  </div>-->
+
 
   <footer>
     <p>Sistema de assistência a painéis solares</p>
