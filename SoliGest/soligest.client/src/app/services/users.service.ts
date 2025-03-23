@@ -33,8 +33,12 @@ export class UsersService {
 export interface User {
   id: string;
   name: string;
+  address1: string;
+  address2: string;
   birthDate: undefined;
   role: string;
   email: string;
   phoneNumber: number;
+  folgasMes: Date[];
+  feriasAno: { inicio: Date, fim: Date }[];
 }
