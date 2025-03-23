@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { User, UsersService } from '../services/users.service';
 
+
 @Component({
   selector: 'app-funcionario',
   standalone: false,
