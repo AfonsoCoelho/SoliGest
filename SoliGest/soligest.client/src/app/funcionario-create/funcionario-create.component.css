@@ -2,8 +2,7 @@ body {
   font-family: 'Roboto', sans-serif;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh; /* Usamos min-height em vez de height */
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -35,8 +34,9 @@ body {
 
 .container {
   display: flex;
-  flex: 1;
-  margin-top: 60px;
+  flex: 1; /* Ocupa o espaço restante */
+  margin-top: 60px; /* Compensa o header fixo */
+  padding-bottom: 20px; /* Adiciona espaço para o footer */
 }
 
 .left-section {
@@ -125,6 +125,8 @@ footer {
   color: black;
   padding: 15px;
   width: 100%;
+  position: relative; /* Remove position: fixed se estiver presente */
+  bottom: 0;
 }
 
   footer p,

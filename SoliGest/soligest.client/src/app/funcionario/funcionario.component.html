@@ -13,11 +13,6 @@
     <h1 class="header-title">SoliGest</h1>
   </header>
 
-  <!-- Botão de Criar -->
-  <div class="create-button-container">
-    <button class="create-button" routerLink="/funcionario-create">Criar Novo Utilizador</button>
-  </div>
-
   <div class="table-container">
     <h2>Lista de Utilizadores Ativos</h2>
     <table>
@@ -48,7 +43,7 @@
           <td>{{ user.birthDate }}</td>
           <td>{{ user.phoneNumber }}</td>
           <td>
-            <!-- Botões de Ação (sempre visíveis, mas desabilitados se o usuário não estiver selecionado) -->
+            <!-- Botões de Ação -->
             <button (click)="onEdit(user)"
                     [disabled]="!isSelected(user)">
               Editar
@@ -57,7 +52,14 @@
                     [disabled]="!isSelected(user)">
               Detalhes
             </button>
-            <button (click)="onDelete(user)">Apagar</button>
+            <button (click)="onDelete(user)"
+                    [disabled]="!isSelected(user)">Apagar
+            </button>
+            <button routerLink="/funcionario-create"
+                    [disabled]="!isSelected(user)">
+              <!-- Desabilita se nenhum utilizador estiver selecionado -->
+              Adicionar
+            </button>
           </td>
         </tr>
       </tbody>

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UsersService, User } from '../services/users.service'; // Importe o serviço e a interface User
 
 @Component({
   selector: 'app-funcionario-create',
@@ -9,44 +8,57 @@ import { UsersService, User } from '../services/users.service'; // Importe o ser
   standalone: false
 })
 export class FuncionarioCreateComponent {
-  // Objeto para armazenar os dados do formulário
-  user: User = {
-    id: '',
-    name: '',
-    //address1: '',
-    //address2: '',
-    email: '',
-    birthDate: undefined,
-    //password: '',
-    //confirmPassword: '',
-    role: '',
-    phoneNumber: 0 // Adicione outros campos conforme necessário
+  user: any = {
+    role: '' // Cargo do utilizador
   };
 
-  constructor(
-    private usersService: UsersService, // Injete o serviço
-    private router: Router // Injete o Router para navegação
-  ) { }
+  folgaDia: Date | null = null; // Dia de folga selecionado
+  folgasMes: Date[] = []; // Lista de dias de folga do mês
+
+  feriasInicio: Date | null = null; // Data de início das férias
+  feriasAno: { inicio: Date, fim: Date }[] = []; // Lista de períodos de férias
+
+  constructor(private router: Router) { }
+
+  // Adiciona um dia de folga à lista
+  adicionarFolga() {
+    if (this.folgaDia && this.folgasMes.length < 5) {
+      this.folgasMes.push(this.folgaDia);
+      this.folgaDia = null; // Limpa o campo após adicionar
+    }
+  }
+
+  // Limpa a lista de dias de folga
+  limparFolgas() {
+    this.folgasMes = [];
+  }
+
+  // Adiciona um período de férias à lista
+  adicionarFerias() {
+    if (this.feriasInicio && this.feriasAno.length < 2) {
+      const inicio = new Date(this.feriasInicio);
+      const fim = new Date(inicio);
+      fim.setDate(fim.getDate() + 13); // Adiciona 13 dias para totalizar 2 semanas
+      this.feriasAno.push({ inicio, fim });
+      this.feriasInicio = null; // Limpa o campo após adicionar
+    }
+  }
+
+  // Limpa a lista de períodos de férias
+  limparFerias() {
+    this.feriasAno = [];
+  }
 
   // Método chamado ao submeter o formulário
-  /*
   onSubmit() {
-    if (this.user.password !== this.user.confirmPassword) {
-      alert('As passwords não coincidem!');
-      return;
-    } 
+    const userData = {
+      ...this.user,
+      folgasMes: this.folgasMes,
+      feriasAno: this.feriasAno
+    };
 
-    
-    // Chama o serviço para criar o utilizador
-    this.usersService.createUser(this.user).subscribe(
-      (response) => {
-        console.log('Utilizador criado com sucesso:', response);
-        this.router.navigate(['/funcionarios']); // Redireciona para a lista de utilizadores
-      },
-      (error) => {
-        console.error('Erro ao criar utilizador:', error);
-      }
-    );
+    console.log('Dados do utilizador:', userData);
+    // Aqui você pode enviar os dados para o backend ou realizar outras ações
+    this.router.navigate(['/funcionarios']); // Redireciona para a lista de utilizadores
   }
-  */
 }
