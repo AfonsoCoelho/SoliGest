@@ -9,6 +9,7 @@ import { CanActivate } from '@angular/router';
 import { PwrecoveryComponent } from './pwrecovery/pwrecovery.component';
 import { ChangepwComponent } from './changepw/changepw.component';
 import { FuncionarioComponent } from './funcionario/funcionario.component';
+import { FuncionarioCreateComponent } from './funcionario-create/funcionario-create.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, // A raiz agora carrega a página de registar
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'pwrecovery', component: PwrecoveryComponent },
   { path: 'changepw', component: ChangepwComponent },
   { path: 'funcionario', component: FuncionarioComponent },
+  { path: 'funcionario-create', component: FuncionarioCreateComponent },
 
   { path: '**', redirectTo: '' } // Qualquer rota inválida vai para registar
 ];
