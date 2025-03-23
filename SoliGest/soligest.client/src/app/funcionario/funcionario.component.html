@@ -13,6 +13,11 @@
     <h1 class="header-title">SoliGest</h1>
   </header>
 
+  <!-- Botão de Criar -->
+  <div class="create-button-container">
+    <button class="create-button" (click)="onCreate()">Criar Novo Utilizador</button>
+  </div>
+
   <div class="table-container">
     <h2>Lista de Utilizadores Ativos</h2>
     <table>
@@ -25,33 +30,39 @@
           <th>Email</th>
           <th>Data de Nascimento</th>
           <th>Telemóvel</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let user of users"
-            (click)="onSelectUser(user)"
-            [class.table-primary]="user === selectedUser">
-          <td class="select-cell"><input type="checkbox"></td>
-          <td [textContent]="user.id"></td>
+            [class.table-primary]="isSelected(user)">
+          <td class="select-cell">
+            <input type="checkbox"
+                   [checked]="isSelected(user)"
+                   (change)="onSelectUser(user, $event)">
+          </td>
+          <td>{{ user.id }}</td>
           <td>{{ user.name }}</td>
-          <td>Role</td>
+          <td>{{ user.role }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.birthDate }}</td>
           <td>{{ user.phoneNumber }}</td>
+          <td>
+            <!-- Botões de Ação (sempre visíveis, mas desabilitados se o usuário não estiver selecionado) -->
+            <button (click)="onEdit(user)"
+                    [disabled]="!isSelected(user)">
+              Editar
+            </button>
+            <button (click)="onDetails(user)"
+                    [disabled]="!isSelected(user)">
+              Detalhes
+            </button>
+            <button (click)="onDelete(user)">Apagar</button>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
-
-  <!--<div *ngIf="selectedUser">
-    <p style="display:inline">Selected: {{selectedUser.name}} </p>
-    <img style="display:inline" [src]="imagepath" *ngIf="selectedUser.birthDate >= 18" class="img-responsive" />
-  </div>-->
-
-  <!--<div *ngIf="selectedUser">
-    <app-user [user]="selectedUser"></app-user>
-  </div>-->
-
 
   <footer>
     <p>Sistema de assistência a painéis solares</p>
