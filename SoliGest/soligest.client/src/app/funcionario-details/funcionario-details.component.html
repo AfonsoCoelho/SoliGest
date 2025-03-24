@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do Utilizador - SoliGest</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap">
+</head>
+<body>
+  <header class="header">
+    <img src="/logo.jpg" alt="SoliGest Logo" class="header-logo">
+    <h1 class="header-title">Detalhes do Utilizador</h1>
+  </header>
+
+  <div class="details-container" *ngIf="user">
+    <h2>Informações do Utilizador</h2>
+    <table>
+      <tr>
+        <th>ID</th>
+        <td>{{ user.id }}</td>
+      </tr>
+      <tr>
+        <th>Nome</th>
+        <td>{{ user.name }}</td>
+      </tr>
+      <tr>
+        <th>Cargo</th>
+        <td>{{ user.role }}</td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td>{{ user.email }}</td>
+      </tr>
+      <tr>
+        <th>Data de Nascimento</th>
+        <td>{{ user.birthDate !== undefined ? (user.birthDate | date:'dd/MM/yyyy') : 'Não informado' }}</td>
+      </tr>
+      <tr>
+        <th>Telemóvel</th>
+        <td>{{ user.phoneNumber }}</td>
+      </tr>
+      <tr>
+        <th>Período de Férias</th>
+        <td>
+          <ng-container *ngIf="user?.feriasAno && user.feriasAno.length > 0; else noFerias">
+            <span *ngFor="let periodo of user.feriasAno">
+              {{ periodo.inicio | date:'dd/MM/yyyy' }} - {{ periodo.fim | date:'dd/MM/yyyy' }}
+              <br>
+            </span>
+          </ng-container>
+          <ng-template #noFerias>Sem férias registradas</ng-template>
+        </td>
+      </tr>
+
+      <tr>
+        <th>Dias de Folga</th>
+        <td>
+          <ng-container *ngIf="user?.folgasMes && user.folgasMes.length > 0; else noFolgas">
+            <span *ngFor="let folga of user.folgasMes">
+              {{ folga | date:'dd/MM/yyyy' }}
+              <br>
+            </span>
+          </ng-container>
+          <ng-template #noFolgas>Sem folgas registradas</ng-template>
+        </td>
+      </tr>
+    </table>
+
+    <div class="button-container">
+      <button [routerLink]="'/funcionario'">Voltar</button>
+      <button (click)="onEdit()">Editar</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>Sistema de assistência a painéis solares</p>
+    <a href="#">Ajuda (?)</a> | <a href="#">Criadores</a>
+  </footer>
+</body>
+</html>

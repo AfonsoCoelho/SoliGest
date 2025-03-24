@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { User, UsersService } from '../services/users.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-funcionario',
@@ -12,7 +13,7 @@ export class FuncionarioComponent {
   selectedUsers: User[] = []; // Lista de usuários selecionados
   imagepath: string = "/assets/img/plus-18.png";
 
-  constructor(private service: UsersService) { }
+  constructor(private service: UsersService, private router: Router) { }
 
   ngOnInit() {
     this.getUsers();
@@ -52,8 +53,8 @@ export class FuncionarioComponent {
 
   // Ação do botão Detalhes
   onDetails(user: User): void {
-    console.log('Detalhes do usuário:', user);
-    // Implemente a lógica de detalhes aqui
+    console.log('Detalhes do usuário:', user); // Debugging output
+    this.router.navigate(['/funcionario-details', user.id]); // Navigate to the details page
   }
 
   // Ação do botão Apagar
