@@ -161,6 +161,7 @@ namespace SoliGest.Server.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                return Ok("Utilizador atualizado com sucesso!");
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -171,10 +172,10 @@ namespace SoliGest.Server.Controllers
                 else
                 {
                     Console.WriteLine("Erro");
+                    return BadRequest();
                     throw;
                 }
             }
-            return NoContent();
         }
 
         private bool UserExists(string id)
@@ -186,41 +187,53 @@ namespace SoliGest.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetPerson(string id)
         {
-            var person = await _context.Users.FindAsync(id);
+            try
+            {
+                var person = await _context.Users.FindAsync(id);
 
-            if (person == null)
+                return person;
+            } 
+            catch
             {
                 return NotFound();
             }
-
-            return person;
         }
 
         // DELETE: api/People/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePerson(string id)
         {
-            var person = await _context.Users.FindAsync(id);
-            if (person == null)
+            try
+            {
+                var person = await _context.Users.FindAsync(id);
+
+                _context.Users.Remove(person);
+                await _context.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch
             {
                 return NotFound();
             }
-
-            _context.Users.Remove(person);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
         // POST: api/People
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostPerson(User user)
+        public async Task<IActionResult> PostPerson(User user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPerson", new { id = user.Id }, user);
+                return CreatedAtAction("GetPerson", new { id = user.Id }, user);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // GET: api/People
