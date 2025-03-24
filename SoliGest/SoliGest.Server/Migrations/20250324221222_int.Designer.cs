@@ -12,8 +12,8 @@ using SoliGest.Server.Data;
 namespace SoliGest.Server.Migrations
 {
     [DbContext(typeof(SoliGestServerContext))]
-    [Migration("20250321170613_init")]
-    partial class init
+    [Migration("20250324221222_int")]
+    partial class @int
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
