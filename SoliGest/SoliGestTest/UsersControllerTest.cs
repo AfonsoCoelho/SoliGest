@@ -167,5 +167,101 @@ namespace SoliGestTest
             Assert.Equal(200, result.StatusCode);
             Assert.Contains("Password changed successfully", result.Value.ToString());
         }
+
+
+
+        //testes sprint 2
+
+        [Fact]
+        public async Task PutPerson_ReturnsBadRequest_WhenIdDoesNotMatch()
+        {
+            var result = await _controller.PutPerson("123", new User { Id = "456" });
+            Assert.IsType<BadRequestResult>(result);
+        }
+
+        [Fact]
+        public async Task GetPerson_ReturnsNotFound_WhenUserDoesNotExist()
+        {
+            _mockUserManager.Setup(m => m.FindByIdAsync("123")).ReturnsAsync((User)null);
+            var result = await _controller.GetPerson("123");
+            Assert.IsType<NotFoundResult>(result.Result);
+        }
+
+        [Fact]
+        public async Task PostPerson_CreatesNewUser()
+        {
+            var user = new User { Id = "123", Name = "John Doe" };
+            _mockUserManager.Setup(m => m.CreateAsync(user)).ReturnsAsync(IdentityResult.Success);
+            var result = await _controller.PostPerson(user);
+            var createdResult = Assert.IsType<CreatedAtActionResult>(result.Result);
+            Assert.Equal("GetPerson", createdResult.ActionName);
+        }
+
+        [Fact]
+        public async Task DeletePerson_ReturnsNotFound_WhenUserDoesNotExist()
+        {
+            _mockUserManager.Setup(m => m.FindByIdAsync("123")).ReturnsAsync((User)null);
+            var result = await _controller.DeletePerson("123");
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async Task PutPerson_UpdatesUser_WhenIdMatches()
+        {
+            var user = new User { Id = "123", Name = "Old Name" };
+            var updatedUser = new User { Id = "123", Name = "New Name" };
+
+            _mockUserManager.Setup(m => m.FindByIdAsync("123")).ReturnsAsync(user);
+            _mockUserManager.Setup(m => m.UpdateAsync(It.IsAny<User>())).ReturnsAsync(IdentityResult.Success);
+
+            var result = await _controller.PutPerson("123", updatedUser);
+
+            Assert.IsType<NoContentResult>(result);
+        }
+
+        [Fact]
+        public async Task GetPerson_ReturnsUser_WhenUserExists()
+        {
+            var user = new User { Id = "123", Name = "John Doe" };
+            _mockUserManager.Setup(m => m.FindByIdAsync("123")).ReturnsAsync(user);
+
+            var result = await _controller.GetPerson("123");
+
+            Assert.NotNull(result);
+            Assert.IsType<ActionResult<User>>(result);
+            Assert.Equal("John Doe", result.Value.Name);
+        }
+
+        [Fact]
+        public async Task PostPerson_ReturnsBadRequest_WhenUserCreationFails()
+        {
+            var user = new User { Id = "123", Name = "John Doe" };
+            _mockUserManager.Setup(m => m.CreateAsync(user)).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "User creation failed." }));
+
+            var result = await _controller.PostPerson(user);
+
+            Assert.IsType<BadRequestObjectResult>(result.Result);
+        }
+
+        [Fact]
+        public async Task DeletePerson_DeletesUser_WhenUserExists()
+        {
+            var user = new User { Id = "123", Name = "John Doe" };
+            _mockUserManager.Setup(m => m.FindByIdAsync("123")).ReturnsAsync(user);
+            _mockUserManager.Setup(m => m.DeleteAsync(user)).ReturnsAsync(IdentityResult.Success);
+
+            var result = await _controller.DeletePerson("123");
+
+            Assert.IsType<NoContentResult>(result);
+        }
+
+
+
+
+
+
+
+
+
     }
 }
