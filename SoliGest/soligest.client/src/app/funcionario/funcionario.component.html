@@ -52,7 +52,7 @@
                     [disabled]="!isSelected(user)">
               Detalhes
             </button>
-            <button (click)="onDelete(user)"
+            <button (click)="onDelete()"
                     [disabled]="!isSelected(user)">
               Apagar
             </button>
@@ -66,6 +66,34 @@
       </tbody>
     </table>
   </div>
+
+  <!-- Modal -->
+  <div class="modal" *ngIf="isModalOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h2>Confirmar Exclusão</h2>
+      <div class="modal-profile">
+        <ng-container *ngFor="let user of selectedUsers">
+          <div class="modal-profile-item">
+            <!-- New wrapper for each user -->
+            <div class="profile-avatar">👤</div>
+            <div class="modal-profile-details">
+              <p><strong>ID:</strong> {{ user.id }}</p>
+              <p><strong>Nome:</strong> {{ user.name }}</p>
+              <p><strong>Cargo:</strong> {{ user.role }}</p>
+            </div>
+          </div>
+          <br> <!-- Add a line break for separation -->
+        </ng-container>
+      </div>
+      <div class="button-container">
+        <button (click)="confirmDelete()">Confirmar</button>
+        <button (click)="closeModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+
 
   <footer>
     <p>Sistema de assistência a painéis solares</p>

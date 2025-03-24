@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class FuncionarioComponent {
   public users: User[] = []; // Lista de usuários
   selectedUsers: User[] = []; // Lista de usuários selecionados
+  isModalOpen: boolean = false; // Controla a exibição do modal
   imagepath: string = "/assets/img/plus-18.png";
 
   constructor(private service: UsersService, private router: Router) { }
@@ -58,14 +59,22 @@ export class FuncionarioComponent {
   }
 
   // Ação do botão Apagar
-  onDelete(user: User): void {
-    console.log('Apagar usuário:', user);
-    // Implemente a lógica de exclusão aqui
+  onDelete(): void {
+    this.isModalOpen = true; // Open the modal
   }
 
   // Ação do botão Criar
   onCreate(): void {
     console.log('Botão Criar clicado');
     // Implemente a lógica para criar um novo usuário aqui
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false; // Close the modal
+    this.selectedUsers = []; // Clear the selected users
+  }
+
+  confirmDelete(): void {
+    //logica pa apagar 1 gajo
   }
 }
