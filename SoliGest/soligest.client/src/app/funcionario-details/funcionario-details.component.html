@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalhes do Utilizador - SoliGest</title>
+  <title>Tabela - SoliGest</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap">
 </head>
 <body>
@@ -13,62 +13,41 @@
   </header>
 
   <div class="details-container" *ngIf="user">
-    <h2>Informações do Utilizador</h2>
-    <table>
-      <tr>
-        <th>ID</th>
-        <td>{{ user.id }}</td>
-      </tr>
-      <tr>
-        <th>Nome</th>
-        <td>{{ user.name }}</td>
-      </tr>
-      <tr>
-        <th>Cargo</th>
-        <td>{{ user.role }}</td>
-      </tr>
-      <tr>
-        <th>Email</th>
-        <td>{{ user.email }}</td>
-      </tr>
-      <tr>
-        <th>Data de Nascimento</th>
-        <td>{{ user.birthDate !== undefined ? (user.birthDate | date:'dd/MM/yyyy') : 'Não informado' }}</td>
-      </tr>
-      <tr>
-        <th>Telemóvel</th>
-        <td>{{ user.phoneNumber }}</td>
-      </tr>
-      <tr>
-        <th>Período de Férias</th>
-        <td>
-          <ng-container *ngIf="user?.feriasAno && user.feriasAno.length > 0; else noFerias">
-            <span *ngFor="let periodo of user.feriasAno">
-              {{ periodo.inicio | date:'dd/MM/yyyy' }} - {{ periodo.fim | date:'dd/MM/yyyy' }}
-              <br>
-            </span>
-          </ng-container>
-          <ng-template #noFerias>Sem férias registradas</ng-template>
-        </td>
-      </tr>
+    <div class="profile-header">Perfil</div>
 
-      <tr>
-        <th>Dias de Folga</th>
-        <td>
-          <ng-container *ngIf="user?.folgasMes && user.folgasMes.length > 0; else noFolgas">
-            <span *ngFor="let folga of user.folgasMes">
-              {{ folga | date:'dd/MM/yyyy' }}
-              <br>
-            </span>
-          </ng-container>
-          <ng-template #noFolgas>Sem folgas registradas</ng-template>
-        </td>
-      </tr>
-    </table>
+    <div class="profile-info">
+      <div class="profile-avatar">👤</div>
+      <div class="profile-details">
+        <p><strong>Nome:</strong> {{ user.name }}</p>
+        <p><strong>ID:</strong> {{ user.id }}</p>
+        <p><strong>Cargo:</strong> {{ user.role }}</p>
+        <p><strong>Telemóvel:</strong> {{ user.phoneNumber }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p>
+          <strong>Data de Nascimento:</strong>
+          {{ user.birthDate !== undefined ? (user.birthDate | date:'dd/MM/yyyy') : 'Não informado' }}
+        </p>
+        <p><strong>Período de Férias:</strong></p>
+        <ng-container *ngIf="user?.feriasAno && user.feriasAno.length > 0; else noFerias">
+          <span *ngFor="let periodo of user.feriasAno">
+            {{ periodo.inicio | date:'dd/MM/yyyy' }} - {{ periodo.fim | date:'dd/MM/yyyy' }} <br>
+          </span>
+        </ng-container>
+        <ng-template #noFerias><p>Sem férias registradas</p></ng-template>
+
+        <p><strong>Dias de Folga:</strong></p>
+        <ng-container *ngIf="user?.folgasMes && user.folgasMes.length > 0; else noFolgas">
+          <span *ngFor="let folga of user.folgasMes">
+            {{ folga | date:'dd/MM/yyyy' }} <br>
+          </span>
+        </ng-container>
+        <ng-template #noFolgas><p>Sem folgas registradas</p></ng-template>
+      </div>
+    </div>
 
     <div class="button-container">
       <button [routerLink]="'/funcionario'">Voltar</button>
-      <button (click)="onEdit()">Editar</button>
+      <button class="edit-button" (click)="onEdit()">Editar Perfil</button>
     </div>
   </div>
 
