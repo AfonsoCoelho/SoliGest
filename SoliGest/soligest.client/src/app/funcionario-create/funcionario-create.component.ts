@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthorizeService } from '../../api-authorization/authorize.service';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-funcionario-create',
@@ -38,7 +39,7 @@ export class FuncionarioCreateComponent implements OnInit {
 
   constructor(private authService: AuthorizeService,
     private formBuilder: FormBuilder,
-    private router: Router) {
+    private router: Router, private usersService: UsersService ) {
       this.signedIn = this.authService.isSignedIn();
   }
     ngOnInit(): void {
@@ -138,17 +139,34 @@ export class FuncionarioCreateComponent implements OnInit {
 
   onSubmit() {
     if (this.formValido()) {
-      const userData = {
-        ...this.user,
-        folgasMes: this.folgasMes,
-        feriasAno: this.feriasAno
-      };
-      
-      console.log('Dados do utilizador:', userData);
-      // Aqui você enviaria os dados para o backend
-      this.router.navigate(['/funcionarios']);
+
+
+      this.authService.register(this.user.name, this.user.email, this.user.password).subscribe(
+        (response) => {
+          console.log('Utilizador criado com sucesso:', response);
+
+          this.usersService.saveDaysOff(this.user.id, this.folgasMes).subscribe(
+            (respFolgas) => {
+              console.log('Folgas salvas', respFolgas);
+
+              this.usersService.saveHolidays(this.user.id, this.feriasAno).subscribe(
+                (respFerias) => {
+                  console.log('Férias salvas', respFerias);
+
+                  this.router.navigate(['/funcionarios']);
+                },
+                (error) => console.error('Erro ao salvar ferias:', error)
+              );
+            },
+            (error) => console.error('Erro ao salvar folgas:', error)
+          );
+        },
+        (error) => console.error('Erro ao criar user:', error)
+      );
     }
-  }
+      this.router.navigate(['/funcionarios']);
+   }
+  
 
   public register(): void {
     if (!this.funcionarioCreateForm.valid) {
