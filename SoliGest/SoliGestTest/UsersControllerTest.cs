@@ -190,21 +190,22 @@ namespace SoliGestTest
         [Fact]
         public async Task PostPerson_CreatesNewUser()
         {
-            //var model = new UserRegistrationModel { Email = "newuser@test.com", Password = "Password123" };
-            //_mockUserManager.Setup(um => um.FindByEmailAsync(model.Email)).ReturnsAsync((User)null);
-            //_mockUserManager.Setup(um => um.CreateAsync(It.IsAny<User>(), model.Password)).ReturnsAsync(IdentityResult.Success);
+            var user = new User { Id = "123", Name = "John Doe" };
 
-            //var result = await _controller.Register(model);
+            var mockDbSet = new Mock<DbSet<User>>();
 
-            //Assert.IsType<OkObjectResult>(result);
+            mockDbSet.Setup(m => m.FindAsync("123")).ReturnsAsync(user);
 
+            _mockContext.Setup(m => m.Users).Returns(mockDbSet.Object);
+            _mockContext.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
-            var user = new User { Id = "123", Name = "John Doe", ConcurrencyStamp = "string", SecurityStamp = "string" };
-            _mockUserManager.Setup(um => um.FindByIdAsync(user.Id)).ReturnsAsync((User)null);
             _mockUserManager.Setup(um => um.CreateAsync(It.IsAny<User>())).ReturnsAsync(IdentityResult.Success);
+
             var result = await _controller.PostPerson(user);
+
             var createdResult = Assert.IsType<CreatedAtActionResult>(result);
-            //Assert.Equal("GetPerson", createdResult.ActionName);
+
+            Assert.Equal("GetPerson", createdResult.ActionName);
         }
 
         [Fact]
@@ -229,11 +230,16 @@ namespace SoliGestTest
             Assert.IsType<NoContentResult>(result);
         }
 
+
         [Fact]
         public async Task GetPerson_ReturnsUser_WhenUserExists()
         {
             var user = new User { Id = "123", Name = "John Doe" };
-            _mockUserManager.Setup(m => m.FindByIdAsync("123")).ReturnsAsync(user);
+            var mockDbSet = new Mock<DbSet<User>>();
+
+            mockDbSet.Setup(m => m.FindAsync("123")).ReturnsAsync(user);
+            _mockContext.Setup(m => m.Users).Returns(mockDbSet.Object);
+            _mockContext.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             var result = await _controller.GetPerson("123");
 
@@ -257,12 +263,15 @@ namespace SoliGestTest
         public async Task DeletePerson_DeletesUser_WhenUserExists()
         {
             var user = new User { Id = "123", Name = "John Doe" };
-            _mockUserManager.Setup(m => m.FindByIdAsync("123")).ReturnsAsync(user);
-            _mockUserManager.Setup(m => m.DeleteAsync(user)).ReturnsAsync(IdentityResult.Success);
+            var mockDbSet = new Mock<DbSet<User>>();
+
+            mockDbSet.Setup(m => m.FindAsync("123")).ReturnsAsync(user);
+            _mockContext.Setup(m => m.Users).Returns(mockDbSet.Object);
+            _mockContext.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             var result = await _controller.DeletePerson("123");
 
-            Assert.IsType<NoContentResult>(result);
+            Assert.IsType<OkResult>(result);
         }
     }
 }
