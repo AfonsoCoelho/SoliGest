@@ -1,0 +1,143 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Usamos min-height em vez de height */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.registar-header {
+  display: flex;
+  align-items: center;
+  background-color: #37AFE1;
+  color: black;
+  padding: 15px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.header-logo {
+  width: 40px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.container {
+  display: flex;
+  flex: 1; /* Ocupa o espaço restante */
+  margin-top: 60px; /* Compensa o header fixo */
+  padding-bottom: 20px; /* Adiciona espaço para o footer */
+}
+
+.left-section {
+  width: 40%;
+  background: linear-gradient(to bottom, #d1d1d1, #ffffff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+  .left-section img {
+    max-width: 80%;
+  }
+
+.right-section {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 500px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+  .form-container h2 {
+    background-color: #37AFE1;
+    color: black;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+  .form-group label {
+    background-color: #FFC300;
+    padding: 10px;
+    width: 150px;
+    text-align: right;
+    font-weight: bold;
+    margin-right: 10px;
+    border-radius: 5px;
+  }
+
+  .form-group input,
+  .form-group select {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+.submit-btn {
+  background-color: #FFC300;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  display: block;
+  margin: 20px auto;
+  border-radius: 5px;
+}
+
+  .submit-btn:hover {
+    background-color: #ffb300;
+  }
+
+footer {
+  text-align: center;
+  background-color: #37AFE1;
+  color: black;
+  padding: 15px;
+  width: 100%;
+  position: relative; /* Remove position: fixed se estiver presente */
+  bottom: 0;
+}
+
+  footer p,
+  footer a {
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+  }
+
+.error-feedback {
+  color: red;
+  display: inline-block;
+  width: fit-content;
+}
