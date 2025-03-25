@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SoliGest.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class SoliGest : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -198,6 +198,47 @@ namespace SoliGest.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DaysOff",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Day = table.Column<DateOnly>(type: "date", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DaysOff", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DaysOff_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Holidays",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HolidayStart = table.Column<DateOnly>(type: "date", nullable: false),
+                    HolidayEnd = table.Column<DateOnly>(type: "date", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Holidays", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Holidays_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AssistanceRequest",
                 columns: table => new
                 {
@@ -263,6 +304,16 @@ namespace SoliGest.Server.Migrations
                 column: "SolarPanelId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DaysOff_UserId",
+                table: "DaysOff",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Holidays_UserId",
+                table: "Holidays",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SolarPanel_AddressId",
                 table: "SolarPanel",
                 column: "AddressId");
@@ -290,13 +341,19 @@ namespace SoliGest.Server.Migrations
                 name: "AssistanceRequest");
 
             migrationBuilder.DropTable(
+                name: "DaysOff");
+
+            migrationBuilder.DropTable(
+                name: "Holidays");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "SolarPanel");
 
             migrationBuilder.DropTable(
-                name: "SolarPanel");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Address");

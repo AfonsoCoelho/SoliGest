@@ -19,7 +19,7 @@ export class FuncionarioEditComponent implements OnInit {
     birthDate: undefined, // Data de Nascimento
     role: '',
     folgasMes: [],
-   feriasAno: []
+    feriasAno: []
   };
 
   folgaDia: Date | null = null; // Dia de folga selecionado
@@ -98,11 +98,24 @@ export class FuncionarioEditComponent implements OnInit {
     this.usersService.updateUser(userData).subscribe(
       (response) => {
         console.log('Utilizador atualizado com sucesso:', response);
-        this.router.navigate(['/funcionarios']); // Redireciona para a lista de utilizadores
+
+        this.usersService.saveDaysOff(this.user.id, this.folgasMes).subscribe(
+          (respFolgas) => {
+            console.log('Folgas salvas', respFolgas);
+
+            this.usersService.saveHolidays(this.user.id, this.feriasAno).subscribe(
+              (respFerias) => {
+                console.log('Férias salvas', respFerias);
+
+                this.router.navigate(['/funcionarios']);
+              },
+              (error) => console.error('Erro ao salvar ferias:', error)
+            );
+          },
+          (error) => console.error('Erro ao salvar folgas:', error)
+        );
       },
-      (error) => {
-        console.error('Erro ao atualizar utilizador:', error);
-      }
+      (error) => console.error('Erro ao atualizar user:', error)
     );
   }
 }

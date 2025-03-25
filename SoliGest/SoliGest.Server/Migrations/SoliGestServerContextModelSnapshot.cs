@@ -216,6 +216,53 @@ namespace SoliGest.Server.Migrations
                     b.ToTable("AssistanceRequest");
                 });
 
+            modelBuilder.Entity("SoliGest.Server.Models.DayOff", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("Day")
+                        .HasColumnType("date");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("DaysOff");
+                });
+
+            modelBuilder.Entity("SoliGest.Server.Models.Holidays", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("HolidayEnd")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("HolidayStart")
+                        .HasColumnType("date");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Holidays");
+                });
+
             modelBuilder.Entity("SoliGest.Server.Models.SolarPanel", b =>
                 {
                     b.Property<int>("Id")
@@ -375,6 +422,24 @@ namespace SoliGest.Server.Migrations
                     b.Navigation("SolarPanel");
                 });
 
+            modelBuilder.Entity("SoliGest.Server.Models.DayOff", b =>
+                {
+                    b.HasOne("SoliGest.Server.Models.User", null)
+                        .WithMany("MonthlyDaysOff")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SoliGest.Server.Models.Holidays", b =>
+                {
+                    b.HasOne("SoliGest.Server.Models.User", null)
+                        .WithMany("YearHolidays")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("SoliGest.Server.Models.SolarPanel", b =>
                 {
                     b.HasOne("SoliGest.Server.Models.Address", "Address")
@@ -384,6 +449,13 @@ namespace SoliGest.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("SoliGest.Server.Models.User", b =>
+                {
+                    b.Navigation("MonthlyDaysOff");
+
+                    b.Navigation("YearHolidays");
                 });
 #pragma warning restore 612, 618
         }

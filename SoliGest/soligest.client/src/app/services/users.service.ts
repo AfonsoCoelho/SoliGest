@@ -28,6 +28,14 @@ export class UsersService {
   deleteUser(id: string): Observable<User> {
     return this.http.delete<User>('api/Users/' + id);
   }
+
+  saveDaysOff(userId: string, dates: Date[]): Observable<any> {
+    return this.http.post(`api/daysOff/${userId}`, dates);
+  }
+
+  saveHolidays(userId: string, holidays: { inicio: Date; fim: Date }[]): Observable<any> {
+    return this.http.post(`api/holidays/${userId}`, holidays);
+  }
 }
 
 export interface User {
