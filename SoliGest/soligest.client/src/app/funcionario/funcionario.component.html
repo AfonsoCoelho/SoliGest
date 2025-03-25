@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tabela - SoliGest</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap">
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 </head>
 <body>
 
@@ -18,8 +14,6 @@
   </header>
 
   <div class="table-container">
-<<<<<<< Updated upstream
-=======
     <!-- Botão de Adicionar movido para cima -->
     <div class="add-button-container">
       <button class="add-button" routerLink="/funcionario-create">
@@ -31,9 +25,6 @@
       Apagar selecionados
       </button>
     </div>
-
-
->>>>>>> Stashed changes
     <h2>Lista de Utilizadores Ativos</h2>
     <table>
       <thead>
@@ -75,11 +66,6 @@
             <button (click)="onDelete()"
                     [disabled]="!isSelected(user)">
               Apagar
-            </button>
-            <button routerLink="/funcionario-create"
-                    [disabled]="!isSelected(user)">
-              <!-- Desabilita se nenhum utilizador estiver selecionado -->
-              Adicionar
             </button>
           </td>
         </tr>
