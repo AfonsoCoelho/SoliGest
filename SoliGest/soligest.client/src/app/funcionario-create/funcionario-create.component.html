@@ -24,26 +24,25 @@
           <div class="form-grid">
             <!-- Nome Completo -->
             <div class="form-group full-width">
-              <label for="nome">Nome Completo</label>
-              <input type="text" id="nome" name="nome" [(ngModel)]="user.name" required>
-
-
-              <div class="error-feedback" *ngIf="registerForm.get('name')?.hasError('required') && registerForm.get('name')?.touched">
+              <label for="name">Nome Completo</label>
+              <!--<input type="text" id="nome" name="nome" [(ngModel)]="user.name" required>-->
+              <input type="text" id="name" name="name" formControlName="name" autocomplete="on">
+              <div class="error-feedback" *ngIf="funcionarioCreateForm.get('name')?.hasError('required') && funcionarioCreateForm.get('name')?.touched">
                 Por favor introduza o seu nome.
               </div>
-
             </div>
 
             <!-- Email -->
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" id="email" name="email" [(ngModel)]="user.email" required>
+              <!--<input type="email" id="email" name="email" [(ngModel)]="user.email" required>-->
+              <input type="email" id="email" name="email" formControlName="email" autocomplete="on">
 
 
-              <div class="error-feedback" *ngIf="registerForm.get('email')?.hasError('required') && registerForm.get('email')?.touched">
+              <div class="error-feedback" *ngIf="funcionarioCreateForm.get('email')?.hasError('required') && funcionarioCreateForm.get('email')?.touched">
                 Por favor introduza o seu email.
               </div>
-              <div class="error-feedback" *ngIf="registerForm.get('email')?.hasError('email') && registerForm.get('email')?.touched">
+              <div class="error-feedback" *ngIf="funcionarioCreateForm.get('email')?.hasError('email') && funcionarioCreateForm.get('email')?.touched">
                 Por favor insira um email válido.
               </div>
 
@@ -52,44 +51,46 @@
             <!-- Telemóvel -->
             <div class="form-group">
               <label for="telemovel">Telemóvel</label>
-              <input type="tel" id="telemovel" name="telemovel" [(ngModel)]="user.phoneNumber" required>
+              <input type="tel" id="telemovel" name="telemovel" required>
             </div>
 
             <!-- Morada 1 -->
             <div class="form-group">
               <label for="morada1">Morada 1</label>
-              <input type="text" id="morada1" name="morada1" [(ngModel)]="user.address1" required>
+              <input type="text" id="morada1" name="morada1" required>
             </div>
 
             <!-- Morada 2 -->
             <div class="form-group">
               <label for="morada2">Morada 2 (Opcional)</label>
-              <input type="text" id="morada2" name="morada2" [(ngModel)]="user.address2">
+              <input type="text" id="morada2" name="morada2">
             </div>
 
             <!-- Data de Nascimento -->
             <div class="form-group">
               <label for="dataNascimento">Data de Nascimento</label>
-              <input type="date" id="dataNascimento" name="dataNascimento" [(ngModel)]="user.birthDate" required>
+              <input type="date" id="dataNascimento" name="dataNascimento" required>
             </div>
 
             <!-- Password -->
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" id="password" name="password" [(ngModel)]="user.password"
-                     (input)="checkPasswordStrength()" required>
+              <!--<input type="password" id="password" name="password" [(ngModel)]="user.password"
+         (input)="checkPasswordStrength()" required>-->
+              <input type="password" id="password" name="password" formControlName="password"
+                     (input)="checkPasswordStrength()" >
               <div class="password-strength">
                 <div class="strength-bar" [style.width]="passwordStrength + '%'"
                      [style.background]="getPasswordStrengthColor()"></div>
               </div>
 
-              <div class="error-feedback" *ngIf="registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched">
+              <div class="error-feedback" *ngIf="funcionarioCreateForm.get('password')?.hasError('required') && funcionarioCreateForm.get('password')?.touched">
                 Por favor introduza a sua palavra-passe.
               </div>
-              <div class="error-feedback" *ngIf="registerForm.get('password')?.hasError('minlength') && registerForm.get('password')?.touched">
+              <div class="error-feedback" *ngIf="funcionarioCreateForm.get('password')?.hasError('minlength') && funcionarioCreateForm.get('password')?.touched">
                 A Palavra-passe deve ter pelo menos 6 caracteres.
               </div>
-              <div class="error-feedback" *ngIf="registerForm.get('password')?.hasError('pattern') && registerForm.get('password')?.touched">
+              <div class="error-feedback" *ngIf="funcionarioCreateForm.get('password')?.hasError('pattern') && funcionarioCreateForm.get('password')?.touched">
                 A Palavra-passe deve incluir pelo menos 1 caracteres especial.
               </div>
 
@@ -98,9 +99,9 @@
             <!-- Confirmar Password -->
             <div class="form-group">
               <label for="confirmPassword">Confirmar Password</label>
-              <input type="password" id="confirmPassword" name="confirmPassword"
-                     [(ngModel)]="user.confirmPassword" required>
-              <div class="error-feedback" *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
+              <input type="password" id="confirmPassword" name="confirmPassword" formControlName="confirmPassword" />
+                     <!--[(ngModel)]="user.confirmPassword" required>-->
+              <div class="error-feedback" *ngIf="funcionarioCreateForm.hasError('passwordMismatch') && funcionarioCreateForm.get('confirmPassword')?.touched">
                 As palavras-passes não coincidem.
               </div>
             </div>
@@ -108,7 +109,7 @@
             <!-- Cargo -->
             <div class="form-group">
               <label for="cargo">Cargo</label>
-              <select id="cargo" name="cargo" [(ngModel)]="user.role" required>
+              <select id="cargo" name="cargo" required>
                 <option value="">Selecione o cargo</option>
                 <option value="supervisor">Supervisor</option>
                 <option value="administrativo">Administrativo</option>
@@ -119,8 +120,8 @@
 
           <!-- Folgas do Mês -->
           <div class="form-group">
-            <label>Folgas do Mês (até 5 dias)</label>
-            <input type="date" [(ngModel)]="folgaDia" (change)="adicionarFolga()" name="folgasMes">
+            <label for="folgasMes">Folgas do Mês (até 5 dias)</label>
+            <input type="date" (change)="adicionarFolga()" name="folgasMes" id="folgasMes">
             <div *ngIf="folgasMes.length > 0" class="date-selections">
               <p>Dias selecionados:</p>
               <ul class="date-list">
@@ -138,9 +139,9 @@
 
           <!-- Férias do Ano -->
           <div class="form-group">
-            <label>Férias do Ano (até 2 semanas)</label>
+            <label for="feriasInicio">Férias do Ano (até 2 semanas)</label>
             <div>
-              <input type="date" [(ngModel)]="feriasInicio" name="feriasInicio">
+              <input type="date" name="feriasInicio" id="feriasInicio">
               <button type="button" (click)="adicionarFerias()">Adicionar Período</button>
             </div>
             <div *ngIf="feriasAno.length > 0" class="date-selections">

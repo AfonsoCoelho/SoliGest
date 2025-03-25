@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthorizeService } from '../../api-authorization/authorize.service';
 
 @Component({
   selector: 'app-funcionario-create',
@@ -7,7 +9,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./funcionario-create.component.css'],
   standalone: false
 })
-export class FuncionarioCreateComponent {
+export class FuncionarioCreateComponent implements OnInit {
+  errors: string[] = [];
+  funcionarioCreateForm!: FormGroup;
+  funcionarioCreateFailed: boolean = false;
+  funcionarioCreateSucceeded: boolean = false;
+  signedIn: boolean = false;
+
   user: any = {
     name: '',
     email: '',
@@ -28,7 +36,39 @@ export class FuncionarioCreateComponent {
   
   passwordStrength = 0;
 
-  constructor(private router: Router) {}
+  constructor(private authService: AuthorizeService,
+    private formBuilder: FormBuilder,
+    private router: Router) {
+      this.signedIn = this.authService.isSignedIn();
+  }
+    ngOnInit(): void {
+      this.funcionarioCreateFailed = false;
+      this.funcionarioCreateSucceeded = false;
+      this.errors = [];
+
+      // Inicializar o formulário com validações
+      this.funcionarioCreateForm = this.formBuilder.group(
+        {
+          name: ['', Validators.required],
+          email: ['', [Validators.required, Validators.email]],
+          password: ['', [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.pattern(/(?=.*[^a-zA-Z0-9 ])/)]],
+          confirmPassword: ['', [Validators.required]]
+        }, { validators: this.passwordMatchValidator });
+  }
+
+  passwordMatchValidator: ValidatorFn = (control: AbstractControl): null | object => {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+    if (!password || !confirmPassword) {
+      return null;
+    }
+    return password.value !== confirmPassword.value
+      ? { passwordMismatch: true }
+      : null;
+  }
 
   checkPasswordStrength() {
     const password = this.user.password;
