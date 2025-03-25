@@ -14,7 +14,6 @@ export class FuncionarioCreateComponent implements OnInit {
   funcionarioCreateForm!: FormGroup;
   funcionarioCreateFailed: boolean = false;
   funcionarioCreateSucceeded: boolean = false;
-  signedIn: boolean = false;
 
   user: any = {
     name: '',
@@ -38,9 +37,7 @@ export class FuncionarioCreateComponent implements OnInit {
 
   constructor(private authService: AuthorizeService,
     private formBuilder: FormBuilder,
-    private router: Router) {
-      this.signedIn = this.authService.isSignedIn();
-  }
+    private router: Router) { }
     ngOnInit(): void {
       this.funcionarioCreateFailed = false;
       this.funcionarioCreateSucceeded = false;

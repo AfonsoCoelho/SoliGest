@@ -21,8 +21,8 @@
       </button>
     </div>
     <div class="delete-button-container">
-      <button class="delete-selected-button" (click)="confirmDelete()">
-      Apagar selecionados
+      <button class="delete-selected-button" (click)="onBulkDelete()" disabled>
+        Apagar selecionados
       </button>
     </div>
     <h2>Lista de Utilizadores Ativos</h2>
@@ -55,16 +55,13 @@
           <td>{{ user.phoneNumber }}</td>
           <td>
             <!-- Botões de Ação -->
-            <button routerLink="/funcionario-edit"
-                    [disabled]="!isSelected(user)">
+            <button routerLink="/funcionario-edit/{{ user.id }}">
               Editar
             </button>
-            <button (click)="onDetails(user)"
-                    [disabled]="!isSelected(user)">
+            <button (click)="onDetails(user)">
               Detalhes
             </button>
-            <button (click)="onDelete()"
-                    [disabled]="!isSelected(user)">
+            <button (click)="onDelete(user)">
               Apagar
             </button>
           </td>
@@ -87,6 +84,31 @@
               <p><strong>ID:</strong> {{ user.id }}</p>
               <p><strong>Nome:</strong> {{ user.name }}</p>
               <p><strong>Cargo:</strong> {{ user.role }}</p>
+            </div>
+          </div>
+          <br> <!-- Add a line break for separation -->
+        </ng-container>
+      </div>
+      <div class="button-container">
+        <button (click)="closeModal()">Cancelar</button>
+        <button (click)="confirmDelete()">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" *ngIf="isModalOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h2>Confirmar Exclusão</h2>
+      <div class="modal-profile">
+        <ng-container *ngIf="selectedUser">
+          <div class="modal-profile-item">
+            <!-- New wrapper for each user -->
+            <div class="profile-avatar">👤</div>
+            <div class="modal-profile-details">
+              <p><strong>ID:</strong> {{ selectedUser.id }}</p>
+              <p><strong>Nome:</strong> {{ selectedUser.name }}</p>
+              <p><strong>Cargo:</strong> {{ selectedUser.role }}</p>
             </div>
           </div>
           <br> <!-- Add a line break for separation -->

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService, User } from '../services/users.service'; // Importe o serviço e a interface User
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-funcionario-edit',
@@ -9,6 +10,11 @@ import { UsersService, User } from '../services/users.service'; // Importe o ser
   standalone: false
 })
 export class FuncionarioEditComponent implements OnInit {
+  errors: string[] = [];
+  funcionarioEditForm!: FormGroup;
+  funcionarioEditFailed: boolean = false;
+  funcionarioEditSucceeded: boolean = false;
+
   user: User = {
     id: '',
     name: '',
@@ -31,14 +37,27 @@ export class FuncionarioEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
-    // Obtém o ID do utilizador da rota
-    const userId = this.route.snapshot.paramMap.get('id');
-    if (userId) {
-     // this.carregarUtilizador(+userId);
+    var user = this.getUser();
+
+    this.funcionarioEditFailed = false;
+    this.funcionarioEditSucceeded = false;
+    this.errors = [];
+
+    console.log(user)
+
+    if(user)
+    {
+      // Inicializar o formulário com validações
+      this.funcionarioEditForm = this.formBuilder.group(
+      {
+        name: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]]
+      });
     }
   }
 
@@ -117,5 +136,17 @@ export class FuncionarioEditComponent implements OnInit {
       },
       (error) => console.error('Erro ao atualizar user:', error)
     );
+  }
+
+  getUser(): any {
+    // Obtém o ID do utilizador da rota
+    const userId = this.route.snapshot.paramMap.get('id');
+    if (userId) {
+      // this.carregarUtilizador(+userId);
+      this.usersService.getUser(userId).subscribe(res => {
+        console.log(res);
+        return res;
+      });
+    }
   }
 }

@@ -112,7 +112,7 @@ body {
       border-radius: 5px;
     }
 
-.submit-btn {
+.submit-btn, .cancel-btn {
   background-color: #FFC300;
   color: black;
   border: none;
@@ -124,7 +124,7 @@ body {
   border-radius: 5px;
 }
 
-  .submit-btn:hover {
+  .submit-btn:hover, .cancel-btn {
     background-color: #ffb300;
   }
 
