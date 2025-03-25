@@ -11,7 +11,7 @@ import { ChangepwComponent } from './changepw/changepw.component';
 import { FuncionarioComponent } from './funcionario/funcionario.component';
 import { FuncionarioCreateComponent } from './funcionario-create/funcionario-create.component';
 import { FuncionarioEditComponent } from './funcionario-edit/funcionario-edit.component';
-import { FuncionarioDetailsComponent } from './funcionario-details/funcionario-details.component';
+import { FuncionarioDetailsComponent } from './funcionario-details/funcionario-details.component'; //vamos apagar
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, // A raiz agora carrega a página de registar

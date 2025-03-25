@@ -11,7 +11,9 @@ import { Router } from '@angular/router';
 export class FuncionarioComponent {
   public users: User[] = []; // Lista de usuários
   selectedUsers: User[] = []; // Lista de usuários selecionados
-  isModalOpen: boolean = false; // Controla a exibição do modal
+  isModalOpen: boolean = false; // Controla a exibição do modal delete
+  isDetailsModalOpen: boolean = false; // Controla a exibição do modal de detalhes
+  selectedUser: User | null = null; // Usuário selecionado para exibição de detalhes
   imagepath: string = "/assets/img/plus-18.png";
 
   constructor(private service: UsersService, private router: Router) { }
@@ -54,8 +56,9 @@ export class FuncionarioComponent {
 
   // Ação do botão Detalhes
   onDetails(user: User): void {
-    console.log('Detalhes do usuário:', user); // Debugging output
-    this.router.navigate(['/funcionario-details', user.id]); // Navigate to the details page
+    console.log('Detalhes do usuário:', user);
+    this.selectedUser = user;
+    this.isDetailsModalOpen = true;
   }
 
   // Ação do botão Apagar
@@ -76,5 +79,11 @@ export class FuncionarioComponent {
 
   confirmDelete(): void {
     //logica pa apagar 1 gajo
+  }
+
+  // Fechar o modal de detalhes
+  closeDetailsModal(): void {
+    this.isDetailsModalOpen = false;
+    this.selectedUser = null;
   }
 }
