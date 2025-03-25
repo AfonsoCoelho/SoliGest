@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: 'changepw', component: ChangepwComponent },
   { path: 'funcionario', component: FuncionarioComponent },
   { path: 'funcionario-create', component: FuncionarioCreateComponent },
-  { path: 'funcionario-edit', component: FuncionarioEditComponent },
+  { path: 'funcionario-edit/:id', component: FuncionarioEditComponent },
   { path: 'funcionario-details/:id', component: FuncionarioDetailsComponent },
 
   { path: '**', redirectTo: '' } // Qualquer rota inválida vai para registar

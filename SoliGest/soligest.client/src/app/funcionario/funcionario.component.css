@@ -59,6 +59,8 @@ body {
 
 .table-container {
   margin-top: 20px; /* Espaçamento entre o botão e a tabela */
+}
+
 /* Botão de criação */
 .add-button-container, delete-button-container {
   margin-top: 100px;

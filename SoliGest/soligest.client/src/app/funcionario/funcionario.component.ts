@@ -62,7 +62,12 @@ export class FuncionarioComponent {
   }
 
   // Ação do botão Apagar
-  onDelete(): void {
+  onBulkDelete(): void {
+    this.isModalOpen = true; // Open the modal
+  }
+
+  onDelete(user: User): void {
+    this.selectedUser = user;
     this.isModalOpen = true; // Open the modal
   }
 
@@ -74,10 +79,21 @@ export class FuncionarioComponent {
 
   closeModal(): void {
     this.isModalOpen = false; // Close the modal
-    this.selectedUsers = []; // Clear the selected users
   }
 
   confirmDelete(): void {
+    if (this.selectedUser) {
+      this.service.deleteUser(this.selectedUser.id).subscribe(
+        (result) => {
+          console.log(result);
+          this.getUsers();
+          this.closeModal();
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
     for (let i = 0; i < this.selectedUsers.length; i++)
     {
       this.service.deleteUser(this.selectedUsers[i].id).subscribe(
