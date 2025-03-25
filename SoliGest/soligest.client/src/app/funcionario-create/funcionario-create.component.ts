@@ -9,56 +9,104 @@ import { Router } from '@angular/router';
 })
 export class FuncionarioCreateComponent {
   user: any = {
-    role: '' // Cargo do utilizador
+    name: '',
+    email: '',
+    address1: '',
+    address2: '',
+    phoneNumber: '',
+    birthDate: '',
+    password: '',
+    confirmPassword: '',
+    role: ''
   };
 
-  folgaDia: Date | null = null; // Dia de folga selecionado
-  folgasMes: Date[] = []; // Lista de dias de folga do mês
+  folgaDia: Date | null = null;
+  folgasMes: Date[] = [];
+  
+  feriasInicio: Date | null = null;
+  feriasAno: { inicio: Date, fim: Date }[] = [];
+  
+  passwordStrength = 0;
 
-  feriasInicio: Date | null = null; // Data de início das férias
-  feriasAno: { inicio: Date, fim: Date }[] = []; // Lista de períodos de férias
+  constructor(private router: Router) {}
 
-  constructor(private router: Router) { }
+  checkPasswordStrength() {
+    const password = this.user.password;
+    let strength = 0;
+    
+    // Length check
+    if (password.length > 5) strength += 20;
+    if (password.length > 8) strength += 20;
+    
+    // Complexity checks
+    if (/[A-Z]/.test(password)) strength += 20;
+    if (/[0-9]/.test(password)) strength += 20;
+    if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+    
+    this.passwordStrength = Math.min(strength, 100);
+  }
 
-  // Adiciona um dia de folga à lista
+  getPasswordStrengthColor() {
+    if (this.passwordStrength < 40) return '#ff4444';
+    if (this.passwordStrength < 70) return '#ffbb33';
+    return '#00C851';
+  }
+
   adicionarFolga() {
     if (this.folgaDia && this.folgasMes.length < 5) {
-      this.folgasMes.push(this.folgaDia);
-      this.folgaDia = null; // Limpa o campo após adicionar
+      this.folgasMes.push(new Date(this.folgaDia));
+      this.folgaDia = null;
     }
   }
 
-  // Limpa a lista de dias de folga
+  removerFolga(index: number) {
+    this.folgasMes.splice(index, 1);
+  }
+
   limparFolgas() {
     this.folgasMes = [];
   }
 
-  // Adiciona um período de férias à lista
   adicionarFerias() {
     if (this.feriasInicio && this.feriasAno.length < 2) {
       const inicio = new Date(this.feriasInicio);
       const fim = new Date(inicio);
-      fim.setDate(fim.getDate() + 13); // Adiciona 13 dias para totalizar 2 semanas
+      fim.setDate(fim.getDate() + 13); // 2 semanas = 14 dias (inclusive)
       this.feriasAno.push({ inicio, fim });
-      this.feriasInicio = null; // Limpa o campo após adicionar
+      this.feriasInicio = null;
     }
   }
 
-  // Limpa a lista de períodos de férias
+  removerFerias(index: number) {
+    this.feriasAno.splice(index, 1);
+  }
+
   limparFerias() {
     this.feriasAno = [];
   }
 
-  // Método chamado ao submeter o formulário
-  onSubmit() {
-    const userData = {
-      ...this.user,
-      folgasMes: this.folgasMes,
-      feriasAno: this.feriasAno
-    };
+  formValido() {
+    return this.user.name && 
+           this.user.email && 
+           this.user.address1 && 
+           this.user.phoneNumber && 
+           this.user.birthDate && 
+           this.user.password && 
+           this.user.password === this.user.confirmPassword && 
+           this.user.role;
+  }
 
-    console.log('Dados do utilizador:', userData);
-    // Aqui você pode enviar os dados para o backend ou realizar outras ações
-    this.router.navigate(['/funcionarios']); // Redireciona para a lista de utilizadores
+  onSubmit() {
+    if (this.formValido()) {
+      const userData = {
+        ...this.user,
+        folgasMes: this.folgasMes,
+        feriasAno: this.feriasAno
+      };
+      
+      console.log('Dados do utilizador:', userData);
+      // Aqui você enviaria os dados para o backend
+      this.router.navigate(['/funcionarios']);
+    }
   }
 }
