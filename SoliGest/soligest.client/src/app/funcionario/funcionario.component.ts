@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { User, UsersService } from '../services/users.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-funcionario',
@@ -10,9 +11,10 @@ import { User, UsersService } from '../services/users.service';
 export class FuncionarioComponent {
   public users: User[] = []; // Lista de usuários
   selectedUsers: User[] = []; // Lista de usuários selecionados
+  isModalOpen: boolean = false; // Controla a exibição do modal
   imagepath: string = "/assets/img/plus-18.png";
 
-  constructor(private service: UsersService) { }
+  constructor(private service: UsersService, private router: Router) { }
 
   ngOnInit() {
     this.getUsers();
@@ -52,19 +54,27 @@ export class FuncionarioComponent {
 
   // Ação do botão Detalhes
   onDetails(user: User): void {
-    console.log('Detalhes do usuário:', user);
-    // Implemente a lógica de detalhes aqui
+    console.log('Detalhes do usuário:', user); // Debugging output
+    this.router.navigate(['/funcionario-details', user.id]); // Navigate to the details page
   }
 
   // Ação do botão Apagar
-  onDelete(user: User): void {
-    console.log('Apagar usuário:', user);
-    // Implemente a lógica de exclusão aqui
+  onDelete(): void {
+    this.isModalOpen = true; // Open the modal
   }
 
   // Ação do botão Criar
   onCreate(): void {
     console.log('Botão Criar clicado');
     // Implemente a lógica para criar um novo usuário aqui
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false; // Close the modal
+    this.selectedUsers = []; // Clear the selected users
+  }
+
+  confirmDelete(): void {
+    //logica pa apagar 1 gajo
   }
 }
