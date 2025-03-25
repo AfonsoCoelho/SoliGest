@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tabela - SoliGest</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap">
-  
 </head>
 <body>
 
@@ -21,7 +20,11 @@
         Adicionar Utilizador
       </button>
     </div>
-
+    <div class="delete-button-container">
+      <button class="delete-selected-button" (click)="confirmDelete()">
+      Apagar selecionados
+      </button>
+    </div>
     <h2>Lista de Utilizadores Ativos</h2>
     <table>
       <thead>
@@ -70,7 +73,7 @@
     </table>
   </div>
 
-  <!-- Modal -->
+  <!-- Modal para delete -->
   <div class="modal" *ngIf="isModalOpen">
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
@@ -90,11 +93,48 @@
         </ng-container>
       </div>
       <div class="button-container">
-        <button (click)="confirmDelete()">Confirmar</button>
         <button (click)="closeModal()">Cancelar</button>
+        <button (click)="confirmDelete()">Confirmar</button>
       </div>
     </div>
   </div>
+
+
+  <!-- Modal para detalhes -->
+  <div class="modal2" *ngIf="isDetailsModalOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeDetailsModal()">&times;</span>
+      <h2>Detalhes do Utilizador</h2>
+      <div class="modal-profile">
+        <div class="modal-profile-item">
+          <div class="profile-avatar">👤</div>
+          <div class="modal-profile-details">
+            <p><strong>ID:</strong> {{ selectedUser?.id }}</p>
+            <p><strong>Nome:</strong> {{ selectedUser?.name }}</p>
+            <p><strong>Cargo:</strong> {{ selectedUser?.role }}</p>
+            <p><strong>Email:</strong> {{ selectedUser?.email }}</p>
+            <p><strong>Data de Nascimento:</strong> {{ selectedUser?.birthDate }}</p>
+            <p><strong>Telemóvel:</strong> {{ selectedUser?.phoneNumber }}</p>
+            <p><strong>Período de Férias:</strong></p>
+            <span *ngFor="let periodo of selectedUser?.feriasAno">
+              {{ periodo.inicio }} - {{ periodo.fim }} <br>
+            </span>
+            <p><strong>Dias de Folga:</strong></p>
+            <span *ngFor="let folga of selectedUser?.folgasMes">
+              {{ folga }} <br>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="button-container">
+        <button (click)="closeDetailsModal()">Fechar</button>
+        <button routerLink="/funcionario-edit">Editar</button>
+        <button (click)="confirmDelete()">Apagar</button>
+      </div>
+    </div>
+  </div>
+
+
 
 
 
