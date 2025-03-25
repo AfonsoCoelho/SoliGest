@@ -20,7 +20,7 @@
     <div class="right-section">
       <div class="form-container">
         <h2>Registar Novo Utilizador</h2>
-        <form [formGroup]="funcionarioCreateForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="funcionarioCreateForm" (submit)="register()">
           <div class="form-grid">
             <!-- Nome Completo -->
             <div class="form-group full-width">
@@ -159,7 +159,7 @@
             </div>
           </div>
 
-          <button type="submit" class="submit-btn" [disabled]="!formValido()">
+          <button type="submit" class="submit-btn">
             Registar Utilizador
           </button>
         </form>

@@ -149,4 +149,47 @@ export class FuncionarioCreateComponent implements OnInit {
       this.router.navigate(['/funcionarios']);
     }
   }
+
+  public register(): void {
+    if (!this.funcionarioCreateForm.valid) {
+      alert("Por favor corriga os erros do formulário!");
+      return;
+    }
+
+    this.funcionarioCreateFailed = false;
+    this.errors = [];
+
+    const name = this.funcionarioCreateForm.get('name')?.value;
+    const email = this.funcionarioCreateForm.get('email')?.value;
+    const password = this.funcionarioCreateForm.get('password')?.value;
+
+    // Chamada ao serviço de registo
+    this.authService.register(name, email, password).forEach(
+      response => {
+        if (response) {
+          this.funcionarioCreateSucceeded = true;
+          this.router.navigateByUrl("/");
+          alert("Registo bem sucedido!");
+        }
+      }).catch(
+        error => {
+          this.funcionarioCreateFailed = true;
+          alert("Ocorreu um erro! Por favor tente novamente mais tarde.");
+          if (error.error) {
+            const errorObj = JSON.parse(error.error);
+            if (errorObj && errorObj.errors) {
+              // Processar os erros detalhados
+              const errorList = errorObj.errors;
+              for (let field in errorList) {
+                if (Object.hasOwn(errorList, field)) {
+                  let list: string[] = errorList[field];
+                  for (let idx = 0; idx < list.length; idx += 1) {
+                    this.errors.push(`${field}: ${list[idx]}`);
+                  }
+                }
+              }
+            }
+          }
+        });
+  }
 }
