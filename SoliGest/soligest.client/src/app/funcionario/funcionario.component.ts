@@ -75,6 +75,18 @@ export class FuncionarioComponent {
   }
 
   confirmDelete(): void {
-    //logica pa apagar 1 gajo
+    for (let i = 0; i < this.selectedUsers.length; i++)
+    {
+      this.service.deleteUser(this.selectedUsers[i].id).subscribe(
+        (result) => {
+          console.log(result);
+          this.getUsers();
+          this.closeModal();
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
   }
 }
