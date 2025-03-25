@@ -35,7 +35,7 @@ export class AuthorizeService {
 
   // Login baseado em JWT
   public signIn(email: string, password: string): Observable<boolean> {
-    return this.http.post<{ token: string }>('/api/signin', { email, password }).pipe(
+    return this.http.post<{ token: string }>('/api/Users/signin', { email, password }).pipe(
       map((response) => {
         if (response && response.token) {
           this.saveToken(response.token);
@@ -52,7 +52,7 @@ export class AuthorizeService {
 
   // Registro de novo utilizador
   public register(name: string, email: string, password: string): Observable<boolean> {
-    return this.http.post('api/signup', { name, email, password }, { observe: 'response' }).pipe(
+    return this.http.post('api/Users/signup', { name, email, password }, { observe: 'response' }).pipe(
       map((res) => res.ok),
       catchError(() => of(false))
     );
@@ -101,14 +101,14 @@ export class AuthorizeService {
       token = params['token'];
     });
 
-    return this.http.post('/api/reset-password', { email, token, newPassword }, { observe: 'response' }).pipe(
+    return this.http.post('/api/Users/reset-password', { email, token, newPassword }, { observe: 'response' }).pipe(
       map((res) => res.ok),
       catchError(() => of(false))
     );
   }
   
   public pwRecovery(email: string): Observable<boolean> {
-    return this.http.post('api/forgot-password', { email }, { observe: 'response' }).pipe(
+    return this.http.post('api/Users/forgot-password', { email }, { observe: 'response' }).pipe(
       map((res) => res.ok),
       catchError(() => of(false))
     );

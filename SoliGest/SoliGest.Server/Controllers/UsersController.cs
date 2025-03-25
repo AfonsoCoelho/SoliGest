@@ -3,10 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using SendGrid.Helpers.Mail;
+using SoliGest.Server.Data;
 using SoliGest.Server.Models;
 using SoliGest.Server.Services;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
@@ -14,21 +18,24 @@ using System.Text;
 
 namespace SoliGest.Server.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
+        private readonly SoliGestServerContext _context;
 
-        public UsersController(UserManager<User> userManager, IConfiguration configuration, IEmailService emailService)
+        public UsersController(UserManager<User> userManager, IConfiguration configuration, IEmailService emailService, SoliGestServerContext context)
         {
             _userManager = userManager;
             _configuration = configuration;
             _emailService = emailService;
+            _context = context;
         }
 
-        [HttpPost("api/signup")]
+        [HttpPost("signup")]
         public async Task<IActionResult> Register([FromBody] UserRegistrationModel model)
         {
             var userExists = await _userManager.FindByEmailAsync(model.Email);
@@ -47,7 +54,7 @@ namespace SoliGest.Server.Controllers
             return BadRequest(result.Errors);
         }
 
-        [HttpPost("api/signin")]
+        [HttpPost("signin")]
         public async Task<IActionResult> Login([FromBody] UserLoginModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
@@ -90,7 +97,7 @@ namespace SoliGest.Server.Controllers
             });
         }
 
-        [HttpPost("api/reset-password")]
+        [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] UserResetPasswordModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
@@ -108,7 +115,7 @@ namespace SoliGest.Server.Controllers
             return BadRequest(result.Errors);
         }
 
-        [HttpPost("api/forgot-password")]
+        [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordModel model)
         {
             try
@@ -137,7 +144,90 @@ namespace SoliGest.Server.Controllers
             {
                 return StatusCode(500, new { message = "Ocorreu um erro ao tentar processar o teu pedido." });
             }
-            
+        }
+
+        // PUT: api/Users/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutPerson(string id, User user)
+        {
+            if (!id.Equals(user.Id))
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    Console.WriteLine("Erro");
+                    throw;
+                }
+            }
+            return NoContent();
+        }
+
+        private bool UserExists(string id)
+        {
+            return _context.Users.Any(e => e.Id.Equals(id));
+        }
+
+        // GET: api/People/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetPerson(string id)
+        {
+            var person = await _context.Users.FindAsync(id);
+
+            if (person == null)
+            {
+                return NotFound();
+            }
+
+            return person;
+        }
+
+        // DELETE: api/People/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePerson(string id)
+        {
+            var person = await _context.Users.FindAsync(id);
+            if (person == null)
+            {
+                return NotFound();
+            }
+
+            _context.Users.Remove(person);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // POST: api/People
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<User>> PostPerson(User user)
+        {
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetPerson", new { id = user.Id }, user);
+        }
+
+        // GET: api/People
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<User>>> GetPerson()
+        {
+            return await _context.Users.ToListAsync();
         }
     }
 

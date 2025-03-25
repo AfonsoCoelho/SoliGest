@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using SoliGest.Server.Controllers;
@@ -16,6 +17,7 @@ namespace SoliGestTest
         private readonly Mock<UserManager<User>> _mockUserManager;
         private readonly Mock<IEmailService> _mockEmailService;
         private readonly Mock<IConfiguration> _mockConfiguration;
+        private readonly Mock<SoliGestServerContext> _mockContext;
         private readonly UsersController _controller;
 
         public UsersControllerTest()
@@ -25,11 +27,13 @@ namespace SoliGestTest
 
             _mockEmailService = new Mock<IEmailService>();
             _mockConfiguration = new Mock<IConfiguration>();
+            _mockContext = new Mock<SoliGestServerContext>(new DbContextOptionsBuilder<SoliGestServerContext>().Options);
 
             _controller = new UsersController(
                 _mockUserManager.Object,
                 _mockConfiguration.Object,
-                _mockEmailService.Object
+                _mockEmailService.Object,
+                _mockContext.Object
             );
         }
 

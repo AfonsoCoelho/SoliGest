@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -12,9 +13,13 @@ builder.Services.AddDbContext<SoliGestServerContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SoliGestServerContext") ?? throw new InvalidOperationException("Connection string 'SoliGestServerContext' not found.")));
 
 // Add services to the container.
+builder.Services.AddIdentityCore<User>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<SoliGestServerContext>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+builder.Services.Configure<JwtBearerOptions>(
+    IdentityConstants.BearerScheme,
+    options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -28,10 +33,27 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//    .AddJwtBearer(options =>
+//    {
+//        options.TokenValidationParameters = new TokenValidationParameters
+//        {
+//            ValidateIssuer = true,
+//            ValidateAudience = true,
+//            ValidateLifetime = true,
+//            ValidateIssuerSigningKey = true,
+//            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+//            ValidAudience = builder.Configuration["Jwt:Audience"],
+//            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+//        };
+//    });
+
 builder.Services.AddAuthorization();
 builder.Services.AddTransient<IEmailService, SendGridEmailService>();
-builder.Services.AddIdentityApiEndpoints<User>()
-    .AddEntityFrameworkStores<SoliGestServerContext>();
+
+builder.Services.AddIdentityApiEndpoints<User>();
+
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -72,6 +94,19 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<User>>();
+    var context = services.GetRequiredService<SoliGestServerContext>();
+
+    await context.Database.MigrateAsync();
+
+    await RoleSeeder.SeedRoles(roleManager);
+    await UserSeeder.SeedUsersAsync(userManager);
+}
 
 app.UseHttpsRedirection();
 app.UseDefaultFiles();
