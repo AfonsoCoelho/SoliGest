@@ -79,6 +79,8 @@ export class FuncionarioComponent {
 
   closeModal(): void {
     this.isModalOpen = false; // Close the modal
+    this.selectedUser = null;
+    this.selectedUsers = [];
   }
 
   confirmDelete(): void {
