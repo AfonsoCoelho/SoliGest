@@ -24,15 +24,16 @@
   margin-bottom: 10%;
 }
 
-#upperMenu h2 {
-    padding-bottom: 2%;
-    position: relative;
+  #upperMenu h2 {
+    padding-top: 50px; /* Aumenta o espaçamento para evitar sobreposição */
+    position: relative; /* Remove a sobreposição causada pelo absolute */
     text-align: left;
-}
+  }
 
-#upperMenu h2 img {
-    padding-left: 2%;
-}
+
+    #upperMenu h2 img {
+      padding-left: 2%;
+    }
 
 #menuOptions a {
   background-color: #FFC300;
@@ -43,22 +44,22 @@
   padding: 2%;
 }
 
-#menuOptions a span, #menuOptions a img {
+  #menuOptions a span, #menuOptions a img {
     margin-left: 10%;
     font-family: Roboto;
-}
+  }
 
 #lowerMenu {
-    position: absolute;
-    top: 156%;
-    width: 100%;
-    font-family: Roboto;
+  position: absolute;
+  top: 156%;
+  width: 100%;
+  font-family: Roboto;
 }
 
-#lowerMenu img {
+  #lowerMenu img {
     margin-top: 2%;
     margin-left: 2%
-}
+  }
 
 h1 {
   font-size: 28pt;
@@ -75,26 +76,28 @@ h2 {
 }
 
 #profile {
-  left: 25%;
-  position: relative;
+  position: absolute;
+  right: 5%;
+  top: 10px;
 }
 
+
 #mapOptions {
-    position:absolute;
-    width: 1%;
-    left: 1%;
-    top: 1%;
+  position: absolute;
+  width: 1%;
+  left: 1%;
+  top: 1%;
 }
 
 tr {
-    background-color: white;
+  background-color: white;
 }
 
 table {
-    border: solid
+  border: solid
 }
 
 #mapFilters {
-    left: 500%;
-    position: relative
+  left: 500%;
+  position: relative
 }

@@ -15,6 +15,7 @@
 
   <div class="table-container">
     <!-- Botão de Adicionar movido para cima -->
+<<<<<<< Updated upstream
     <div class="add-button-container">
       <button class="add-button" routerLink="/funcionario-create">
         Adicionar Utilizador
@@ -24,6 +25,15 @@
       <button class="delete-selected-button" (click)="confirmDelete()">
       Apagar selecionados
       </button>
+=======
+    <div class="add-delete-button-container">
+        <button class="add-button" routerLink="/funcionario-create">
+          Adicionar Utilizador
+        </button>
+        <button class="delete-selected-button" (click)="onBulkDelete()">
+          Apagar selecionados
+        </button>
+>>>>>>> Stashed changes
     </div>
     <h2>Lista de Utilizadores Ativos</h2>
     <table>
