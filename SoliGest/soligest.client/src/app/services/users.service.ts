@@ -30,11 +30,11 @@ export class UsersService {
   }
 
   saveDaysOff(userId: string, dates: Date[]): Observable<any> {
-    return this.http.post(`api/daysOff/${userId}`, dates);
+    return this.http.post(`api/DaysOff/${userId}`, dates);
   }
 
   saveHolidays(userId: string, holidays: { inicio: Date; fim: Date }[]): Observable<any> {
-    return this.http.post(`api/holidays/${userId}`, holidays);
+    return this.http.post(`api/Holidays/${userId}`, holidays);
   }
 }
 

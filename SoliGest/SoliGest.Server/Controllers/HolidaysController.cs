@@ -4,6 +4,8 @@ using SoliGest.Server.Models;
 
 namespace SoliGest.Server.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class HolidaysController : Controller
     {
         private readonly SoliGestServerContext _context;
