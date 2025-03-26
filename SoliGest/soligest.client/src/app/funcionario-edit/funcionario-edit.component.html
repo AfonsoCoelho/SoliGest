@@ -18,13 +18,6 @@
     <div class="right-section">
       <div class="form-container">
         <h2>Editar Utilizador</h2>
-        <div *ngIf="!user">
-          <p>User not loaded</p>
-        </div>
-        <div *ngIf="user">
-          <p>User loaded</p>
-          <p>Nome: {{user.name}}</p>
-        </div>
         <form *ngIf="user" [formGroup]="funcionarioEditForm">
           <!-- Nome Completo -->
           <div class="form-group">
@@ -48,28 +41,28 @@
           </div>
 
           <!-- Morada 1 -->
-          <!--<div class="form-group">
+          <div class="form-group">
             <label for="morada1">Morada 1:</label>
             <input type="text" id="morada1" name="morada1">
-          </div>-->
+          </div>
 
           <!-- Morada 2 -->
-          <!--<div class="form-group">
+          <div class="form-group">
             <label for="morada2">Morada 2:</label>
             <input type="text" id="morada2" name="morada2">
-          </div>-->
+          </div>
 
           <!-- Telemóvel -->
-          <!--<div class="form-group">
+          <div class="form-group">
             <label for="telemovel">Telemóvel:</label>
-            <input type="tel" id="telemovel" name="telemovel">
-          </div>-->
+            <input type="tel" id="telemovel" name="telemovel" formControlName="phoneNumber">
+          </div>
 
           <!-- Data de Nascimento -->
-          <!--<div class="form-group">
+          <div class="form-group">
             <label for="dataNascimento">Data de Nascimento:</label>
-            <input type="date" id="dataNascimento" name="dataNascimento">
-          </div>-->
+            <input type="date" id="dataNascimento" name="dataNascimento" formControlName="birthDate">
+          </div>
 
           <!-- Cargo -->
           <!--<div class="form-group">

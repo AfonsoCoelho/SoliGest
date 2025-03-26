@@ -54,19 +54,6 @@ export class FuncionarioEditComponent implements OnInit {
     this.funcionarioEditFailed = false;
     this.funcionarioEditSucceeded = false;
     this.errors = [];
-
-    //console.log(user)
-    //console.log(this.utilizador)
-
-    if(this.user)
-    {
-      // Inicializar o formulário com validações
-      this.funcionarioEditForm = this.formBuilder.group(
-      {
-        name: [this.user.name, Validators.required],
-        email: [this.user.email, [Validators.required, Validators.email]]
-      });
-    }
   }
 
   /*
@@ -153,14 +140,19 @@ export class FuncionarioEditComponent implements OnInit {
       // this.carregarUtilizador(+userId);
       this.usersService.getUser(userId).subscribe({
         next: res => {
-          console.log("Recebi utilizador" + res);
           this.user = res;
+          this.funcionarioEditForm = this.formBuilder.group(
+            {
+              name: [this.user.name, Validators.required],
+              email: [this.user.email, [Validators.required, Validators.email]],
+              phoneNumber: [this.user.phoneNumber],
+              birthDate: [this.user.birthDate]
+            });
         },
         error: err => {
           console.error(err);
         }
       });
     }
-    console.log("Chegou aqui!")
   }
 }
