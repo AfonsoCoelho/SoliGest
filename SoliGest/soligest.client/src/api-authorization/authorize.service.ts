@@ -51,8 +51,8 @@ export class AuthorizeService {
   }
 
   // Registro de novo utilizador
-  public register(name: string, email: string, password: string): Observable<boolean> {
-    return this.http.post('api/Users/signup', { name, email, password }, { observe: 'response' }).pipe(
+  public register(name: string, address1: string, address2: string, phoneNumber: string, birthDate: Date, email: string, password: string): Observable<boolean> {
+    return this.http.post('api/Users/signup', { name, address1, address2, phoneNumber, birthDate, email, password }, { observe: 'response' }).pipe(
       map((res) => res.ok),
       catchError(() => of(false))
     );

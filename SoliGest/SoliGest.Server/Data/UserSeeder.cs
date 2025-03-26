@@ -13,7 +13,9 @@ namespace SoliGest.Server.Data
                 {
                     Email = "soligestesa@gmail.com",
                     Name = "SoliGest Admin",
-                    UserName = "soligestesa@gmail.com"
+                    UserName = "soligestesa@gmail.com",
+                    Address1 = "morada1",
+                    Address2 = "morada2"
                 };
 
                 await userManager.CreateAsync(user, "Admin1!");
@@ -26,7 +28,9 @@ namespace SoliGest.Server.Data
                 {
                     Email = "administrative@mail.com",
                     Name = "SoliGest Administrative",
-                    UserName = "administrative@mail.com"
+                    UserName = "administrative@mail.com",
+                    Address1 = "morada1",
+                    Address2 = "morada2"
                 };
 
                 await userManager.CreateAsync(user, "Admin1!");
@@ -39,7 +43,9 @@ namespace SoliGest.Server.Data
                 {
                     Email = "technician@mail.com",
                     Name = "SoliGest Technician",
-                    UserName = "technician@mail.com"
+                    UserName = "technician@mail.com",
+                    Address1 = "morada1",
+                    Address2 = "morada2"
                 };
 
                 await userManager.CreateAsync(user, "Tech1!");

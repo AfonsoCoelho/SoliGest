@@ -34,6 +34,10 @@ export class RegistarComponent implements OnInit {
       {
         name: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
+        phoneNumber: [''],
+        address1: [''],
+        address2: [''],
+        birthDate: [''],
         password: ['', [
           Validators.required,
           Validators.minLength(6),
@@ -67,9 +71,13 @@ export class RegistarComponent implements OnInit {
     const name = this.registerForm.get('name')?.value;
     const email = this.registerForm.get('email')?.value;
     const password = this.registerForm.get('password')?.value;
+    const address1 = this.registerForm.get('address1')?.value;
+    const address2 = this.registerForm.get('address2')?.value;
+    const phoneNumber = this.registerForm.get('phoneNumber')?.value;
+    const birthDate = this.registerForm.get('birthDate')?.value;
 
     // Chamada ao serviço de registo
-    this.authService.register(name, email, password).forEach(
+    this.authService.register(name, address1, address2, phoneNumber, birthDate, email, password).forEach(
       response => {
         if (response) {
           this.registerSucceeded = true;

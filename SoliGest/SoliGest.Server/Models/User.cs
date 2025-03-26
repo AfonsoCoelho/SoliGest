@@ -14,6 +14,9 @@ namespace SoliGest.Server.Models
         [Display(Name = "Data de nascimento")]
         public DateOnly BirthDate { get; set; }
 
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+
         public List<DayOff> MonthlyDaysOff { get; set; } = new List<DayOff>();
         public List<Holidays> YearHolidays { get; set; } = new List<Holidays>();
     }

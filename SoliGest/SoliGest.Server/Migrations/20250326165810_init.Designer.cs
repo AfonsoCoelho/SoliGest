@@ -12,8 +12,8 @@ using SoliGest.Server.Data;
 namespace SoliGest.Server.Migrations
 {
     [DbContext(typeof(SoliGestServerContext))]
-    [Migration("20250325230350_SoliGest")]
-    partial class SoliGest
+    [Migration("20250326165810_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -298,6 +298,14 @@ namespace SoliGest.Server.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Address1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Address2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("date");

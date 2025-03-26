@@ -42,7 +42,7 @@ namespace SoliGest.Server.Controllers
             if (userExists != null)
                 return BadRequest(new { message = "User already exists." });
 
-            var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name, BirthDate = model.BirthDate };
+            var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name, BirthDate = model.BirthDate, PhoneNumber = model.PhoneNumber, Address1 = model.Address1, Address2 = model.Address2 };
 
             var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -243,6 +243,9 @@ namespace SoliGest.Server.Controllers
         public string Email { get; set; }
         public string Password { get; set; }
         public DateOnly BirthDate { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string PhoneNumber { get; set; }
     }
 
     public class UserResetPasswordModel

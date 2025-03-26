@@ -135,35 +135,35 @@ export class FuncionarioCreateComponent implements OnInit {
            this.user.role;
   }
 
-  onSubmit() {
-    if (this.formValido()) {
+  //onSubmit() {
+  //  if (this.formValido()) {
 
 
-      this.authService.register(this.user.name, this.user.email, this.user.password).subscribe(
-        (response) => {
-          console.log('Utilizador criado com sucesso:', response);
+  //    this.authService.register(this.user.name, this.user.email, this.user.password).subscribe(
+  //      (response) => {
+  //        console.log('Utilizador criado com sucesso:', response);
 
-          this.usersService.saveDaysOff(this.user.id, this.folgasMes).subscribe(
-            (respFolgas) => {
-              console.log('Folgas salvas', respFolgas);
+  //        this.usersService.saveDaysOff(this.user.id, this.folgasMes).subscribe(
+  //          (respFolgas) => {
+  //            console.log('Folgas salvas', respFolgas);
 
-              this.usersService.saveHolidays(this.user.id, this.feriasAno).subscribe(
-                (respFerias) => {
-                  console.log('Férias salvas', respFerias);
+  //            this.usersService.saveHolidays(this.user.id, this.feriasAno).subscribe(
+  //              (respFerias) => {
+  //                console.log('Férias salvas', respFerias);
 
-                  this.router.navigate(['/funcionarios']);
-                },
-                (error) => console.error('Erro ao salvar ferias:', error)
-              );
-            },
-            (error) => console.error('Erro ao salvar folgas:', error)
-          );
-        },
-        (error) => console.error('Erro ao criar user:', error)
-      );
-    }
-      this.router.navigate(['/funcionarios']);
-   }
+  //                this.router.navigate(['/funcionarios']);
+  //              },
+  //              (error) => console.error('Erro ao salvar ferias:', error)
+  //            );
+  //          },
+  //          (error) => console.error('Erro ao salvar folgas:', error)
+  //        );
+  //      },
+  //      (error) => console.error('Erro ao criar user:', error)
+  //    );
+  //  }
+  //    this.router.navigate(['/funcionarios']);
+  // }
   
 
   public register(): void {
@@ -178,9 +178,13 @@ export class FuncionarioCreateComponent implements OnInit {
     const name = this.funcionarioCreateForm.get('name')?.value;
     const email = this.funcionarioCreateForm.get('email')?.value;
     const password = this.funcionarioCreateForm.get('password')?.value;
+    const address1 = this.funcionarioCreateForm.get('address1')?.value;
+    const address2 = this.funcionarioCreateForm.get('address2')?.value;
+    const phoneNumber = this.funcionarioCreateForm.get('phoneNumber')?.value;
+    const birthDate = this.funcionarioCreateForm.get('birthDate')?.value;
 
     // Chamada ao serviço de registo
-    this.authService.register(name, email, password).forEach(
+    this.authService.register(name, address1, address2, phoneNumber, birthDate, email, password).forEach(
       response => {
         if (response) {
           this.funcionarioCreateSucceeded = true;
