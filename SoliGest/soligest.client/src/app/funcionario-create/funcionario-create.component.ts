@@ -50,6 +50,10 @@ export class FuncionarioCreateComponent implements OnInit {
         {
           name: ['', Validators.required],
           email: ['', [Validators.required, Validators.email]],
+          address1: [],
+          address2: [],
+          phoneNumber: [],
+          birthDate: [],
           password: ['', [
             Validators.required,
             Validators.minLength(6),
@@ -182,6 +186,14 @@ export class FuncionarioCreateComponent implements OnInit {
     const address2 = this.funcionarioCreateForm.get('address2')?.value;
     const phoneNumber = this.funcionarioCreateForm.get('phoneNumber')?.value;
     const birthDate = this.funcionarioCreateForm.get('birthDate')?.value;
+
+    console.log(name);
+    console.log(email);
+    console.log(password);
+    console.log(address1);
+    console.log(address2);
+    console.log(phoneNumber);
+    console.log(birthDate);
 
     // Chamada ao serviço de registo
     this.authService.register(name, address1, address2, phoneNumber, birthDate, email, password).forEach(

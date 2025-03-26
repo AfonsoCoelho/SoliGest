@@ -12,7 +12,7 @@ namespace SoliGest.Server.Models
 
         [Required(ErrorMessage = "A data de nascimento é obrigatória.")]
         [Display(Name = "Data de nascimento")]
-        public DateOnly BirthDate { get; set; }
+        public string BirthDate { get; set; }
 
         public string Address1 { get; set; }
         public string Address2 { get; set; }
