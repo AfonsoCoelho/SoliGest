@@ -15,13 +15,11 @@
 
   <div class="table-container">
     <!-- Botão de Adicionar movido para cima -->
-    <div class="add-button-container">
+    <div class="add-delete-button-container">
       <button class="add-button" routerLink="/funcionario-create">
         Adicionar Utilizador
       </button>
-    </div>
-    <div class="delete-button-container">
-      <button class="delete-selected-button" (click)="onBulkDelete()" disabled>
+      <button class="delete-selected-button" (click)="onBulkDelete()">
         Apagar selecionados
       </button>
     </div>

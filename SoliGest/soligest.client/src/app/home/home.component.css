@@ -24,11 +24,12 @@
   margin-bottom: 10%;
 }
 
-#upperMenu h2 {
-    padding-bottom: 2%;
-    position: relative;
+  #upperMenu h2 {
+    padding-top: 50px; /* Aumenta o espaçamento para evitar sobreposição */
+    position: relative; /* Remove a sobreposição causada pelo absolute */
     text-align: left;
-}
+  }
+
 
 #upperMenu h2 img {
     padding-left: 2%;
@@ -75,9 +76,11 @@ h2 {
 }
 
 #profile {
-  left: 25%;
-  position: relative;
+  position: absolute;
+  right: 5%;
+  top: 10px;
 }
+
 
 #mapOptions {
     position:absolute;
