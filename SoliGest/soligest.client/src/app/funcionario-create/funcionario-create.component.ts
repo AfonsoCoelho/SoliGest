@@ -187,14 +187,6 @@ export class FuncionarioCreateComponent implements OnInit {
     const phoneNumber = this.funcionarioCreateForm.get('phoneNumber')?.value;
     const birthDate = this.funcionarioCreateForm.get('birthDate')?.value;
 
-    console.log(name);
-    console.log(email);
-    console.log(password);
-    console.log(address1);
-    console.log(address2);
-    console.log(phoneNumber);
-    console.log(birthDate);
-
     // Chamada ao serviço de registo
     this.authService.register(name, address1, address2, phoneNumber, birthDate, email, password).forEach(
       response => {
