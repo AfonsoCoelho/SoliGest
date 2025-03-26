@@ -42,23 +42,23 @@ export class FuncionarioEditComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    var user = this.getUser();
+    //var user = this.getUser();
 
     this.funcionarioEditFailed = false;
     this.funcionarioEditSucceeded = false;
     this.errors = [];
 
-    console.log(user)
+    //console.log(user)
 
-    if(user)
-    {
+    //if(user)
+    //{
       // Inicializar o formulário com validações
       this.funcionarioEditForm = this.formBuilder.group(
       {
         name: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]]
       });
-    }
+    //}
   }
 
   /*
