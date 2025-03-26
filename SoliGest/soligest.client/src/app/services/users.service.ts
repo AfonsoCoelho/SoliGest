@@ -14,6 +14,7 @@ export class UsersService {
   }
 
   getUser(id: string): Observable<User> {
+    console.log(id);
     return this.http.get<User>('api/Users/' + id);
   }
 
@@ -41,12 +42,34 @@ export class UsersService {
 export interface User {
   id: string;
   name: string;
-  address1: string;
-  address2: string;
-  birthDate: undefined;
-  role: string;
+  //address1: string;
+  //address2: string;
+  birthDate: string;
+  //role: string;
   email: string;
   phoneNumber: number;
-  folgasMes: Date[];
-  feriasAno: { inicio: Date, fim: Date }[];
+  //folgasMes: Date[];
+  //feriasAno: { inicio: Date, fim: Date }[];
 }
+
+//{
+//  "name": "SoliGest Admin",
+//    "birthDate": "0001-01-01",
+//      "monthlyDaysOff": [],
+//        "yearHolidays": [],
+//          "id": "82f936ee-f5c3-41ee-b6fb-0e0c250bfa05",
+//            "userName": "soligestesa@gmail.com",
+//              "normalizedUserName": "SOLIGESTESA@GMAIL.COM",
+//                "email": "soligestesa@gmail.com",
+//                  "normalizedEmail": "SOLIGESTESA@GMAIL.COM",
+//                    "emailConfirmed": false,
+//                      "passwordHash": "AQAAAAIAAYagAAAAEKx9VU8F0/GwT9+vZBzkLHnRdHkwH8jZb3btXhynXxUHrsaQV5lF2mCoCsa2CrMkIw==",
+//                        "securityStamp": "FU7SHNBABIJYWWOSM255NPG5WILDDPGK",
+//                          "concurrencyStamp": "7d0dba15-a9c6-4423-b394-a408a0e44d69",
+//                            "phoneNumber": null,
+//                              "phoneNumberConfirmed": false,
+//                                "twoFactorEnabled": false,
+//                                  "lockoutEnd": null,
+//                                    "lockoutEnabled": true,
+//                                      "accessFailedCount": 0
+//}

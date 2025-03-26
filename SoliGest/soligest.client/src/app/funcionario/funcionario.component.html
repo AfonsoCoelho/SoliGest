@@ -30,7 +30,7 @@
           <th>Selecionar</th>
           <th>ID</th>
           <th>Nome</th>
-          <th>Cargo</th>
+          <!--<th>Cargo</th>-->
           <th>Email</th>
           <th>Data de Nascimento</th>
           <th>Telemóvel</th>
@@ -47,7 +47,7 @@
           </td>
           <td>{{ user.id }}</td>
           <td>{{ user.name }}</td>
-          <td>{{ user.role }}</td>
+          <!--<td>{{ user.role }}</td>-->
           <td>{{ user.email }}</td>
           <td>{{ user.birthDate }}</td>
           <td>{{ user.phoneNumber }}</td>
@@ -81,7 +81,7 @@
             <div class="modal-profile-details">
               <p><strong>ID:</strong> {{ user.id }}</p>
               <p><strong>Nome:</strong> {{ user.name }}</p>
-              <p><strong>Cargo:</strong> {{ user.role }}</p>
+              <!--<p><strong>Cargo:</strong> {{ user.role }}</p>-->
             </div>
           </div>
           <br> <!-- Add a line break for separation -->
@@ -106,7 +106,7 @@
             <div class="modal-profile-details">
               <p><strong>ID:</strong> {{ selectedUser.id }}</p>
               <p><strong>Nome:</strong> {{ selectedUser.name }}</p>
-              <p><strong>Cargo:</strong> {{ selectedUser.role }}</p>
+              <!--<p><strong>Cargo:</strong> {{ selectedUser.role }}</p>-->
             </div>
           </div>
           <br> <!-- Add a line break for separation -->
@@ -131,18 +131,18 @@
           <div class="modal-profile-details">
             <p><strong>ID:</strong> {{ selectedUser?.id }}</p>
             <p><strong>Nome:</strong> {{ selectedUser?.name }}</p>
-            <p><strong>Cargo:</strong> {{ selectedUser?.role }}</p>
+            <!--<p><strong>Cargo:</strong> {{ selectedUser?.role }}</p>-->
             <p><strong>Email:</strong> {{ selectedUser?.email }}</p>
             <p><strong>Data de Nascimento:</strong> {{ selectedUser?.birthDate }}</p>
             <p><strong>Telemóvel:</strong> {{ selectedUser?.phoneNumber }}</p>
             <p><strong>Período de Férias:</strong></p>
-            <span *ngFor="let periodo of selectedUser?.feriasAno">
+            <!--<span *ngFor="let periodo of selectedUser?.feriasAno">
               {{ periodo.inicio }} - {{ periodo.fim }} <br>
-            </span>
+            </span>-->
             <p><strong>Dias de Folga:</strong></p>
-            <span *ngFor="let folga of selectedUser?.folgasMes">
+            <!--<span *ngFor="let folga of selectedUser?.folgasMes">
               {{ folga }} <br>
-            </span>
+            </span>-->
           </div>
         </div>
       </div>

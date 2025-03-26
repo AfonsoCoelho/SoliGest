@@ -14,19 +14,22 @@ export class FuncionarioEditComponent implements OnInit {
   funcionarioEditForm!: FormGroup;
   funcionarioEditFailed: boolean = false;
   funcionarioEditSucceeded: boolean = false;
+  utilizador: User | undefined;
 
-  user: User = {
-    id: '',
-    name: '',
-    email: '',
-    address1: '', // Morada 1
-    address2: '', // Morada 2
-    phoneNumber: 0, // Telemóvel
-    birthDate: undefined, // Data de Nascimento
-    role: '',
-    folgasMes: [],
-    feriasAno: []
-  };
+  //user: User = {
+  //  id: '',
+  //  name: '',
+  //  email: '',
+  //  address1: '', // Morada 1
+  //  address2: '', // Morada 2
+  //  phoneNumber: 0, // Telemóvel
+  //  birthDate: undefined, // Data de Nascimento
+  //  role: '',
+  //  folgasMes: [],
+  //  feriasAno: []
+  //};
+
+  user: User | undefined;
 
   folgaDia: Date | null = null; // Dia de folga selecionado
   folgasMes: Date[] = []; // Lista de dias de folga do mês
@@ -39,26 +42,31 @@ export class FuncionarioEditComponent implements OnInit {
     private router: Router,
     private usersService: UsersService,
     private formBuilder: FormBuilder
-  ) { }
+  ) {
+    
+}
 
   ngOnInit(): void {
     //var user = this.getUser();
+    //user = this.utilizador;
+    this.getUser();
 
     this.funcionarioEditFailed = false;
     this.funcionarioEditSucceeded = false;
     this.errors = [];
 
     //console.log(user)
+    //console.log(this.utilizador)
 
-    //if(user)
-    //{
+    if(this.user)
+    {
       // Inicializar o formulário com validações
       this.funcionarioEditForm = this.formBuilder.group(
       {
-        name: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]]
+        name: [this.user.name, Validators.required],
+        email: [this.user.email, [Validators.required, Validators.email]]
       });
-    //}
+    }
   }
 
   /*
@@ -107,46 +115,52 @@ export class FuncionarioEditComponent implements OnInit {
   }
 
   // Método chamado ao submeter o formulário
-  onSubmit(): void {
-    const userData = {
-      ...this.user,
-      folgasMes: this.folgasMes,
-      feriasAno: this.feriasAno
-    };
+  //onSubmit(): void {
+  //  const userData = {
+  //    ...this.user,
+  //    folgasMes: this.folgasMes,
+  //    feriasAno: this.feriasAno
+  //  };
 
-    this.usersService.updateUser(userData).subscribe(
-      (response) => {
-        console.log('Utilizador atualizado com sucesso:', response);
+  //  this.usersService.updateUser(userData).subscribe(
+  //    (response) => {
+  //      console.log('Utilizador atualizado com sucesso:', response);
 
-        this.usersService.saveDaysOff(this.user.id, this.folgasMes).subscribe(
-          (respFolgas) => {
-            console.log('Folgas salvas', respFolgas);
+  //      this.usersService.saveDaysOff(this.user.id, this.folgasMes).subscribe(
+  //        (respFolgas) => {
+  //          console.log('Folgas salvas', respFolgas);
 
-            this.usersService.saveHolidays(this.user.id, this.feriasAno).subscribe(
-              (respFerias) => {
-                console.log('Férias salvas', respFerias);
+  //          this.usersService.saveHolidays(this.user.id, this.feriasAno).subscribe(
+  //            (respFerias) => {
+  //              console.log('Férias salvas', respFerias);
 
-                this.router.navigate(['/funcionarios']);
-              },
-              (error) => console.error('Erro ao salvar ferias:', error)
-            );
-          },
-          (error) => console.error('Erro ao salvar folgas:', error)
-        );
-      },
-      (error) => console.error('Erro ao atualizar user:', error)
-    );
-  }
+  //              this.router.navigate(['/funcionarios']);
+  //            },
+  //            (error) => console.error('Erro ao salvar ferias:', error)
+  //          );
+  //        },
+  //        (error) => console.error('Erro ao salvar folgas:', error)
+  //      );
+  //    },
+  //    (error) => console.error('Erro ao atualizar user:', error)
+  //  );
+  //}
 
-  getUser(): any {
+  getUser(): void {
     // Obtém o ID do utilizador da rota
     const userId = this.route.snapshot.paramMap.get('id');
     if (userId) {
       // this.carregarUtilizador(+userId);
-      this.usersService.getUser(userId).subscribe(res => {
-        console.log(res);
-        return res;
+      this.usersService.getUser(userId).subscribe({
+        next: res => {
+          console.log("Recebi utilizador" + res);
+          this.user = res;
+        },
+        error: err => {
+          console.error(err);
+        }
       });
     }
+    console.log("Chegou aqui!")
   }
 }
