@@ -114,6 +114,5 @@ export class FuncionarioComponent {
   // Fechar o modal de detalhes
   closeDetailsModal(): void {
     this.isDetailsModalOpen = false;
-    this.selectedUser = null;
   }
 }

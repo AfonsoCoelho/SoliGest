@@ -149,7 +149,7 @@
       <div class="button-container">
         <button (click)="closeDetailsModal()">Fechar</button>
         <button routerLink="/funcionario-edit">Editar</button>
-        <button (click)="confirmDelete()">Apagar</button>
+        <button *ngIf="selectedUser" (click)="closeDetailsModal(); onDelete(selectedUser)">Apagar</button>
       </div>
     </div>
   </div>
