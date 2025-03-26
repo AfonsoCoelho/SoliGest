@@ -18,7 +18,7 @@
     <div class="right-section">
       <div class="form-container">
         <h2>Editar Utilizador</h2>
-        <form *ngIf="user" [formGroup]="funcionarioEditForm">
+        <form *ngIf="user" [formGroup]="funcionarioEditForm" (submit)="update()">
           <!-- Nome Completo -->
           <div class="form-group">
             <label for="nome">Nome Completo:</label>
@@ -42,14 +42,14 @@
 
           <!-- Morada 1 -->
           <div class="form-group">
-            <label for="morada1">Morada 1:</label>
-            <input type="text" id="morada1" name="morada1">
+            <label for="address1">Morada 1:</label>
+            <input type="text" id="address1" name="address1" formControlName="address1">
           </div>
 
           <!-- Morada 2 -->
           <div class="form-group">
-            <label for="morada2">Morada 2:</label>
-            <input type="text" id="morada2" name="morada2">
+            <label for="address2">Morada 2:</label>
+            <input type="text" id="address2" name="address2" formControlName="address2">
           </div>
 
           <!-- Telemóvel -->

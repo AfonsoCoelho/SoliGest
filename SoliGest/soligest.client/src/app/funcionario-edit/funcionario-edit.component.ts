@@ -141,10 +141,14 @@ export class FuncionarioEditComponent implements OnInit {
       this.usersService.getUser(userId).subscribe({
         next: res => {
           this.user = res;
+          console.log(this.user.address1);
+          console.log(this.user.address2);
           this.funcionarioEditForm = this.formBuilder.group(
             {
               name: [this.user.name, Validators.required],
               email: [this.user.email, [Validators.required, Validators.email]],
+              address1: [this.user.address1],
+              address2: [this.user.address2],
               phoneNumber: [this.user.phoneNumber],
               birthDate: [this.user.birthDate]
             });
@@ -154,5 +158,9 @@ export class FuncionarioEditComponent implements OnInit {
         }
       });
     }
+  }
+
+  update() {
+    alert("Utilizador atualizado!");
   }
 }
