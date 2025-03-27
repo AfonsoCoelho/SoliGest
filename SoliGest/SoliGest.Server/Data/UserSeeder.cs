@@ -19,7 +19,7 @@ namespace SoliGest.Server.Data
                     BirthDate = "2001-01-01",
                     PhoneNumber = "999999999",
                     Role = "Supervisor",
-                    DayOff = "Saturday",
+                    DayOff = "Sábado",
                     StartHoliday = "2025-06-01",
                     EndHoliday = "2025-07-01",
                 };
@@ -39,8 +39,8 @@ namespace SoliGest.Server.Data
                     Address2 = "morada2",
                     BirthDate = "2001-01-01",
                     PhoneNumber = "999999999",
-                    Role = "Administrative",
-                    DayOff = "Saturday",
+                    Role = "Administrativo",
+                    DayOff = "Sábado",
                     StartHoliday = "2025-06-01",
                     EndHoliday = "2025-07-01",
                 };
@@ -60,8 +60,8 @@ namespace SoliGest.Server.Data
                     Address2 = "morada2",
                     BirthDate = "2001-01-01",
                     PhoneNumber = "999999999",
-                    Role = "Technician",
-                    DayOff = "Saturday",
+                    Role = "Técnico",
+                    DayOff = "Sábado",
                     StartHoliday = "2025-06-01",
                     EndHoliday = "2025-07-01",
                 };

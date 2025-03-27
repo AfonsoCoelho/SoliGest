@@ -135,20 +135,21 @@
             <p><strong>Email:</strong> {{ selectedUser?.email }}</p>
             <p><strong>Data de Nascimento:</strong> {{ selectedUser?.birthDate }}</p>
             <p><strong>Telemóvel:</strong> {{ selectedUser?.phoneNumber }}</p>
-            <p><strong>Período de Férias:</strong></p>
             <!--<span *ngFor="let periodo of selectedUser?.feriasAno">
               {{ periodo.inicio }} - {{ periodo.fim }} <br>
             </span>-->
-          <p><strong>Dias de Folga:</strong> {{ selectedUser?.dayOff }}</p>
+            <p><strong>Dias de Folga:</strong> {{ selectedUser?.dayOff }}</p>
             <!--<span *ngFor="let folga of selectedUser?.folgasMes">
               {{ folga }} <br>
             </span>-->
+            <p><strong>Inicio de Férias:</strong> {{ selectedUser?.startHoliday }}</p>
+            <p><strong>Final de Férias:</strong> {{ selectedUser?.endHoliday }}</p>
           </div>
         </div>
       </div>
       <div class="button-container">
         <button (click)="closeDetailsModal()">Fechar</button>
-        <button routerLink="/funcionario-edit">Editar</button>
+        <button routerLink="/funcionario-edit/{{ selectedUser?.id }}">Editar</button>
         <button *ngIf="selectedUser" (click)="closeDetailsModal(); onDelete(selectedUser)">Apagar</button>
       </div>
     </div>

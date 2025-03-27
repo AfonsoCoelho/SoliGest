@@ -124,7 +124,7 @@ body {
   border-radius: 5px;
 }
 
-  .submit-btn:hover, .cancel-btn {
+  .submit-btn:hover, .cancel-btn:hover {
     background-color: #ffb300;
   }
 
@@ -172,10 +172,6 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
-
-  button:hover {
-    background-color: #0056b3; /* fica bue feio imo mas ok nsei quem meteu assim ass. dakile */
-  }
 
   button:disabled {
     opacity: 0.6;
