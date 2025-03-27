@@ -19,6 +19,9 @@ namespace SoliGest.Server.Models
 
         public List<DayOff> MonthlyDaysOff { get; set; } = new List<DayOff>();
         public List<Holidays> YearHolidays { get; set; } = new List<Holidays>();
+        
+        [Display(Name = "Dia de folga.")]
+        public WeekDaysEnum DayOff { get; set; }
     }
 
 }
