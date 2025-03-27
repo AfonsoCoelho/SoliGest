@@ -175,8 +175,15 @@ namespace SoliGestTest
         [Fact]
         public async Task PutPerson_ReturnsBadRequest_WhenIdDoesNotMatch()
         {
-            var result = await _controller.PutPerson("123", new User { Id = "456" });
-            Assert.IsType<BadRequestResult>(result);
+            var user = new User { Id = "123", Name = "Old Name" };
+            var updatedUser = new UserUpdateModel { Id = "456", Name = "New Name" };
+
+            _mockUserManager.Setup(m => m.FindByIdAsync(user.Id)).ReturnsAsync(user);
+            _mockUserManager.Setup(m => m.UpdateAsync(It.IsAny<User>())).ReturnsAsync(IdentityResult.Success);
+
+            var result = await _controller.PutPerson(updatedUser);
+
+            Assert.IsType<NotFoundObjectResult>(result);
         }
 
         [Fact]
@@ -220,14 +227,14 @@ namespace SoliGestTest
         public async Task PutPerson_UpdatesUser_WhenIdMatches()
         {
             var user = new User { Id = "123", Name = "Old Name" };
-            var updatedUser = new User { Id = "123", Name = "New Name" };
+            var updatedUser = new UserUpdateModel { Id = "123", Name = "New Name" };
 
             _mockUserManager.Setup(m => m.FindByIdAsync(user.Id)).ReturnsAsync(user);
             _mockUserManager.Setup(m => m.UpdateAsync(It.IsAny<User>())).ReturnsAsync(IdentityResult.Success);
 
-            var result = await _controller.PutPerson(user.Id, updatedUser);
+            var result = await _controller.PutPerson(updatedUser);
 
-            Assert.IsType<NoContentResult>(result);
+            Assert.IsType<OkObjectResult>(result);
         }
 
 
