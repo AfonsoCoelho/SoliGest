@@ -151,18 +151,45 @@ namespace SoliGest.Server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPerson([FromBody] UserUpdateModel model)
         {
-            var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name, BirthDate = model.BirthDate, PhoneNumber = model.PhoneNumber, Address1 = model.Address1, Address2 = model.Address2 };
+            //var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name, BirthDate = model.BirthDate, PhoneNumber = model.PhoneNumber, Address1 = model.Address1, Address2 = model.Address2 };
 
-            var result = await _userManager.UpdateAsync(user);
+            //var result = await _userManager.UpdateAsync(user);
 
-            if (result.Succeeded)
+            //if (result.Succeeded)
+            //{
+            //    return Ok(new { message = "Utilizador atualizado com sucesso!" });
+            //}
+            //else
+            //{
+            //    return BadRequest(result.Errors);
+            //}
+            if (ModelState.IsValid)
             {
-                return Ok(new { message = "Utilizador atualizado com sucesso!" });
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                user.UserName = model.Email;
+                user.Email = model.Email;
+                user.Name = model.Name;
+                user.PhoneNumber = model.PhoneNumber;
+
+                var result = await _userManager.UpdateAsync(user);
+
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError("", result.Errors.First().Description);
+                    return BadRequest();
+                }
+
+                //return RedirectToAction("Index");
+                return NoContent();
             }
-            else
-            {
-                return BadRequest(result.Errors);
-            }            
+
+            ModelState.AddModelError("", "Something failed.");
+            return Ok();
         }
 
         private bool UserExists(string id)
