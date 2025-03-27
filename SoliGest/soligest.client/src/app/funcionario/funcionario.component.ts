@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
 export class FuncionarioComponent {
   public users: User[] = []; // Lista de usuários
   selectedUsers: User[] = []; // Lista de usuários selecionados
-  isModalOpen: boolean = false; // Controla a exibição do modal delete
+  isBulkDeleteModalOpen: boolean = false;
+  isDeleteModalOpen: boolean = false; // Controla a exibição do modal delete
   isDetailsModalOpen: boolean = false; // Controla a exibição do modal de detalhes
   selectedUser: User | null = null; // Usuário selecionado para exibição de detalhes
   imagepath: string = "/assets/img/plus-18.png";
@@ -63,12 +64,12 @@ export class FuncionarioComponent {
 
   // Ação do botão Apagar
   onBulkDelete(): void {
-    this.isModalOpen = true; // Open the modal
+    this.isBulkDeleteModalOpen = true; // Open the modal
   }
 
   onDelete(user: User): void {
     this.selectedUser = user;
-    this.isModalOpen = true; // Open the modal
+    this.isDeleteModalOpen = true; // Open the modal
   }
 
   // Ação do botão Criar
@@ -78,7 +79,8 @@ export class FuncionarioComponent {
   }
 
   closeModal(): void {
-    this.isModalOpen = false; // Close the modal
+    this.isDeleteModalOpen = false; // Close the modal
+    this.isBulkDeleteModalOpen = false; // Close the modal
     this.selectedUser = null;
     this.selectedUsers = [];
   }

@@ -30,7 +30,7 @@
           <th>Selecionar</th>
           <th>ID</th>
           <th>Nome</th>
-          <!--<th>Cargo</th>-->
+          <th>Cargo</th>
           <th>Email</th>
           <th>Data de Nascimento</th>
           <th>Telemóvel</th>
@@ -47,7 +47,7 @@
           </td>
           <td>{{ user.id }}</td>
           <td>{{ user.name }}</td>
-          <!--<td>{{ user.role }}</td>-->
+          <td>{{ user.role }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.birthDate }}</td>
           <td>{{ user.phoneNumber }}</td>
@@ -69,7 +69,7 @@
   </div>
 
   <!-- Modal para delete -->
-  <div class="modal" *ngIf="isModalOpen">
+  <div class="modal" *ngIf="isBulkDeleteModalOpen">
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
       <h2>Confirmar Exclusão</h2>
@@ -81,7 +81,7 @@
             <div class="modal-profile-details">
               <p><strong>ID:</strong> {{ user.id }}</p>
               <p><strong>Nome:</strong> {{ user.name }}</p>
-              <!--<p><strong>Cargo:</strong> {{ user.role }}</p>-->
+              <p><strong>Cargo:</strong> {{ user.role }}</p>
             </div>
           </div>
           <br> <!-- Add a line break for separation -->
@@ -94,7 +94,7 @@
     </div>
   </div>
 
-  <div class="modal" *ngIf="isModalOpen">
+  <div class="modal" *ngIf="isDeleteModalOpen">
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
       <h2>Confirmar Exclusão</h2>
@@ -106,7 +106,7 @@
             <div class="modal-profile-details">
               <p><strong>ID:</strong> {{ selectedUser.id }}</p>
               <p><strong>Nome:</strong> {{ selectedUser.name }}</p>
-              <!--<p><strong>Cargo:</strong> {{ selectedUser.role }}</p>-->
+              <p><strong>Cargo:</strong> {{ selectedUser.role }}</p>
             </div>
           </div>
           <br> <!-- Add a line break for separation -->
@@ -131,7 +131,7 @@
           <div class="modal-profile-details">
             <p><strong>ID:</strong> {{ selectedUser?.id }}</p>
             <p><strong>Nome:</strong> {{ selectedUser?.name }}</p>
-            <!--<p><strong>Cargo:</strong> {{ selectedUser?.role }}</p>-->
+            <p><strong>Cargo:</strong> {{ selectedUser?.role }}</p>
             <p><strong>Email:</strong> {{ selectedUser?.email }}</p>
             <p><strong>Data de Nascimento:</strong> {{ selectedUser?.birthDate }}</p>
             <p><strong>Telemóvel:</strong> {{ selectedUser?.phoneNumber }}</p>
@@ -139,7 +139,7 @@
             <!--<span *ngFor="let periodo of selectedUser?.feriasAno">
               {{ periodo.inicio }} - {{ periodo.fim }} <br>
             </span>-->
-          <p><strong>Dias de Folga:</strong>{{ selectedUser?.dayOff }}</p>
+          <p><strong>Dias de Folga:</strong> {{ selectedUser?.dayOff }}</p>
             <!--<span *ngFor="let folga of selectedUser?.folgasMes">
               {{ folga }} <br>
             </span>-->
