@@ -23,7 +23,7 @@ export class UsersService {
 
   updateUser(id: string, name: string, address1: string, address2: string, phoneNumber: string, birthDate: Date, email: string): Observable<User> {
     console.log(email);
-    return this.http.put<User>('api/Users/' + id, { name, email, birthDate, address1, address2, phoneNumber });
+    return this.http.put<User>('api/Users/' + id, { id, name, email, birthDate, address1, address2, phoneNumber });
   }
 
   deleteUser(id: string): Observable<User> {

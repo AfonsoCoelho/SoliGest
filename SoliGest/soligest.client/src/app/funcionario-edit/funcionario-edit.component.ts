@@ -143,7 +143,7 @@ export class FuncionarioEditComponent implements OnInit {
           this.user = res;
           this.funcionarioEditForm = this.formBuilder.group(
             {
-              id: [this.user.id],
+              id: { value: this.user.id, disabled: true },
               name: [this.user.name, Validators.required],
               email: [this.user.email, [Validators.required, Validators.email]],
               address1: [this.user.address1],

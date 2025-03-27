@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Shared;
 using SendGrid.Helpers.Mail;
 using SoliGest.Server.Data;
+//using SoliGest.Server.Migrations;
 using SoliGest.Server.Models;
 using SoliGest.Server.Services;
 using System;
@@ -163,33 +165,76 @@ namespace SoliGest.Server.Controllers
             //{
             //    return BadRequest(result.Errors);
             //}
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            //    var user = await _userManager.FindByEmailAsync(model.Email);
+            //    if (user == null)
+            //    {
+            //        return NotFound();
+            //    }
+
+            //    user.UserName = model.Email;
+            //    user.Email = model.Email;
+            //    user.Name = model.Name;
+            //    user.PhoneNumber = model.PhoneNumber;
+
+            //    var result = await _userManager.UpdateAsync(user);
+
+            //    if (!result.Succeeded)
+            //    {
+            //        ModelState.AddModelError("", result.Errors.First().Description);
+            //        return BadRequest();
+            //    }
+
+            //    //return RedirectToAction("Index");
+            //    return NoContent();
+            //}
+
+            //ModelState.AddModelError("", "Something failed.");
+            //return Ok();
+
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null)
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null)
-                {
-                    return NotFound();
-                }
-
-                user.UserName = model.Email;
-                user.Email = model.Email;
-                user.Name = model.Name;
-                user.PhoneNumber = model.PhoneNumber;
-
-                var result = await _userManager.UpdateAsync(user);
-
-                if (!result.Succeeded)
-                {
-                    ModelState.AddModelError("", result.Errors.First().Description);
-                    return BadRequest();
-                }
-
-                //return RedirectToAction("Index");
-                return NoContent();
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            ModelState.AddModelError("", "Something failed.");
-            return Ok();
+            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            if (model.PhoneNumber != phoneNumber)
+            {
+                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
+                if (!setPhoneResult.Succeeded)
+                {
+                    return BadRequest(new { message = "Unexpected error when trying to set phone number." });
+                }
+            }
+
+            var email = await _userManager.GetEmailAsync(user);
+            if (model.Email != email)
+            {
+                var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
+                if (!setEmailResult.Succeeded)
+                {
+                    return BadRequest(new { message = "Unexpected error when trying to set email." });
+                }
+            }
+
+            user.Name = model.Name;
+            user.Address1 = model.Address1;
+            user.Address2 = model.Address2;
+            user.BirthDate = model.BirthDate;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", result.Errors.First().Description);
+                return BadRequest();
+            }
+
+            //await _signInManager.RefreshSignInAsync(user);
+
+            return Ok(new { message = "Utilizador atualizado com sucesso!" });
         }
 
         private bool UserExists(string id)
@@ -265,6 +310,7 @@ namespace SoliGest.Server.Controllers
 
     public class UserUpdateModel
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string BirthDate { get; set; }

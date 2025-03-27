@@ -19,10 +19,10 @@
       <div class="form-container">
         <h2>Editar Utilizador</h2>
         <form *ngIf="user" [formGroup]="funcionarioEditForm" (submit)="update()">
-          <!-- Nome Completo -->
+          <!-- ID -->
           <div class="form-group">
             <label for="id">ID:</label>
-            <input type="text" id="id" name="id" formControlName="id" >
+            <input type="text" id="id" name="id" formControlName="id">
           </div>
           <!-- Nome Completo -->
           <div class="form-group">
