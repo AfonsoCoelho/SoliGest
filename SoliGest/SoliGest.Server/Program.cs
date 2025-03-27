@@ -102,7 +102,7 @@ using (var scope = app.Services.CreateScope())
     var userManager = services.GetRequiredService<UserManager<User>>();
     var context = services.GetRequiredService<SoliGestServerContext>();
 
-    await context.Database.MigrateAsync();
+    //await context.Database.MigrateAsync();
 
     await RoleSeeder.SeedRoles(roleManager);
     await UserSeeder.SeedUsersAsync(userManager);

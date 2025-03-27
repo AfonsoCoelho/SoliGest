@@ -13,4 +13,7 @@
     <TypeScriptConfiguration Remove="src\app\login\NovaPasta1\**" />
     <TypeScriptConfiguration Remove="src\app\register\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\app\services\" />
+  </ItemGroup>
 </Project>
