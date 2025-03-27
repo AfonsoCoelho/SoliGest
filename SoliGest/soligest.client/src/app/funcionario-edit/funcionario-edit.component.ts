@@ -141,10 +141,9 @@ export class FuncionarioEditComponent implements OnInit {
       this.usersService.getUser(userId).subscribe({
         next: res => {
           this.user = res;
-          console.log(this.user.address1);
-          console.log(this.user.address2);
           this.funcionarioEditForm = this.formBuilder.group(
             {
+              id: [this.user.id],
               name: [this.user.name, Validators.required],
               email: [this.user.email, [Validators.required, Validators.email]],
               address1: [this.user.address1],
@@ -161,6 +160,29 @@ export class FuncionarioEditComponent implements OnInit {
   }
 
   update() {
-    alert("Utilizador atualizado!");
+    const id = this.route.snapshot.paramMap.get('id');
+    const name = this.funcionarioEditForm.get('name')?.value;
+    const email = this.funcionarioEditForm.get('email')?.value;
+    const address1 = this.funcionarioEditForm.get('address1')?.value;
+    const address2 = this.funcionarioEditForm.get('address2')?.value;
+    const phoneNumber = this.funcionarioEditForm.get('phoneNumber')?.value;
+    const birthDate = this.funcionarioEditForm.get('birthDate')?.value;
+    //if (id) {
+    //  this.usersService.updateUser({ id, name, address1, address2, birthDate, email, phoneNumber }).subscribe({
+    //    next: res => {
+    //      console.log("Utilizador atualizado!");
+    //    },
+    //    error: err => {
+    //      console.error(err);
+    //    }
+    //  });
+    //}
+
+    if (id) {
+      this.usersService.updateUser(id, name, email, address1, address2, phoneNumber, birthDate).subscribe(res => {
+        console.log('Person updated successfully!');
+        this.router.navigateByUrl('people');
+      });
+    }
   }
 }

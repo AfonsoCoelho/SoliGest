@@ -21,6 +21,11 @@
         <form *ngIf="user" [formGroup]="funcionarioEditForm" (submit)="update()">
           <!-- Nome Completo -->
           <div class="form-group">
+            <label for="id">ID:</label>
+            <input type="text" id="id" name="id" formControlName="id" >
+          </div>
+          <!-- Nome Completo -->
+          <div class="form-group">
             <label for="nome">Nome Completo:</label>
             <input type="text" id="nome" name="nome" formControlName="name" autocomplete="on">
             <div class="error-feedback" *ngIf="funcionarioEditForm.get('name')?.hasError('required') && funcionarioEditForm.get('name')?.touched">
@@ -66,45 +71,42 @@
 
           <!-- Cargo -->
           <!--<div class="form-group">
-            <label for="cargo">Cargo:</label>
-            <select id="cargo" name="cargo" required>
-              <option value="">Selecione o cargo</option>
-              <option value="supervisor">Supervisor</option>
-              <option value="administrativo">Administrativo</option>
-              <option value="tecnico">Técnico</option>
-            </select>
-          </div>-->
-
+    <label for="cargo">Cargo:</label>
+    <select id="cargo" name="cargo" required>
+      <option value="">Selecione o cargo</option>
+      <option value="supervisor">Supervisor</option>
+      <option value="administrativo">Administrativo</option>
+      <option value="tecnico">Técnico</option>
+    </select>
+  </div>-->
           <!-- Folgas do Mês -->
           <!--<div class="form-group">
-            <label for="folgasMes">Folgas do Mês (até 5 dias):</label>
-            <input type="date" id="folgasMes" name="folgasMes" (change)="adicionarFolga()" multiple>
-            <div *ngIf="folgasMes.length > 0">
-              <p>Dias selecionados:</p>
-              <ul>
-                <li *ngFor="let dia of folgasMes">{{ dia | date: 'dd/MM/yyyy' }}</li>
-              </ul>
-              <button type="button" (click)="limparFolgas()">Limpar Folgas</button>
-            </div>
-            <p *ngIf="folgasMes.length >= 5" class="error-feedback">Limite de 5 dias de folga atingido.</p>
-          </div>-->
-
+    <label for="folgasMes">Folgas do Mês (até 5 dias):</label>
+    <input type="date" id="folgasMes" name="folgasMes" (change)="adicionarFolga()" multiple>
+    <div *ngIf="folgasMes.length > 0">
+      <p>Dias selecionados:</p>
+      <ul>
+        <li *ngFor="let dia of folgasMes">{{ dia | date: 'dd/MM/yyyy' }}</li>
+      </ul>
+      <button type="button" (click)="limparFolgas()">Limpar Folgas</button>
+    </div>
+    <p *ngIf="folgasMes.length >= 5" class="error-feedback">Limite de 5 dias de folga atingido.</p>
+  </div>-->
           <!-- Férias do Ano -->
           <!--<div class="form-group">
-            <label for="feriasAno">Férias do Ano (até 2 semanas):</label>
-            <input type="date" id="feriasAno" name="feriasAno" (change)="adicionarFerias()" multiple>
-            <div *ngIf="feriasAno.length > 0">
-              <p>Período selecionado:</p>
-              <ul>
-                <li *ngFor="let periodo of feriasAno">
-                  {{ periodo.inicio | date: 'dd/MM/yyyy' }} - {{ periodo.fim | date: 'dd/MM/yyyy' }}
-                </li>
-              </ul>
-              <button type="button" (click)="limparFerias()">Limpar Férias</button>
-            </div>
-            <p *ngIf="feriasAno.length >= 2" class="error-feedback">Limite de 2 semanas de férias atingido.</p>
-          </div>-->
-
+    <label for="feriasAno">Férias do Ano (até 2 semanas):</label>
+    <input type="date" id="feriasAno" name="feriasAno" (change)="adicionarFerias()" multiple>
+    <div *ngIf="feriasAno.length > 0">
+      <p>Período selecionado:</p>
+      <ul>
+        <li *ngFor="let periodo of feriasAno">
+          {{ periodo.inicio | date: 'dd/MM/yyyy' }} - {{ periodo.fim | date: 'dd/MM/yyyy' }}
+        </li>
+      </ul>
+      <button type="button" (click)="limparFerias()">Limpar Férias</button>
+    </div>
+    <p *ngIf="feriasAno.length >= 2" class="error-feedback">Limite de 2 semanas de férias atingido.</p>
+  </div>-->
           <!-- Botão de Submissão -->
           <div class="submit-cancel-buttons-container">
             <button type="submit" class="submit-btn">Salvar Alterações</button>

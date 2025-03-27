@@ -149,32 +149,20 @@ namespace SoliGest.Server.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPerson(string id, User user)
+        public async Task<IActionResult> PutPerson([FromBody] UserUpdateModel model)
         {
-            if (!id.Equals(user.Id))
-            {
-                return BadRequest();
-            }
+            var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name, BirthDate = model.BirthDate, PhoneNumber = model.PhoneNumber, Address1 = model.Address1, Address2 = model.Address2 };
 
-            _context.Entry(user).State = EntityState.Modified;
+            var result = await _userManager.UpdateAsync(user);
 
-            try
+            if (result.Succeeded)
             {
-                await _context.SaveChangesAsync();
+                return Ok(new { message = "Utilizador atualizado com sucesso!" });
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    Console.WriteLine("Erro");
-                    throw;
-                }
-            }
-            return NoContent();
+                return BadRequest(result.Errors);
+            }            
         }
 
         private bool UserExists(string id)
@@ -242,6 +230,16 @@ namespace SoliGest.Server.Controllers
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string BirthDate { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string PhoneNumber { get; set; }
+    }
+
+    public class UserUpdateModel
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
         public string BirthDate { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
