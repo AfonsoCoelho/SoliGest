@@ -50,11 +50,19 @@ export class FuncionarioCreateComponent implements OnInit {
         {
           name: ['', Validators.required],
           email: ['', [Validators.required, Validators.email]],
+          address1: [],
+          address2: [],
+          phoneNumber: [],
+          birthDate: [],
           password: ['', [
             Validators.required,
             Validators.minLength(6),
             Validators.pattern(/(?=.*[^a-zA-Z0-9 ])/)]],
-          confirmPassword: ['', [Validators.required]]
+          confirmPassword: ['', [Validators.required]],
+          role: [],
+          dayOff: [],
+          startHoliday: [],
+          endHoliday: []
         }, { validators: this.passwordMatchValidator });
   }
 
@@ -135,35 +143,35 @@ export class FuncionarioCreateComponent implements OnInit {
            this.user.role;
   }
 
-  onSubmit() {
-    if (this.formValido()) {
+  //onSubmit() {
+  //  if (this.formValido()) {
 
 
-      this.authService.register(this.user.name, this.user.email, this.user.password).subscribe(
-        (response) => {
-          console.log('Utilizador criado com sucesso:', response);
+  //    this.authService.register(this.user.name, this.user.email, this.user.password).subscribe(
+  //      (response) => {
+  //        console.log('Utilizador criado com sucesso:', response);
 
-          this.usersService.saveDaysOff(this.user.id, this.folgasMes).subscribe(
-            (respFolgas) => {
-              console.log('Folgas salvas', respFolgas);
+  //        this.usersService.saveDaysOff(this.user.id, this.folgasMes).subscribe(
+  //          (respFolgas) => {
+  //            console.log('Folgas salvas', respFolgas);
 
-              this.usersService.saveHolidays(this.user.id, this.feriasAno).subscribe(
-                (respFerias) => {
-                  console.log('Férias salvas', respFerias);
+  //            this.usersService.saveHolidays(this.user.id, this.feriasAno).subscribe(
+  //              (respFerias) => {
+  //                console.log('Férias salvas', respFerias);
 
-                  this.router.navigate(['/funcionarios']);
-                },
-                (error) => console.error('Erro ao salvar ferias:', error)
-              );
-            },
-            (error) => console.error('Erro ao salvar folgas:', error)
-          );
-        },
-        (error) => console.error('Erro ao criar user:', error)
-      );
-    }
-      this.router.navigate(['/funcionarios']);
-   }
+  //                this.router.navigate(['/funcionarios']);
+  //              },
+  //              (error) => console.error('Erro ao salvar ferias:', error)
+  //            );
+  //          },
+  //          (error) => console.error('Erro ao salvar folgas:', error)
+  //        );
+  //      },
+  //      (error) => console.error('Erro ao criar user:', error)
+  //    );
+  //  }
+  //    this.router.navigate(['/funcionarios']);
+  // }
   
 
   public register(): void {
@@ -178,9 +186,17 @@ export class FuncionarioCreateComponent implements OnInit {
     const name = this.funcionarioCreateForm.get('name')?.value;
     const email = this.funcionarioCreateForm.get('email')?.value;
     const password = this.funcionarioCreateForm.get('password')?.value;
+    const address1 = this.funcionarioCreateForm.get('address1')?.value;
+    const address2 = this.funcionarioCreateForm.get('address2')?.value;
+    const phoneNumber = this.funcionarioCreateForm.get('phoneNumber')?.value;
+    const birthDate = this.funcionarioCreateForm.get('birthDate')?.value;
+    const role = this.funcionarioCreateForm.get('role')?.value;
+    const dayOff = this.funcionarioCreateForm.get('dayOff')?.value;
+    const startHoliday = this.funcionarioCreateForm.get('startHoliday')?.value;
+    const endHoliday = this.funcionarioCreateForm.get('endHoliday')?.value;
 
     // Chamada ao serviço de registo
-    this.authService.register(name, email, password).forEach(
+    this.authService.register(name, address1, address2, phoneNumber, birthDate, email, password, role, dayOff, startHoliday, endHoliday).forEach(
       response => {
         if (response) {
           this.funcionarioCreateSucceeded = true;

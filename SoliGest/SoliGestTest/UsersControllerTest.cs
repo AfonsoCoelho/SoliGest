@@ -167,5 +167,118 @@ namespace SoliGestTest
             Assert.Equal(200, result.StatusCode);
             Assert.Contains("Password changed successfully", result.Value.ToString());
         }
+
+
+
+        //testes sprint 2
+
+        [Fact]
+        public async Task PutPerson_ReturnsBadRequest_WhenIdDoesNotMatch()
+        {
+            var user = new User { Id = "123", Name = "Old Name" };
+            var updatedUser = new UserUpdateModel { Id = "456", Name = "New Name" };
+
+            _mockUserManager.Setup(m => m.FindByIdAsync(user.Id)).ReturnsAsync(user);
+            _mockUserManager.Setup(m => m.UpdateAsync(It.IsAny<User>())).ReturnsAsync(IdentityResult.Success);
+
+            var result = await _controller.PutPerson(updatedUser);
+
+            Assert.IsType<NotFoundObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task GetPerson_ReturnsNotFound_WhenUserDoesNotExist()
+        {
+            _mockUserManager.Setup(m => m.FindByIdAsync("123")).ReturnsAsync((User)null);
+            var result = await _controller.GetPerson("123");
+            Assert.IsType<NotFoundResult>(result.Result);
+        }
+
+        [Fact]
+        public async Task PostPerson_CreatesNewUser()
+        {
+            var user = new User { Id = "123", Name = "John Doe" };
+
+            var mockDbSet = new Mock<DbSet<User>>();
+
+            mockDbSet.Setup(m => m.FindAsync("123")).ReturnsAsync(user);
+
+            _mockContext.Setup(m => m.Users).Returns(mockDbSet.Object);
+            _mockContext.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
+
+            _mockUserManager.Setup(um => um.CreateAsync(It.IsAny<User>())).ReturnsAsync(IdentityResult.Success);
+
+            var result = await _controller.PostPerson(user);
+
+            var createdResult = Assert.IsType<CreatedAtActionResult>(result);
+
+            Assert.Equal("GetPerson", createdResult.ActionName);
+        }
+
+        [Fact]
+        public async Task DeletePerson_ReturnsNotFound_WhenUserDoesNotExist()
+        {
+            _mockUserManager.Setup(m => m.FindByIdAsync("123")).ReturnsAsync((User)null);
+            var result = await _controller.DeletePerson("123");
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async Task PutPerson_UpdatesUser_WhenIdMatches()
+        {
+            var user = new User { Id = "123", Name = "Old Name" };
+            var updatedUser = new UserUpdateModel { Id = "123", Name = "New Name" };
+
+            _mockUserManager.Setup(m => m.FindByIdAsync(user.Id)).ReturnsAsync(user);
+            _mockUserManager.Setup(m => m.UpdateAsync(It.IsAny<User>())).ReturnsAsync(IdentityResult.Success);
+
+            var result = await _controller.PutPerson(updatedUser);
+
+            Assert.IsType<OkObjectResult>(result);
+        }
+
+
+        [Fact]
+        public async Task GetPerson_ReturnsUser_WhenUserExists()
+        {
+            var user = new User { Id = "123", Name = "John Doe" };
+            var mockDbSet = new Mock<DbSet<User>>();
+
+            mockDbSet.Setup(m => m.FindAsync("123")).ReturnsAsync(user);
+            _mockContext.Setup(m => m.Users).Returns(mockDbSet.Object);
+            _mockContext.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
+
+            var result = await _controller.GetPerson("123");
+
+            Assert.NotNull(result);
+            Assert.IsType<ActionResult<User>>(result);
+            Assert.Equal("John Doe", result.Value.Name);
+        }
+
+        [Fact]
+        public async Task PostPerson_ReturnsBadRequest_WhenUserCreationFails()
+        {
+            var user = new User { Id = "123", Name = "John Doe" };
+            _mockUserManager.Setup(m => m.CreateAsync(user)).ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "User creation failed." }));
+
+            var result = await _controller.PostPerson(user);
+
+            Assert.IsType<BadRequestResult>(result);
+        }
+
+        [Fact]
+        public async Task DeletePerson_DeletesUser_WhenUserExists()
+        {
+            var user = new User { Id = "123", Name = "John Doe" };
+            var mockDbSet = new Mock<DbSet<User>>();
+
+            mockDbSet.Setup(m => m.FindAsync("123")).ReturnsAsync(user);
+            _mockContext.Setup(m => m.Users).Returns(mockDbSet.Object);
+            _mockContext.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
+
+            var result = await _controller.DeletePerson("123");
+
+            Assert.IsType<OkResult>(result);
+        }
     }
 }

@@ -50,35 +50,35 @@
 
             <!-- Telemóvel -->
             <div class="form-group">
-              <label for="telemovel">Telemóvel</label>
-              <input type="tel" id="telemovel" name="telemovel" required>
+              <label for="phoneNumber">Telemóvel</label>
+              <input type="tel" id="phoneNumber" name="phoneNumber" formControlName="phoneNumber" required>
             </div>
 
             <!-- Morada 1 -->
             <div class="form-group">
-              <label for="morada1">Morada 1</label>
-              <input type="text" id="morada1" name="morada1" required>
+              <label for="address1">Morada 1</label>
+              <input type="text" id="address1" name="address1" formControlName="address1" required>
             </div>
 
             <!-- Morada 2 -->
             <div class="form-group">
-              <label for="morada2">Morada 2 (Opcional)</label>
-              <input type="text" id="morada2" name="morada2">
+              <label for="address2">Morada 2 (Opcional)</label>
+              <input type="text" id="address2" name="address2" formControlName="address2">
             </div>
 
             <!-- Data de Nascimento -->
             <div class="form-group">
-              <label for="dataNascimento">Data de Nascimento</label>
-              <input type="date" id="dataNascimento" name="dataNascimento" required>
+              <label for="birthDate">Data de Nascimento</label>
+              <input type="date" id="birthDate" name="birthDate" formControlName="birthDate" required>
             </div>
 
             <!-- Password -->
             <div class="form-group">
               <label for="password">Password</label>
               <!--<input type="password" id="password" name="password" [(ngModel)]="user.password"
-         (input)="checkPasswordStrength()" required>-->
+      (input)="checkPasswordStrength()" required>-->
               <input type="password" id="password" name="password" formControlName="password"
-                     (input)="checkPasswordStrength()" >
+                     (input)="checkPasswordStrength()">
               <div class="password-strength">
                 <div class="strength-bar" [style.width]="passwordStrength + '%'"
                      [style.background]="getPasswordStrengthColor()"></div>
@@ -100,7 +100,7 @@
             <div class="form-group">
               <label for="confirmPassword">Confirmar Password</label>
               <input type="password" id="confirmPassword" name="confirmPassword" formControlName="confirmPassword" />
-                     <!--[(ngModel)]="user.confirmPassword" required>-->
+              <!--[(ngModel)]="user.confirmPassword" required>-->
               <div class="error-feedback" *ngIf="funcionarioCreateForm.hasError('passwordMismatch') && funcionarioCreateForm.get('confirmPassword')?.touched">
                 As palavras-passes não coincidem.
               </div>
@@ -109,55 +109,79 @@
             <!-- Cargo -->
             <div class="form-group">
               <label for="cargo">Cargo</label>
-              <select id="cargo" name="cargo" required>
+              <select id="cargo" name="cargo" formControlName="role">
                 <option value="">Selecione o cargo</option>
-                <option value="supervisor">Supervisor</option>
-                <option value="administrativo">Administrativo</option>
-                <option value="tecnico">Técnico</option>
+                <option value="Supervisor">Supervisor</option>
+                <option value="Administrativo">Administrativo</option>
+                <option value="Tecnico">Técnico</option>
               </select>
             </div>
           </div>
 
           <!-- Folgas do Mês -->
           <div class="form-group">
-            <label for="folgasMes">Folgas do Mês (até 5 dias)</label>
-            <input type="date" (change)="adicionarFolga()" name="folgasMes" id="folgasMes">
-            <div *ngIf="folgasMes.length > 0" class="date-selections">
-              <p>Dias selecionados:</p>
-              <ul class="date-list">
-                <li *ngFor="let dia of folgasMes; let i = index">
-                  {{ dia | date: 'dd/MM/yyyy' }}
-                  <button type="button" class="small-btn" (click)="removerFolga(i)">Remover</button>
-                </li>
-              </ul>
-              <button type="button" (click)="limparFolgas()">Limpar Todas</button>
-            </div>
-            <div *ngIf="folgasMes.length >= 5" class="error-feedback">
-              Limite de 5 dias de folga atingido
-            </div>
+            <label for="folgasMes">Folga semanal:</label>
+            <select id="cargo" name="cargo" formControlName="dayOff">
+              <option value="">Selecione o cargo</option>
+              <option value="Monday">Segunda-feira</option>
+              <option value="Tuesday">Terça-feira</option>
+              <option value="Wednesday">Quarta-feira</option>
+              <option value="Thursday">Quinta-feira</option>
+              <option value="Friday">Sexta-feira</option>
+              <option value="Saturday">Sábado</option>
+              <option value="Sunday">Domingo</option>
+            </select>
           </div>
 
-          <!-- Férias do Ano -->
+          <!-- Inicio Férias -->
           <div class="form-group">
-            <label for="feriasInicio">Férias do Ano (até 2 semanas)</label>
-            <div>
-              <input type="date" name="feriasInicio" id="feriasInicio">
-              <button type="button" (click)="adicionarFerias()">Adicionar Período</button>
-            </div>
-            <div *ngIf="feriasAno.length > 0" class="date-selections">
-              <p>Períodos selecionados:</p>
-              <ul class="date-list">
-                <li *ngFor="let periodo of feriasAno; let i = index">
-                  {{ periodo.inicio | date: 'dd/MM/yyyy' }} - {{ periodo.fim | date: 'dd/MM/yyyy' }}
-                  <button type="button" class="small-btn" (click)="removerFerias(i)">Remover</button>
-                </li>
-              </ul>
-              <button type="button" (click)="limparFerias()">Limpar Todos</button>
-            </div>
-            <div *ngIf="feriasAno.length >= 2" class="error-feedback">
-              Limite de 2 períodos de férias atingido
-            </div>
+            <label for="startHoliday">Inicio Férias:</label>
+            <input type="date" id="startHoliday" name="startHoliday" formControlName="startHoliday">
           </div>
+
+          <!-- Final Férias -->
+          <div class="form-group">
+            <label for="endHoliday">Final Férias:</label>
+            <input type="date" id="endHoliday" name="endHoliday" formControlName="endHoliday">
+          </div>
+          <!--<div class="form-group">
+    <label for="folgasMes">Folgas do Mês (até 5 dias)</label>
+    <input type="date" (change)="adicionarFolga()" name="folgasMes" id="folgasMes">
+    <div *ngIf="folgasMes.length > 0" class="date-selections">
+      <p>Dias selecionados:</p>
+      <ul class="date-list">
+        <li *ngFor="let dia of folgasMes; let i = index">
+          {{ dia | date: 'dd/MM/yyyy' }}
+          <button type="button" class="small-btn" (click)="removerFolga(i)">Remover</button>
+        </li>
+      </ul>
+      <button type="button" (click)="limparFolgas()">Limpar Todas</button>
+    </div>
+    <div *ngIf="folgasMes.length >= 5" class="error-feedback">
+      Limite de 5 dias de folga atingido
+    </div>
+  </div>-->
+          <!-- Férias do Ano -->
+          <!--<div class="form-group">
+    <label for="feriasInicio">Férias do Ano:</label>
+    <div>
+      <input type="date" name="feriasInicio" id="feriasInicio">
+      <button type="button" (click)="adicionarFerias()">Adicionar Período</button>
+    </div>
+    <div *ngIf="feriasAno.length > 0" class="date-selections">
+      <p>Períodos selecionados:</p>
+      <ul class="date-list">
+        <li *ngFor="let periodo of feriasAno; let i = index">
+          {{ periodo.inicio | date: 'dd/MM/yyyy' }} - {{ periodo.fim | date: 'dd/MM/yyyy' }}
+          <button type="button" class="small-btn" (click)="removerFerias(i)">Remover</button>
+        </li>
+      </ul>
+      <button type="button" (click)="limparFerias()">Limpar Todos</button>
+    </div>
+    <div *ngIf="feriasAno.length >= 2" class="error-feedback">
+      Limite de 2 períodos de férias atingido
+    </div>
+  </div>-->
 
           <button type="submit" class="submit-btn">
             Registar Utilizador
