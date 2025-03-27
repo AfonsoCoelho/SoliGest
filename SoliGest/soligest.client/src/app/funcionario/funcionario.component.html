@@ -42,6 +42,7 @@
             [class.table-primary]="isSelected(user)">
           <td class="select-cell">
             <input type="checkbox"
+                   id="{{ user.id }}"
                    [checked]="isSelected(user)"
                    (change)="onSelectUser(user, $event)">
           </td>
@@ -135,13 +136,15 @@
             <p><strong>Email:</strong> {{ selectedUser?.email }}</p>
             <p><strong>Data de Nascimento:</strong> {{ selectedUser?.birthDate }}</p>
             <p><strong>Telemóvel:</strong> {{ selectedUser?.phoneNumber }}</p>
+            <p><strong>Morada 1:</strong> {{ selectedUser?.address1 }}</p>
+            <p *ngIf="selectedUser?.address2"><strong>Morada 2:</strong> {{ selectedUser?.address2 }}</p>
             <!--<span *ngFor="let periodo of selectedUser?.feriasAno">
-              {{ periodo.inicio }} - {{ periodo.fim }} <br>
-            </span>-->
+    {{ periodo.inicio }} - {{ periodo.fim }} <br>
+  </span>-->
             <p><strong>Dias de Folga:</strong> {{ selectedUser?.dayOff }}</p>
             <!--<span *ngFor="let folga of selectedUser?.folgasMes">
-              {{ folga }} <br>
-            </span>-->
+    {{ folga }} <br>
+  </span>-->
             <p><strong>Inicio de Férias:</strong> {{ selectedUser?.startHoliday }}</p>
             <p><strong>Final de Férias:</strong> {{ selectedUser?.endHoliday }}</p>
           </div>
