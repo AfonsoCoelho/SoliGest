@@ -19,7 +19,7 @@
       <button class="add-button" routerLink="/funcionario-create">
         Adicionar Utilizador
       </button>
-      <button class="delete-selected-button" (click)="onBulkDelete()">
+      <button class="delete-selected-button" (click)="onBulkDelete()" [disabled]="!(selectedUsers.length > 1)">
         Apagar selecionados
       </button>
     </div>
