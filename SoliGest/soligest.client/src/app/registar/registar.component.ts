@@ -75,9 +75,13 @@ export class RegistarComponent implements OnInit {
     const address2 = this.registerForm.get('address2')?.value;
     const phoneNumber = this.registerForm.get('phoneNumber')?.value;
     const birthDate = this.registerForm.get('birthDate')?.value;
+    const role = this.registerForm.get('role')?.value;
+    const dayOff = this.registerForm.get('dayOff')?.value;
+    const startHoliday = this.registerForm.get('startHoliday')?.value;
+    const endHoliday = this.registerForm.get('endHoliday')?.value;
 
     // Chamada ao serviço de registo
-    this.authService.register(name, address1, address2, phoneNumber, birthDate, email, password).forEach(
+    this.authService.register(name, address1, address2, phoneNumber, birthDate, email, password, role, dayOff, startHoliday, endHoliday).forEach(
       response => {
         if (response) {
           this.registerSucceeded = true;

@@ -21,9 +21,9 @@ export class UsersService {
     return this.http.post<User>('api/Users', user);
   }
 
-  updateUser(id: string, name: string, address1: string, address2: string, phoneNumber: string, birthDate: Date, email: string): Observable<User> {
+  updateUser(id: string, name: string, address1: string, address2: string, phoneNumber: string, birthDate: Date, email: string, role: string, dayOff: string, startHoliday: string, endHoliday: string): Observable<User> {
     console.log(email);
-    return this.http.put<User>('api/Users/' + id, { id, name, email, birthDate, address1, address2, phoneNumber });
+    return this.http.put<User>('api/Users/' + id, { id, name, email, birthDate, address1, address2, phoneNumber, role, dayOff, startHoliday, endHoliday });
   }
 
   deleteUser(id: string): Observable<User> {
@@ -45,11 +45,14 @@ export interface User {
   address1: string;
   address2: string;
   birthDate: string;
-  //role: string;
+  role: string;
   email: string;
   phoneNumber: number;
   //folgasMes: Date[];
   //feriasAno: { inicio: Date, fim: Date }[];
+  dayOff: string;
+  startHoliday: string;
+  endHoliday: string;
 }
 
 //{

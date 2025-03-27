@@ -70,28 +70,41 @@
           </div>
 
           <!-- Cargo -->
-          <!--<div class="form-group">
-    <label for="cargo">Cargo:</label>
-    <select id="cargo" name="cargo" required>
-      <option value="">Selecione o cargo</option>
-      <option value="supervisor">Supervisor</option>
-      <option value="administrativo">Administrativo</option>
-      <option value="tecnico">Técnico</option>
-    </select>
-  </div>-->
+          <div class="form-group">
+            <label for="cargo">Cargo:</label>
+            <select id="cargo" name="cargo" formControlName="role">
+              <option value="">Selecione o cargo</option>
+              <option value="Supervisor">Supervisor</option>
+              <option value="Administrativo">Administrativo</option>
+              <option value="Tecnico">Técnico</option>
+            </select>
+          </div>
           <!-- Folgas do Mês -->
-          <!--<div class="form-group">
-    <label for="folgasMes">Folgas do Mês (até 5 dias):</label>
-    <input type="date" id="folgasMes" name="folgasMes" (change)="adicionarFolga()" multiple>
-    <div *ngIf="folgasMes.length > 0">
-      <p>Dias selecionados:</p>
-      <ul>
-        <li *ngFor="let dia of folgasMes">{{ dia | date: 'dd/MM/yyyy' }}</li>
-      </ul>
-      <button type="button" (click)="limparFolgas()">Limpar Folgas</button>
-    </div>
-    <p *ngIf="folgasMes.length >= 5" class="error-feedback">Limite de 5 dias de folga atingido.</p>
-  </div>-->
+          <div class="form-group">
+            <label for="folgasMes">Folga semanal:</label>
+            <select id="cargo" name="cargo" formControlName="dayOff">
+              <option value="">Selecione o cargo</option>
+              <option value="Monday">Segunda-feira</option>
+              <option value="Tuesday">Terça-feira</option>
+              <option value="Wednesday">Quarta-feira</option>
+              <option value="Thursday">Quinta-feira</option>
+              <option value="Friday">Sexta-feira</option>
+              <option value="Saturday">Sábado</option>
+              <option value="Sunday">Domingo</option>
+            </select>
+          </div>
+
+          <!-- Inicio Férias -->
+          <div class="form-group">
+            <label for="startHoliday">Inicio Férias:</label>
+            <input type="date" id="startHoliday" name="startHoliday" formControlName="startHoliday">
+          </div>
+
+          <!-- Final Férias -->
+          <div class="form-group">
+            <label for="endHoliday">Final Férias:</label>
+            <input type="date" id="endHoliday" name="endHoliday" formControlName="endHoliday">
+          </div>
           <!-- Férias do Ano -->
           <!--<div class="form-group">
     <label for="feriasAno">Férias do Ano (até 2 semanas):</label>

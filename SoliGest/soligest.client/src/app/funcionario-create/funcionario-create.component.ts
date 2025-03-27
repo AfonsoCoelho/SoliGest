@@ -58,7 +58,11 @@ export class FuncionarioCreateComponent implements OnInit {
             Validators.required,
             Validators.minLength(6),
             Validators.pattern(/(?=.*[^a-zA-Z0-9 ])/)]],
-          confirmPassword: ['', [Validators.required]]
+          confirmPassword: ['', [Validators.required]],
+          role: [],
+          dayOff: [],
+          startHoliday: [],
+          endHoliday: []
         }, { validators: this.passwordMatchValidator });
   }
 
@@ -186,9 +190,13 @@ export class FuncionarioCreateComponent implements OnInit {
     const address2 = this.funcionarioCreateForm.get('address2')?.value;
     const phoneNumber = this.funcionarioCreateForm.get('phoneNumber')?.value;
     const birthDate = this.funcionarioCreateForm.get('birthDate')?.value;
+    const role = this.funcionarioCreateForm.get('role')?.value;
+    const dayOff = this.funcionarioCreateForm.get('dayOff')?.value;
+    const startHoliday = this.funcionarioCreateForm.get('startHoliday')?.value;
+    const endHoliday = this.funcionarioCreateForm.get('endHoliday')?.value;
 
     // Chamada ao serviço de registo
-    this.authService.register(name, address1, address2, phoneNumber, birthDate, email, password).forEach(
+    this.authService.register(name, address1, address2, phoneNumber, birthDate, email, password, role, dayOff, startHoliday, endHoliday).forEach(
       response => {
         if (response) {
           this.funcionarioCreateSucceeded = true;

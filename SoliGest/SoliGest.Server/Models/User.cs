@@ -16,12 +16,13 @@ namespace SoliGest.Server.Models
 
         public string Address1 { get; set; }
         public string Address2 { get; set; }
-
-        public List<DayOff> MonthlyDaysOff { get; set; } = new List<DayOff>();
-        public List<Holidays> YearHolidays { get; set; } = new List<Holidays>();
+        public string Role { get; set; }
         
-        [Display(Name = "Dia de folga.")]
-        public WeekDaysEnum DayOff { get; set; }
+        [Display(Name = "Dia de folga")]
+        public string DayOff { get; set; }
+
+        public string StartHoliday { get; set; }
+        public string EndHoliday { get; set; }
     }
 
 }

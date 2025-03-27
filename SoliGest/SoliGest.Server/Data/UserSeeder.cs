@@ -12,12 +12,16 @@ namespace SoliGest.Server.Data
                 User user = new User
                 {
                     Email = "soligestesa@gmail.com",
-                    Name = "SoliGest Admin",
+                    Name = "SoliGest Supervisor",
                     UserName = "soligestesa@gmail.com",
                     Address1 = "morada1",
                     Address2 = "morada2",
-                    BirthDate = "01-01-2001",
-                    PhoneNumber = "999999999"
+                    BirthDate = "2001-01-01",
+                    PhoneNumber = "999999999",
+                    Role = "Supervisor",
+                    DayOff = "Saturday",
+                    StartHoliday = "2025-06-01",
+                    EndHoliday = "2025-07-01",
                 };
 
                 await userManager.CreateAsync(user, "Admin1!");
@@ -33,8 +37,12 @@ namespace SoliGest.Server.Data
                     UserName = "administrative@mail.com",
                     Address1 = "morada1",
                     Address2 = "morada2",
-                    BirthDate = "01-01-2001",
-                    PhoneNumber = "999999999"
+                    BirthDate = "2001-01-01",
+                    PhoneNumber = "999999999",
+                    Role = "Administrative",
+                    DayOff = "Saturday",
+                    StartHoliday = "2025-06-01",
+                    EndHoliday = "2025-07-01",
                 };
 
                 await userManager.CreateAsync(user, "Admin1!");
@@ -50,8 +58,12 @@ namespace SoliGest.Server.Data
                     UserName = "technician@mail.com",
                     Address1 = "morada1",
                     Address2 = "morada2",
-                    BirthDate = "01-01-2001",
-                    PhoneNumber = "999999999"
+                    BirthDate = "2001-01-01",
+                    PhoneNumber = "999999999",
+                    Role = "Technician",
+                    DayOff = "Saturday",
+                    StartHoliday = "2025-06-01",
+                    EndHoliday = "2025-07-01",
                 };
 
                 await userManager.CreateAsync(user, "Tech1!");

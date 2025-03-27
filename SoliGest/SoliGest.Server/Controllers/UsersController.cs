@@ -44,7 +44,7 @@ namespace SoliGest.Server.Controllers
             if (userExists != null)
                 return BadRequest(new { message = "User already exists." });
 
-            var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name, BirthDate = model.BirthDate, PhoneNumber = model.PhoneNumber, Address1 = model.Address1, Address2 = model.Address2 };
+            var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name, BirthDate = model.BirthDate, PhoneNumber = model.PhoneNumber, Address1 = model.Address1, Address2 = model.Address2, Role = model.Role, DayOff = model.DayOff, StartHoliday = model.StartHoliday, EndHoliday = model.EndHoliday };
 
             var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -223,6 +223,10 @@ namespace SoliGest.Server.Controllers
             user.Address1 = model.Address1;
             user.Address2 = model.Address2;
             user.BirthDate = model.BirthDate;
+            user.Role = model.Role;
+            user.DayOff = model.DayOff;
+            user.StartHoliday = model.StartHoliday;
+            user.EndHoliday = model.EndHoliday;
 
             var result = await _userManager.UpdateAsync(user);
 
@@ -306,6 +310,10 @@ namespace SoliGest.Server.Controllers
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string PhoneNumber { get; set; }
+        public string Role { get; set; }
+        public string DayOff { get; set; }
+        public string StartHoliday { get; set; }
+        public string EndHoliday { get; set; }
     }
 
     public class UserUpdateModel
@@ -317,6 +325,10 @@ namespace SoliGest.Server.Controllers
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string PhoneNumber { get; set; }
+        public string Role { get; set; }
+        public string DayOff { get; set; }
+        public string StartHoliday { get; set; }
+        public string EndHoliday { get; set; }
     }
 
     public class UserResetPasswordModel

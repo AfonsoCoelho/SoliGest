@@ -149,7 +149,11 @@ export class FuncionarioEditComponent implements OnInit {
               address1: [this.user.address1],
               address2: [this.user.address2],
               phoneNumber: [this.user.phoneNumber],
-              birthDate: [this.user.birthDate]
+              birthDate: [this.user.birthDate],
+              role: [this.user.role],
+              dayOff: [this.user.dayOff],
+              startHoliday: [this.user.startHoliday],
+              endHoliday: [this.user.endHoliday]
             });
         },
         error: err => {
@@ -167,6 +171,10 @@ export class FuncionarioEditComponent implements OnInit {
     const address2 = this.funcionarioEditForm.get('address2')?.value;
     const phoneNumber = this.funcionarioEditForm.get('phoneNumber')?.value;
     const birthDate = this.funcionarioEditForm.get('birthDate')?.value;
+    const role = this.funcionarioEditForm.get('role')?.value;
+    const dayOff = this.funcionarioEditForm.get('dayOff')?.value;
+    const startHoliday = this.funcionarioEditForm.get('startHoliday')?.value;
+    const endHoliday = this.funcionarioEditForm.get('endHoliday')?.value;
     //if (id) {
     //  this.usersService.updateUser({ id, name, address1, address2, birthDate, email, phoneNumber }).subscribe({
     //    next: res => {
@@ -179,7 +187,7 @@ export class FuncionarioEditComponent implements OnInit {
     //}
 
     if (id) {
-      this.usersService.updateUser(id, name, address1, address2, phoneNumber, birthDate, email).subscribe(res => {
+      this.usersService.updateUser(id, name, address1, address2, phoneNumber, birthDate, email, role, dayOff, startHoliday, endHoliday).subscribe(res => {
         console.log('Person updated successfully!');
         this.router.navigateByUrl('people');
       });

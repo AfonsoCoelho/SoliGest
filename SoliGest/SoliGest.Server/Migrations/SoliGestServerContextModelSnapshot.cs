@@ -229,11 +229,9 @@ namespace SoliGest.Server.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("DaysOff");
                 });
@@ -254,11 +252,9 @@ namespace SoliGest.Server.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Holidays");
                 });
@@ -312,8 +308,9 @@ namespace SoliGest.Server.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DayOff")
-                        .HasColumnType("int");
+                    b.Property<string>("DayOff")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -321,6 +318,10 @@ namespace SoliGest.Server.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("EndHoliday")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -349,7 +350,15 @@ namespace SoliGest.Server.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StartHoliday")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -434,24 +443,6 @@ namespace SoliGest.Server.Migrations
                     b.Navigation("SolarPanel");
                 });
 
-            modelBuilder.Entity("SoliGest.Server.Models.DayOff", b =>
-                {
-                    b.HasOne("SoliGest.Server.Models.User", null)
-                        .WithMany("MonthlyDaysOff")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("SoliGest.Server.Models.Holidays", b =>
-                {
-                    b.HasOne("SoliGest.Server.Models.User", null)
-                        .WithMany("YearHolidays")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("SoliGest.Server.Models.SolarPanel", b =>
                 {
                     b.HasOne("SoliGest.Server.Models.Address", "Address")
@@ -461,13 +452,6 @@ namespace SoliGest.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("Address");
-                });
-
-            modelBuilder.Entity("SoliGest.Server.Models.User", b =>
-                {
-                    b.Navigation("MonthlyDaysOff");
-
-                    b.Navigation("YearHolidays");
                 });
 #pragma warning restore 612, 618
         }
