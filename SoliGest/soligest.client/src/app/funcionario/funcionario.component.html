@@ -54,13 +54,13 @@
           <td>{{ user.phoneNumber }}</td>
           <td>
             <!-- Botões de Ação -->
-            <button routerLink="/funcionario-edit/{{ user.id }}">
+            <button id="edit/{{ user.email }}" class="edit-btn" routerLink="/funcionario-edit/{{ user.id }}">
               Editar
             </button>
-            <button (click)="onDetails(user)">
+            <button id="details/{{ user.email }}" class="details-btn" (click)="onDetails(user)">
               Detalhes
             </button>
-            <button (click)="onDelete(user)">
+            <button id="delete/{{ user.email }}" class="delete-btn" (click)="onDelete(user)">
               Apagar
             </button>
           </td>
@@ -114,8 +114,8 @@
         </ng-container>
       </div>
       <div class="button-container">
-        <button (click)="closeModal()">Cancelar</button>
-        <button (click)="confirmDelete()">Confirmar</button>
+        <button class="cancel-delete-btn" (click)="closeModal()">Cancelar</button>
+        <button class="confirm-delete-btn" (click)="confirmDelete()">Confirmar</button>
       </div>
     </div>
   </div>

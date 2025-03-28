@@ -7,12 +7,12 @@ using Xunit;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 
-public class AskResetPwTest2 : IDisposable
+public class FuncionarioDeleteTest1 : IDisposable
 {
     private readonly IWebDriver _driver;
     private readonly WebDriverWait _wait;
 
-    public AskResetPwTest2()
+    public FuncionarioDeleteTest1()
     {
         var options = new ChromeOptions();
         options.AddArgument("--ignore-certificate-errors");
@@ -24,27 +24,34 @@ public class AskResetPwTest2 : IDisposable
     }
 
     [Fact]
-    public void PwRecovery_Should_Show_Error_When_Email_Does_Not_Exist()
+    public void Funcionario_Details_Should_Show_And_Close_Model_Without_Errors()
     {
-        _driver.Navigate().GoToUrl("https://127.0.0.1:49893/pwrecovery");
+        WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
 
-        // Fill in an invalid email
-        TypeSlowly(_driver.FindElement(By.Id("email")), "soligestesa@gmail.com");
+        _driver.Navigate().GoToUrl("https://127.0.0.1:49893/funcionario");
 
-        // Click submit
-        _driver.FindElement(By.ClassName("submit-btn")).Click();
+        TimeSpan.FromSeconds(5);
 
-        // Wait for alert to be present
-        _wait.Until(ExpectedConditions.AlertIsPresent());
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("delete-btn")));
+
+        _driver.FindElement(By.Id("delete/test@mail.com")).Click();
+
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("confirm-delete-btn")));
+
+        _driver.FindElement(By.ClassName("confirm-delete-btn")).Click();
+
+        // Wait for alert
+        //wait.Until(ExpectedConditions.AlertIsPresent());
 
         // Switch to alert
-        IAlert alert = _driver.SwitchTo().Alert();
+        //IAlert alert = _driver.SwitchTo().Alert();
 
         // Validate and accept the alert
-        Assert.Equal("Email enviado com sucesso!!", alert.Text);
-        alert.Accept();
+        //Assert.Equal("Por favor corriga os erros do formulário!", alert.Text);
+        //alert.Accept();
     }
 
+    // Function to type text character by character with small delay
     private void TypeSlowly(IWebElement element, string text)
     {
         element.Clear();
