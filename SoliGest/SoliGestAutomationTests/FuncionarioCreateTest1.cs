@@ -28,7 +28,7 @@ public class FuncionarioCreateTest1 : IDisposable
     {
         //WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
 
-        _driver.Navigate().GoToUrl("https://127.0.0.1:49893/funcionario");
+        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/funcionario");
 
         _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("add-button")));
 

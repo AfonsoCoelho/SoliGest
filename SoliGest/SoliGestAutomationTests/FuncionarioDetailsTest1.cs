@@ -28,7 +28,7 @@ public class FuncionarioDetailsTest1 : IDisposable
     {
         WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
 
-        _driver.Navigate().GoToUrl("https://127.0.0.1:49893/funcionario");
+        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/funcionario");
 
         TimeSpan.FromSeconds(5);
 

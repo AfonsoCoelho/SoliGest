@@ -26,7 +26,7 @@ public class ChangePasswordTest1 : IDisposable
     [Fact]
     public void ChangePassword_Should_Show_Error_When_Passwords_Do_Not_Match()
     {
-        _driver.Navigate().GoToUrl("https://127.0.0.1:49893/changepw");
+        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/changepw");
 
         // Fill the form
         TypeSlowly(_driver.FindElement(By.Id("newPassword")), "NewPassword123!");

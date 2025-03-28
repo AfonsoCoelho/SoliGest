@@ -28,7 +28,7 @@ public class FuncionarioEditTest1 : IDisposable
     {
         WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
 
-        _driver.Navigate().GoToUrl("https://127.0.0.1:49893/funcionario");
+        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/funcionario");
 
         TimeSpan.FromSeconds(5);
 
@@ -39,6 +39,8 @@ public class FuncionarioEditTest1 : IDisposable
         _driver.FindElement(By.Id("edit/soligestesa@gmail.com")).Click();
 
         TimeSpan.FromSeconds(5);
+
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.Id("name")));
 
         // Fill the form slowly to prevent UI race conditions
         _driver.FindElement(By.Id("name")).Clear();

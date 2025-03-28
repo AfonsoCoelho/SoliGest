@@ -29,7 +29,7 @@ public class RegistarTest1 : IDisposable
     [Fact]
     public void Login_Should_Show_Alert_With_Correct_Message()
     {
-        _driver.Navigate().GoToUrl("https://127.0.0.1:49893/registar");
+        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/registar");
 
         // esperar o alerta dar load
         WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));

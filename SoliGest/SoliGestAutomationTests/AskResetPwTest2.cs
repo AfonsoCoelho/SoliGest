@@ -26,7 +26,7 @@ public class AskResetPwTest2 : IDisposable
     [Fact]
     public void PwRecovery_Should_Show_Error_When_Email_Does_Not_Exist()
     {
-        _driver.Navigate().GoToUrl("https://127.0.0.1:49893/pwrecovery");
+        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/pwrecovery");
 
         // Fill in an invalid email
         TypeSlowly(_driver.FindElement(By.Id("email")), "soligestesa@gmail.com");
