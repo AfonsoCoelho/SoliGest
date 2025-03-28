@@ -7,12 +7,12 @@ using Xunit;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 
-public class FuncionarioCreateTest : IDisposable
+public class FuncionarioEditTest1 : IDisposable
 {
     private readonly IWebDriver _driver;
     private readonly WebDriverWait _wait;
 
-    public FuncionarioCreateTest()
+    public FuncionarioEditTest1()
     {
         var options = new ChromeOptions();
         options.AddArgument("--ignore-certificate-errors");
@@ -24,37 +24,25 @@ public class FuncionarioCreateTest : IDisposable
     }
 
     [Fact]
-    public void Funcionario_Create_Should_Show_Alert_With_Correct_Message()
+    public void Funcionario_Edit_Should_Show_Alert_With_Correct_Message()
     {
-        //WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+        WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
 
         _driver.Navigate().GoToUrl("https://127.0.0.1:49893/funcionario");
 
-        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("add-button")));
+        TimeSpan.FromSeconds(5);
 
-        _driver.FindElement(By.ClassName("add-button")).Click();
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("edit-btn")));
+
+        TimeSpan.FromSeconds(5);
+
+        _driver.FindElement(By.Id("edit/soligestesa@gmail.com")).Click();
+
+        TimeSpan.FromSeconds(5);
 
         // Fill the form slowly to prevent UI race conditions
-        TypeSlowly(_driver.FindElement(By.Id("name")), "afonso");
-        TypeSlowly(_driver.FindElement(By.Id("email")), "test@mail.com");
-        TypeSlowly(_driver.FindElement(By.Id("phoneNumber")), "999999999");
-        TypeSlowly(_driver.FindElement(By.Id("address1")), "address1");
-        TypeSlowly(_driver.FindElement(By.Id("address2")), "address2");
-        TypeSlowly(_driver.FindElement(By.Id("birthDate")), DateTime.Now.ToString("dd-MM-yyyy"));
-        TypeSlowly(_driver.FindElement(By.Id("password")), "Password1!");
-        TypeSlowly(_driver.FindElement(By.Id("confirmPassword")), "Password1!");
-        // role
-        WebElement roleDropdown = (WebElement)_driver.FindElement(By.Id("cargo"));
-        SelectElement roleSelectObject = new SelectElement(roleDropdown);
-        roleSelectObject.SelectByIndex(1);
-        // dayOff
-        WebElement dayOffDropdown = (WebElement)_driver.FindElement(By.Id("dayOff"));
-        SelectElement dayOffSelectObject = new SelectElement(dayOffDropdown);
-        dayOffSelectObject.SelectByIndex(1);
-        TypeSlowly(_driver.FindElement(By.Id("startHoliday")), DateTime.Now.ToString("dd-MM-yyyy"));
-        TypeSlowly(_driver.FindElement(By.Id("endHoliday")), DateTime.Now.ToString("dd-MM-yyyy"));
-
-
+        _driver.FindElement(By.Id("name")).Clear();
+        TypeSlowly(_driver.FindElement(By.Id("name")), "SoliGest Supervisor (New Name)");
 
         // Click submit
         _driver.FindElement(By.ClassName("submit-btn")).Click();
@@ -66,7 +54,7 @@ public class FuncionarioCreateTest : IDisposable
         IAlert alert = _driver.SwitchTo().Alert();
 
         // Validate and accept the alert
-        Assert.Equal("Registo bem sucedido!", alert.Text);
+        Assert.Equal("Utilizador atualizado com sucesso!", alert.Text);
         alert.Accept();
 
         // Wait for alert

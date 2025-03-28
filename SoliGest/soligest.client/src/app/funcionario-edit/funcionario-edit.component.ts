@@ -188,7 +188,7 @@ export class FuncionarioEditComponent implements OnInit {
 
     if (id) {
       this.usersService.updateUser(id, name, address1, address2, phoneNumber, birthDate, email, role, dayOff, startHoliday, endHoliday).subscribe(res => {
-        console.log('Person updated successfully!');
+        alert('Utilizador atualizado com sucesso!');
         this.router.navigateByUrl('people');
       });
     }
