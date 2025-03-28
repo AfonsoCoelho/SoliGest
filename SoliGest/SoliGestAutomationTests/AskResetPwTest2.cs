@@ -29,7 +29,7 @@ public class AskResetPwTest2 : IDisposable
         _driver.Navigate().GoToUrl("https://127.0.0.1:49893/pwrecovery");
 
         // Fill in an invalid email
-        TypeSlowly(_driver.FindElement(By.Id("email")), "afonso@gmail.com");
+        TypeSlowly(_driver.FindElement(By.Id("email")), "soligestesa@gmail.com");
 
         // Click submit
         _driver.FindElement(By.ClassName("submit-btn")).Click();
