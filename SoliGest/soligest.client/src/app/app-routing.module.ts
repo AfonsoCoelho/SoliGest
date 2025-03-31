@@ -11,6 +11,7 @@ import { ChangepwComponent } from './changepw/changepw.component';
 import { FuncionarioComponent } from './funcionario/funcionario.component';
 import { FuncionarioCreateComponent } from './funcionario-create/funcionario-create.component';
 import { FuncionarioEditComponent } from './funcionario-edit/funcionario-edit.component';
+import { PaineisSolaresComponent } from './paineis-solares/paineis-solares.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, // A raiz agora carrega a página de registar
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'funcionario', component: FuncionarioComponent },
   { path: 'funcionario-create', component: FuncionarioCreateComponent },
   { path: 'funcionario-edit', component: FuncionarioEditComponent },
+  { path: 'paineis-solares', component: PaineisSolaresComponent },
 
   { path: '**', redirectTo: '' } // Qualquer rota inválida vai para registar
 ];

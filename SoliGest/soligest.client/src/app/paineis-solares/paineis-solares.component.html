@@ -1,0 +1,49 @@
+<div class="page-wrapper">
+  <header class="soligest-header">
+    <img src="assets/logo.jpg" alt="SoliGest Logo" class="header-logo">
+    <h1 class="header-title">SolíGest</h1>
+  </header>
+
+  <div class="content-container">
+    <div class="left-section">
+      <div class="panels-section">
+        <h2>Painéis</h2>
+        <div class="sort-options">
+          <label for="sort-by">Ordenar por:</label>
+          <select id="sort-by" class="sort-dropdown" [(ngModel)]="sortBy" (change)="sortPanels()">
+            <option value="priority">Prioridade</option>
+            <option value="name">Nome</option>
+            <option value="id">ID</option>
+            <option value="status">Estado</option>
+          </select>
+          <select id="sort-direction" class="sort-dropdown" [(ngModel)]="sortDirection" (change)="sortPanels()">
+            <option value="asc">Crescente</option>
+            <option value="desc">Decrescente</option>
+          </select>
+        </div>
+
+        <div class="panels-container">
+          <div class="panel" *ngFor="let panel of sortedPanels" [ngClass]="panel.statusClass">
+            <h3>Painel ID: {{panel.id}}</h3>
+            <p>{{panel.name}}</p>
+            <p *ngIf="panel.priority">Prioridade: {{panel.priority}}</p>
+            <p class="status-text">Estado: {{panel.status}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Adicione esta seção para o mapa -->
+    <div class="right-section">
+      <div class="map-container">
+        <h2>Localização dos Painéis</h2>
+        <div id="map"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="soligest-footer">
+    <p>Sistema de assistência a painéis solares</p>
+    <a href="#">Ajuda (?)</a> | <a href="#">Criadores</a>
+  </footer>
+</div>

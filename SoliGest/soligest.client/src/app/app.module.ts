@@ -19,6 +19,7 @@ import { FuncionarioCreateComponent } from './funcionario-create/funcionario-cre
 import { FuncionarioDeleteComponent } from './funcionario-delete/funcionario-delete.component';
 import { FuncionarioEditComponent } from './funcionario-edit/funcionario-edit.component';
 import { FuncionarioDetailsComponent } from './funcionario-details/funcionario-details.component';
+import { PaineisSolaresComponent } from './paineis-solares/paineis-solares.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { FuncionarioDetailsComponent } from './funcionario-details/funcionario-d
     FuncionarioCreateComponent,
     FuncionarioDeleteComponent,
     FuncionarioEditComponent,
-    FuncionarioDetailsComponent
+    FuncionarioDetailsComponent,
+    PaineisSolaresComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
