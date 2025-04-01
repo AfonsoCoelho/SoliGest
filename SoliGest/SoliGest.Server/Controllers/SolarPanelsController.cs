@@ -23,7 +23,7 @@ namespace SoliGest.Server.Controllers
 
         // GET: api/People
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SolarPanel>>> GetPerson()
+        public async Task<ActionResult<IEnumerable<SolarPanel>>> GetSolarPanel()
         {
             return await _context.SolarPanel.ToListAsync();
         }
