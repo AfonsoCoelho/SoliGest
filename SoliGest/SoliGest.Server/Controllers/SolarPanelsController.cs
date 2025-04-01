@@ -45,5 +45,40 @@ namespace SoliGest.Server.Controllers
                 return BadRequest();
             }
         }
+
+        // PUT: api/Users/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutPerson([FromBody] SolarPanelUpdateModel model)
+        {
+            var solarPanel = await _context.FindAsync<SolarPanel>(model.Id);
+            if (solarPanel == null)
+            {
+                return NotFound($"Unable to load solar panel with ID '{model.Id}'.");
+            }
+
+            solarPanel.PhoneNumber = model.PhoneNumber;
+            solarPanel.Email = model.Email;
+            solarPanel.Address = model.Address;
+
+            _context.Update<SolarPanel>(solarPanel);
+
+            var result = _context.SaveChanges();
+
+            if (result != 1)
+            {
+                return BadRequest();
+            }
+
+            return Ok(new { message = "Utilizador atualizado com sucesso!" });
+        }
+    }
+
+    public class SolarPanelUpdateModel
+    {
+        public int Id { get; set; }
+        public int PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public string Address { get; set; }
     }
 }
