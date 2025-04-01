@@ -115,9 +115,12 @@
 }
 
 .panels-container {
+  max-height: 400px; /* Adjust height as needed */
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 15px;
+  padding: 5px;
 }
 
 .panel {

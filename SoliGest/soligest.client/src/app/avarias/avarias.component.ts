@@ -56,15 +56,6 @@ export class AvariasComponent implements OnInit {
       statusClass: "status-yellow",
       latitude: 41.1579,
       longitude: -8.6291
-    },
-    {
-      id: 7,
-      name: "Avenida da Liberdade, Porto",
-      priority: "Alta",
-      status: "Verde",
-      statusClass: "status-green",
-      latitude: 40.1579,
-      longitude: -9.6291
     }
   ];
 
