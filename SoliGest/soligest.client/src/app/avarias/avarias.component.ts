@@ -28,6 +28,9 @@ export class AvariasComponent implements OnInit {
   searchTerm: string = ''; // Property to hold the search term
   filteredAvarias: Avaria[] = []; // Property to hold filtered avarias
   selectedAvaria: Avaria | null = null;
+  selectedMarker: any = null; // Variável para armazenar o marcador selecionado
+  infoWindow: any = null; // Variável global para o InfoWindow
+  markers: any[] = []; // Armazena os marcadores no mapa
 
   // Dados das avarias com coordenadas geográficas
   avariasData: Avaria[] = [
@@ -44,8 +47,8 @@ export class AvariasComponent implements OnInit {
       id: 4,
       name: "Avenida Principal, Almada",
       priority: "Média",
-      status: "Verde",
-      statusClass: "status-green",
+      status: "Vermelho",
+      statusClass: "status-red",
       latitude: 38.6790,
       longitude: -9.1569
     },
@@ -66,7 +69,8 @@ export class AvariasComponent implements OnInit {
   ngOnInit(): void {
     this.sortAvarias();
     this.initMap();
-    this.filteredAvarias = [...this.sortedAvarias]; // Initialize filteredAvarias
+    this.filterAvarias();
+    //this.filteredAvarias = [...this.sortedAvarias]; // Initialize filteredAvarias
   }
 
   // Inicializa o mapa do Google
@@ -175,18 +179,21 @@ export class AvariasComponent implements OnInit {
           icon: this.getMarkerIcon(avaria.status)
         });
 
+        // Adiciona o marcador à lista
+        this.markers.push(marker);
+
         // InfoWindow com detalhes da avaria
         const infoWindow = new google.maps.InfoWindow({
           content: `
-            <div style="padding: 10px;">
-              <h3 style="margin: 0 0 5px 0;">Avaria ID: ${avaria.id}</h3>
-              <p style="margin: 0 0 5px 0;"><strong>Localização:</strong> ${avaria.name}</p>
-              <p style="margin: 0 0 5px 0;"><strong>Prioridade:</strong> ${avaria.priority || 'N/A'}</p>
-              <p style="margin: 0; color: ${this.getStatusColor(avaria.status)}; font-weight: bold;">
-                <strong>Estado:</strong> ${avaria.status}
-              </p>
-            </div>
-          `
+          <div style="padding: 10px;">
+            <h3 style="margin: 0 0 5px 0;">Avaria ID: ${avaria.id}</h3>
+            <p style="margin: 0 0 5px 0;"><strong>Localização:</strong> ${avaria.name}</p>
+            <p style="margin: 0 0 5px 0;"><strong>Prioridade:</strong> ${avaria.priority || 'N/A'}</p>
+            <p style="margin: 0; color: ${this.getStatusColor(avaria.status)}; font-weight: bold;">
+              <strong>Estado:</strong> ${avaria.status}
+            </p>
+          </div>
+        `
         });
 
         // Abre o InfoWindow ao clicar no marcador
@@ -285,29 +292,75 @@ export class AvariasComponent implements OnInit {
 
   // Método para filtrar avarias com base no termo de pesquisa
   filterAvarias(): void {
-    this.filteredAvarias = this.sortedAvarias.filter(avaria =>
-      avaria.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    this.filteredAvarias = this.sortedAvarias.filter(
+      avaria =>
+        avaria.status.toLowerCase() !== 'verde' && // Remove status "Verde"
+        avaria.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
   selectAvaria(avaria: Avaria): void {
     this.selectedAvaria = avaria;
+
+    if (this.map && avaria.latitude && avaria.longitude) {
+      // Centraliza e dá zoom no local da avaria
+      this.map.setCenter({ lat: avaria.latitude, lng: avaria.longitude });
+      this.map.setZoom(15);
+
+      // Se já houver um InfoWindow aberto, fecha antes de abrir outro
+      if (this.infoWindow) {
+        this.infoWindow.close();
+      }
+
+      // Localiza o marcador correspondente
+      const marker = this.markers.find(m => {
+        const position = m.getPosition();
+        return position?.lat() !== undefined && position?.lng() !== undefined &&
+          Math.abs(position.lat() - avaria.latitude!) < 0.0001 &&
+          Math.abs(position.lng() - avaria.longitude!) < 0.0001;
+      });
+
+
+
+      if (marker) {
+        this.infoWindow = new google.maps.InfoWindow({
+          content: `
+          <div style="padding: 10px;">
+            <h3 style="margin: 0 0 5px 0;">Avaria ID: ${avaria.id}</h3>
+            <p style="margin: 0 0 5px 0;"><strong>Localização:</strong> ${avaria.name}</p>
+            <p style="margin: 0 0 5px 0;"><strong>Prioridade:</strong> ${avaria.priority || 'N/A'}</p>
+            <p style="margin: 0; color: ${this.getStatusColor(avaria.status)}; font-weight: bold;">
+              <strong>Estado:</strong> ${avaria.status}
+            </p>
+            <div class="modal-buttons">
+              <button (click)="autoAllocate(selectedAvaria)" class="auto-btn">Alocação Automática</button>
+              <button (click)="manualAllocate(selectedAvaria)" class="manual-btn">Alocação Manual</button>
+            </div>
+          </div>
+        `
+        });
+
+        // Abre o InfoWindow no marcador correspondente
+        this.infoWindow.open(this.map, marker);
+      }
+    }
   }
 
-  // Fecha o modal
-  closeModal(): void {
-    this.selectedAvaria = null;
+  getAvariaClass(avaria: Avaria): any {
+    return {
+      [avaria.statusClass]: true,
+      'selected': avaria === this.selectedAvaria
+    };
   }
+
 
   // Simulação de alocação automática
   autoAllocate(avaria: Avaria): void {
     alert(`Avaria ID ${avaria.id} - Alocação automática iniciada!`);
-    this.closeModal();
   }
 
   // Simulação de alocação manual
   manualAllocate(avaria: Avaria): void {
     alert(`Avaria ID ${avaria.id} - Alocação manual iniciada!`);
-    this.closeModal();
   }
 }
