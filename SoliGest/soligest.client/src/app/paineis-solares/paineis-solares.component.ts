@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
-// Interface para tipagem dos painéis solares
 interface SolarPanel {
   id: number;
   name: string;
@@ -10,9 +9,11 @@ interface SolarPanel {
   statusClass: string;
   latitude?: number;
   longitude?: number;
+  description?: string;
+  phone?: string;
+  email?: string;
 }
 
-// Declaração do objeto google para TypeScript
 declare var google: any;
 
 @Component({
@@ -22,208 +23,181 @@ declare var google: any;
   standalone: false
 })
 export class PaineisSolaresComponent implements OnInit {
-  // Variáveis para ordenação
   sortBy: string = 'id';
   sortDirection: string = 'asc';
 
-  // Dados dos painéis solares com coordenadas geográficas
-  panelsData: SolarPanel[] = [
-    {
-      id: 1,
-      name: "Rua D. Afonso Henriques, Lisboa",
-      priority: "Alta",
-      status: "Vermelho",
-      statusClass: "status-red",
-      latitude: 38.7223,
-      longitude: -9.1393
-    },
-    {
-      id: 4,
-      name: "Avenida Principal, Almada",
-      priority: "Média",
-      status: "Verde",
-      statusClass: "status-green",
-      latitude: 38.6790,
-      longitude: -9.1569
-    },
-    {
-      id: 3,
-      name: "Avenida da Liberdade, Porto",
-      priority: "Baixa",
-      status: "Amarelo",
-      statusClass: "status-yellow",
-      latitude: 41.1579,
-      longitude: -8.6291
-    }
-  ];
-
+  panelsData: SolarPanel[] = [];
   sortedPanels: SolarPanel[] = [];
+
   map: any;
 
+  showCreateModal: boolean = false;
+  showEditModal: boolean = false;
+  showDeleteModal: boolean = false;
+  showViewModal: boolean = false;
+
+  newPanel: SolarPanel = this.createEmptyPanel();
+  editingPanel: SolarPanel = this.createEmptyPanel();
+  viewingPanel: SolarPanel | null = null;
+  panelToDelete: number | null = null;
+
+  constructor(private http: HttpClient) { }
+
+  private createEmptyPanel(): SolarPanel {
+    return {
+      id: 0,
+      name: '',
+      priority: 'Média',
+      status: 'Verde',
+      statusClass: 'status-green',
+      latitude: undefined,
+      longitude: undefined,
+      description: '',
+      phone: '',
+      email: ''
+    };
+  }
+
   ngOnInit(): void {
+    this.loadPanels();
+  }
+
+  loadPanels(): void {
+    this.panelsData = [
+      {
+        id: 1,
+        name: "Rua D. Afonso Henriques, Lisboa",
+        priority: "Alta",
+        status: "Vermelho",
+        statusClass: "status-red",
+        latitude: 38.7223,
+        longitude: -9.1393,
+        description: "Painel próximo ao centro",
+        phone: "912345678",
+        email: "contato@empresa.com"
+      },
+      {
+        id: 4,
+        name: "Avenida Principal, Almada",
+        priority: "Média",
+        status: "Verde",
+        statusClass: "status-green",
+        latitude: 38.6790,
+        longitude: -9.1569,
+        description: "Painel na filial sul",
+        phone: "987654321",
+        email: "suporte@empresa.com"
+      }
+    ];
+
     this.sortPanels();
     this.initMap();
   }
 
-  // Inicializa o mapa do Google
   initMap(): void {
-    // Centro do mapa (coordenadas de Portugal)
     const center = { lat: 39.3999, lng: -8.2245 };
 
     this.map = new google.maps.Map(document.getElementById("map"), {
       zoom: 7,
       center: center,
-      mapTypeId: "terrain",
-      styles: [
-        {
-          "featureType": "administrative",
-          "elementType": "labels.text.fill",
-          "stylers": [
-            {
-              "color": "#444444"
-            }
-          ]
-        },
-        {
-          "featureType": "landscape",
-          "elementType": "all",
-          "stylers": [
-            {
-              "color": "#f2f2f2"
-            }
-          ]
-        },
-        {
-          "featureType": "poi",
-          "elementType": "all",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "road",
-          "elementType": "all",
-          "stylers": [
-            {
-              "saturation": -100
-            },
-            {
-              "lightness": 45
-            }
-          ]
-        },
-        {
-          "featureType": "road.highway",
-          "elementType": "all",
-          "stylers": [
-            {
-              "visibility": "simplified"
-            }
-          ]
-        },
-        {
-          "featureType": "road.arterial",
-          "elementType": "labels.icon",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "transit",
-          "elementType": "all",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "water",
-          "elementType": "all",
-          "stylers": [
-            {
-              "color": "#46bcec"
-            },
-            {
-              "visibility": "on"
-            }
-          ]
-        }
-      ]
+      mapTypeId: "terrain"
     });
 
-    // Adiciona marcadores para cada painel
     this.addPanelMarkers();
   }
 
-  // Adiciona marcadores no mapa para cada painel
   addPanelMarkers(): void {
     this.sortedPanels.forEach(panel => {
       if (panel.latitude && panel.longitude) {
-        const marker = new google.maps.Marker({
+        new google.maps.Marker({
           position: { lat: panel.latitude, lng: panel.longitude },
           map: this.map,
           title: `Painel ID: ${panel.id}`,
           icon: this.getMarkerIcon(panel.status)
         });
-
-        // InfoWindow com detalhes do painel
-        const infoWindow = new google.maps.InfoWindow({
-          content: `
-            <div style="padding: 10px;">
-              <h3 style="margin: 0 0 5px 0;">Painel ID: ${panel.id}</h3>
-              <p style="margin: 0 0 5px 0;"><strong>Localização:</strong> ${panel.name}</p>
-              <p style="margin: 0 0 5px 0;"><strong>Prioridade:</strong> ${panel.priority || 'N/A'}</p>
-              <p style="margin: 0; color: ${this.getStatusColor(panel.status)}; font-weight: bold;">
-                <strong>Estado:</strong> ${panel.status}
-              </p>
-            </div>
-          `
-        });
-
-        // Abre o InfoWindow ao clicar no marcador
-        marker.addListener('click', () => {
-          infoWindow.open(this.map, marker);
-        });
       }
     });
   }
 
-  // Retorna o ícone do marcador baseado no status
-  getMarkerIcon(status: string): string {
-    const iconBase = 'https://maps.google.com/mapfiles/ms/icons/';
-
-    switch (status.toLowerCase()) {
-      case 'vermelho':
-        return iconBase + 'red-dot.png';
-      case 'verde':
-        return iconBase + 'green-dot.png';
-      case 'amarelo':
-        return iconBase + 'yellow-dot.png';
-      default:
-        return iconBase + 'blue-dot.png';
-    }
+  openViewPanelModal(panel: SolarPanel): void {
+    this.viewingPanel = panel;
+    this.showViewModal = true;
   }
 
-  // Retorna a cor do texto baseado no status
-  getStatusColor(status: string): string {
-    switch (status.toLowerCase()) {
-      case 'vermelho':
-        return '#ff0000';
-      case 'verde':
-        return '#00aa00';
-      case 'amarelo':
-        return '#ffaa00';
-      default:
-        return '#000000';
-    }
+  closeViewPanelModal(): void {
+    this.viewingPanel = null;
+    this.showViewModal = false;
   }
 
-  // Ordena os painéis conforme os critérios selecionados
+  openEditPanelModal(panel: SolarPanel): void {
+    this.editingPanel = { ...panel };
+    this.showEditModal = true;
+  }
+
+  closeEditPanelModal(): void {
+    this.editingPanel = this.createEmptyPanel();
+    this.showEditModal = false;
+  }
+
+  updatePanel(): void {
+    if (!this.editingPanel.name.trim()) {
+      alert('O nome do painel é obrigatório!');
+      return;
+    }
+
+    const index = this.panelsData.findIndex(p => p.id === this.editingPanel.id);
+    if (index !== -1) {
+      this.panelsData[index] = { ...this.editingPanel };
+      this.sortPanels();
+    }
+    this.closeEditPanelModal();
+  }
+
+  openCreatePanelModal(): void {
+    this.newPanel = this.createEmptyPanel();
+    this.showCreateModal = true;
+  }
+
+  closeCreatePanelModal(): void {
+    this.showCreateModal = false;
+  }
+
+  createPanel(): void {
+    if (!this.newPanel.name.trim()) {
+      alert('O nome do painel é obrigatório!');
+      return;
+    }
+
+    const newId = this.panelsData.length > 0 ? Math.max(...this.panelsData.map(p => p.id)) + 1 : 1;
+    const newPanelEntry: SolarPanel = {
+      ...this.newPanel,
+      id: newId,
+      statusClass: this.getStatusClass(this.newPanel.status)
+    };
+
+    this.panelsData.push(newPanelEntry);
+    this.sortPanels();
+    this.closeCreatePanelModal();
+  }
+
+  confirmDeletePanel(panelId: number): void {
+    this.panelToDelete = panelId;
+    this.showDeleteModal = true;
+  }
+
+  cancelDelete(): void {
+    this.panelToDelete = null;
+    this.showDeleteModal = false;
+  }
+
+  deletePanel(): void {
+    if (this.panelToDelete !== null) {
+      this.panelsData = this.panelsData.filter(p => p.id !== this.panelToDelete);
+      this.sortPanels();
+    }
+    this.cancelDelete();
+  }
+
   sortPanels(): void {
     this.sortedPanels = [...this.panelsData].sort((a, b) => {
       let valueA: any, valueB: any;
@@ -231,8 +205,8 @@ export class PaineisSolaresComponent implements OnInit {
       switch (this.sortBy) {
         case 'priority':
           const priorityOrder: { [key: string]: number } = { 'Alta': 3, 'Média': 2, 'Baixa': 1 };
-          valueA = a.priority ? priorityOrder[a.priority] : 0;
-          valueB = b.priority ? priorityOrder[b.priority] : 0;
+          valueA = priorityOrder[a.priority || 'Média'];
+          valueB = priorityOrder[b.priority || 'Média'];
           break;
         case 'name':
           valueA = a.name.toLowerCase();
@@ -244,34 +218,38 @@ export class PaineisSolaresComponent implements OnInit {
           break;
         case 'status':
           const statusOrder: { [key: string]: number } = { 'Vermelho': 3, 'Amarelo': 2, 'Verde': 1 };
-          valueA = statusOrder[a.status] || 0;
-          valueB = statusOrder[b.status] || 0;
+          valueA = statusOrder[a.status];
+          valueB = statusOrder[b.status];
           break;
         default:
           valueA = a.id;
           valueB = b.id;
       }
 
-      if (valueA < valueB) {
-        return this.sortDirection === 'asc' ? -1 : 1;
-      }
-      if (valueA > valueB) {
-        return this.sortDirection === 'asc' ? 1 : -1;
-      }
-      return 0;
+      return this.sortDirection === 'asc' ? valueA - valueB : valueB - valueA;
     });
 
-    // Atualiza os marcadores no mapa após ordenação
     if (this.map) {
-      this.clearMarkers();
       this.addPanelMarkers();
     }
   }
 
-  // Limpa todos os marcadores do mapa (simplificado)
-  clearMarkers(): void {
-    // Na implementação real, você precisaria manter referência aos marcadores
-    // Esta é uma versão simplificada que recarrega o mapa
-    this.initMap();
+  getStatusClass(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'vermelho': return 'status-red';
+      case 'verde': return 'status-green';
+      case 'amarelo': return 'status-yellow';
+      default: return '';
+    }
+  }
+
+  getMarkerIcon(status: string): string {
+    const iconBase = 'https://maps.google.com/mapfiles/ms/icons/';
+    switch (status.toLowerCase()) {
+      case 'vermelho': return iconBase + 'red-dot.png';
+      case 'verde': return iconBase + 'green-dot.png';
+      case 'amarelo': return iconBase + 'yellow-dot.png';
+      default: return iconBase + 'blue-dot.png';
+    }
   }
 }

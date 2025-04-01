@@ -1,43 +1,189 @@
 <div class="page-wrapper">
   <header class="soligest-header">
-    <img src="assets/logo.jpg" alt="SoliGest Logo" class="header-logo">
-    <h1 class="header-title">SolíGest</h1>
+    <img src="/logo.jpg" alt="SoliGest Logo" class="header-logo">
+    <h1 class="header-title">SoliGest</h1>
   </header>
 
   <div class="content-container">
     <div class="left-section">
       <div class="panels-section">
         <h2>Painéis</h2>
-        <div class="sort-options">
-          <label for="sort-by">Ordenar por:</label>
-          <select id="sort-by" class="sort-dropdown" [(ngModel)]="sortBy" (change)="sortPanels()">
-            <option value="priority">Prioridade</option>
-            <option value="name">Nome</option>
-            <option value="id">ID</option>
-            <option value="status">Estado</option>
-          </select>
-          <select id="sort-direction" class="sort-dropdown" [(ngModel)]="sortDirection" (change)="sortPanels()">
-            <option value="asc">Crescente</option>
-            <option value="desc">Decrescente</option>
-          </select>
-        </div>
 
-        <div class="panels-container">
-          <div class="panel" *ngFor="let panel of sortedPanels" [ngClass]="panel.statusClass">
-            <h3>Painel ID: {{panel.id}}</h3>
-            <p>{{panel.name}}</p>
-            <p *ngIf="panel.priority">Prioridade: {{panel.priority}}</p>
-            <p class="status-text">Estado: {{panel.status}}</p>
+        <div class="sort-container">
+          <div class="sort-options">
+            <label for="sort-by">Ordenar por:</label>
+            <select id="sort-by" class="sort-dropdown" [(ngModel)]="sortBy" (change)="sortPanels()">
+              <option value="priority">Prioridade</option>
+              <option value="name">Nome</option>
+              <option value="id">ID</option>
+              <option value="status">Estado</option>
+            </select>
+            <select id="sort-direction" class="sort-dropdown" [(ngModel)]="sortDirection" (change)="sortPanels()">
+              <option value="asc">Crescente</option>
+              <option value="desc">Decrescente</option>
+            </select>
+          </div>
+          <div class="sort-actions">
+            <button class="create-btn" (click)="openCreatePanelModal()">
+              <i class="fas fa-plus"></i> Criar Painel
+            </button>
           </div>
         </div>
+
+        <div class="panels-container" *ngIf="sortedPanels && sortedPanels.length > 0; else noPanelsMessage">
+          <div class="panel" *ngFor="let panel of sortedPanels" [ngClass]="panel.statusClass">
+            <div class="panel-header">
+              <h3>Painel ID: {{ panel.id }}</h3>
+              <div class="panel-actions-container">
+                <button class="action-btn view-btn" (click)="openViewPanelModal(panel)">
+                  <i class="fas fa-eye"></i> Consultar
+                </button>
+                <button class="action-btn edit-btn" (click)="openEditPanelModal(panel)">
+                  <i class="fas fa-edit"></i> Editar
+                </button>
+                <button class="action-btn delete-btn" (click)="confirmDeletePanel(panel.id)">
+                  <i class="fas fa-trash"></i> Apagar
+                </button>
+              </div>
+            </div>
+            <p>{{ panel.name }}</p>
+            <p *ngIf="panel.priority">Prioridade: {{ panel.priority }}</p>
+            <p class="status-text">Estado: {{ panel.status }}</p>
+          </div>
+        </div>
+
+        <ng-template #noPanelsMessage>
+          <p class="no-panels-message">Nenhum painel encontrado.</p>
+        </ng-template>
       </div>
     </div>
 
-    <!-- Adicione esta seção para o mapa -->
     <div class="right-section">
       <div class="map-container">
         <h2>Localização dos Painéis</h2>
         <div id="map"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Consulta -->
+  <div class="modal" *ngIf="showViewModal">
+    <div class="modal-content">
+      <span class="close" (click)="closeViewPanelModal()">&times;</span>
+      <h2>Detalhes do Painel ID: {{viewingPanel?.id}}</h2>
+      <p><strong>Nome/Localização:</strong> {{viewingPanel?.name}}</p>
+      <p><strong>Prioridade:</strong> {{viewingPanel?.priority}}</p>
+      <p><strong>Estado:</strong> {{viewingPanel?.status}}</p>
+      <p><strong>Descrição:</strong> {{viewingPanel?.description}}</p>
+      <p><strong>Telefone:</strong> {{viewingPanel?.phone}}</p>
+      <p><strong>Email:</strong> {{viewingPanel?.email}}</p>
+      <div class="form-actions">
+        <button class="confirm-btn" (click)="closeViewPanelModal()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Edição -->
+  <div class="modal" *ngIf="showEditModal">
+    <div class="modal-content">
+      <span class="close" (click)="closeEditPanelModal()">&times;</span>
+      <h2>Editar Painel ID: {{editingPanel.id}}</h2>
+      <form (ngSubmit)="updatePanel()">
+        <div class="form-group">
+          <label for="edit-name">Nome/Localização:</label>
+          <input type="text" id="edit-name" [(ngModel)]="editingPanel.name" name="edit-name" required>
+        </div>
+        <div class="form-group">
+          <label for="edit-priority">Prioridade:</label>
+          <select id="edit-priority" [(ngModel)]="editingPanel.priority" name="edit-priority">
+            <option value="Alta">Alta</option>
+            <option value="Média">Média</option>
+            <option value="Baixa">Baixa</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="edit-status">Estado:</label>
+          <select id="edit-status" [(ngModel)]="editingPanel.status" name="edit-status">
+            <option value="Vermelho">Vermelho</option>
+            <option value="Amarelo">Amarelo</option>
+            <option value="Verde">Verde</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="edit-description">Descrição:</label>
+          <textarea id="edit-description" [(ngModel)]="editingPanel.description" name="edit-description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="edit-phone">Telefone:</label>
+          <input type="text" id="edit-phone" [(ngModel)]="editingPanel.phone" name="edit-phone">
+        </div>
+        <div class="form-group">
+          <label for="edit-email">Email:</label>
+          <input type="email" id="edit-email" [(ngModel)]="editingPanel.email" name="edit-email">
+        </div>
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" (click)="closeEditPanelModal()">Cancelar</button>
+          <button type="submit" class="confirm-btn">Atualizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de Criação -->
+  <div class="modal" *ngIf="showCreateModal">
+    <div class="modal-content">
+      <span class="close" (click)="closeCreatePanelModal()">&times;</span>
+      <h2>Criar Novo Painel</h2>
+      <form (ngSubmit)="createPanel()">
+        <div class="form-group">
+          <label for="create-name">Nome/Localização:</label>
+          <input type="text" id="create-name" [(ngModel)]="newPanel.name" name="create-name" required>
+        </div>
+        <div class="form-group">
+          <label for="create-priority">Prioridade:</label>
+          <select id="create-priority" [(ngModel)]="newPanel.priority" name="create-priority">
+            <option value="Alta">Alta</option>
+            <option value="Média">Média</option>
+            <option value="Baixa">Baixa</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="create-status">Estado:</label>
+          <select id="create-status" [(ngModel)]="newPanel.status" name="create-status">
+            <option value="Vermelho">Vermelho</option>
+            <option value="Amarelo">Amarelo</option>
+            <option value="Verde">Verde</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="create-description">Descrição:</label>
+          <textarea id="create-description" [(ngModel)]="newPanel.description" name="create-description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="create-phone">Telefone:</label>
+          <input type="text" id="create-phone" [(ngModel)]="newPanel.phone" name="create-phone">
+        </div>
+        <div class="form-group">
+          <label for="create-email">Email:</label>
+          <input type="email" id="create-email" [(ngModel)]="newPanel.email" name="create-email">
+        </div>
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" (click)="closeCreatePanelModal()">Cancelar</button>
+          <button type="submit" class="confirm-btn">Criar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmação de Exclusão -->
+  <div class="modal" *ngIf="showDeleteModal">
+    <div class="modal-content">
+      <span class="close" (click)="cancelDelete()">&times;</span>
+      <h2>Confirmar Exclusão</h2>
+      <p>Tem certeza que deseja excluir este painel?</p>
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="cancelDelete()">Cancelar</button>
+        <button type="button" class="confirm-btn" (click)="deletePanel()">Confirmar</button>
       </div>
     </div>
   </div>
