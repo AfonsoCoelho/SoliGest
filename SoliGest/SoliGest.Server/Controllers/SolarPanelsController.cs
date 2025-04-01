@@ -54,15 +54,19 @@ namespace SoliGest.Server.Controllers
             try
             {
                 var solarPanel = await _context.FindAsync<SolarPanel>(id);
+                if(solarPanel == null)
+                {
+                    return NotFound($"Não foi possível encontrar o painel solar com o ID '{id}'.");
+                }
 
                 _context.Remove<SolarPanel>(solarPanel);
                 await _context.SaveChangesAsync();
 
-                return Ok();
+                return Ok("Painel solar removido com sucesso!");
             }
             catch
             {
-                return NotFound();
+                return BadRequest();
             }
         }
 
@@ -73,12 +77,18 @@ namespace SoliGest.Server.Controllers
             try
             {
                 var solarPanel = await _context.FindAsync<SolarPanel>(id);
-
-                return solarPanel;
+                if(solarPanel != null)
+                {
+                    return solarPanel;
+                }
+                else
+                {
+                    return NotFound($"Não foi possível encontrar o painel solar com o ID '{id}'.");
+                }
             }
             catch
             {
-                return NotFound();
+                return BadRequest();
             }
         }
 
@@ -103,7 +113,7 @@ namespace SoliGest.Server.Controllers
 
             if (result != 1)
             {
-                return BadRequest();
+                return BadRequest("Ocorreu um erro!");
             }
 
             return Ok(new { message = "Painel solar atualizado com sucesso!" });
