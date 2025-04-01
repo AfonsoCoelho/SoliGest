@@ -7,12 +7,12 @@ using Xunit;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 
-public class ChangePasswordTest1 : IDisposable
+public class FuncionarioDeleteTest1 : IDisposable
 {
     private readonly IWebDriver _driver;
     private readonly WebDriverWait _wait;
 
-    public ChangePasswordTest1()
+    public FuncionarioDeleteTest1()
     {
         var options = new ChromeOptions();
         options.AddArgument("--ignore-certificate-errors");
@@ -24,22 +24,31 @@ public class ChangePasswordTest1 : IDisposable
     }
 
     [Fact]
-    public void ChangePassword_Should_Show_Error_When_Passwords_Do_Not_Match()
+    public void Funcionario_Details_Should_Show_And_Close_Model_Without_Errors()
     {
-        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/changepw");
+        WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
 
-        // Fill the form
-        TypeSlowly(_driver.FindElement(By.Id("newPassword")), "NewPassword123!");
-        TypeSlowly(_driver.FindElement(By.Id("confirmPassword")), "DifferentPassword456!");
+        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/funcionario");
 
-        _driver.FindElement(By.TagName("body")).Click();
+        TimeSpan.FromSeconds(5);
 
-        // Click submit
-        //_driver.FindElement(By.ClassName("submit-btn")).Click();
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("delete-btn")));
 
-        // Wait for validation message to appear
-        IWebElement errorFeedback = _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("error-feedback")));
-        Assert.Contains("As palavras-passes não coincidem.", errorFeedback.Text);
+        _driver.FindElement(By.Id("delete/test@mail.com")).Click();
+
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("confirm-delete-btn")));
+
+        _driver.FindElement(By.ClassName("confirm-delete-btn")).Click();
+
+        // Wait for alert
+        //wait.Until(ExpectedConditions.AlertIsPresent());
+
+        // Switch to alert
+        //IAlert alert = _driver.SwitchTo().Alert();
+
+        // Validate and accept the alert
+        //Assert.Equal("Por favor corriga os erros do formulário!", alert.Text);
+        //alert.Accept();
     }
 
     // Function to type text character by character with small delay

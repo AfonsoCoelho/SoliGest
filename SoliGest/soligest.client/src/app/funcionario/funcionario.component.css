@@ -6,8 +6,10 @@ body {
   flex-direction: column;
   align-items: center;
   background-color: #f4f4f4;
+  min-height: 100vh;
 }
 
+/* Cabeçalho fixo */
 .header {
   display: flex;
   align-items: center;
@@ -19,7 +21,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 1002;
 }
 
 .header-logo {
@@ -57,77 +59,18 @@ body {
 
 .table-container {
   margin-top: 20px; /* Espaçamento entre o botão e a tabela */
-  width: 80%;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
-  border: 1px solid #ccc;
-  padding: 10px;
-  text-align: left;
-}
-
-th {
-  background-color: #FFC300;
-  color: black;
-}
-
-tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-body {
-  font-family: 'Roboto', sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #f4f4f4;
-  min-height: 100vh;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  background-color: #37AFE1;
-  color: black;
-  padding: 15px 20px;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-}
-
-.header-logo {
-  width: 40px;
-  height: auto;
-  margin-right: 10px;
-}
-
-.header-title {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-/* Container do botão Adicionar - NOVO ESTILO */
-.add-button-container {
-  margin: 80px 0 20px 0;
+/* Botão de criação */
+.add-delete-button-container {
+  gap: 5px;
+  margin-top: 100px;
   width: 80%;
   display: flex;
   justify-content: flex-start;
 }
 
-.add-button {
+.add-button, .delete-selected-button {
   background-color: #FFC300;
   color: black;
   border: none;
@@ -136,24 +79,21 @@ body {
   font-weight: bold;
   cursor: pointer;
   font-size: 16px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   transition: all 0.3s ease;
 }
 
-  .add-button:hover {
+  .add-button:hover, .delete-selected-button:hover {
     background-color: #ffd800;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   }
 
-  .add-button:disabled {
+  .add-button:disabled, .delete-selected-button:disabled {
     background-color: #e0e0e0;
     color: #a0a0a0;
     cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
   }
 
+/* Container da tabela */
 .table-container {
   width: 80%;
   background: white;
@@ -166,11 +106,11 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
 }
 
 th, td {
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
+  margin-top: 20px;
   padding: 12px;
   text-align: left;
 }
@@ -237,7 +177,7 @@ footer {
 
 /* Responsividade */
 @media (max-width: 768px) {
-  .add-button-container, .table-container {
+  .add-delete-button-container, .table-container {
     width: 95%;
   }
 
@@ -246,26 +186,83 @@ footer {
   }
 }
 
-.select-cell {
-  text-align: center;
+/* Estilização dos Modais */
+.modal, .modal2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1003; /* Aumentei para garantir que esteja sobre a tabela */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-button {
-  margin: 2px;
-  padding: 5px 10px;
-  cursor: pointer;
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  max-height: 80%;
+  overflow-y: auto;
+  position: relative;
+  width: 400px;
 }
 
-  button:disabled {
-    opacity: 0.6; /* Reduz a opacidade do botão desabilitado */
-    cursor: not-allowed; /* Altera o cursor para "não permitido" */
+  /* Título do modal */
+  .modal-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
   }
 
-footer {
-  text-align: center;
-  background-color: #37AFE1;
-  color: black;
-  padding: 15px;
-  width: 100%;
-  margin-top: 20px;
+  /* Botões no modal */
+  .modal-content .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+/* Avatar */
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  margin-right: 20px;
 }
+
+.modal-profile {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-profile-details {
+  margin-left: 10px;
+}
+
+.modal-profile-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Botão de fechar */
+.close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  color: #888;
+}
+
+  .close:hover {
+    color: black;
+  }

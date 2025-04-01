@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { User, UsersService } from '../services/users.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-funcionario',
@@ -10,9 +11,13 @@ import { User, UsersService } from '../services/users.service';
 export class FuncionarioComponent {
   public users: User[] = []; // Lista de usuários
   selectedUsers: User[] = []; // Lista de usuários selecionados
+  isBulkDeleteModalOpen: boolean = false;
+  isDeleteModalOpen: boolean = false; // Controla a exibição do modal delete
+  isDetailsModalOpen: boolean = false; // Controla a exibição do modal de detalhes
+  selectedUser: User | null = null; // Usuário selecionado para exibição de detalhes
   imagepath: string = "/assets/img/plus-18.png";
 
-  constructor(private service: UsersService) { }
+  constructor(private service: UsersService, private router: Router) { }
 
   ngOnInit() {
     this.getUsers();
@@ -53,18 +58,63 @@ export class FuncionarioComponent {
   // Ação do botão Detalhes
   onDetails(user: User): void {
     console.log('Detalhes do usuário:', user);
-    // Implemente a lógica de detalhes aqui
+    this.selectedUser = user;
+    this.isDetailsModalOpen = true;
   }
 
   // Ação do botão Apagar
+  onBulkDelete(): void {
+    this.isBulkDeleteModalOpen = true; // Open the modal
+  }
+
   onDelete(user: User): void {
-    console.log('Apagar usuário:', user);
-    // Implemente a lógica de exclusão aqui
+    this.selectedUser = user;
+    this.isDeleteModalOpen = true; // Open the modal
   }
 
   // Ação do botão Criar
   onCreate(): void {
     console.log('Botão Criar clicado');
     // Implemente a lógica para criar um novo usuário aqui
+  }
+
+  closeModal(): void {
+    this.isDeleteModalOpen = false; // Close the modal
+    this.isBulkDeleteModalOpen = false; // Close the modal
+    this.selectedUser = null;
+    this.selectedUsers = [];
+  }
+
+  confirmDelete(): void {
+    if (this.selectedUser) {
+      this.service.deleteUser(this.selectedUser.id).subscribe(
+        (result) => {
+          console.log(result);
+          this.getUsers();
+          this.closeModal();
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
+    for (let i = 0; i < this.selectedUsers.length; i++)
+    {
+      this.service.deleteUser(this.selectedUsers[i].id).subscribe(
+        (result) => {
+          console.log(result);
+          this.getUsers();
+          this.closeModal();
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
+  }
+
+  // Fechar o modal de detalhes
+  closeDetailsModal(): void {
+    this.isDetailsModalOpen = false;
   }
 }

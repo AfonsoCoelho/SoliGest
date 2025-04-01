@@ -24,12 +24,12 @@ public class AskResetPwTest2 : IDisposable
     }
 
     [Fact]
-    public void PwRecovery_Should_Show_Error_When_Email_Does_Not_Exist()
+    public void PwRecovery_Should_Show_Error_When_Invalid_Email()
     {
-        _driver.Navigate().GoToUrl("https://127.0.0.1:49893/pwrecovery");
+        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/pwrecovery");
 
         // Fill in an invalid email
-        TypeSlowly(_driver.FindElement(By.Id("email")), "afonso@gmail.com");
+        TypeSlowly(_driver.FindElement(By.Id("email")), "not-an-email");
 
         // Click submit
         _driver.FindElement(By.ClassName("submit-btn")).Click();
@@ -41,7 +41,7 @@ public class AskResetPwTest2 : IDisposable
         IAlert alert = _driver.SwitchTo().Alert();
 
         // Validate and accept the alert
-        Assert.Equal("Email enviado com sucesso!!", alert.Text);
+        Assert.Equal("Por favor corriga os erros do formulário!", alert.Text);
         alert.Accept();
     }
 

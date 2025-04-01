@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabela - SoliGest</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap">
+</head>
+<body>
+  <header class="header">
+    <img src="/logo.jpg" alt="SoliGest Logo" class="header-logo">
+    <h1 class="header-title">Detalhes do Utilizador</h1>
+  </header>
+
+  <div class="details-container" *ngIf="user">
+    <div class="profile-header">Perfil</div>
+
+    <div class="profile-info">
+      <div class="profile-avatar">👤</div>
+      <div class="profile-details">
+        <p><strong>Nome:</strong> {{ user.name }}</p>
+        <p><strong>ID:</strong> {{ user.id }}</p>
+        <p><strong>Cargo:</strong> {{ user.role }}</p>
+        <p><strong>Telemóvel:</strong> {{ user.phoneNumber }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p>
+          <strong>Data de Nascimento:</strong>
+          {{ user.birthDate !== undefined ? (user.birthDate | date:'dd/MM/yyyy') : 'Não informado' }}
+        </p>
+        <p><strong>Período de Férias:</strong></p>
+        <ng-container *ngIf="user?.feriasAno && user.feriasAno.length > 0; else noFerias">
+          <span *ngFor="let periodo of user.feriasAno">
+            {{ periodo.inicio | date:'dd/MM/yyyy' }} - {{ periodo.fim | date:'dd/MM/yyyy' }} <br>
+          </span>
+        </ng-container>
+        <ng-template #noFerias><p>Sem férias registradas</p></ng-template>
+
+        <p><strong>Dias de Folga:</strong></p>
+        <ng-container *ngIf="user?.folgasMes && user.folgasMes.length > 0; else noFolgas">
+          <span *ngFor="let folga of user.folgasMes">
+            {{ folga | date:'dd/MM/yyyy' }} <br>
+          </span>
+        </ng-container>
+        <ng-template #noFolgas><p>Sem folgas registradas</p></ng-template>
+      </div>
+    </div>
+
+    <div class="button-container">
+      <button [routerLink]="'/funcionario'">Voltar</button>
+      <button class="edit-button" (click)="onEdit()">Editar Perfil</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>Sistema de assistência a painéis solares</p>
+    <a href="#">Ajuda (?)</a> | <a href="#">Criadores</a>
+  </footer>
+</body>
+</html>

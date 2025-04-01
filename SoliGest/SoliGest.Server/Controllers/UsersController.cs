@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Shared;
 using SendGrid.Helpers.Mail;
 using SoliGest.Server.Data;
+//using SoliGest.Server.Migrations;
 using SoliGest.Server.Models;
 using SoliGest.Server.Services;
 using System;
@@ -42,7 +44,7 @@ namespace SoliGest.Server.Controllers
             if (userExists != null)
                 return BadRequest(new { message = "User already exists." });
 
-            var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name, BirthDate = model.BirthDate };
+            var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name, BirthDate = model.BirthDate, PhoneNumber = model.PhoneNumber, Address1 = model.Address1, Address2 = model.Address2, Role = model.Role, DayOff = model.DayOff, StartHoliday = model.StartHoliday, EndHoliday = model.EndHoliday };
 
             var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -149,32 +151,94 @@ namespace SoliGest.Server.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPerson(string id, User user)
+        public async Task<IActionResult> PutPerson([FromBody] UserUpdateModel model)
         {
-            if (!id.Equals(user.Id))
+            //var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name, BirthDate = model.BirthDate, PhoneNumber = model.PhoneNumber, Address1 = model.Address1, Address2 = model.Address2 };
+
+            //var result = await _userManager.UpdateAsync(user);
+
+            //if (result.Succeeded)
+            //{
+            //    return Ok(new { message = "Utilizador atualizado com sucesso!" });
+            //}
+            //else
+            //{
+            //    return BadRequest(result.Errors);
+            //}
+            //if (ModelState.IsValid)
+            //{
+            //    var user = await _userManager.FindByEmailAsync(model.Email);
+            //    if (user == null)
+            //    {
+            //        return NotFound();
+            //    }
+
+            //    user.UserName = model.Email;
+            //    user.Email = model.Email;
+            //    user.Name = model.Name;
+            //    user.PhoneNumber = model.PhoneNumber;
+
+            //    var result = await _userManager.UpdateAsync(user);
+
+            //    if (!result.Succeeded)
+            //    {
+            //        ModelState.AddModelError("", result.Errors.First().Description);
+            //        return BadRequest();
+            //    }
+
+            //    //return RedirectToAction("Index");
+            //    return NoContent();
+            //}
+
+            //ModelState.AddModelError("", "Something failed.");
+            //return Ok();
+
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null)
             {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            if (model.PhoneNumber != phoneNumber)
+            {
+                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
+                if (!setPhoneResult.Succeeded)
+                {
+                    return BadRequest(new { message = "Unexpected error when trying to set phone number." });
+                }
+            }
+
+            var email = await _userManager.GetEmailAsync(user);
+            if (model.Email != email)
+            {
+                var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
+                if (!setEmailResult.Succeeded)
+                {
+                    return BadRequest(new { message = "Unexpected error when trying to set email." });
+                }
+            }
+
+            user.Name = model.Name;
+            user.Address1 = model.Address1;
+            user.Address2 = model.Address2;
+            user.BirthDate = model.BirthDate;
+            user.Role = model.Role;
+            user.DayOff = model.DayOff;
+            user.StartHoliday = model.StartHoliday;
+            user.EndHoliday = model.EndHoliday;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", result.Errors.First().Description);
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            //await _signInManager.RefreshSignInAsync(user);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    Console.WriteLine("Erro");
-                    throw;
-                }
-            }
-            return NoContent();
+            return Ok(new { message = "Utilizador atualizado com sucesso!" });
         }
 
         private bool UserExists(string id)
@@ -186,41 +250,53 @@ namespace SoliGest.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetPerson(string id)
         {
-            var person = await _context.Users.FindAsync(id);
+            try
+            {
+                var person = await _context.Users.FindAsync(id);
 
-            if (person == null)
+                return person;
+            } 
+            catch
             {
                 return NotFound();
             }
-
-            return person;
         }
 
         // DELETE: api/People/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePerson(string id)
         {
-            var person = await _context.Users.FindAsync(id);
-            if (person == null)
+            try
+            {
+                var person = await _context.Users.FindAsync(id);
+
+                _context.Users.Remove(person);
+                await _context.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch
             {
                 return NotFound();
             }
-
-            _context.Users.Remove(person);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
         // POST: api/People
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostPerson(User user)
+        public async Task<IActionResult> PostPerson(User user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPerson", new { id = user.Id }, user);
+                return CreatedAtAction("GetPerson", new { id = user.Id }, user);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // GET: api/People
@@ -242,7 +318,29 @@ namespace SoliGest.Server.Controllers
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public DateOnly BirthDate { get; set; }
+        public string BirthDate { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Role { get; set; }
+        public string DayOff { get; set; }
+        public string StartHoliday { get; set; }
+        public string EndHoliday { get; set; }
+    }
+
+    public class UserUpdateModel
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string BirthDate { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Role { get; set; }
+        public string DayOff { get; set; }
+        public string StartHoliday { get; set; }
+        public string EndHoliday { get; set; }
     }
 
     public class UserResetPasswordModel
