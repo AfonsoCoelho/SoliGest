@@ -10,8 +10,8 @@
     public class LoginTest2 : IDisposable
     {
         private readonly IWebDriver _driver;
-        private const string BaseUrl = "https://127.0.0.1:49893/login";
-        private const string FixedEmail = "afonso@gmail.com";
+        private const string BaseUrl = "https://soligest.azurewebsites.net/login";
+        private const string FixedEmail = "non-existing-user@gmail.com";
         private const string FixedPassword = "aaaaaaaa";
 
         public LoginTest2()
@@ -25,7 +25,7 @@
         }
 
         [Fact]
-        public void Login_Should_Show_Alert_With_Correct_Message()
+        public void Login_Should_Show_Alert_With_Error_Message()
         {
             _driver.Navigate().GoToUrl(BaseUrl);
 

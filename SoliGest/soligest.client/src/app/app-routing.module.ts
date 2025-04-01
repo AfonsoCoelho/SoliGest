@@ -13,6 +13,7 @@ import { FuncionarioCreateComponent } from './funcionario-create/funcionario-cre
 import { FuncionarioEditComponent } from './funcionario-edit/funcionario-edit.component';
 import { PaineisSolaresComponent } from './paineis-solares/paineis-solares.component';
 import { AvariasComponent } from './avarias/avarias.component';
+import { FuncionarioDetailsComponent } from './funcionario-details/funcionario-details.component'; //vamos apagar
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, // A raiz agora carrega a página de registar
@@ -23,9 +24,10 @@ const routes: Routes = [
   { path: 'changepw', component: ChangepwComponent },
   { path: 'funcionario', component: FuncionarioComponent },
   { path: 'funcionario-create', component: FuncionarioCreateComponent },
-  { path: 'funcionario-edit', component: FuncionarioEditComponent },
   { path: 'paineis-solares', component: PaineisSolaresComponent },
   { path: 'avarias', component: AvariasComponent },
+  { path: 'funcionario-edit/:id', component: FuncionarioEditComponent },
+  { path: 'funcionario-details/:id', component: FuncionarioDetailsComponent },
 
   { path: '**', redirectTo: '' } // Qualquer rota inválida vai para registar
 ];

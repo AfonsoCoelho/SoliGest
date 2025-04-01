@@ -7,12 +7,12 @@ using Xunit;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 
-public class AskResetPwTest1 : IDisposable
+public class FuncionarioEditTest1 : IDisposable
 {
     private readonly IWebDriver _driver;
     private readonly WebDriverWait _wait;
 
-    public AskResetPwTest1()
+    public FuncionarioEditTest1()
     {
         var options = new ChromeOptions();
         options.AddArgument("--ignore-certificate-errors");
@@ -24,25 +24,50 @@ public class AskResetPwTest1 : IDisposable
     }
 
     [Fact]
-    public void PwRecovery_Should_Show_Error_When_Email_Does_Not_Exist()
+    public void Funcionario_Edit_Should_Show_Alert_With_Correct_Message()
     {
-        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/pwrecovery");
+        WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
 
-        // Fill in an invalid email
-        TypeSlowly(_driver.FindElement(By.Id("email")), "invalid@example.com");
+        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/funcionario");
+
+        TimeSpan.FromSeconds(5);
+
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("edit-btn")));
+
+        TimeSpan.FromSeconds(5);
+
+        _driver.FindElement(By.Id("edit/soligestesa@gmail.com")).Click();
+
+        TimeSpan.FromSeconds(5);
+
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.Id("name")));
+
+        // Fill the form slowly to prevent UI race conditions
+        _driver.FindElement(By.Id("name")).Clear();
+        TypeSlowly(_driver.FindElement(By.Id("name")), "SoliGest Supervisor (New Name)");
 
         // Click submit
         _driver.FindElement(By.ClassName("submit-btn")).Click();
 
-        // Wait for alert to be present
+        // Wait for validation message to appear
         _wait.Until(ExpectedConditions.AlertIsPresent());
 
         // Switch to alert
         IAlert alert = _driver.SwitchTo().Alert();
 
         // Validate and accept the alert
-        Assert.Equal("Não existe uma conta com esse email no sistema!", alert.Text);
+        Assert.Equal("Utilizador atualizado com sucesso!", alert.Text);
         alert.Accept();
+
+        // Wait for alert
+        //wait.Until(ExpectedConditions.AlertIsPresent());
+
+        // Switch to alert
+        //IAlert alert = _driver.SwitchTo().Alert();
+
+        // Validate and accept the alert
+        //Assert.Equal("Por favor corriga os erros do formulário!", alert.Text);
+        //alert.Accept();
     }
 
     // Function to type text character by character with small delay

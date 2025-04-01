@@ -7,12 +7,12 @@ using Xunit;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 
-public class RegistarTest2 : IDisposable
+public class FuncionarioCreateTest1 : IDisposable
 {
     private readonly IWebDriver _driver;
     private readonly WebDriverWait _wait;
 
-    public RegistarTest2()
+    public FuncionarioCreateTest1()
     {
         var options = new ChromeOptions();
         options.AddArgument("--ignore-certificate-errors");
@@ -24,26 +24,50 @@ public class RegistarTest2 : IDisposable
     }
 
     [Fact]
-    public void Register_Should_Show_Error_With_Invalid_Email_Message()
+    public void Funcionario_Create_Should_Show_Alert_With_Correct_Message()
     {
         //WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
 
-        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/registar");
+        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/funcionario");
 
-        _wait.Until(ExpectedConditions.ElementIsVisible(By.Id("email")));
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("add-button")));
+
+        _driver.FindElement(By.ClassName("add-button")).Click();
 
         // Fill the form slowly to prevent UI race conditions
         TypeSlowly(_driver.FindElement(By.Id("name")), "afonso");
-        TypeSlowly(_driver.FindElement(By.Id("email")), "aiooo");
+        TypeSlowly(_driver.FindElement(By.Id("email")), "test@mail.com");
+        TypeSlowly(_driver.FindElement(By.Id("phoneNumber")), "999999999");
+        TypeSlowly(_driver.FindElement(By.Id("address1")), "address1");
+        TypeSlowly(_driver.FindElement(By.Id("address2")), "address2");
+        TypeSlowly(_driver.FindElement(By.Id("birthDate")), DateTime.Now.ToString("dd-MM-yyyy"));
         TypeSlowly(_driver.FindElement(By.Id("password")), "Password1!");
         TypeSlowly(_driver.FindElement(By.Id("confirmPassword")), "Password1!");
+        // role
+        WebElement roleDropdown = (WebElement)_driver.FindElement(By.Id("cargo"));
+        SelectElement roleSelectObject = new SelectElement(roleDropdown);
+        roleSelectObject.SelectByIndex(1);
+        // dayOff
+        WebElement dayOffDropdown = (WebElement)_driver.FindElement(By.Id("dayOff"));
+        SelectElement dayOffSelectObject = new SelectElement(dayOffDropdown);
+        dayOffSelectObject.SelectByIndex(1);
+        TypeSlowly(_driver.FindElement(By.Id("startHoliday")), DateTime.Now.ToString("dd-MM-yyyy"));
+        TypeSlowly(_driver.FindElement(By.Id("endHoliday")), DateTime.Now.ToString("dd-MM-yyyy"));
+
+
 
         // Click submit
-        //_driver.FindElement(By.ClassName("submit-btn")).Click();
+        _driver.FindElement(By.ClassName("submit-btn")).Click();
 
         // Wait for validation message to appear
-        IWebElement errorFeedback = _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("error-feedback")));
-        Assert.Contains("Por favor insira um email válido.", errorFeedback.Text);
+        _wait.Until(ExpectedConditions.AlertIsPresent());
+
+        // Switch to alert
+        IAlert alert = _driver.SwitchTo().Alert();
+
+        // Validate and accept the alert
+        Assert.Equal("Registo bem sucedido!", alert.Text);
+        alert.Accept();
 
         // Wait for alert
         //wait.Until(ExpectedConditions.AlertIsPresent());

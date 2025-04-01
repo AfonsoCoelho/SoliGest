@@ -7,12 +7,12 @@ using Xunit;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 
-public class AskResetPwTest1 : IDisposable
+public class FuncionarioDetailsTest1 : IDisposable
 {
     private readonly IWebDriver _driver;
     private readonly WebDriverWait _wait;
 
-    public AskResetPwTest1()
+    public FuncionarioDetailsTest1()
     {
         var options = new ChromeOptions();
         options.AddArgument("--ignore-certificate-errors");
@@ -24,25 +24,32 @@ public class AskResetPwTest1 : IDisposable
     }
 
     [Fact]
-    public void PwRecovery_Should_Show_Error_When_Email_Does_Not_Exist()
+    public void Funcionario_Details_Should_Show_And_Close_Model_Without_Errors()
     {
-        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/pwrecovery");
+        WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
 
-        // Fill in an invalid email
-        TypeSlowly(_driver.FindElement(By.Id("email")), "invalid@example.com");
+        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/funcionario");
 
-        // Click submit
-        _driver.FindElement(By.ClassName("submit-btn")).Click();
+        TimeSpan.FromSeconds(5);
 
-        // Wait for alert to be present
-        _wait.Until(ExpectedConditions.AlertIsPresent());
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("details-btn")));
+
+        _driver.FindElement(By.Id("details/soligestesa@gmail.com")).Click();
+
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("close")));
+
+        // Fill the form slowly to prevent UI race conditions
+        _driver.FindElement(By.ClassName("close")).Click();
+
+        // Wait for alert
+        //wait.Until(ExpectedConditions.AlertIsPresent());
 
         // Switch to alert
-        IAlert alert = _driver.SwitchTo().Alert();
+        //IAlert alert = _driver.SwitchTo().Alert();
 
         // Validate and accept the alert
-        Assert.Equal("Não existe uma conta com esse email no sistema!", alert.Text);
-        alert.Accept();
+        //Assert.Equal("Por favor corriga os erros do formulário!", alert.Text);
+        //alert.Accept();
     }
 
     // Function to type text character by character with small delay

@@ -10,9 +10,9 @@
     public class LoginTest1 : IDisposable
     {
         private readonly IWebDriver _driver;
-        private const string BaseUrl = "https://127.0.0.1:49893/login"; 
-        private const string FixedEmail = "afonso@gmail.com";
-        private const string FixedPassword = "Password1!"; 
+        private const string BaseUrl = "https://soligest.azurewebsites.net/login"; 
+        private const string FixedEmail = "soligestesa@gmail.com";
+        private const string FixedPassword = "Admin1!"; 
 
         public LoginTest1()
         {
@@ -47,8 +47,8 @@
 
             // Validate and accept the alert
             Assert.Equal("Login efetuado com sucesso!", alert.Text);
-            Thread.Sleep(5000);
-            //alert.Accept();
+            //Thread.Sleep(5000);
+            alert.Accept();
         }
 
         private void TypeSlowly(IWebElement element, string text)

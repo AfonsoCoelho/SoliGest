@@ -112,7 +112,7 @@ body {
       border-radius: 5px;
     }
 
-.submit-btn {
+.submit-btn, .cancel-btn {
   background-color: #FFC300;
   color: black;
   border: none;
@@ -124,7 +124,7 @@ body {
   border-radius: 5px;
 }
 
-  .submit-btn:hover {
+  .submit-btn:hover, .cancel-btn:hover {
     background-color: #ffb300;
   }
 
@@ -173,11 +173,21 @@ button {
   cursor: pointer;
 }
 
-  button:hover {
-    background-color: #0056b3;
-  }
-
   button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
   }
+
+.submit-cancel-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.submit-btn {
+  order: 2;
+}
+
+.cancel-btn {
+  order: 1;
+}
