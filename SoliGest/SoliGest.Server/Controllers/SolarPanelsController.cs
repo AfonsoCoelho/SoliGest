@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,8 @@ using SoliGest.Server.Models;
 
 namespace SoliGest.Server.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class SolarPanelsController : Controller
     {
         private readonly SoliGestServerContext _context;
@@ -19,139 +22,109 @@ namespace SoliGest.Server.Controllers
             _context = context;
         }
 
-        // GET: SolarPanels
-        public async Task<IActionResult> Index()
+        // GET: api/People
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<SolarPanel>>> GetSolarPanel()
         {
-            return View(await _context.SolarPanel.ToListAsync());
+            return await _context.SolarPanel.ToListAsync();
         }
 
-        // GET: SolarPanels/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var solarPanel = await _context.SolarPanel
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (solarPanel == null)
-            {
-                return NotFound();
-            }
-
-            return View(solarPanel);
-        }
-
-        // GET: SolarPanels/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: SolarPanels/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: api/People
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PhoneNumber,Email")] SolarPanel solarPanel)
+        public async Task<IActionResult> PostSolarPanel(SolarPanel solarPanel)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(solarPanel);
+                _context.SolarPanel.Add(solarPanel);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                return CreatedAtAction("GetSolarPanel", new { id = solarPanel.Id }, solarPanel);
             }
-            return View(solarPanel);
+            catch
+            {
+                return BadRequest();
+            }
         }
 
-        // GET: SolarPanels/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // DELETE: api/People/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteSolarPanel(int id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                var solarPanel = await _context.FindAsync<SolarPanel>(id);
+                if(solarPanel == null)
+                {
+                    return NotFound($"Não foi possível encontrar o painel solar com o ID '{id}'.");
+                }
 
-            var solarPanel = await _context.SolarPanel.FindAsync(id);
+                _context.Remove<SolarPanel>(solarPanel);
+                await _context.SaveChangesAsync();
+
+                return Ok("Painel solar removido com sucesso!");
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        // GET: api/People/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<SolarPanel>> GetSolarPanel(int id)
+        {
+            try
+            {
+                var solarPanel = await _context.FindAsync<SolarPanel>(id);
+                if(solarPanel != null)
+                {
+                    return solarPanel;
+                }
+                else
+                {
+                    return NotFound($"Não foi possível encontrar o painel solar com o ID '{id}'.");
+                }
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        // PUT: api/Users/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutSolarPanel([FromBody] SolarPanelUpdateModel model)
+        {
+            var solarPanel = await _context.FindAsync<SolarPanel>(model.Id);
             if (solarPanel == null)
             {
-                return NotFound();
+                return NotFound($"Não foi possível encontrar o painel solar com o ID '{model.Id}'.");
             }
-            return View(solarPanel);
-        }
 
-        // POST: SolarPanels/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PhoneNumber,Email")] SolarPanel solarPanel)
-        {
-            if (id != solarPanel.Id)
+            solarPanel.PhoneNumber = model.PhoneNumber;
+            solarPanel.Email = model.Email;
+            solarPanel.Address = model.Address;
+
+            _context.Update<SolarPanel>(solarPanel);
+
+            var result = _context.SaveChanges();
+
+            if (result != 1)
             {
-                return NotFound();
+                return BadRequest("Ocorreu um erro!");
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(solarPanel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SolarPanelExists(solarPanel.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(solarPanel);
+            return Ok(new { message = "Painel solar atualizado com sucesso!" });
         }
+    }
 
-        // GET: SolarPanels/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var solarPanel = await _context.SolarPanel
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (solarPanel == null)
-            {
-                return NotFound();
-            }
-
-            return View(solarPanel);
-        }
-
-        // POST: SolarPanels/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var solarPanel = await _context.SolarPanel.FindAsync(id);
-            if (solarPanel != null)
-            {
-                _context.SolarPanel.Remove(solarPanel);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool SolarPanelExists(int id)
-        {
-            return _context.SolarPanel.Any(e => e.Id == id);
-        }
+    public class SolarPanelUpdateModel
+    {
+        public int Id { get; set; }
+        public int PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public string Address { get; set; }
     }
 }
