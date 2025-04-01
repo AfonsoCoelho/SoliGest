@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -46,15 +47,50 @@ namespace SoliGest.Server.Controllers
             }
         }
 
+        // DELETE: api/People/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteSolarPanel(int id)
+        {
+            try
+            {
+                var solarPanel = await _context.FindAsync<SolarPanel>(id);
+
+                _context.Remove<SolarPanel>(solarPanel);
+                await _context.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        // GET: api/People/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<SolarPanel>> GetSolarPanel(int id)
+        {
+            try
+            {
+                var solarPanel = await _context.FindAsync<SolarPanel>(id);
+
+                return solarPanel;
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPerson([FromBody] SolarPanelUpdateModel model)
+        public async Task<IActionResult> PutSolarPanel([FromBody] SolarPanelUpdateModel model)
         {
             var solarPanel = await _context.FindAsync<SolarPanel>(model.Id);
             if (solarPanel == null)
             {
-                return NotFound($"Unable to load solar panel with ID '{model.Id}'.");
+                return NotFound($"Não foi possível encontrar o painel solar com o ID '{model.Id}'.");
             }
 
             solarPanel.PhoneNumber = model.PhoneNumber;
@@ -70,7 +106,7 @@ namespace SoliGest.Server.Controllers
                 return BadRequest();
             }
 
-            return Ok(new { message = "Utilizador atualizado com sucesso!" });
+            return Ok(new { message = "Painel solar atualizado com sucesso!" });
         }
     }
 
