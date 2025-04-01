@@ -1,0 +1,59 @@
+<div class="page-wrapper">
+  <header class="soligest-header">
+    <img src="/logo.jpg" alt="SoliGest Logo" class="header-logo">
+    <h1 class="header-title">SoliGest</h1>
+  </header>
+
+  <div class="content-container">
+    <div class="left-section">
+      <div class="panels-section">
+        <h2>Avarias</h2>
+        <div class="sort-options">
+          <label for="search-bar">Procurar:</label>
+          <input type="text"
+                 id="search-bar"
+                 class="search-input"
+                 [(ngModel)]="searchTerm"
+                 (input)="filterAvarias()"
+                 placeholder="Por Rua ou Distrito" />
+        
+
+          <label for="sort-by">Ordenar por:</label>
+          <select id="sort-by" class="sort-dropdown" [(ngModel)]="sortBy" (change)="sortAvarias()">
+            <option value="priority">Prioridade</option>
+            <option value="name">Nome</option>
+            <option value="id">ID</option>
+            <option value="status">Estado</option>
+          </select>
+          <select id="sort-direction" class="sort-dropdown" [(ngModel)]="sortDirection" (change)="sortAvarias()">
+            <option value="asc">Crescente</option>
+            <option value="desc">Decrescente</option>
+          </select>
+        </div>
+
+        <div class="panels-container">
+          <!-- Update here to use filteredAvarias -->
+          <div class="panel" *ngFor="let avaria of filteredAvarias" [ngClass]="avaria.statusClass">
+            <h3>Avaria ID: {{avaria.id}}</h3>
+            <p>{{avaria.name}}</p>
+            <p *ngIf="avaria.priority">Prioridade: {{avaria.priority}}</p>
+            <p class="status-text">Estado: {{avaria.status}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Adicione esta seção para o mapa -->
+    <div class="right-section">
+      <div class="map-container">
+        <h2>Localização dos Painéis</h2>
+        <div id="map"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="soligest-footer">
+    <p>Sistema de assistência a painéis solares</p>
+    <a href="#">Ajuda (?)</a> | <a href="#">Criadores</a>
+  </footer>
+</div>
