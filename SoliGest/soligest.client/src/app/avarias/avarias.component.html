@@ -15,8 +15,8 @@
                  class="search-input"
                  [(ngModel)]="searchTerm"
                  (input)="filterAvarias()"
-                 placeholder="Por Rua ou Distrito" />
-        
+                 placeholder="Rua ou Cidade" />
+
 
           <label for="sort-by">Ordenar por:</label>
           <select id="sort-by" class="sort-dropdown" [(ngModel)]="sortBy" (change)="sortAvarias()">
@@ -32,14 +32,16 @@
         </div>
 
         <div class="panels-container">
-          <!-- Update here to use filteredAvarias -->
-          <div class="panel" *ngFor="let avaria of filteredAvarias" [ngClass]="avaria.statusClass">
-            <h3>Avaria ID: {{avaria.id}}</h3>
-            <p>{{avaria.name}}</p>
-            <p *ngIf="avaria.priority">Prioridade: {{avaria.priority}}</p>
-            <p class="status-text">Estado: {{avaria.status}}</p>
+          <!-- Atualizado para tornar os painéis clicáveis -->
+          <div class="panel" *ngFor="let avaria of filteredAvarias" [ngClass]="avaria.statusClass" (click)="selectAvaria(avaria)">
+            <h3>Avaria ID: {{ avaria.id }}</h3>
+            <p>{{ avaria.name }}</p>
+            <p *ngIf="avaria.priority">Prioridade: {{ avaria.priority }}</p>
+            <p class="status-text">Estado: {{ avaria.status }}</p>
           </div>
         </div>
+
+
       </div>
     </div>
 
@@ -56,4 +58,22 @@
     <p>Sistema de assistência a painéis solares</p>
     <a href="#">Ajuda (?)</a> | <a href="#">Criadores</a>
   </footer>
+
+  <!-- Modal de Detalhes da Avaria -->
+  <div *ngIf="selectedAvaria" class="modal-overlay">
+    <div class="modal-content">
+      <h3>Avaria ID: {{ selectedAvaria.id }}</h3>
+      <p><strong>Localização:</strong> {{ selectedAvaria.name }}</p>
+      <p *ngIf="selectedAvaria.priority"><strong>Prioridade:</strong> {{ selectedAvaria.priority }}</p>
+      <p class="status-text"><strong>Estado:</strong> {{ selectedAvaria.status }}</p>
+
+      <div class="modal-buttons">
+        <button (click)="autoAllocate(selectedAvaria)" class="auto-btn">Alocação Automática</button>
+        <button (click)="manualAllocate(selectedAvaria)" class="manual-btn">Alocação Manual</button>
+      </div>
+
+      <button class="close-btn" (click)="closeModal()">Fechar</button>
+    </div>
+  </div>
+
 </div>

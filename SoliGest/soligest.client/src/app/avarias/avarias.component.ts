@@ -27,6 +27,7 @@ export class AvariasComponent implements OnInit {
   sortDirection: string = 'asc';
   searchTerm: string = ''; // Property to hold the search term
   filteredAvarias: Avaria[] = []; // Property to hold filtered avarias
+  selectedAvaria: Avaria | null = null;
 
   // Dados das avarias com coordenadas geográficas
   avariasData: Avaria[] = [
@@ -287,5 +288,26 @@ export class AvariasComponent implements OnInit {
     this.filteredAvarias = this.sortedAvarias.filter(avaria =>
       avaria.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
+  }
+
+  selectAvaria(avaria: Avaria): void {
+    this.selectedAvaria = avaria;
+  }
+
+  // Fecha o modal
+  closeModal(): void {
+    this.selectedAvaria = null;
+  }
+
+  // Simulação de alocação automática
+  autoAllocate(avaria: Avaria): void {
+    alert(`Avaria ID ${avaria.id} - Alocação automática iniciada!`);
+    this.closeModal();
+  }
+
+  // Simulação de alocação manual
+  manualAllocate(avaria: Avaria): void {
+    alert(`Avaria ID ${avaria.id} - Alocação manual iniciada!`);
+    this.closeModal();
   }
 }
