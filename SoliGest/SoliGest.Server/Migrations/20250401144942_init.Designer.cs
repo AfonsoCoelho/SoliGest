@@ -12,7 +12,7 @@ using SoliGest.Server.Data;
 namespace SoliGest.Server.Migrations
 {
     [DbContext(typeof(SoliGestServerContext))]
-    [Migration("20250327163822_init")]
+    [Migration("20250401144942_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -270,8 +270,9 @@ namespace SoliGest.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AddressId")
-                        .HasColumnType("int");
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -281,8 +282,6 @@ namespace SoliGest.Server.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressId");
 
                     b.ToTable("SolarPanel");
                 });
@@ -444,17 +443,6 @@ namespace SoliGest.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("SolarPanel");
-                });
-
-            modelBuilder.Entity("SoliGest.Server.Models.SolarPanel", b =>
-                {
-                    b.HasOne("SoliGest.Server.Models.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Address");
                 });
 #pragma warning restore 612, 618
         }

@@ -17,6 +17,6 @@ namespace SoliGest.Server.Models
 
         [Required(ErrorMessage = "É obrigatório indicar uma morada.")]
         [Display(Name = "Morada")]
-        public Address Address { get; set; }
+        public string Address { get; set; }
     }
 }

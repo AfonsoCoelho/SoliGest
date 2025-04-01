@@ -113,17 +113,11 @@ namespace SoliGest.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PhoneNumber = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: false)
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SolarPanel", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SolarPanel_Address_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Address",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -296,16 +290,14 @@ namespace SoliGest.Server.Migrations
                 name: "IX_AssistanceRequest_SolarPanelId",
                 table: "AssistanceRequest",
                 column: "SolarPanelId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SolarPanel_AddressId",
-                table: "SolarPanel",
-                column: "AddressId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Address");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -338,9 +330,6 @@ namespace SoliGest.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "SolarPanel");
-
-            migrationBuilder.DropTable(
-                name: "Address");
         }
     }
 }
