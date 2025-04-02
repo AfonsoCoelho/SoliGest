@@ -32,6 +32,16 @@ export class AvariasComponent implements OnInit {
   infoWindow: any = null; // Variável global para o InfoWindow
   markers: any[] = []; // Armazena os marcadores no mapa
 
+  showModal: boolean = false; // create popup
+  showEditModal: boolean = false; // edit popup
+  showDeleteConfirm: boolean = false; // delete popup
+
+  selectedPanel: string = '';
+  selectedPriority: string = '';
+  selectedStatus: string = '';
+
+  panels = ['Painel 1', 'Painel 2', 'Painel 3']; //quem for fazer backend que saque os paines da bd e meta no array
+
   // Dados das avarias com coordenadas geográficas
   avariasData: Avaria[] = [
     {
@@ -363,4 +373,41 @@ export class AvariasComponent implements OnInit {
   manualAllocate(avaria: Avaria): void {
     alert(`Avaria ID ${avaria.id} - Alocação manual iniciada!`);
   }
+
+  openCreateModal(): void {
+    this.selectedPanel = ''; // Reset selected values
+    this.selectedPriority = ''; // Reset selected priority
+    this.selectedStatus = ''; // Reset selected status
+    this.showModal = true; // Show the modal
+  }
+
+  onCloseModal(): void {
+    this.showModal = false; // Hide the modal//
+  }
+
+  openEditModal(avaria: Avaria): void {
+    this.selectedAvaria = avaria;
+    this.selectedPanel = ''; // You can set this to a specific panel if needed
+    this.selectedPriority = avaria.priority || '';
+    this.selectedStatus = avaria.status;
+    this.showEditModal = true; // Show the edit modal
+  }
+
+  onCloseEditModal(): void {
+    this.showEditModal = false; // Hide the edit modal
+  }
+
+  openDeleteConfirm(avaria: Avaria): void {
+    this.selectedAvaria = avaria; // Set the selected avaria for confirmation
+    this.showDeleteConfirm = true; // Show the delete confirmation popup
+  }
+
+  onCloseDeleteConfirm(): void {
+    this.showDeleteConfirm = false; // Hide the delete confirmation popup
+  }
+
+  //quem for fazer o backend faça a logica
+  criarAvaria() { };
+  editarAvaria() { };
+  apagarAvaria() { };
 }
