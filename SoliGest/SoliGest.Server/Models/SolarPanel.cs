@@ -5,13 +5,12 @@ namespace SoliGest.Server.Models
     public class SolarPanel
     {
         public int Id { get; set; }
-
         public string Name { get; set; }
         public string Priority { get; set; }
         public string Status { get; set; }
         public string StatusClass { get; set; }
-        public int Latitude { get; set; }
-        public int Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
         public string Description { get; set; }
 
         [Required(ErrorMessage = "É obrigatório indicar um número de telemóvel.")]
