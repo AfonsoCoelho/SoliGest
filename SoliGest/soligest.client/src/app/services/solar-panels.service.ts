@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SolarPanelsService {
-
   constructor(private http: HttpClient) { }
 
   getSolarPanels(): Observable<SolarPanel[]> {
@@ -21,8 +20,8 @@ export class SolarPanelsService {
     return this.http.post<SolarPanel>('api/SolarPanels', solarPanel);
   }
 
-  updateSolarPanel(id: number, name: string, priority: string, status: string, statusClass: string, latitude: number, longitude: number, description: string, phone: string, email: string): Observable<SolarPanel> {
-    return this.http.put<SolarPanel>('api/SolarPanels/' + id, { id, name, priority, status, statusClass, latitude, longitude, description, phone, email });
+  updateSolarPanel(id: number, name: string, priority: string | undefined, status: string, statusClass: string, latitude: number | undefined, longitude: number | undefined, description: string | undefined, phone: number | undefined, email: string | undefined, address: string): Observable<SolarPanel> {
+    return this.http.put<SolarPanel>('api/SolarPanels/' + id, { id, name, priority, status, statusClass, latitude, longitude, description, phone, email, address });
   }
 
   deleteSolarPanel(id: number): Observable<SolarPanel> {

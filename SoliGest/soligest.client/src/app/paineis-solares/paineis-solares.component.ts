@@ -1,18 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-interface SolarPanel {
-  id: number;
-  name: string;
-  priority?: string;
-  status: string;
-  statusClass: string;
-  latitude?: number;
-  longitude?: number;
-  description?: string;
-  phone?: number;
-  email?: string;
-}
+import { Router } from '@angular/router';
+import { SolarPanel, SolarPanelsService } from '../services/solar-panels.service';
 
 declare var google: any;
 
@@ -26,7 +15,7 @@ export class PaineisSolaresComponent implements OnInit {
   sortBy: string = 'id';
   sortDirection: string = 'asc';
 
-  panelsData: SolarPanel[] = [];
+  public panelsData: SolarPanel[] = [];
   sortedPanels: SolarPanel[] = [];
 
   map: any;
@@ -41,7 +30,7 @@ export class PaineisSolaresComponent implements OnInit {
   viewingPanel: SolarPanel | null = null;
   panelToDelete: number | null = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private service: SolarPanelsService, private router: Router) { }
 
   private createEmptyPanel(): SolarPanel {
     return {
@@ -63,34 +52,16 @@ export class PaineisSolaresComponent implements OnInit {
   }
 
   loadPanels(): void {
-    this.panelsData = [
-      {
-        id: 1,
-        name: "Rua D. Afonso Henriques, Lisboa",
-        priority: "Alta",
-        status: "Vermelho",
-        statusClass: "status-red",
-        latitude: 38.7223,
-        longitude: -9.1393,
-        description: "Painel próximo ao centro",
-        phone: 8,
-        email: "contato@empresa.com"
+    this.service.getSolarPanels().subscribe(
+      (result) => {
+        this.panelsData = result;
+        this.sortPanels();
       },
-      {
-        id: 4,
-        name: "Avenida Principal, Almada",
-        priority: "Média",
-        status: "Verde",
-        statusClass: "status-green",
-        latitude: 38.6790,
-        longitude: -9.1569,
-        description: "Painel na filial sul",
-        phone: 8,
-        email: "suporte@empresa.com"
+      (error) => {
+        console.error(error);
       }
-    ];
+    );
 
-    this.sortPanels();
     this.initMap();
   }
 
@@ -145,12 +116,32 @@ export class PaineisSolaresComponent implements OnInit {
       return;
     }
 
-    const index = this.panelsData.findIndex(p => p.id === this.editingPanel.id);
-    if (index !== -1) {
-      this.panelsData[index] = { ...this.editingPanel };
-      this.sortPanels();
+    //const index = this.panelsData.findIndex(p => p.id === this.editingPanel.id);
+    //if (index !== -1) {
+    //  this.panelsData[index] = { ...this.editingPanel };
+    //  this.sortPanels();
+    //}
+    //this.closeEditPanelModal();
+
+    const id = this.editingPanel.id;
+    const name = this.editingPanel.name;
+    const prority = this.editingPanel.priority;
+    const status = this.editingPanel.status;
+    const statusClass = this.editingPanel.statusClass;
+    const latitude = this.editingPanel.latitude;
+    const longitude = this.editingPanel.longitude;
+    const description = this.editingPanel.description;
+    const phone = this.editingPanel.phone;
+    const email = this.editingPanel.email;
+    const address = "";
+
+    if (id) {
+      this.service.updateSolarPanel(id, name, prority, status, statusClass, latitude, longitude, description, phone, email, address).subscribe(res => {
+        alert('Painel solar atualizado com sucesso!');
+        this.closeEditPanelModal();
+        this.ngOnInit();
+      });
     }
-    this.closeEditPanelModal();
   }
 
   openCreatePanelModal(): void {
