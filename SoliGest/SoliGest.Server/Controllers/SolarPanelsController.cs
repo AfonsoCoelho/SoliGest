@@ -104,6 +104,13 @@ namespace SoliGest.Server.Controllers
                 return NotFound($"Não foi possível encontrar o painel solar com o ID '{model.Id}'.");
             }
 
+            solarPanel.Name = model.Name;
+            solarPanel.Priority = model.Priority;
+            solarPanel.Status = model.Status;
+            solarPanel.StatusClass = model.StatusClass;
+            solarPanel.Latitude = model.Latitude;
+            solarPanel.Longitude = model.Longitude;
+            solarPanel.Description = model.Description;
             solarPanel.PhoneNumber = model.PhoneNumber;
             solarPanel.Email = model.Email;
             solarPanel.Address = model.Address;
@@ -128,8 +135,8 @@ namespace SoliGest.Server.Controllers
         public string Priority { get; set; }
         public string Status { get; set; }
         public string StatusClass { get; set; }
-        public int Latitude { get; set; }
-        public int Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
         public string Description { get; set; }
         public int PhoneNumber { get; set; }
         public string Email { get; set; }
