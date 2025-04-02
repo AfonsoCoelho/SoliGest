@@ -91,8 +91,8 @@
         </select>
       </div>
       <div class="modal-actions">
-        <button (click)="onCloseModal()">Cancelar</button>
-        <button (click)="criarAvaria()">Salvar</button>
+        <button class="save-button" (click)="criarAvaria()">Salvar</button>
+        <button class="cancel-button" (click)="onCloseModal()">Cancelar</button>
       </div>
     </div>
   </div>
@@ -118,8 +118,8 @@
         </select>
       </div>
       <div class="modal-actions">
-        <button (click)="onCloseEditModal()">Cancelar</button>
-        <button (click)="editarAvaria()">Salvar</button>
+        <button class="save-button"(click)="editarAvaria()">Salvar</button>
+        <button class="cancel-button" (click)="onCloseEditModal()">Cancelar</button>
       </div>
     </div>
   </div>
@@ -130,8 +130,8 @@
       <h2>Confirmar Exclusão</h2>
       <p>Você tem certeza de que deseja apagar a Avaria ID: {{ selectedAvaria?.id }}?</p>
       <div class="modal-actions">
-        <button (click)="onCloseDeleteConfirm()">Cancelar</button>
-        <button (click)="apagarAvaria()">Confirmar</button>
+        <button class="save-button" (click)="apagarAvaria()">Confirmar</button>
+        <button class="cancel-button" (click)="onCloseDeleteConfirm()">Cancelar</button>
       </div>
     </div>
   </div>
