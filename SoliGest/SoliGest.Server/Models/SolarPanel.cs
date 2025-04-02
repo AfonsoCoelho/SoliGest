@@ -6,6 +6,14 @@ namespace SoliGest.Server.Models
     {
         public int Id { get; set; }
 
+        public string Name { get; set; }
+        public string Priority { get; set; }
+        public string Status { get; set; }
+        public string StatusClass { get; set; }
+        public int Latitude { get; set; }
+        public int Longitude { get; set; }
+        public string Description { get; set; }
+
         [Required(ErrorMessage = "É obrigatório indicar um número de telemóvel.")]
         [Display(Name = "Telemóvel")]
         public int PhoneNumber { get; set; }
