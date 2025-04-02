@@ -20,6 +20,7 @@ import { FuncionarioDeleteComponent } from './funcionario-delete/funcionario-del
 import { FuncionarioEditComponent } from './funcionario-edit/funcionario-edit.component';
 import { FuncionarioDetailsComponent } from './funcionario-details/funcionario-details.component';
 import { PaineisSolaresComponent } from './paineis-solares/paineis-solares.component';
+import { BreakdownsComponent } from './breakdowns/breakdowns.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { PaineisSolaresComponent } from './paineis-solares/paineis-solares.compo
     FuncionarioDeleteComponent,
     FuncionarioEditComponent,
     FuncionarioDetailsComponent,
-    PaineisSolaresComponent
+    PaineisSolaresComponent,
+    BreakdownsComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
