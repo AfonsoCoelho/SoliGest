@@ -10,7 +10,7 @@ interface SolarPanel {
   latitude?: number;
   longitude?: number;
   description?: string;
-  phone?: string;
+  phone?: number;
   email?: string;
 }
 
@@ -53,7 +53,7 @@ export class PaineisSolaresComponent implements OnInit {
       latitude: undefined,
       longitude: undefined,
       description: '',
-      phone: '',
+      phone: 0,
       email: ''
     };
   }
@@ -73,7 +73,7 @@ export class PaineisSolaresComponent implements OnInit {
         latitude: 38.7223,
         longitude: -9.1393,
         description: "Painel próximo ao centro",
-        phone: "912345678",
+        phone: 8,
         email: "contato@empresa.com"
       },
       {
@@ -85,7 +85,7 @@ export class PaineisSolaresComponent implements OnInit {
         latitude: 38.6790,
         longitude: -9.1569,
         description: "Painel na filial sul",
-        phone: "987654321",
+        phone: 8,
         email: "suporte@empresa.com"
       }
     ];

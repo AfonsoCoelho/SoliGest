@@ -39,6 +39,6 @@ export interface SolarPanel {
   latitude?: number;
   longitude?: number;
   description?: string;
-  phone?: string;
+  phone?: number;
   email?: string;
 }
