@@ -159,16 +159,30 @@ export class PaineisSolaresComponent implements OnInit {
       return;
     }
 
-    const newId = this.panelsData.length > 0 ? Math.max(...this.panelsData.map(p => p.id)) + 1 : 1;
-    const newPanelEntry: SolarPanel = {
-      ...this.newPanel,
-      id: newId,
-      statusClass: this.getStatusClass(this.newPanel.status)
+    const solarPanel: SolarPanel = {
+      id: 0,
+      name: this.newPanel.name,
+      priority: this.newPanel.priority,
+      status: this.newPanel.status,
+      statusClass: "",
+      latitude: 0,
+      longitude: 0,
+      description: this.newPanel.description,
+      phone: this.newPanel.phone,
+      email: this.newPanel.email,
+      address: "a"
     };
 
-    this.panelsData.push(newPanelEntry);
-    this.sortPanels();
-    this.closeCreatePanelModal();
+    this.service.createSolarPanel(solarPanel).subscribe(
+      (result) => {
+        console.log(result);
+        this.closeCreatePanelModal();
+        this.ngOnInit();
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   confirmDeletePanel(panelId: number): void {

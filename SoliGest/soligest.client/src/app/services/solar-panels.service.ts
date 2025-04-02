@@ -40,4 +40,5 @@ export interface SolarPanel {
   description?: string;
   phone?: number;
   email?: string;
+  address?: string;
 }
