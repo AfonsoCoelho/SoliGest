@@ -1,16 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-
-// Interface para tipagem das avarias
-interface Avaria {
-  id: number;
-  name: string;
-  priority?: string;
-  status: string;
-  statusClass: string;
-  latitude?: number;
-  longitude?: number;
-}
+import { AssistanceRequestsService, AssistanceRequest } from '../services/assistance-requests.service';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { SolarPanel, SolarPanelsService } from '../services/solar-panels.service';
 
 // Declaração do objeto google para TypeScript
 declare var google: any;
@@ -26,8 +19,9 @@ export class AvariasComponent implements OnInit {
   sortBy: string = 'id';
   sortDirection: string = 'asc';
   searchTerm: string = ''; // Property to hold the search term
-  filteredAvarias: Avaria[] = []; // Property to hold filtered avarias
-  selectedAvaria: Avaria | null = null;
+  public assistanceRequestsData: AssistanceRequest[] = [];
+  filteredAvarias: AssistanceRequest[] = []; // Property to hold filtered avarias
+  selectedAvaria: AssistanceRequest | null = null;
   selectedMarker: any = null; // Variável para armazenar o marcador selecionado
   infoWindow: any = null; // Variável global para o InfoWindow
   markers: any[] = []; // Armazena os marcadores no mapa
@@ -40,47 +34,76 @@ export class AvariasComponent implements OnInit {
   selectedPriority: string = '';
   selectedStatus: string = '';
 
-  panels = ['Painel 1', 'Painel 2', 'Painel 3']; //quem for fazer backend que saque os paines da bd e meta no array
+  constructor(private http: HttpClient, private aRService: AssistanceRequestsService, private sPService: SolarPanelsService, private router: Router) { }
+
+  //panels = ['Painel 1', 'Painel 2', 'Painel 3']; //quem for fazer backend que saque os paines da bd e meta no array
+  panels: SolarPanel[] = [];
 
   // Dados das avarias com coordenadas geográficas
-  avariasData: Avaria[] = [
-    {
-      id: 1,
-      name: "Rua D. Afonso Henriques, Lisboa",
-      priority: "Alta",
-      status: "Vermelho",
-      statusClass: "status-red",
-      latitude: 38.7223,
-      longitude: -9.1393
-    },
-    {
-      id: 4,
-      name: "Avenida Principal, Almada",
-      priority: "Média",
-      status: "Vermelho",
-      statusClass: "status-red",
-      latitude: 38.6790,
-      longitude: -9.1569
-    },
-    {
-      id: 3,
-      name: "Avenida da Liberdade, Porto",
-      priority: "Baixa",
-      status: "Amarelo",
-      statusClass: "status-yellow",
-      latitude: 41.1579,
-      longitude: -8.6291
-    }
+  avariasData: AssistanceRequest[] = [
+    //{
+    //  id: 1,
+    //  name: "Rua D. Afonso Henriques, Lisboa",
+    //  priority: "Alta",
+    //  status: "Vermelho",
+    //  statusClass: "status-red",
+    //  latitude: 38.7223,
+    //  longitude: -9.1393
+    //},
+    //{
+    //  id: 4,
+    //  name: "Avenida Principal, Almada",
+    //  priority: "Média",
+    //  status: "Vermelho",
+    //  statusClass: "status-red",
+    //  latitude: 38.6790,
+    //  longitude: -9.1569
+    //},
+    //{
+    //  id: 3,
+    //  name: "Avenida da Liberdade, Porto",
+    //  priority: "Baixa",
+    //  status: "Amarelo",
+    //  statusClass: "status-yellow",
+    //  latitude: 41.1579,
+    //  longitude: -8.6291
+    //}
   ];
 
-  sortedAvarias: Avaria[] = [];
+  sortedAvarias: AssistanceRequest[] = [];
   map: any;
 
-  ngOnInit(): void {
-    this.sortAvarias();
+  loadSolarPanels(): void {
+    this.sPService.getSolarPanels().subscribe(
+      (result) => {
+        this.panels = result;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+
     this.initMap();
-    this.filterAvarias();
-    //this.filteredAvarias = [...this.sortedAvarias]; // Initialize filteredAvarias
+  }
+
+  loadAssistanceRequests(): void {
+    this.aRService.getAll().subscribe(
+      (result) => {
+        this.avariasData = result;
+        this.sortAvarias();
+        this.filterAvarias();
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+
+    this.initMap();
+  }
+
+  ngOnInit(): void {
+    this.loadSolarPanels();
+    this.loadAssistanceRequests();
   }
 
   // Inicializa o mapa do Google
@@ -181,9 +204,9 @@ export class AvariasComponent implements OnInit {
   // Adiciona marcadores no mapa para cada avaria
   addAvariaMarkers(): void {
     this.sortedAvarias.forEach(avaria => {
-      if (avaria.latitude && avaria.longitude) {
+      if (avaria.solarPanel.latitude && avaria.solarPanel.longitude) {
         const marker = new google.maps.Marker({
-          position: { lat: avaria.latitude, lng: avaria.longitude },
+          position: { lat: avaria.solarPanel.latitude, lng: avaria.solarPanel.longitude },
           map: this.map,
           title: `Avaria ID: ${avaria.id}`,
           icon: this.getMarkerIcon(avaria.status)
@@ -197,7 +220,7 @@ export class AvariasComponent implements OnInit {
           content: `
           <div style="padding: 10px;">
             <h3 style="margin: 0 0 5px 0;">Avaria ID: ${avaria.id}</h3>
-            <p style="margin: 0 0 5px 0;"><strong>Localização:</strong> ${avaria.name}</p>
+            <p style="margin: 0 0 5px 0;"><strong>Localização:</strong> ${avaria.solarPanel.name}</p>
             <p style="margin: 0 0 5px 0;"><strong>Prioridade:</strong> ${avaria.priority || 'N/A'}</p>
             <p style="margin: 0; color: ${this.getStatusColor(avaria.status)}; font-weight: bold;">
               <strong>Estado:</strong> ${avaria.status}
@@ -256,8 +279,8 @@ export class AvariasComponent implements OnInit {
           valueB = b.priority ? priorityOrder[b.priority] : 0;
           break;
         case 'name':
-          valueA = a.name.toLowerCase();
-          valueB = b.name.toLowerCase();
+          valueA = a.solarPanel.name.toLowerCase();
+          valueB = b.solarPanel.name.toLowerCase();
           break;
         case 'id':
           valueA = a.id;
@@ -305,16 +328,16 @@ export class AvariasComponent implements OnInit {
     this.filteredAvarias = this.sortedAvarias.filter(
       avaria =>
         avaria.status.toLowerCase() !== 'verde' && // Remove status "Verde"
-        avaria.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+        avaria.solarPanel.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
-  selectAvaria(avaria: Avaria): void {
+  selectAvaria(avaria: AssistanceRequest): void {
     this.selectedAvaria = avaria;
 
-    if (this.map && avaria.latitude && avaria.longitude) {
+    if (this.map && avaria.solarPanel.latitude && avaria.solarPanel.longitude) {
       // Centraliza e dá zoom no local da avaria
-      this.map.setCenter({ lat: avaria.latitude, lng: avaria.longitude });
+      this.map.setCenter({ lat: avaria.solarPanel.latitude, lng: avaria.solarPanel.longitude });
       this.map.setZoom(15);
 
       // Se já houver um InfoWindow aberto, fecha antes de abrir outro
@@ -326,8 +349,8 @@ export class AvariasComponent implements OnInit {
       const marker = this.markers.find(m => {
         const position = m.getPosition();
         return position?.lat() !== undefined && position?.lng() !== undefined &&
-          Math.abs(position.lat() - avaria.latitude!) < 0.0001 &&
-          Math.abs(position.lng() - avaria.longitude!) < 0.0001;
+          Math.abs(position.lat() - avaria.solarPanel.latitude!) < 0.0001 &&
+          Math.abs(position.lng() - avaria.solarPanel.longitude!) < 0.0001;
       });
 
 
@@ -337,7 +360,7 @@ export class AvariasComponent implements OnInit {
           content: `
           <div style="padding: 10px;">
             <h3 style="margin: 0 0 5px 0;">Avaria ID: ${avaria.id}</h3>
-            <p style="margin: 0 0 5px 0;"><strong>Localização:</strong> ${avaria.name}</p>
+            <p style="margin: 0 0 5px 0;"><strong>Localização:</strong> ${avaria.solarPanel.name}</p>
             <p style="margin: 0 0 5px 0;"><strong>Prioridade:</strong> ${avaria.priority || 'N/A'}</p>
             <p style="margin: 0; color: ${this.getStatusColor(avaria.status)}; font-weight: bold;">
               <strong>Estado:</strong> ${avaria.status}
@@ -356,7 +379,7 @@ export class AvariasComponent implements OnInit {
     }
   }
 
-  getAvariaClass(avaria: Avaria): any {
+  getAvariaClass(avaria: AssistanceRequest): any {
     return {
       [avaria.statusClass]: true,
       'selected': avaria === this.selectedAvaria
@@ -365,12 +388,12 @@ export class AvariasComponent implements OnInit {
 
 
   // Simulação de alocação automática
-  autoAllocate(avaria: Avaria): void {
+  autoAllocate(avaria: AssistanceRequest): void {
     alert(`Avaria ID ${avaria.id} - Alocação automática iniciada!`);
   }
 
   // Simulação de alocação manual
-  manualAllocate(avaria: Avaria): void {
+  manualAllocate(avaria: AssistanceRequest): void {
     alert(`Avaria ID ${avaria.id} - Alocação manual iniciada!`);
   }
 
@@ -385,7 +408,7 @@ export class AvariasComponent implements OnInit {
     this.showModal = false; // Hide the modal//
   }
 
-  openEditModal(avaria: Avaria): void {
+  openEditModal(avaria: AssistanceRequest): void {
     this.selectedAvaria = avaria;
     this.selectedPanel = ''; // You can set this to a specific panel if needed
     this.selectedPriority = avaria.priority || '';
@@ -397,7 +420,7 @@ export class AvariasComponent implements OnInit {
     this.showEditModal = false; // Hide the edit modal
   }
 
-  openDeleteConfirm(avaria: Avaria): void {
+  openDeleteConfirm(avaria: AssistanceRequest): void {
     this.selectedAvaria = avaria; // Set the selected avaria for confirmation
     this.showDeleteConfirm = true; // Show the delete confirmation popup
   }
