@@ -14,8 +14,12 @@ namespace SoliGest.Server.Models
         [Display(Name = "Hora de resolução")]
         public DateTime ResolutionDate { get; set; }
 
+        [Required(ErrorMessage = "É obrigatório indicar uma descrição do problema.")]
+        [Display(Name = "Descrição da avaria")]
+        public required string Description { get; set; }
+
         [Required(ErrorMessage = "É obrigatório indicar um painel solar.")]
         [Display(Name = "Painel Solar")]
-        public SolarPanel SolarPanel { get; set; }
+        public required SolarPanel SolarPanel { get; set; }
     }
 }
