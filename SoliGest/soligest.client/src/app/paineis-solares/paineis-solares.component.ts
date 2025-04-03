@@ -1,18 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-interface SolarPanel {
-  id: number;
-  name: string;
-  priority?: string;
-  status: string;
-  statusClass: string;
-  latitude?: number;
-  longitude?: number;
-  description?: string;
-  phone?: string;
-  email?: string;
-}
+import { Router } from '@angular/router';
+import { SolarPanel, SolarPanelsService } from '../services/solar-panels.service';
 
 declare var google: any;
 
@@ -26,7 +15,7 @@ export class PaineisSolaresComponent implements OnInit {
   sortBy: string = 'id';
   sortDirection: string = 'asc';
 
-  panelsData: SolarPanel[] = [];
+  public panelsData: SolarPanel[] = [];
   sortedPanels: SolarPanel[] = [];
 
   map: any;
@@ -41,7 +30,7 @@ export class PaineisSolaresComponent implements OnInit {
   viewingPanel: SolarPanel | null = null;
   panelToDelete: number | null = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private service: SolarPanelsService, private router: Router) { }
 
   private createEmptyPanel(): SolarPanel {
     return {
@@ -53,7 +42,7 @@ export class PaineisSolaresComponent implements OnInit {
       latitude: undefined,
       longitude: undefined,
       description: '',
-      phone: '',
+      phoneNumber: 0,
       email: ''
     };
   }
@@ -63,34 +52,16 @@ export class PaineisSolaresComponent implements OnInit {
   }
 
   loadPanels(): void {
-    this.panelsData = [
-      {
-        id: 1,
-        name: "Rua D. Afonso Henriques, Lisboa",
-        priority: "Alta",
-        status: "Vermelho",
-        statusClass: "status-red",
-        latitude: 38.7223,
-        longitude: -9.1393,
-        description: "Painel próximo ao centro",
-        phone: "912345678",
-        email: "contato@empresa.com"
+    this.service.getSolarPanels().subscribe(
+      (result) => {
+        this.panelsData = result;
+        this.sortPanels();
       },
-      {
-        id: 4,
-        name: "Avenida Principal, Almada",
-        priority: "Média",
-        status: "Verde",
-        statusClass: "status-green",
-        latitude: 38.6790,
-        longitude: -9.1569,
-        description: "Painel na filial sul",
-        phone: "987654321",
-        email: "suporte@empresa.com"
+      (error) => {
+        console.error(error);
       }
-    ];
+    );
 
-    this.sortPanels();
     this.initMap();
   }
 
@@ -145,12 +116,31 @@ export class PaineisSolaresComponent implements OnInit {
       return;
     }
 
-    const index = this.panelsData.findIndex(p => p.id === this.editingPanel.id);
-    if (index !== -1) {
-      this.panelsData[index] = { ...this.editingPanel };
-      this.sortPanels();
+    const id = this.editingPanel.id;
+    const name = this.editingPanel.name;
+    const prority = this.editingPanel.priority;
+    const status = this.editingPanel.status;
+    const statusClass = this.editingPanel.statusClass;
+    const latitude = this.editingPanel.latitude;
+    const longitude = this.editingPanel.longitude;
+    const description = this.editingPanel.description;
+    const phone = this.editingPanel.phoneNumber;
+    const email = this.editingPanel.email;
+    const address = "";
+
+    if (id) {
+      this.service.updateSolarPanel(id, name, prority, status, statusClass, latitude, longitude, description, phone, email, address).subscribe(
+        (result) => {
+          alert("Painel solar atualizado com sucesso!");
+          this.closeEditPanelModal();
+          this.ngOnInit();
+        },
+        (error) => {
+          alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+          console.error(error);
+        }
+      );
     }
-    this.closeEditPanelModal();
   }
 
   openCreatePanelModal(): void {
@@ -168,16 +158,31 @@ export class PaineisSolaresComponent implements OnInit {
       return;
     }
 
-    const newId = this.panelsData.length > 0 ? Math.max(...this.panelsData.map(p => p.id)) + 1 : 1;
-    const newPanelEntry: SolarPanel = {
-      ...this.newPanel,
-      id: newId,
-      statusClass: this.getStatusClass(this.newPanel.status)
+    const solarPanel: SolarPanel = {
+      id: 0,
+      name: this.newPanel.name,
+      priority: this.newPanel.priority,
+      status: this.newPanel.status,
+      statusClass: "",
+      latitude: 0,
+      longitude: 0,
+      description: this.newPanel.description,
+      phoneNumber: this.newPanel.phoneNumber,
+      email: this.newPanel.email,
+      address: "a"
     };
 
-    this.panelsData.push(newPanelEntry);
-    this.sortPanels();
-    this.closeCreatePanelModal();
+    this.service.createSolarPanel(solarPanel).subscribe(
+      (result) => {
+        alert("Novo painel solar criado com sucesso!");
+        this.closeCreatePanelModal();
+        this.ngOnInit();
+      },
+      (error) => {
+        alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+        console.error(error);
+      }
+    );
   }
 
   confirmDeletePanel(panelId: number): void {
@@ -191,11 +196,20 @@ export class PaineisSolaresComponent implements OnInit {
   }
 
   deletePanel(): void {
-    if (this.panelToDelete !== null) {
-      this.panelsData = this.panelsData.filter(p => p.id !== this.panelToDelete);
-      this.sortPanels();
+    if(this.panelToDelete)
+    {
+      this.service.deleteSolarPanel(this.panelToDelete).subscribe(
+        (result) => {
+          alert("Painel solar removido com sucesso!");
+          this.cancelDelete();
+          this.ngOnInit();
+        },
+        (error) => {
+          alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+          console.error(error);
+        }
+      );
     }
-    this.cancelDelete();
   }
 
   sortPanels(): void {

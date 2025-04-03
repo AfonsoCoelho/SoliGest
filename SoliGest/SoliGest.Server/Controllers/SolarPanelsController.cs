@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -62,7 +63,7 @@ namespace SoliGest.Server.Controllers
                 _context.Remove<SolarPanel>(solarPanel);
                 await _context.SaveChangesAsync();
 
-                return Ok("Painel solar removido com sucesso!");
+                return Ok();
             }
             catch
             {
@@ -103,6 +104,13 @@ namespace SoliGest.Server.Controllers
                 return NotFound($"Não foi possível encontrar o painel solar com o ID '{model.Id}'.");
             }
 
+            solarPanel.Name = model.Name;
+            solarPanel.Priority = model.Priority;
+            solarPanel.Status = model.Status;
+            solarPanel.StatusClass = model.StatusClass;
+            solarPanel.Latitude = model.Latitude;
+            solarPanel.Longitude = model.Longitude;
+            solarPanel.Description = model.Description;
             solarPanel.PhoneNumber = model.PhoneNumber;
             solarPanel.Email = model.Email;
             solarPanel.Address = model.Address;
@@ -123,6 +131,13 @@ namespace SoliGest.Server.Controllers
     public class SolarPanelUpdateModel
     {
         public int Id { get; set; }
+        public string Name { get; set; }
+        public string Priority { get; set; }
+        public string Status { get; set; }
+        public string StatusClass { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public string Description { get; set; }
         public int PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
