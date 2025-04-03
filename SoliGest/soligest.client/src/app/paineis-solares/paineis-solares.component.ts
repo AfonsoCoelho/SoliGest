@@ -155,7 +155,6 @@ export class PaineisSolaresComponent implements OnInit {
   createPanel(): void {
     if (!this.newPanel.name.trim()) {
       alert('O nome do painel é obrigatório!');
-      //alert(this.newPanel.phone);
       return;
     }
 
@@ -201,10 +200,12 @@ export class PaineisSolaresComponent implements OnInit {
     {
       this.service.deleteSolarPanel(this.panelToDelete).subscribe(
         (result) => {
+          alert("Painel solar removido com sucesso!");
           this.cancelDelete();
           this.ngOnInit();
         },
         (error) => {
+          alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
           console.error(error);
         }
       );
