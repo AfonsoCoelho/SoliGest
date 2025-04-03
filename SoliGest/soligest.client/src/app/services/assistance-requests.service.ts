@@ -28,7 +28,7 @@ export class AssistanceRequestsService {
   }
 
   delete(id: number): Observable<AssistanceRequest> {
-    return this.http.delete<AssistanceRequest>('api/AssistanceRequest/' + id);
+    return this.http.delete<AssistanceRequest>('api/AssistanceRequests/' + id);
   }
 }
 

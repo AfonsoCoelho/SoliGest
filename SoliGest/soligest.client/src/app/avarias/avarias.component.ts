@@ -432,5 +432,20 @@ export class AvariasComponent implements OnInit {
   //quem for fazer o backend faça a logica
   criarAvaria() { };
   editarAvaria() { };
-  apagarAvaria() { };
+  apagarAvaria()
+  {
+    if (this.selectedAvaria) {
+      this.aRService.delete(this.selectedAvaria.id).subscribe(
+        (result) => {
+          alert("Avaria removida com sucesso!");
+          this.onCloseDeleteConfirm();
+          this.ngOnInit();
+        },
+        (error) => {
+          alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+          console.error(error);
+        }
+      );
+    }
+  };
 }
