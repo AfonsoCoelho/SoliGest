@@ -206,16 +206,10 @@ export class PaineisSolaresComponent implements OnInit {
   }
 
   deletePanel(): void {
-    //if (this.panelToDelete !== null) {
-    //  this.panelsData = this.panelsData.filter(p => p.id !== this.panelToDelete);
-    //  this.sortPanels();
-    //}
-    //this.cancelDelete();
     if(this.panelToDelete)
     {
       this.service.deleteSolarPanel(this.panelToDelete).subscribe(
         (result) => {
-          console.log(result);
           this.cancelDelete();
           this.ngOnInit();
         },

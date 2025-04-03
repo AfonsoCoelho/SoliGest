@@ -63,7 +63,7 @@ namespace SoliGest.Server.Controllers
                 _context.Remove<SolarPanel>(solarPanel);
                 await _context.SaveChangesAsync();
 
-                return Ok("Painel solar removido com sucesso!");
+                return Ok();
             }
             catch
             {
