@@ -9,6 +9,9 @@ namespace SoliGest.Server.Models
         [Required(ErrorMessage = "É obrigatório indicar uma hora de pedido.")]
         [Display(Name = "Hora de pedido")]
         public string RequestDate { get; set; }
+        public string Priority { get; set; }
+        public string Status { get; set; }
+        public string StatusClass { get; set; }
 
         [Display(Name = "Hora de resolução")]
         public string ResolutionDate { get; set; }
