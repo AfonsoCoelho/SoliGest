@@ -116,13 +116,6 @@ export class PaineisSolaresComponent implements OnInit {
       return;
     }
 
-    //const index = this.panelsData.findIndex(p => p.id === this.editingPanel.id);
-    //if (index !== -1) {
-    //  this.panelsData[index] = { ...this.editingPanel };
-    //  this.sortPanels();
-    //}
-    //this.closeEditPanelModal();
-
     const id = this.editingPanel.id;
     const name = this.editingPanel.name;
     const prority = this.editingPanel.priority;
@@ -139,7 +132,6 @@ export class PaineisSolaresComponent implements OnInit {
       this.service.updateSolarPanel(id, name, prority, status, statusClass, latitude, longitude, description, phone, email, address).subscribe(
         (result) => {
           alert("Painel solar atualizado com sucesso!");
-          console.log(result);
           this.closeEditPanelModal();
           this.ngOnInit();
         },
@@ -184,7 +176,6 @@ export class PaineisSolaresComponent implements OnInit {
     this.service.createSolarPanel(solarPanel).subscribe(
       (result) => {
         alert("Novo painel solar criado com sucesso!");
-        console.log(result);
         this.closeCreatePanelModal();
         this.ngOnInit();
       },
