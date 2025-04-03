@@ -10,6 +10,8 @@ using SoliGest.Server.Models;
 
 namespace SoliGest.Server.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class AssistanceRequestsController : Controller
     {
         private readonly SoliGestServerContext _context;
@@ -23,14 +25,14 @@ namespace SoliGest.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AssistanceRequest>>> GetAll()
         {
-            return await _context.AssistanceRequest.ToListAsync();
+            return await _context.AssistanceRequest.Include(a => a.SolarPanel).ToListAsync();
         }
 
         // GET: api/AssistanceRequest/5
         [HttpGet("{id}")]
         public async Task<ActionResult<AssistanceRequest>> GetById(int id)
         {
-            var request = await _context.AssistanceRequest.FindAsync(id);
+            var request = await _context.AssistanceRequest.Include(a => a.SolarPanel).FirstOrDefaultAsync(a => a.Id == id);
 
             if (request == null)
             {
@@ -57,14 +59,33 @@ namespace SoliGest.Server.Controllers
 
         // PUT: api/AssistanceRequest/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] AssistanceRequest request)
+        public async Task<IActionResult> Update(int id, [FromBody] AssistanceRequestUpdateModel request)
         {
-            if (id != request.Id)
+            //if (id != request.Id)
+            //{
+            //    return BadRequest(new { message = "ID do pedido não corresponde." });
+            //}
+
+            var solarPanel = await _context.SolarPanel.FindAsync(request.SolarPanelId);
+
+            if(solarPanel == null)
             {
-                return BadRequest(new { message = "ID do pedido não corresponde." });
+                return BadRequest(new { message = "Painel Solar inexistente!" });
             }
 
-            _context.Entry(request).State = EntityState.Modified;
+            var assistanceRequest = await _context.FindAsync<AssistanceRequest>(id);
+
+            if(assistanceRequest == null)
+            {
+                return NotFound($"Não foi possível encontrar a assistência técnica com o ID '{id}'.");
+            }
+
+            assistanceRequest.SolarPanel = solarPanel;
+            assistanceRequest.Description = request.Description;
+            assistanceRequest.RequestDate = request.RequestDate;
+            assistanceRequest.ResolutionDate = request.ResolutionDate;
+
+            _context.Update(assistanceRequest);
 
             try
             {
@@ -106,5 +127,13 @@ namespace SoliGest.Server.Controllers
             return _context.AssistanceRequest.Any(e => e.Id == id);
         }
 
+    }
+
+    public class AssistanceRequestUpdateModel
+    {
+        public string RequestDate { get; set; }
+        public string ResolutionDate { get; set; }
+        public string Description { get; set; }
+        public int SolarPanelId { get; set; }
     }
 }
