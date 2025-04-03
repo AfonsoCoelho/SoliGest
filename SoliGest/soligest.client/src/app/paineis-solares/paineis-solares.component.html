@@ -75,7 +75,7 @@
       <p><strong>Prioridade:</strong> {{viewingPanel?.priority}}</p>
       <p><strong>Estado:</strong> {{viewingPanel?.status}}</p>
       <p><strong>Descrição:</strong> {{viewingPanel?.description}}</p>
-      <p><strong>Telefone:</strong> {{viewingPanel?.phone}}</p>
+      <p><strong>Telefone:</strong> {{viewingPanel?.phoneNumber}}</p>
       <p><strong>Email:</strong> {{viewingPanel?.email}}</p>
       <div class="form-actions">
         <button class="confirm-btn" (click)="closeViewPanelModal()">Fechar</button>
@@ -115,7 +115,7 @@
         </div>
         <div class="form-group">
           <label for="edit-phone">Telefone:</label>
-          <input type="text" id="edit-phone" [(ngModel)]="editingPanel.phone" name="edit-phone">
+          <input type="text" id="edit-phone" [(ngModel)]="editingPanel.phoneNumber" name="edit-phone">
         </div>
         <div class="form-group">
           <label for="edit-email">Email:</label>
@@ -161,7 +161,7 @@
         </div>
         <div class="form-group">
           <label for="create-phone">Telefone:</label>
-          <input type="text" id="create-phone" [(ngModel)]="newPanel.phone" name="create-phone">
+          <input type="number" id="create-phone" [(ngModel)]="newPanel.phoneNumber" name="create-phone">
         </div>
         <div class="form-group">
           <label for="create-email">Email:</label>
