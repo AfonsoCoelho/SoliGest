@@ -107,6 +107,7 @@ using (var scope = app.Services.CreateScope())
     await RoleSeeder.SeedRoles(roleManager);
     await UserSeeder.SeedUsersAsync(userManager);
     await SolarPanelSeeder.SeedSolarPanelsAsync(context);
+    await AssistanceRequestSeeder.SeedAssistanceRequestsAsync(context);
 }
 
 app.UseHttpsRedirection();

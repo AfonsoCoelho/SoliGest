@@ -8,11 +8,11 @@ namespace SoliGest.Server.Models
 
         [Required(ErrorMessage = "É obrigatório indicar uma hora de pedido.")]
         [Display(Name = "Hora de pedido")]
-        public DateTime RequestDate { get; set; }
+        public string RequestDate { get; set; }
 
         [Required(ErrorMessage = "É obrigatório indicar uma hora de resolução.")]
         [Display(Name = "Hora de resolução")]
-        public DateTime ResolutionDate { get; set; }
+        public string ResolutionDate { get; set; }
 
         [Required(ErrorMessage = "É obrigatório indicar uma descrição do problema.")]
         [Display(Name = "Descrição da avaria")]
