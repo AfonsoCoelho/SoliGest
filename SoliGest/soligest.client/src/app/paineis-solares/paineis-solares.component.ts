@@ -136,11 +136,18 @@ export class PaineisSolaresComponent implements OnInit {
     const address = "";
 
     if (id) {
-      this.service.updateSolarPanel(id, name, prority, status, statusClass, latitude, longitude, description, phone, email, address).subscribe(res => {
-        alert('Painel solar atualizado com sucesso!');
-        this.closeEditPanelModal();
-        this.ngOnInit();
-      });
+      this.service.updateSolarPanel(id, name, prority, status, statusClass, latitude, longitude, description, phone, email, address).subscribe(
+        (result) => {
+          alert("Painel solar atualizado com sucesso!");
+          console.log(result);
+          this.closeEditPanelModal();
+          this.ngOnInit();
+        },
+        (error) => {
+          alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+          console.error(error);
+        }
+      );
     }
   }
 
