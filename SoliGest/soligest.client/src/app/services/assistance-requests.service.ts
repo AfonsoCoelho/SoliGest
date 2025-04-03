@@ -1,15 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface AssistanceRequest {
-  id: number;
-  requestDate: string;
-  resolutionDate: string;
-  description: string;
-  solarPanel: string;
-}
-
+import { SolarPanel } from './solar-panels.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,22 +12,33 @@ export class AssistanceRequestsService {
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<AssistanceRequest[]> {
-    return this.http.get<AssistanceRequest[]>('api/AssistanceRequest');
+    return this.http.get<AssistanceRequest[]>('api/AssistanceRequests');
   }
 
   getById(id: number): Observable<AssistanceRequest> {
-    return this.http.get<AssistanceRequest>('api/AssistanceRequest/' + id);
+    return this.http.get<AssistanceRequest>('api/AssistanceRequests/' + id);
   }
 
   create(request: AssistanceRequest): Observable<AssistanceRequest> {
-    return this.http.post<AssistanceRequest>('api/AssistanceRequest/', request);
+    return this.http.post<AssistanceRequest>('api/AssistanceRequests/', request);
   }
 
-  update(id: number, request: AssistanceRequest): Observable<void> {
-    return this.http.put<void>('api/AssistanceRequest/' + id, request);
+  update(id: number, request: AssistanceRequest): Observable<AssistanceRequest> {
+    return this.http.put<AssistanceRequest>('api/AssistanceRequests/' + id, request);
   }
 
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>('api/AssistanceRequest/' + id);
+  delete(id: number): Observable<AssistanceRequest> {
+    return this.http.delete<AssistanceRequest>('api/AssistanceRequest/' + id);
   }
+}
+
+export interface AssistanceRequest {
+  id: number;
+  name: string;
+  priority?: string;
+  status: string;
+  statusClass: string;
+  latitude?: number;
+  longitude?: number;
+  solarPanel: SolarPanel
 }
