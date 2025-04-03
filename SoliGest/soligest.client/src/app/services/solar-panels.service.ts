@@ -20,8 +20,8 @@ export class SolarPanelsService {
     return this.http.post<SolarPanel>('api/SolarPanels', solarPanel);
   }
 
-  updateSolarPanel(id: number, name: string, priority: string | undefined, status: string, statusClass: string, latitude: number | undefined, longitude: number | undefined, description: string | undefined, phone: number | undefined, email: string | undefined, address: string): Observable<SolarPanel> {
-    return this.http.put<SolarPanel>('api/SolarPanels/' + id, { id, name, priority, status, statusClass, latitude, longitude, description, phone, email, address });
+  updateSolarPanel(id: number, name: string, priority: string | undefined, status: string, statusClass: string, latitude: number | undefined, longitude: number | undefined, description: string | undefined, phoneNumber: number | undefined, email: string | undefined, address: string): Observable<SolarPanel> {
+    return this.http.put<SolarPanel>('api/SolarPanels/' + id, { id, name, priority, status, statusClass, latitude, longitude, description, phoneNumber, email, address });
   }
 
   deleteSolarPanel(id: number): Observable<SolarPanel> {
@@ -38,7 +38,7 @@ export interface SolarPanel {
   latitude?: number;
   longitude?: number;
   description?: string;
-  phone?: number;
+  phoneNumber?: number;
   email?: string;
   address?: string;
 }

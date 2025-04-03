@@ -42,7 +42,7 @@ export class PaineisSolaresComponent implements OnInit {
       latitude: undefined,
       longitude: undefined,
       description: '',
-      phone: 0,
+      phoneNumber: 0,
       email: ''
     };
   }
@@ -131,7 +131,7 @@ export class PaineisSolaresComponent implements OnInit {
     const latitude = this.editingPanel.latitude;
     const longitude = this.editingPanel.longitude;
     const description = this.editingPanel.description;
-    const phone = this.editingPanel.phone;
+    const phone = this.editingPanel.phoneNumber;
     const email = this.editingPanel.email;
     const address = "";
 
@@ -156,6 +156,7 @@ export class PaineisSolaresComponent implements OnInit {
   createPanel(): void {
     if (!this.newPanel.name.trim()) {
       alert('O nome do painel é obrigatório!');
+      //alert(this.newPanel.phone);
       return;
     }
 
@@ -168,7 +169,7 @@ export class PaineisSolaresComponent implements OnInit {
       latitude: 0,
       longitude: 0,
       description: this.newPanel.description,
-      phone: this.newPanel.phone,
+      phoneNumber: this.newPanel.phoneNumber,
       email: this.newPanel.email,
       address: "a"
     };
