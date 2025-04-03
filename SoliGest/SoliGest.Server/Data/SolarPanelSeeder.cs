@@ -22,7 +22,7 @@ namespace SoliGest.Server.Data
                     Description = "Painel próximo ao centro",
                     PhoneNumber = 8,
                     Email = "contato@empresa.com",
-                    Address = ""
+                    Address = "a"
                 };
 
                 await context.AddAsync(solarPanel1);
@@ -38,7 +38,7 @@ namespace SoliGest.Server.Data
                     Description = "Painel na filial sul",
                     PhoneNumber = 8,
                     Email = "suporte@empresa.com",
-                    Address = ""
+                    Address = "a"
                 };
 
                 await context.AddAsync(solarPanel2);
@@ -54,7 +54,7 @@ namespace SoliGest.Server.Data
                     Description = "Painel na filial sul",
                     PhoneNumber = 8,
                     Email = "suporte@empresa.com",
-                    Address = ""
+                    Address = "a"
                 };
 
                 await context.AddAsync(solarPanel3);
