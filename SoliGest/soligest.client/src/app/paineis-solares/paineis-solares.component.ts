@@ -176,11 +176,13 @@ export class PaineisSolaresComponent implements OnInit {
 
     this.service.createSolarPanel(solarPanel).subscribe(
       (result) => {
+        alert("Novo painel solar criado com sucesso!");
         console.log(result);
         this.closeCreatePanelModal();
         this.ngOnInit();
       },
       (error) => {
+        alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
         console.error(error);
       }
     );
