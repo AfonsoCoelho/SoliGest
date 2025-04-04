@@ -239,6 +239,19 @@ export class AvariasComponent implements OnInit {
     }
   }
 
+  getStatusClass(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'vermelho':
+        return 'status-red';
+      case 'verde':
+        return 'status-green';
+      case 'amarelo':
+        return 'status-yellow';
+      default:
+        return '';
+    }
+  }
+
   // Ordena as avarias conforme os critérios selecionados
   sortAvarias(): void {
     this.sortedAvarias = [...this.avariasData].sort((a, b) => {
@@ -413,7 +426,7 @@ export class AvariasComponent implements OnInit {
       requestDate: formatDate(new Date(), 'yyyy/MM/dd', 'en'),
       priority: this.selectedPriority,
       status: this.selectedStatus,
-      statusClass: "",
+      statusClass: this.getStatusClass(this.selectedStatus),
       resolutionDate: "",
       description: "this.newPanel.description",
       solarPanelId: this.selectedPanelId
@@ -439,7 +452,7 @@ export class AvariasComponent implements OnInit {
         requestDate: this.selectedAvaria?.requestDate,
         priority: this.selectedPriority,
         status: this.selectedStatus,
-        statusClass: this.selectedAvaria?.statusClass,
+        statusClass: this.getStatusClass(this.selectedStatus),
         resolutionDate: this.selectedAvaria?.resolutionDate,
         description: this.selectedAvaria?.description,
         solarPanelId: this.selectedAvaria?.solarPanel.id
