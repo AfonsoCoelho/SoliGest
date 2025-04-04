@@ -4,6 +4,7 @@ import { AssistanceRequestsService, AssistanceRequest } from '../services/assist
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { SolarPanel, SolarPanelsService } from '../services/solar-panels.service';
+import { formatDate } from '@angular/common';
 
 // Declaração do objeto google para TypeScript
 declare var google: any;
@@ -430,8 +431,64 @@ export class AvariasComponent implements OnInit {
   }
 
   //quem for fazer o backend faça a logica
-  criarAvaria() { };
-  editarAvaria() { };
+  criarAvaria()
+  {
+    if (!this.selectedPanel) {
+      alert('Por favor selecione um painel!');
+      return;
+    }
+
+    const assistanceRequest: AssistanceRequest = {
+      id: 0,
+      requestDate: formatDate(new Date(), 'yyyy/MM/dd', 'en'),
+      solarPanel: this.panels[0],
+      priority: this.selectedPriority,
+      status: this.selectedStatus,
+      statusClass: "",
+      resolutionDate: "",
+      description: "this.newPanel.description"
+    };
+
+    this.aRService.create(assistanceRequest).subscribe(
+      (result) => {
+        alert("Novo painel solar criado com sucesso!");
+        this.onCloseModal();
+        this.ngOnInit();
+      },
+      (error) => {
+        alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+        console.error(error);
+      }
+    );
+  };
+  editarAvaria()
+  {
+    const id = this.editingPanel.id;
+    const name = this.editingPanel.name;
+    const prority = this.editingPanel.priority;
+    const status = this.editingPanel.status;
+    const statusClass = this.editingPanel.statusClass;
+    const latitude = this.editingPanel.latitude;
+    const longitude = this.editingPanel.longitude;
+    const description = this.editingPanel.description;
+    const phone = this.editingPanel.phoneNumber;
+    const email = this.editingPanel.email;
+    const address = "";
+
+    if (id) {
+      this.service.updateSolarPanel(id, name, prority, status, statusClass, latitude, longitude, description, phone, email, address).subscribe(
+        (result) => {
+          alert("Painel solar atualizado com sucesso!");
+          this.closeEditPanelModal();
+          this.ngOnInit();
+        },
+        (error) => {
+          alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+          console.error(error);
+        }
+      );
+    }
+  };
   apagarAvaria()
   {
     if (this.selectedAvaria) {
