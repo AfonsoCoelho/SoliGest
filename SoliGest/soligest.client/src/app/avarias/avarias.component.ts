@@ -299,7 +299,7 @@ export class AvariasComponent implements OnInit {
   filterAvarias(): void {
     this.filteredAvarias = this.sortedAvarias.filter(
       avaria =>
-        avaria.status.toLowerCase() !== 'verde' && // Remove status "Verde"
+        //avaria.status.toLowerCase() !== 'verde' && // Remove status "Verde"
         avaria.solarPanel.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
@@ -421,7 +421,7 @@ export class AvariasComponent implements OnInit {
 
     this.aRService.create(newAssistanceRequest).subscribe(
       (result) => {
-        alert("Novo painel solar criado com sucesso!");
+        alert("Novo pedido de assistência técnica criado com sucesso!");
         this.onCloseModal();
         this.ngOnInit();
       },
@@ -447,7 +447,7 @@ export class AvariasComponent implements OnInit {
 
       this.aRService.update(id, updatedAssistanceRequest).subscribe(
         (result) => {
-          alert("Painel solar atualizado com sucesso!");
+          alert("Pedido de assistência técnica atualizado com sucesso!");
           this.onCloseEditModal();
           this.ngOnInit();
         },
@@ -463,7 +463,7 @@ export class AvariasComponent implements OnInit {
     if (this.selectedAvaria) {
       this.aRService.delete(this.selectedAvaria.id).subscribe(
         (result) => {
-          alert("Avaria removida com sucesso!");
+          alert("Pedido de assistência técnica removido com sucesso!");
           this.onCloseDeleteConfirm();
           this.ngOnInit();
         },
