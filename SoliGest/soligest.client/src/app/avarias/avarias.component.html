@@ -70,8 +70,8 @@
       <h2>Nova Avaria</h2>
       <div>
         <label for="panel">Selecionar Painel:</label>
-        <select id="panel" [(ngModel)]="selectedPanel">
-          <option *ngFor="let panel of panels" [value]="panel">{{ panel }}</option>
+        <select id="panel" [(ngModel)]="selectedPanelId">
+          <option *ngFor="let panel of panels" [value]="panel.id">{{ panel }}</option>
         </select>
       </div>
       <div>
