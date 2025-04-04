@@ -38,7 +38,7 @@
                (click)="selectAvaria(avaria)">
             <!-- Select the avaria -->
             <h3>Avaria ID: {{ avaria.id }}</h3>
-            <p>{{ avaria.name }}</p>
+            <p>{{ avaria.solarPanel.name }}</p>
             <p *ngIf="avaria.priority">Prioridade: {{ avaria.priority }}</p>
             <p class="status-text">Estado: {{ avaria.status }}</p>
             <!-- Conditionally render Edit and Delete buttons only for the selected avaria -->
