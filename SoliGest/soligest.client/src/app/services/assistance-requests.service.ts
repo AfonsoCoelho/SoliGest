@@ -34,11 +34,11 @@ export class AssistanceRequestsService {
 
 export interface AssistanceRequest {
   id: number;
-  name: string;
+  requestDate: string;
   priority?: string;
   status: string;
   statusClass: string;
-  latitude?: number;
-  longitude?: number;
+  resolutionDate: string;
+  description: string;
   solarPanel: SolarPanel
 }
