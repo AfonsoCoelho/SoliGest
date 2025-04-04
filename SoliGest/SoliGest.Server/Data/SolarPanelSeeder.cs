@@ -22,7 +22,7 @@ namespace SoliGest.Server.Data
                     Description = "Painel próximo ao centro",
                     PhoneNumber = 8,
                     Email = "contato@empresa.com",
-                    Address = ""
+                    Address = "a"
                 };
 
                 await context.AddAsync(solarPanel1);
@@ -38,23 +38,23 @@ namespace SoliGest.Server.Data
                     Description = "Painel na filial sul",
                     PhoneNumber = 8,
                     Email = "suporte@empresa.com",
-                    Address = ""
+                    Address = "a"
                 };
 
                 await context.AddAsync(solarPanel2);
 
                 SolarPanel solarPanel3 = new SolarPanel
                 {
-                    Name = "Avenida Principal, Almada",
+                    Name = "Avenida Luisa Todi, Setúbal",
                     Priority = "Média",
                     Status = "Verde",
                     StatusClass = "status-green",
-                    Latitude = 38.6790,
-                    Longitude = -9.1569,
-                    Description = "Painel na filial sul",
+                    Latitude = 38.522882,
+                    Longitude = -8.896155,
+                    Description = "Painel na capital de distrito da margem sul",
                     PhoneNumber = 8,
-                    Email = "suporte@empresa.com",
-                    Address = ""
+                    Email = "luisa.todi@setubal.com",
+                    Address = "a"
                 };
 
                 await context.AddAsync(solarPanel3);

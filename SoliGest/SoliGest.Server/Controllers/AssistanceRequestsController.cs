@@ -10,6 +10,8 @@ using SoliGest.Server.Models;
 
 namespace SoliGest.Server.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class AssistanceRequestsController : Controller
     {
         private readonly SoliGestServerContext _context;
@@ -19,139 +21,154 @@ namespace SoliGest.Server.Controllers
             _context = context;
         }
 
-        // GET: AssistanceRequests
-        public async Task<IActionResult> Index()
+        // GET: api/AssistanceRequest
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AssistanceRequest>>> GetAll()
         {
-            return View(await _context.AssistanceRequest.ToListAsync());
+            return await _context.AssistanceRequest.Include(a => a.SolarPanel).ToListAsync();
         }
 
-        // GET: AssistanceRequests/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: api/AssistanceRequest/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AssistanceRequest>> GetById(int id)
         {
-            if (id == null)
+            var request = await _context.AssistanceRequest.Include(a => a.SolarPanel).FirstOrDefaultAsync(a => a.Id == id);
+
+            if (request == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Pedido de assistência não encontrado." });
             }
 
-            var assistanceRequest = await _context.AssistanceRequest
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (assistanceRequest == null)
-            {
-                return NotFound();
-            }
-
-            return View(assistanceRequest);
+            return Ok(request);
         }
 
-        // GET: AssistanceRequests/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: AssistanceRequests/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: api/AssistanceRequest
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RequestDate,ResolutionDate")] AssistanceRequest assistanceRequest)
+        public async Task<IActionResult> Create([FromBody]AssistanceRequestCreateModel request)
         {
-            if (ModelState.IsValid)
+            if (request == null)
             {
-                _context.Add(assistanceRequest);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(assistanceRequest);
-        }
-
-        // GET: AssistanceRequests/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
+                return BadRequest(new { message = "Dados inválidos." });
             }
 
-            var assistanceRequest = await _context.AssistanceRequest.FindAsync(id);
-            if (assistanceRequest == null)
-            {
-                return NotFound();
-            }
-            return View(assistanceRequest);
-        }
+            var solarPanel = await _context.FindAsync<SolarPanel>(request.SolarPanelId);
 
-        // POST: AssistanceRequests/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,RequestDate,ResolutionDate")] AssistanceRequest assistanceRequest)
-        {
-            if (id != assistanceRequest.Id)
+            if(solarPanel == null)
             {
-                return NotFound();
+                return BadRequest(new { message = "Painel solar não encontrado." });
             }
 
-            if (ModelState.IsValid)
+            var assistanceRequest = new AssistanceRequest
             {
-                try
-                {
-                    _context.Update(assistanceRequest);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AssistanceRequestExists(assistanceRequest.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(assistanceRequest);
-        }
+                Id = 0,
+                RequestDate = request.RequestDate,
+                Priority = request.Priority,
+                Status = request.Status,
+                StatusClass = request.StatusClass,
+                ResolutionDate = request.ResolutionDate,
+                Description = request.Description,
+                SolarPanel = solarPanel
+            };
 
-        // GET: AssistanceRequests/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var assistanceRequest = await _context.AssistanceRequest
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (assistanceRequest == null)
-            {
-                return NotFound();
-            }
-
-            return View(assistanceRequest);
-        }
-
-        // POST: AssistanceRequests/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var assistanceRequest = await _context.AssistanceRequest.FindAsync(id);
-            if (assistanceRequest != null)
-            {
-                _context.AssistanceRequest.Remove(assistanceRequest);
-            }
-
+            await _context.AssistanceRequest.AddAsync(assistanceRequest);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return CreatedAtAction(nameof(GetById), new { id = assistanceRequest.Id }, request);
         }
 
-        private bool AssistanceRequestExists(int id)
+        // PUT: api/AssistanceRequest/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] AssistanceRequestUpdateModel request)
+        {
+            //if (id != request.Id)
+            //{
+            //    return BadRequest(new { message = "ID do pedido não corresponde." });
+            //}
+
+            var solarPanel = await _context.SolarPanel.FindAsync(request.SolarPanelId);
+
+            if(solarPanel == null)
+            {
+                return BadRequest(new { message = "Painel Solar inexistente!" });
+            }
+
+            var assistanceRequest = await _context.FindAsync<AssistanceRequest>(id);
+
+            if(assistanceRequest == null)
+            {
+                return NotFound($"Não foi possível encontrar a assistência técnica com o ID '{id}'.");
+            }
+
+            assistanceRequest.Priority = request.Priority;
+            assistanceRequest.Status = request.Status;
+            assistanceRequest.StatusClass = request.StatusClass;
+            assistanceRequest.SolarPanel = solarPanel;
+            assistanceRequest.Description = request.Description;
+            assistanceRequest.RequestDate = request.RequestDate;
+            assistanceRequest.ResolutionDate = request.ResolutionDate;
+
+            _context.Update(assistanceRequest);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!Exists(id))
+                {
+                    return NotFound(new { message = "Pedido de assistência não encontrado." });
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Ok(new { message = "Pedido de assistência atualizado com sucesso." });
+        }
+
+        // DELETE: api/AssistanceRequest/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var request = await _context.AssistanceRequest.FindAsync(id);
+            if (request == null)
+            {
+                return NotFound(new { message = "Pedido de assistência não encontrado." });
+            }
+
+            _context.AssistanceRequest.Remove(request);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Pedido de assistência removido com sucesso." });
+        }
+
+        private bool Exists(int id)
         {
             return _context.AssistanceRequest.Any(e => e.Id == id);
         }
+
+    }
+
+    public class AssistanceRequestUpdateModel
+    {
+        public string RequestDate { get; set; }
+        public string ResolutionDate { get; set; }
+        public string Description { get; set; }
+        public int SolarPanelId { get; set; }
+        public string Priority { get; set; }
+        public string Status { get; set; }
+        public string StatusClass { get; set; }
+    }
+    public class AssistanceRequestCreateModel
+    {
+        public string RequestDate { get; set; }
+        public string ResolutionDate { get; set; }
+        public string Description { get; set; }
+        public int SolarPanelId { get; set; }
+        public string Priority { get; set; }
+        public string Status { get; set; }
+        public string StatusClass { get; set; }
     }
 }

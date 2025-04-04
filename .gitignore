@@ -369,3 +369,10 @@ SoliGest/.vs/SoliGest/v17/.suo
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/SoliGest/SoliGest.Server/Migrations/20250403120433_SoliGest.cs
+/SoliGest/SoliGest.Server/Migrations/20250401143006_init.cs
+/SoliGest/SoliGest.Server/Migrations/20250403120433_SoliGest.Designer.cs
+/SoliGest/SoliGest.Server/Migrations/20250401143006_init.Designer.cs
+/SoliGest/SoliGest.Server/Migrations/20250401144942_init.cs
+/SoliGest/SoliGest.Server/Migrations/20250401144942_init.Designer.cs
+/SoliGest/SoliGest.Server/Migrations/SoliGestServerContextModelSnapshot.cs

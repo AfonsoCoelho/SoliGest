@@ -38,7 +38,7 @@
                (click)="selectAvaria(avaria)">
             <!-- Select the avaria -->
             <h3>Avaria ID: {{ avaria.id }}</h3>
-            <p>{{ avaria.name }}</p>
+            <p>{{ avaria.solarPanel.name }}</p>
             <p *ngIf="avaria.priority">Prioridade: {{ avaria.priority }}</p>
             <p class="status-text">Estado: {{ avaria.status }}</p>
             <!-- Conditionally render Edit and Delete buttons only for the selected avaria -->
@@ -53,7 +53,7 @@
 
     <div class="right-section">
       <div class="map-container">
-        <h2>Localização dos Painéis</h2>
+        <h2>Localização dos Painéis com Avarias</h2>
         <div id="map"></div>
       </div>
     </div>
@@ -70,8 +70,8 @@
       <h2>Nova Avaria</h2>
       <div>
         <label for="panel">Selecionar Painel:</label>
-        <select id="panel" [(ngModel)]="selectedPanel">
-          <option *ngFor="let panel of panels" [value]="panel">{{ panel }}</option>
+        <select id="panel" [(ngModel)]="selectedPanelId">
+          <option *ngFor="let panel of panels" [value]="panel.id">Painel ID {{ panel.id }}, {{ panel.name }}</option>
         </select>
       </div>
       <div>
