@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AssistanceRequestsService, AssistanceRequest } from '../services/assistance-requests.service';
+import { AssistanceRequestsService, AssistanceRequest, AssistanceRequestCreateModel } from '../services/assistance-requests.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { SolarPanel, SolarPanelsService } from '../services/solar-panels.service';
@@ -31,7 +31,7 @@ export class AvariasComponent implements OnInit {
   showEditModal: boolean = false; // edit popup
   showDeleteConfirm: boolean = false; // delete popup
 
-  selectedPanel: string = '';
+  selectedPanelId: number = 0;
   selectedPriority: string = '';
   selectedStatus: string = '';
 
@@ -399,7 +399,7 @@ export class AvariasComponent implements OnInit {
   }
 
   openCreateModal(): void {
-    this.selectedPanel = ''; // Reset selected values
+    this.selectedPanelId = 0; // Reset selected values
     this.selectedPriority = ''; // Reset selected priority
     this.selectedStatus = ''; // Reset selected status
     this.showModal = true; // Show the modal
@@ -411,7 +411,7 @@ export class AvariasComponent implements OnInit {
 
   openEditModal(avaria: AssistanceRequest): void {
     this.selectedAvaria = avaria;
-    this.selectedPanel = ''; // You can set this to a specific panel if needed
+    this.selectedPanelId = 0; // You can set this to a specific panel if needed
     this.selectedPriority = avaria.priority || '';
     this.selectedStatus = avaria.status;
     this.showEditModal = true; // Show the edit modal
@@ -433,23 +433,22 @@ export class AvariasComponent implements OnInit {
   //quem for fazer o backend faça a logica
   criarAvaria()
   {
-    if (!this.selectedPanel) {
-      alert('Por favor selecione um painel!');
-      return;
-    }
+    //if (!this.selectedPanel) {
+    //  alert('Por favor selecione um painel!');
+    //  return;
+    //}
 
-    const assistanceRequest: AssistanceRequest = {
-      id: 0,
+    const newAssistanceRequest: AssistanceRequestCreateModel = {
       requestDate: formatDate(new Date(), 'yyyy/MM/dd', 'en'),
-      solarPanel: this.panels[0],
       priority: this.selectedPriority,
       status: this.selectedStatus,
       statusClass: "",
       resolutionDate: "",
-      description: "this.newPanel.description"
+      description: "this.newPanel.description",
+      solarPanelId: this.selectedPanelId
     };
 
-    this.aRService.create(assistanceRequest).subscribe(
+    this.aRService.create(newAssistanceRequest).subscribe(
       (result) => {
         alert("Novo painel solar criado com sucesso!");
         this.onCloseModal();
