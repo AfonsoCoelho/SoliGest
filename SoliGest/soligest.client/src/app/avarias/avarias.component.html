@@ -71,7 +71,7 @@
       <div>
         <label for="panel">Selecionar Painel:</label>
         <select id="panel" [(ngModel)]="selectedPanelId">
-          <option *ngFor="let panel of panels" [value]="panel.id">{{ panel }}</option>
+          <option *ngFor="let panel of panels" [value]="panel.id">Painel ID {{ panel.id }}, {{ panel.name }}</option>
         </select>
       </div>
       <div>
