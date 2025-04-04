@@ -45,15 +45,15 @@ namespace SoliGest.Server.Data
 
                 SolarPanel solarPanel3 = new SolarPanel
                 {
-                    Name = "Avenida Principal, Almada",
+                    Name = "Avenida Luisa Todi, Setúbal",
                     Priority = "Média",
                     Status = "Verde",
                     StatusClass = "status-green",
                     Latitude = 38.6790,
                     Longitude = -9.1569,
-                    Description = "Painel na filial sul",
+                    Description = "Painel na capital de distrito da margem sul",
                     PhoneNumber = 8,
-                    Email = "suporte@empresa.com",
+                    Email = "luisa.todi@setubal.com",
                     Address = "a"
                 };
 
