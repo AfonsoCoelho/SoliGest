@@ -37,39 +37,10 @@ export class AvariasComponent implements OnInit {
 
   constructor(private http: HttpClient, private aRService: AssistanceRequestsService, private sPService: SolarPanelsService, private router: Router) { }
 
-  //panels = ['Painel 1', 'Painel 2', 'Painel 3']; //quem for fazer backend que saque os paines da bd e meta no array
   panels: SolarPanel[] = [];
 
   // Dados das avarias com coordenadas geográficas
-  avariasData: AssistanceRequest[] = [
-    //{
-    //  id: 1,
-    //  name: "Rua D. Afonso Henriques, Lisboa",
-    //  priority: "Alta",
-    //  status: "Vermelho",
-    //  statusClass: "status-red",
-    //  latitude: 38.7223,
-    //  longitude: -9.1393
-    //},
-    //{
-    //  id: 4,
-    //  name: "Avenida Principal, Almada",
-    //  priority: "Média",
-    //  status: "Vermelho",
-    //  statusClass: "status-red",
-    //  latitude: 38.6790,
-    //  longitude: -9.1569
-    //},
-    //{
-    //  id: 3,
-    //  name: "Avenida da Liberdade, Porto",
-    //  priority: "Baixa",
-    //  status: "Amarelo",
-    //  statusClass: "status-yellow",
-    //  latitude: 41.1579,
-    //  longitude: -8.6291
-    //}
-  ];
+  avariasData: AssistanceRequest[] = [];
 
   sortedAvarias: AssistanceRequest[] = [];
   map: any;
@@ -462,23 +433,22 @@ export class AvariasComponent implements OnInit {
   };
   editarAvaria()
   {
-    const id = this.editingPanel.id;
-    const name = this.editingPanel.name;
-    const prority = this.editingPanel.priority;
-    const status = this.editingPanel.status;
-    const statusClass = this.editingPanel.statusClass;
-    const latitude = this.editingPanel.latitude;
-    const longitude = this.editingPanel.longitude;
-    const description = this.editingPanel.description;
-    const phone = this.editingPanel.phoneNumber;
-    const email = this.editingPanel.email;
-    const address = "";
+    if (this.selectedAvaria) {
+      var id = this.selectedAvaria.id;
+      const updatedAssistanceRequest: AssistanceRequestCreateModel = {
+        requestDate: this.selectedAvaria?.requestDate,
+        priority: this.selectedPriority,
+        status: this.selectedStatus,
+        statusClass: this.selectedAvaria?.statusClass,
+        resolutionDate: this.selectedAvaria?.resolutionDate,
+        description: this.selectedAvaria?.description,
+        solarPanelId: this.selectedAvaria?.solarPanel.id
+      };
 
-    if (id) {
-      this.service.updateSolarPanel(id, name, prority, status, statusClass, latitude, longitude, description, phone, email, address).subscribe(
+      this.aRService.update(id, updatedAssistanceRequest).subscribe(
         (result) => {
           alert("Painel solar atualizado com sucesso!");
-          this.closeEditPanelModal();
+          this.onCloseEditModal();
           this.ngOnInit();
         },
         (error) => {
