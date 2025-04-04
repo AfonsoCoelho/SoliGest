@@ -19,7 +19,7 @@ export class AssistanceRequestsService {
     return this.http.get<AssistanceRequest>('api/AssistanceRequests/' + id);
   }
 
-  create(request: AssistanceRequest): Observable<AssistanceRequest> {
+  create(request: AssistanceRequestCreateModel): Observable<AssistanceRequest> {
     return this.http.post<AssistanceRequest>('api/AssistanceRequests/', request);
   }
 
@@ -41,4 +41,14 @@ export interface AssistanceRequest {
   resolutionDate: string;
   description: string;
   solarPanel: SolarPanel
+}
+
+export interface AssistanceRequestCreateModel {
+  requestDate: string;
+  resolutionDate: string;
+  description: string;
+  solarPanelId: number;
+  priority: string;
+  status: string;
+  statusClass: string;
 }
