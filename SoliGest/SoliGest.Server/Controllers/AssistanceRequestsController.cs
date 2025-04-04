@@ -44,17 +44,36 @@ namespace SoliGest.Server.Controllers
 
         // POST: api/AssistanceRequest
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] AssistanceRequest request)
+        public async Task<IActionResult> Create([FromBody]AssistanceRequestCreateModel request)
         {
             if (request == null)
             {
                 return BadRequest(new { message = "Dados inválidos." });
             }
 
-            _context.AssistanceRequest.Add(request);
+            var solarPanel = await _context.FindAsync<SolarPanel>(request.SolarPanelId);
+
+            if(solarPanel == null)
+            {
+                return BadRequest(new { message = "Painel solar não encontrado." });
+            }
+
+            var assistanceRequest = new AssistanceRequest
+            {
+                Id = 0,
+                RequestDate = request.RequestDate,
+                Priority = request.Priority,
+                Status = request.Status,
+                StatusClass = request.StatusClass,
+                ResolutionDate = request.ResolutionDate,
+                Description = request.Description,
+                SolarPanel = solarPanel
+            };
+
+            await _context.AssistanceRequest.AddAsync(assistanceRequest);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), new { id = request.Id }, request);
+            return CreatedAtAction(nameof(GetById), new { id = assistanceRequest.Id }, request);
         }
 
         // PUT: api/AssistanceRequest/5
@@ -80,6 +99,9 @@ namespace SoliGest.Server.Controllers
                 return NotFound($"Não foi possível encontrar a assistência técnica com o ID '{id}'.");
             }
 
+            assistanceRequest.Priority = request.Priority;
+            assistanceRequest.Status = request.Status;
+            assistanceRequest.StatusClass = request.StatusClass;
             assistanceRequest.SolarPanel = solarPanel;
             assistanceRequest.Description = request.Description;
             assistanceRequest.RequestDate = request.RequestDate;
@@ -135,5 +157,18 @@ namespace SoliGest.Server.Controllers
         public string ResolutionDate { get; set; }
         public string Description { get; set; }
         public int SolarPanelId { get; set; }
+        public string Priority { get; set; }
+        public string Status { get; set; }
+        public string StatusClass { get; set; }
+    }
+    public class AssistanceRequestCreateModel
+    {
+        public string RequestDate { get; set; }
+        public string ResolutionDate { get; set; }
+        public string Description { get; set; }
+        public int SolarPanelId { get; set; }
+        public string Priority { get; set; }
+        public string Status { get; set; }
+        public string StatusClass { get; set; }
     }
 }
