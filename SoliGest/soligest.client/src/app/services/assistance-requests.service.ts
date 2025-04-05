@@ -23,7 +23,7 @@ export class AssistanceRequestsService {
     return this.http.post<AssistanceRequest>('api/AssistanceRequests/', request);
   }
 
-  update(id: number, request: AssistanceRequest): Observable<AssistanceRequest> {
+  update(id: number, request: AssistanceRequestCreateModel): Observable<AssistanceRequest> {
     return this.http.put<AssistanceRequest>('api/AssistanceRequests/' + id, request);
   }
 
