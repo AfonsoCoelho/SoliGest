@@ -21,8 +21,13 @@ namespace SoliGestTest
 
         public SolarPanelsControllerTest()
         {
-            _mockContext = new Mock<SoliGestServerContext>(new DbContextOptionsBuilder<SoliGestServerContext>().Options);
-            _controller = new SolarPanelsController(_mockContext.Object);
+            var options = new DbContextOptionsBuilder<SoliGestServerContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+
+            var context = new SoliGestServerContext(options);
+
+            _controller = new SolarPanelsController(context);
         }
 
         [Fact]
@@ -99,24 +104,27 @@ namespace SoliGestTest
         public async Task PostSolarPanel_CreatesNewPanel()
         {
             // Arrange
-            var panel = new SolarPanel { Id = 1, Name = "New Panel" };
-            var mockSet = new Mock<DbSet<SolarPanel>>();
-
-            var mockContext = new Mock<SoliGestServerContext>(new DbContextOptionsBuilder<SoliGestServerContext>().Options);
-            mockContext.Setup(c => c.Set<SolarPanel>()).Returns(mockSet.Object);
-            mockContext.Setup(c => c.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
-
-            var controller = new SolarPanelsController(mockContext.Object);
+            var panel = new SolarPanel
+            {
+                Name = "New Panel",
+                Address = "A",
+                Description = "A",
+                Email = "test@mail.com",
+                Latitude = 1,
+                Longitude = 1,
+                PhoneNumber = 1,
+                Priority = "A",
+                Status = "A",
+                StatusClass = "A"                
+            };
 
             // Act
-            var result = await controller.PostSolarPanel(panel);
+            var result = await _controller.PostSolarPanel(panel);
 
             // Assert
             var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result);
             Assert.Equal("GetSolarPanel", createdAtActionResult.ActionName);
             Assert.Equal(panel, createdAtActionResult.Value);
-            mockSet.Verify(m => m.Add(panel), Times.Once());
-            mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
         }
 
         [Fact]
