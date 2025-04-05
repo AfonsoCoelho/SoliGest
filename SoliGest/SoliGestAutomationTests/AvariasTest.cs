@@ -68,7 +68,7 @@ public class AvariasTest : IDisposable
         _wait.Until(ExpectedConditions.AlertIsPresent());
         var alert = _driver.SwitchTo().Alert();
 
-        Assert.Equal("Ocorreu um erro. Por favor tente novamente mais tarde.", alert.Text);
+        Assert.Equal("Por favor, preencha todos os campos antes de salvar!", alert.Text);
         alert.Accept();
     }
 

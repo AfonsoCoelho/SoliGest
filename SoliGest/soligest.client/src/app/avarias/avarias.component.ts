@@ -417,10 +417,10 @@ export class AvariasComponent implements OnInit {
   //quem for fazer o backend faça a logica
   criarAvaria()
   {
-    //if (!this.selectedPanel) {
-    //  alert('Por favor selecione um painel!');
-    //  return;
-    //}
+    if (!this.selectedPanelId || !this.selectedPriority || !this.selectedStatus) {
+      alert('Por favor, preencha todos os campos antes de salvar!');
+      return;
+    }
 
     const newAssistanceRequest: AssistanceRequestCreateModel = {
       requestDate: formatDate(new Date(), 'yyyy/MM/dd', 'en'),
