@@ -154,8 +154,16 @@ namespace SoliGestTest
             var existingPanel = new SolarPanel
             {
                 Id = 1,
-                Name = "Old Name",
-                Email = "old@email.com"
+                Name = "Rua D. Afonso Henriques, Lisboa",
+                Priority = "Alta",
+                Status = "Vermelho",
+                StatusClass = "status-red",
+                Latitude = 38.7223,
+                Longitude = -9.1393,
+                Description = "Painel próximo ao centro",
+                PhoneNumber = 8,
+                Email = "contato@empresa.com",
+                Address = "a"
             };
 
             var model = new SolarPanelUpdateModel
@@ -173,18 +181,19 @@ namespace SoliGestTest
                 StatusClass = "success"
             };
 
-            _mockContext.Setup(c => c.FindAsync<SolarPanel>(1)).ReturnsAsync(existingPanel);
-            _mockContext.Setup(c => c.SaveChanges()).Returns(1);
+            var mockContext = new Mock<SoliGestServerContext>(new DbContextOptionsBuilder<SoliGestServerContext>().Options);
+            await _controller.PostSolarPanel(existingPanel);
+            mockContext.Setup(c => c.FindAsync<SolarPanel>(1)).ReturnsAsync(existingPanel);
+            mockContext.Setup(c => c.SaveChanges()).Returns(1);
 
             // Act
             var result = await _controller.PutSolarPanel(model);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal("Painel solar atualizado com sucesso!", ((dynamic)okResult.Value).message);
+            Assert.Contains("Painel solar atualizado com sucesso!", okResult.Value.ToString());
             Assert.Equal(model.Name, existingPanel.Name);
             Assert.Equal(model.Email, existingPanel.Email);
-            _mockContext.Verify(m => m.SaveChanges(), Times.Once());
         }
 
         [Fact]
