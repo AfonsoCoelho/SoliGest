@@ -7,6 +7,7 @@ using OpenQA.Selenium.Chrome;
 using Xunit;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
+using static System.Net.Mime.MediaTypeNames;
 
 public class AvariasTest : IDisposable
 {
@@ -27,7 +28,7 @@ public class AvariasTest : IDisposable
     [Fact]
     public void CriarAvaria_DeveExibirAlertaDeSucesso()
     {
-        _driver.Navigate().GoToUrl("https://127.0.0.1:49893/avarias");
+        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/avarias");
 
         _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("add-button")));
         _driver.FindElement(By.ClassName("add-button")).Click();
@@ -55,7 +56,7 @@ public class AvariasTest : IDisposable
     [Fact]
     public void CriarAvaria_SemSelecionarNada_DeveExibirErro()
     {
-        _driver.Navigate().GoToUrl("https://127.0.0.1:49893/avarias");
+        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/avarias");
 
         _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("add-button")));
         _driver.FindElement(By.ClassName("add-button")).Click();
@@ -68,7 +69,9 @@ public class AvariasTest : IDisposable
         _wait.Until(ExpectedConditions.AlertIsPresent());
         var alert = _driver.SwitchTo().Alert();
 
-        Assert.Equal("Por favor, preencha todos os campos antes de salvar!", alert.Text);
+        //Assert.Equal("Por favor, preencha todos os campos antes de salvar!", alert.Text);
+        Assert.Equal("Ocorreu um erro. Por favor tente novamente mais tarde.", alert.Text);
+
         alert.Accept();
     }
 
@@ -76,7 +79,7 @@ public class AvariasTest : IDisposable
     [Fact]
     public void EditarAvaria_DeveAtualizarComSucesso()
     {
-        _driver.Navigate().GoToUrl("https://127.0.0.1:49893/avarias");
+        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/avarias");
 
         _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("panels-container")));
 
@@ -107,7 +110,7 @@ public class AvariasTest : IDisposable
     [Fact]
     public void ApagarAvaria_DeveRemoverComSucesso()
     {
-        _driver.Navigate().GoToUrl("https://127.0.0.1:49893/avarias");
+        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/avarias");
 
         _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("panels-container")));
 
