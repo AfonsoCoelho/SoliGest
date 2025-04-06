@@ -17,6 +17,9 @@ export class PaineisSolaresComponent implements OnInit {
 
   public panelsData: SolarPanel[] = [];
   sortedPanels: SolarPanel[] = [];
+  markers: any[] = []; // Array para guardar os markers do mapa
+  infoWindow: any = null; // InfoWindow para mostrar detalhes do painel
+  selectedPanel: SolarPanel | null = null; // Painel selecionado na lista
 
   map: any;
 
@@ -56,6 +59,7 @@ export class PaineisSolaresComponent implements OnInit {
       (result) => {
         this.panelsData = result;
         this.sortPanels();
+        this.addPanelMarkers(); // Adiciona os markers APÓS carregar e ordenar os painéis
       },
       (error) => {
         console.error(error);
@@ -73,21 +77,85 @@ export class PaineisSolaresComponent implements OnInit {
       center: center,
       mapTypeId: "terrain"
     });
-
-    this.addPanelMarkers();
   }
 
   addPanelMarkers(): void {
+    // Limpa os markers existentes
+    this.clearMarkers();
+    this.markers = [];
+
     this.sortedPanels.forEach(panel => {
       if (panel.latitude && panel.longitude) {
-        new google.maps.Marker({
+        const marker = new google.maps.Marker({
           position: { lat: panel.latitude, lng: panel.longitude },
           map: this.map,
           title: `Painel ID: ${panel.id}`,
           icon: this.getMarkerIcon(panel.status)
         });
+
+        this.markers.push(marker);
+
+        const infoWindowContent = `
+          <div style="padding: 10px;">
+            <h3 style="margin: 0 0 5px 0;">Painel ID: ${panel.id}</h3>
+            <p style="margin: 0 0 5px 0;"><strong>Nome:</strong> ${panel.name}</p>
+            <p style="margin: 0 0 5px 0;"><strong>Estado:</strong> ${panel.status}</p>
+          </div>
+        `;
+
+        const infoWindow = new google.maps.InfoWindow({
+          content: infoWindowContent
+        });
+
+        marker.addListener('click', () => {
+          if (this.infoWindow) {
+            this.infoWindow.close();
+          }
+          infoWindow.open(this.map, marker);
+          this.infoWindow = infoWindow;
+          this.selectedPanel = panel; // Opcional: Marca o painel clicado
+        });
       }
     });
+  }
+
+  clearMarkers(): void {
+    this.markers.forEach(marker => {
+      marker.setMap(null);
+    });
+  }
+
+  flyToPanel(panel: SolarPanel): void {
+    if (panel.latitude && panel.longitude && this.map) {
+      this.map.setCenter({ lat: panel.latitude, lng: panel.longitude });
+      this.map.setZoom(15);
+
+      // Abre o popup do marker correspondente
+      const marker = this.markers.find(m => m.getPosition().lat() === panel.latitude && m.getPosition().lng() === panel.longitude);
+      if (marker && this.infoWindow) {
+        this.infoWindow.close();
+        const infoWindowContent = `
+          <div style="padding: 10px;">
+            <h3 style="margin: 0 0 5px 0;">Painel ID: ${panel.id}</h3>
+            <p style="margin: 0 0 5px 0;"><strong>Nome:</strong> ${panel.name}</p>
+            <p style="margin: 0 0 5px 0;"><strong>Estado:</strong> ${panel.status}</p>
+          </div>
+        `;
+        this.infoWindow.setContent(infoWindowContent);
+        this.infoWindow.open(this.map, marker);
+      } else if (marker) {
+        const infoWindowContent = `
+          <div style="padding: 10px;">
+            <h3 style="margin: 0 0 5px 0;">Painel ID: ${panel.id}</h3>
+            <p style="margin: 0 0 5px 0;"><strong>Nome:</strong> ${panel.name}</p>
+            <p style="margin: 0 0 5px 0;"><strong>Estado:</strong> ${panel.status}</p>
+          </div>
+        `;
+        this.infoWindow = new google.maps.InfoWindow({ content: infoWindowContent });
+        this.infoWindow.open(this.map, marker);
+      }
+      this.selectedPanel = panel;
+    }
   }
 
   openViewPanelModal(panel: SolarPanel): void {
@@ -120,7 +188,7 @@ export class PaineisSolaresComponent implements OnInit {
     const name = this.editingPanel.name;
     const prority = this.editingPanel.priority;
     const status = this.editingPanel.status;
-    const statusClass = this.editingPanel.statusClass;
+    const statusClass = this.getStatusClass(status); // Atualiza a statusClass
     const latitude = this.editingPanel.latitude;
     const longitude = this.editingPanel.longitude;
     const description = this.editingPanel.description;
@@ -133,7 +201,7 @@ export class PaineisSolaresComponent implements OnInit {
         (result) => {
           alert("Painel solar atualizado com sucesso!");
           this.closeEditPanelModal();
-          this.ngOnInit();
+          this.loadPanels(); // Recarrega os painéis para atualizar o mapa
         },
         (error) => {
           alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
@@ -163,9 +231,9 @@ export class PaineisSolaresComponent implements OnInit {
       name: this.newPanel.name,
       priority: this.newPanel.priority,
       status: this.newPanel.status,
-      statusClass: "",
-      latitude: 0,
-      longitude: 0,
+      statusClass: this.getStatusClass(this.newPanel.status),
+      latitude: this.newPanel.latitude,
+      longitude: this.newPanel.longitude,
       description: this.newPanel.description,
       phoneNumber: this.newPanel.phoneNumber,
       email: this.newPanel.email,
@@ -176,7 +244,7 @@ export class PaineisSolaresComponent implements OnInit {
       (result) => {
         alert("Novo painel solar criado com sucesso!");
         this.closeCreatePanelModal();
-        this.ngOnInit();
+        this.loadPanels(); // Recarrega os painéis para atualizar o mapa
       },
       (error) => {
         alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
@@ -196,13 +264,12 @@ export class PaineisSolaresComponent implements OnInit {
   }
 
   deletePanel(): void {
-    if(this.panelToDelete)
-    {
+    if (this.panelToDelete) {
       this.service.deleteSolarPanel(this.panelToDelete).subscribe(
         (result) => {
           alert("Painel solar removido com sucesso!");
           this.cancelDelete();
-          this.ngOnInit();
+          this.loadPanels(); // Recarrega os painéis para atualizar o mapa
         },
         (error) => {
           alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
@@ -244,7 +311,7 @@ export class PaineisSolaresComponent implements OnInit {
     });
 
     if (this.map) {
-      this.addPanelMarkers();
+      this.addPanelMarkers(); // Atualiza os markers após a ordenação
     }
   }
 
@@ -265,5 +332,10 @@ export class PaineisSolaresComponent implements OnInit {
       case 'amarelo': return iconBase + 'yellow-dot.png';
       default: return iconBase + 'blue-dot.png';
     }
+  }
+
+  // Método chamado quando um painel da lista é clicado
+  selectPanel(panel: SolarPanel): void {
+    this.flyToPanel(panel);
   }
 }
