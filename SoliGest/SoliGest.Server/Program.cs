@@ -132,3 +132,5 @@ app.MapGroup("/api").MapIdentityApi<User>();
 app.MapFallbackToFile("/index.html");
 
 app.Run();
+
+public partial class Program { }
