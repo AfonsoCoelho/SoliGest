@@ -8,46 +8,56 @@
     <div class="left-section">
       <div class="panels-section">
         <h2>Avarias</h2>
-        <div class="sort-options">
-          <label for="search-bar">Procurar:</label>
-          <input type="text"
-                 id="search-bar"
-                 class="search-input"
-                 [(ngModel)]="searchTerm"
-                 (input)="filterAvarias()"
-                 placeholder="Rua ou Cidade" />
 
-          <label for="sort-by">Ordenar por:</label>
-          <select id="sort-by" class="sort-dropdown" [(ngModel)]="sortBy" (change)="sortAvarias()">
-            <option value="priority">Prioridade</option>
-            <option value="name">Nome</option>
-            <option value="id">ID</option>
-            <option value="status">Estado</option>
-          </select>
-          <select id="sort-direction" class="sort-dropdown" [(ngModel)]="sortDirection" (change)="sortAvarias()">
-            <option value="asc">Crescente</option>
-            <option value="desc">Decrescente</option>
-          </select>
-          <button class="add-button" (click)="openCreateModal()">Adicionar Avaria</button>
+        <div class="sort-container">
+          <div class="sort-options">
+            <label for="search-bar">Procurar:</label>
+            <input type="text" id="search-bar" class="search-input" [(ngModel)]="searchTerm" (input)="filterAvarias()" placeholder="Rua ou Cidade" />
+
+            <label for="sort-by">Ordenar por:</label>
+            <select id="sort-by" class="sort-dropdown" [(ngModel)]="sortBy" (change)="sortAvarias()">
+              <option value="priority">Prioridade</option>
+              <option value="name">Nome</option>
+              <option value="id">ID</option>
+              <option value="status">Estado</option>
+            </select>
+            <select id="sort-direction" class="sort-dropdown" [(ngModel)]="sortDirection" (change)="sortAvarias()">
+              <option value="asc">Crescente</option>
+              <option value="desc">Decrescente</option>
+            </select>
+          </div>
+          <div class="sort-actions">
+            <button class="create-btn" (click)="openCreateModal()">
+              <i class="fas fa-plus"></i> Criar Avaria
+            </button>
+          </div>
         </div>
 
-        <div class="panels-container">
-          <div class="panel"
-               *ngFor="let avaria of filteredAvarias"
-               [ngClass]="getAvariaClass(avaria)"
-               (click)="selectAvaria(avaria)">
-            <!-- Select the avaria -->
-            <h3>Avaria ID: {{ avaria.id }}</h3>
+        <div class="panels-container" *ngIf="filteredAvarias && filteredAvarias.length > 0; else noAvariasMessage">
+          <div class="panel" *ngFor="let avaria of filteredAvarias" [ngClass]="getAvariaClass(avaria)" (click)="selectAvaria(avaria)">
+            <div class="panel-header">
+              <h3>Avaria ID: {{ avaria.id }}</h3>
+              <div class="panel-actions-container">
+                <button class="action-btn view-btn" (click)="openViewModal(avaria); $event.stopPropagation()">
+                  <i class="fas fa-eye"></i> Consultar
+                </button>
+                <button class="action-btn edit-btn" (click)="openEditModal(avaria); $event.stopPropagation()">
+                  <i class="fas fa-edit"></i> Editar
+                </button>
+                <button class="action-btn delete-btn" (click)="openDeleteConfirm(avaria); $event.stopPropagation()">
+                  <i class="fas fa-trash"></i> Apagar
+                </button>
+              </div>
+            </div>
             <p>{{ avaria.solarPanel.name }}</p>
             <p *ngIf="avaria.priority">Prioridade: {{ avaria.priority }}</p>
             <p class="status-text">Estado: {{ avaria.status }}</p>
-            <!-- Conditionally render Edit and Delete buttons only for the selected avaria -->
-            <div *ngIf="selectedAvaria && selectedAvaria.id === avaria.id">
-              <button class="edit-button" (click)="openEditModal(avaria)">Editar Avaria</button>
-              <button class="delete-button" (click)="openDeleteConfirm(avaria)">Apagar Avaria</button>
-            </div>
           </div>
         </div>
+
+        <ng-template #noAvariasMessage>
+          <p class="no-panels-message">Nenhuma avaria encontrada.</p>
+        </ng-template>
       </div>
     </div>
 
@@ -59,81 +69,115 @@
     </div>
   </div>
 
+  <div class="modal" *ngIf="showViewModal">
+    <div class="modal-content">
+      <span class="close" (click)="onCloseViewModal()">&times;</span>
+      <h2>Detalhes da Avaria ID: {{viewingAvaria?.id}}</h2>
+      <p><strong>Painel:</strong> {{viewingAvaria?.solarPanel?.name}}</p>
+      <p><strong>ID do Painel:</strong> {{viewingAvaria?.solarPanel?.id}}</p>
+      <p><strong>Prioridade:</strong> {{viewingAvaria?.priority}}</p>
+      <p><strong>Estado:</strong> {{viewingAvaria?.status}}</p>
+      <p><strong>Data do Pedido:</strong> {{viewingAvaria?.requestDate}}</p>
+      <p><strong>Data de Resolução:</strong> {{viewingAvaria?.resolutionDate || 'Não resolvido'}}</p>
+      <p><strong>Descrição:</strong> {{viewingAvaria?.description}}</p>
+      <div class="form-actions">
+        <button class="confirm-btn" (click)="onCloseViewModal()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" *ngIf="showEditModal">
+    <div class="modal-content">
+      <span class="close" (click)="onCloseEditModal()">&times;</span>
+      <h2>Editar Avaria ID: {{selectedAvaria?.id}}</h2>
+      <form (ngSubmit)="editarAvaria()">
+        <div class="form-group">
+          <label for="edit-panel">Painel:</label>
+          <select id="edit-panel" [(ngModel)]="selectedPanelId" name="edit-panel" class="form-control">
+            <option *ngFor="let panel of panels" [value]="panel.id">Painel ID {{ panel.id }}, {{ panel.name }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="edit-priority">Prioridade:</label>
+          <select id="edit-priority" [(ngModel)]="selectedPriority" name="edit-priority" class="form-control">
+            <option value="Alta">Alta</option>
+            <option value="Média">Média</option>
+            <option value="Baixa">Baixa</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="edit-status">Estado:</label>
+          <select id="edit-status" [(ngModel)]="selectedStatus" name="edit-status" class="form-control">
+            <option value="Vermelho">Vermelho</option>
+            <option value="Amarelo">Amarelo</option>
+            <option value="Verde">Verde</option>
+          </select>
+        </div>
+        <div class="form-group" *ngIf="selectedAvaria">
+          <label for="edit-description">Descrição:</label>
+          <textarea id="edit-description" [(ngModel)]="selectedAvaria.description" name="edit-description" class="form-control"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" (click)="onCloseEditModal()">Cancelar</button>
+          <button type="submit" class="confirm-btn">Atualizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" *ngIf="showModal">
+    <div class="modal-content">
+      <span class="close" (click)="onCloseModal()">&times;</span>
+      <h2>Criar Nova Avaria</h2>
+      <form (ngSubmit)="criarAvaria()">
+        <div class="form-group">
+          <label for="create-panel">Painel:</label>
+          <select id="create-panel" [(ngModel)]="selectedPanelId" name="create-panel" class="form-control" required>
+            <option *ngFor="let panel of panels" [value]="panel.id">Painel ID {{ panel.id }}, {{ panel.name }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="create-priority">Prioridade:</label>
+          <select id="create-priority" [(ngModel)]="selectedPriority" name="create-priority" class="form-control" required>
+            <option value="Alta">Alta</option>
+            <option value="Média">Média</option>
+            <option value="Baixa">Baixa</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="create-status">Estado:</label>
+          <select id="create-status" [(ngModel)]="selectedStatus" name="create-status" class="form-control" required>
+            <option value="Vermelho">Vermelho</option>
+            <option value="Amarelo">Amarelo</option>
+            <option value="Verde">Verde</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="create-description">Descrição:</label>
+          <textarea id="create-description" [(ngModel)]="newAvariaDescription" name="create-description" class="form-control"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" (click)="onCloseModal()">Cancelar</button>
+          <button type="submit" class="confirm-btn">Criar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" *ngIf="showDeleteConfirm">
+    <div class="modal-content">
+      <span class="close" (click)="onCloseDeleteConfirm()">&times;</span>
+      <h2>Confirmar Exclusão</h2>
+      <p>Tem certeza que deseja excluir a avaria ID: {{selectedAvaria?.id}}?</p>
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="onCloseDeleteConfirm()">Cancelar</button>
+        <button type="button" class="confirm-btn" (click)="apagarAvaria()">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
   <footer class="soligest-footer">
     <p>Sistema de assistência a painéis solares</p>
     <a href="#">Ajuda (?)</a> | <a href="#">Criadores</a>
   </footer>
-
-  <!-- Popup for creating Avaria -->
-  <div class="modal" *ngIf="showModal">
-    <div class="modal-content">
-      <h2>Nova Avaria</h2>
-      <div>
-        <label for="panel">Selecionar Painel:</label>
-        <select id="panel" [(ngModel)]="selectedPanelId">
-          <option *ngFor="let panel of panels" [value]="panel.id">Painel ID {{ panel.id }}, {{ panel.name }}</option>
-        </select>
-      </div>
-      <div>
-        <label for="priority">Selecionar Prioridade:</label>
-        <select id="priority" [(ngModel)]="selectedPriority">
-          <option value="Alta">Alta</option>
-          <option value="Média">Média</option>
-          <option value="Baixa">Baixa</option>
-        </select>
-      </div>
-      <div>
-        <label for="status">Selecionar Estado:</label>
-        <select id="status" [(ngModel)]="selectedStatus">
-          <option value="Vermelho">Vermelho</option>
-          <option value="Amarelo">Amarelo</option>
-          <option value="Verde">Verde</option>
-        </select>
-      </div>
-      <div class="modal-actions">
-        <button class="save-button" (click)="criarAvaria()">Salvar</button>
-        <button class="cancel-button" (click)="onCloseModal()">Cancelar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Popup for Editing Avaria -->
-  <div class="modal" *ngIf="showEditModal">
-    <div class="modal-content">
-      <h2>Editar Avaria ID: {{ selectedAvaria?.id }}</h2>
-      <div>
-        <label for="edit-priority">Selecionar Prioridade:</label>
-        <select id="edit-priority" [(ngModel)]="selectedPriority">
-          <option value="Alta">Alta</option>
-          <option value="Média">Média</option>
-          <option value="Baixa">Baixa</option>
-        </select>
-      </div>
-      <div>
-        <label for="edit-status">Selecionar Estado:</label>
-        <select id="edit-status" [(ngModel)]="selectedStatus">
-          <option value="Vermelho">Vermelho</option>
-          <option value="Amarelo">Amarelo</option>
-          <option value="Verde">Verde</option>
-        </select>
-      </div>
-      <div class="modal-actions">
-        <button class="save-button"(click)="editarAvaria()">Salvar</button>
-        <button class="cancel-button" (click)="onCloseEditModal()">Cancelar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Popup for Deleting Avaria -->
-  <div class="modal" *ngIf="showDeleteConfirm">
-    <div class="modal-content">
-      <h2>Confirmar Exclusão</h2>
-      <p>Você tem certeza de que deseja apagar a Avaria ID: {{ selectedAvaria?.id }}?</p>
-      <div class="modal-actions">
-        <button class="save-button" (click)="apagarAvaria()">Confirmar</button>
-        <button class="cancel-button" (click)="onCloseDeleteConfirm()">Cancelar</button>
-      </div>
-    </div>
-  </div>
 </div>
-
