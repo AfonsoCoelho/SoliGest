@@ -20,46 +20,45 @@ public class FuncionarioDeleteTest1 : IDisposable
         options.AddArgument("--disable-web-security");
 
         _driver = new ChromeDriver(options);
-        _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+        _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)); // Aumentando o tempo de espera
     }
 
     [Fact]
-    public void Funcionario_Details_Should_Show_And_Close_Model_Without_Errors()
+    public void Funcionario_DeveRemoverComSucesso()
     {
-        WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
-
         _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/funcionario");
 
-        TimeSpan.FromSeconds(5);
+        // Espera até que a tabela de funcionários esteja visível
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("table-container")));
 
-        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("delete-btn")));
+        // Seleciona todas as linhas da tabela que representam os usuários
+        var funcionarios = _driver.FindElements(By.XPath("//tbody/tr"));
 
-        _driver.FindElement(By.Id("delete/test@mail.com")).Click();
+        // Diagnóstico: imprimir o número de funcionários encontrados
+        Console.WriteLine($"Número de funcionários encontrados: {funcionarios.Count}");
 
-        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("confirm-delete-btn")));
+        // Verifica se há funcionários listados
+        Assert.NotEmpty(funcionarios);
 
+        // Seleciona o primeiro funcionário
+        var primeiroFuncionario = funcionarios[0]; // Seleciona o primeiro funcionário
+
+        // Clica no botão de apagar do primeiro funcionário
+        var botaoDeletar = primeiroFuncionario.FindElement(By.ClassName("delete-btn"));
+        botaoDeletar.Click();
+
+        // Espera o modal de confirmação aparecer
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("modal-content")));
+
+        // Confirma a exclusão
         _driver.FindElement(By.ClassName("confirm-delete-btn")).Click();
 
-        // Wait for alert
-        //wait.Until(ExpectedConditions.AlertIsPresent());
+        // Espera um breve momento para que a exclusão seja processada
+        System.Threading.Thread.Sleep(1000); // Isso pode ser substituído por um melhor uso de espera, dependendo do feedback da sua aplicação
 
-        // Switch to alert
-        //IAlert alert = _driver.SwitchTo().Alert();
-
-        // Validate and accept the alert
-        //Assert.Equal("Por favor corriga os erros do formulário!", alert.Text);
-        //alert.Accept();
-    }
-
-    // Function to type text character by character with small delay
-    private void TypeSlowly(IWebElement element, string text)
-    {
-        element.Clear();
-        foreach (char c in text)
-        {
-            element.SendKeys(c.ToString());
-            Thread.Sleep(50); // Small delay to simulate human typing
-        }
+        // Verifica se o funcionário foi removido da tabela
+        var funcionariosDepois = _driver.FindElements(By.XPath("//tbody/tr"));
+        Assert.Equal(funcionarios.Count - 1, funcionariosDepois.Count);
     }
 
     public void Dispose()

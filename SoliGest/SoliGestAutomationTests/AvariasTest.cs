@@ -30,21 +30,20 @@ public class AvariasTest : IDisposable
     {
         _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/avarias");
 
-        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("add-button")));
-        _driver.FindElement(By.ClassName("add-button")).Click();
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("create-btn")));
+        _driver.FindElement(By.ClassName("create-btn")).Click();
 
-        _wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//h2[text()='Nova Avaria']")));
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.Id("create-panel")));
+        var painelSelect = new SelectElement(_driver.FindElement(By.Id("create-panel")));
+        painelSelect.SelectByIndex(0);
 
-        var painelSelect = new SelectElement(_driver.FindElement(By.Id("panel")));
-        painelSelect.SelectByIndex(0); // Seleciona o primeiro painel da lista
-
-        var prioridadeSelect = new SelectElement(_driver.FindElement(By.Id("priority")));
+        var prioridadeSelect = new SelectElement(_driver.FindElement(By.Id("create-priority")));
         prioridadeSelect.SelectByText("Alta");
 
-        var statusSelect = new SelectElement(_driver.FindElement(By.Id("status")));
+        var statusSelect = new SelectElement(_driver.FindElement(By.Id("create-status")));
         statusSelect.SelectByText("Vermelho");
 
-        _driver.FindElement(By.ClassName("save-button")).Click();
+        _driver.FindElement(By.ClassName("confirm-btn")).Click();
 
         _wait.Until(ExpectedConditions.AlertIsPresent());
         var alert = _driver.SwitchTo().Alert();
@@ -53,59 +52,71 @@ public class AvariasTest : IDisposable
         alert.Accept();
     }
 
+
     [Fact]
     public void CriarAvaria_SemSelecionarNada_DeveExibirErro()
     {
         _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/avarias");
 
-        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("add-button")));
-        _driver.FindElement(By.ClassName("add-button")).Click();
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("create-btn")));
+        _driver.FindElement(By.ClassName("create-btn")).Click();
 
-        _wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//h2[text()='Nova Avaria']")));
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//h2[contains(text(),'Criar Nova Avaria')]")));
 
-        // Não seleciona nada
-        _driver.FindElement(By.ClassName("save-button")).Click();
+        // Não seleciona nada e tenta criar
+        _driver.FindElement(By.ClassName("confirm-btn")).Click();
 
         _wait.Until(ExpectedConditions.AlertIsPresent());
         var alert = _driver.SwitchTo().Alert();
 
-        //Assert.Equal("Por favor, preencha todos os campos antes de salvar!", alert.Text);
-        Assert.Equal("Ocorreu um erro. Por favor tente novamente mais tarde.", alert.Text);
-
+        Assert.Equal("Por favor selecione um painel!", alert.Text);
         alert.Accept();
     }
-
 
     [Fact]
     public void EditarAvaria_DeveAtualizarComSucesso()
     {
         _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/avarias");
 
+        // Espera até que a seção de painéis esteja visível
         _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("panels-container")));
 
+        // Obtém todas as avarias na página
         var avarias = _driver.FindElements(By.ClassName("panel"));
-        Assert.NotEmpty(avarias);
+        Assert.NotEmpty(avarias); // Verifica se há avarias
+
+        // Clica na primeira avaria
         avarias[0].Click();
 
-        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("edit-button")));
-        _driver.FindElement(By.ClassName("edit-button")).Click();
+        // Espera até que o botão de editar esteja visível
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("edit-btn")));
 
+        // Clica no botão de editar
+        _driver.FindElement(By.ClassName("edit-btn")).Click();
+
+        // Espera até que o modal de edição esteja visível
         _wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//h2[contains(text(),'Editar Avaria ID')]")));
 
+        // Seleciona nova prioridade
         var prioridadeSelect = new SelectElement(_driver.FindElement(By.Id("edit-priority")));
         prioridadeSelect.SelectByText("Média");
 
+        // Seleciona novo status
         var statusSelect = new SelectElement(_driver.FindElement(By.Id("edit-status")));
         statusSelect.SelectByText("Amarelo");
 
-        _driver.FindElement(By.ClassName("save-button")).Click();
+        // Clica no botão de confirmar
+        _driver.FindElement(By.ClassName("confirm-btn")).Click();
 
+        // Espera até que o alerta de sucesso apareça
         _wait.Until(ExpectedConditions.AlertIsPresent());
         var alert = _driver.SwitchTo().Alert();
 
+        // Verifica a mensagem de sucesso
         Assert.Equal("Pedido de assistência técnica atualizado com sucesso!", alert.Text);
         alert.Accept();
     }
+
 
     [Fact]
     public void ApagarAvaria_DeveRemoverComSucesso()
@@ -116,14 +127,15 @@ public class AvariasTest : IDisposable
 
         var avarias = _driver.FindElements(By.ClassName("panel"));
         Assert.NotEmpty(avarias);
-        avarias[0].Click();
 
-        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("delete-button")));
-        _driver.FindElement(By.ClassName("delete-button")).Click();
+        // Encontrar o botão de apagar da primeira avaria e clicar nele
+        var primeiroPainel = avarias[0];
+        var botaoApagar = primeiroPainel.FindElement(By.ClassName("delete-btn"));
+        botaoApagar.Click();
 
-        _wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//h2[text()='Confirmar Exclusão']")));
-
-        _driver.FindElement(By.ClassName("save-button")).Click();
+        // Confirmar exclusão
+        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("confirm-btn")));
+        _driver.FindElement(By.ClassName("confirm-btn")).Click();
 
         _wait.Until(ExpectedConditions.AlertIsPresent());
         var alert = _driver.SwitchTo().Alert();
@@ -131,6 +143,7 @@ public class AvariasTest : IDisposable
         Assert.Equal("Pedido de assistência técnica removido com sucesso!", alert.Text);
         alert.Accept();
     }
+
 
     public void Dispose()
     {

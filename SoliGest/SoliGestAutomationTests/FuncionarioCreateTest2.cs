@@ -11,6 +11,7 @@ public class FuncionarioCreateTest2 : IDisposable
 {
     private readonly IWebDriver _driver;
     private readonly WebDriverWait _wait;
+    private string _uniqueEmail;
 
     public FuncionarioCreateTest2()
     {
@@ -21,6 +22,7 @@ public class FuncionarioCreateTest2 : IDisposable
 
         _driver = new ChromeDriver(options);
         _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+        _uniqueEmail = $"testuser{DateTime.Now.Ticks}@gmail.com";
     }
 
     [Fact]
@@ -36,7 +38,7 @@ public class FuncionarioCreateTest2 : IDisposable
 
         // Fill the form slowly to prevent UI race conditions
         TypeSlowly(_driver.FindElement(By.Id("name")), "");
-        TypeSlowly(_driver.FindElement(By.Id("email")), "");
+        TypeSlowly(_driver.FindElement(By.Id("email")), _uniqueEmail);
         TypeSlowly(_driver.FindElement(By.Id("phoneNumber")), "999999999");
         TypeSlowly(_driver.FindElement(By.Id("address1")), "address1");
         TypeSlowly(_driver.FindElement(By.Id("address2")), "address2");
