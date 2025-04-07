@@ -376,3 +376,8 @@ FodyWeavers.xsd
 /SoliGest/SoliGest.Server/Migrations/20250401144942_init.cs
 /SoliGest/SoliGest.Server/Migrations/20250401144942_init.Designer.cs
 /SoliGest/SoliGest.Server/Migrations/SoliGestServerContextModelSnapshot.cs
+/SoliGest/SoliGest.Server/Migrations/20250404134641_SoliGest.cs
+/SoliGest/SoliGest.Server/Migrations/20250404134641_SoliGest.Designer.cs
+/SoliGest/SoliGest.Server/Migrations/20250404134641_SoliGest.cs
+/SoliGest/SoliGest.Server/Migrations/20250406235921_init.cs
+/SoliGest/SoliGest.Server/Migrations/20250406235921_init.Designer.cs
