@@ -1,76 +1,68 @@
-<div id="sideMenu">
-  <div id="upperMenu">
-    <h1  routerLink="/">SoliGest</h1><br />
-    <a id="profile" (click)="signOut()">
-      <img src="/profileIcon.png" />
-    </a>
-    <h2>
-      <a href="#">
-        <span>Menu</span>
-        <img id="menuIcon" src="/menuIcon.png" />
-      </a>
-    </h2>
-  </div>
-  <div id="menuOptions">
-    <a routerLink="avarias">
-      <span>Gestão das Avarias</span>
-      <img src="/arrowLeft.png" />
-      <br />
-    </a>
-    <a routerLink="/funcionario">
-      <span>Funcionários</span>
-      <img src="/arrowLeft.png" />
-      <br />
-    </a>
-    <a href="#">
-      <span>Métricas</span>
-      <img src="/arrowLeft.png" />
-      <br />
-    </a>
-    <a routerLink="/paineis-solares">
-      <span>Paineis</span>
-      <img src="/arrowLeft.png" />
-      <br />
-    </a>
-    <a href="#">
-      <span>Mapa</span>
-      <img src="/arrowLeft.png" />
-      <br />
-    </a>
-  </div>
-  <div id="lowerMenu">
-    <a href="#">
-      <span>Ajuda</span>
-      <img src="/helpIcon.png" />
-      <br />
-    </a>
-    <a href="#">
-      <p>Criadores</p>
-    </a>
-  </div>
-</div>
-<div id="map">
-  <div id="mapOptions">
-    <img src="/mapDefinitions.png"/>
-    <div id="mapFilters">
-      <table>
-        <tr>
-          <td>
-            <span>Técnicos</span>
-            <img src="/arrowUp.png" />
-            <img src="/arrowDown.png" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span>Paineis</span>
-            <img src="/arrowUp.png" />
-            <img src="/arrowDown.png" />
-          </td>
-        </tr>
-      </table>
+<div class="page-wrapper">
+  <!-- Header -->
+  <header class="soligest-header">
+    <img src="/logo.jpg" alt="Logo" class="header-logo" />
+    <div class="header-title">SoliGest</div>
+  </header>
+
+  <!-- Conteúdo principal -->
+  <div class="content-container">
+    <!-- Menu lateral -->
+    <div class="left-section" [class.hidden]="isMenuCollapsed">
+      <div id="sideMenu">
+        <div id="upperMenu">
+          <h1 routerLink="/">SoliGest</h1>
+          <button class="menu-toggle-btn" (click)="toggleMenu()">
+            <i class="fas fa-bars"></i> Menu
+          </button>
+        </div>
+
+        <div id="menuOptions">
+          <a routerLink="/avarias" class="menu-link">
+            <span>Gestão das Avarias</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <a routerLink="/funcionario" class="menu-link">
+            <span>Funcionários</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <a href="#" class="menu-link">
+            <span>Métricas</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <a routerLink="/paineis-solares" class="menu-link">
+            <span>Painéis</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <a routerLink="/mapa" class="menu-link active">
+            <span>Mapa</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+
+          <button class="signout-btn" (click)="signOut()">
+            <i class="fas fa-sign-out-alt"></i> Sair
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão para expandir menu (visível apenas quando recolhido) -->
+    <button class="menu-collapsed-btn" *ngIf="isMenuCollapsed" (click)="toggleMenu()">
+      <i class="fas fa-bars"></i> Menu
+    </button>
+
+    <!-- Mapa -->
+    <div class="right-section" [class.expanded]="isMenuCollapsed">
+      <div class="map-container">
+        <h2>Mapa dos Painéis Solares</h2>
+        <div id="map"></div>
+      </div>
     </div>
   </div>
-  <img src="/map.png" />
-</div>
 
+  <!-- Footer -->
+  <footer class="soligest-footer">
+    <p>Sistema de assistência a painéis solares</p>
+    <a href="#">Ajuda (?)</a> | <a href="#">Criadores</a>
+  </footer>
+</div>
