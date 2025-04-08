@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { SolarPanel, SolarPanelsService } from '../services/solar-panels.service';
 import { formatDate } from '@angular/common';
+import { UsersService, User } from '../services/users.service';
 
 // Declaração do objeto google para TypeScript
 declare var google: any;
@@ -23,16 +24,20 @@ export class AvariasComponent implements OnInit {
   public assistanceRequestsData: AssistanceRequest[] = [];
   filteredAvarias: AssistanceRequest[] = [];
   selectedAvaria: AssistanceRequest | null = null;
-  viewingAvaria: AssistanceRequest | null = null; // Adicionado para o modal de visualização
   selectedMarker: any = null;
   infoWindow: any = null;
   markers: any[] = [];
+  public users: User[] = []; // Array para armazenar usuários
+  autoAllocationCandidate: User | null = null;
+  availableTechnicians: User[] = [];
+
 
   // Modais
   showModal: boolean = false;
   showEditModal: boolean = false;
   showDeleteConfirm: boolean = false;
-  showViewModal: boolean = false; // Adicionado para o modal de visualização
+  isManualAllocateModalOpen: boolean = false;
+  isAutoAllocateModalOpen: boolean = false;
 
   // Formulários
   selectedPanelId: number = 0;
@@ -40,10 +45,12 @@ export class AvariasComponent implements OnInit {
   selectedStatus: string = '';
   newAvariaDescription: string = ''; // Adicionado para o formulário de criação
 
+
   constructor(
     private http: HttpClient,
     private aRService: AssistanceRequestsService,
     private sPService: SolarPanelsService,
+    private uService: UsersService,
     private router: Router
   ) { }
 
@@ -51,17 +58,6 @@ export class AvariasComponent implements OnInit {
   avariasData: AssistanceRequest[] = [];
   sortedAvarias: AssistanceRequest[] = [];
   map: any;
-
-  // Métodos para os modais
-  openViewModal(avaria: AssistanceRequest): void {
-    this.viewingAvaria = avaria;
-    this.showViewModal = true;
-  }
-
-  onCloseViewModal(): void {
-    this.showViewModal = false;
-    this.viewingAvaria = null;
-  }
 
   openCreateModal(): void {
     this.selectedPanelId = 0;
@@ -125,9 +121,21 @@ export class AvariasComponent implements OnInit {
     this.initMap();
   }
 
+  loadUsers(): void {
+    this.uService.getUsers().subscribe(
+      (result) => {
+        this.users = result;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
   ngOnInit(): void {
     this.loadSolarPanels();
     this.loadAssistanceRequests();
+    this.loadUsers();
   }
 
   initMap(): void {
@@ -186,6 +194,7 @@ export class AvariasComponent implements OnInit {
         }
       ]
     });
+
 
     this.addAvariaMarkers();
   }
@@ -317,18 +326,21 @@ export class AvariasComponent implements OnInit {
       });
 
       if (marker) {
-        this.infoWindow = new google.maps.InfoWindow({
-          content: `
-          <div style="padding: 10px;">
+        const content = `
+          <div style="padding: 10px; max-width: 300px;">
             <h3 style="margin: 0 0 5px 0;">Avaria ID: ${avaria.id}</h3>
-            <p style="margin: 0 0 5px 0;"><strong>Localização:</strong> ${avaria.solarPanel.name}</p>
-            <p style="margin: 0 0 5px 0;"><strong>Prioridade:</strong> ${avaria.priority || 'N/A'}</p>
-            <p style="margin: 0; color: ${this.getStatusColor(avaria.status)}; font-weight: bold;">
+            <p><strong>Painel:</strong> ${avaria.solarPanel.name}</p>
+            <p><strong>Descrição:</strong> ${avaria.description || 'N/A'}</p>
+            <p><strong>Data do pedido:</strong> ${avaria.requestDate}</p>
+            <p><strong>Data de resolução:</strong> ${avaria.resolutionDate || 'Ainda não resolvida'}</p>
+            <p><strong>Prioridade:</strong> ${avaria.priority || 'N/A'}</p>
+            <p style="color: ${this.getStatusColor(avaria.status)}; font-weight: bold;">
               <strong>Estado:</strong> ${avaria.status}
             </p>
           </div>
-        `
-        });
+        `;
+
+        this.infoWindow = new google.maps.InfoWindow({ content });
         this.infoWindow.open(this.map, marker);
       }
     }
@@ -341,13 +353,75 @@ export class AvariasComponent implements OnInit {
     };
   }
 
-  autoAllocate(avaria: AssistanceRequest): void {
-    alert(`Avaria ID ${avaria.id} - Alocação automática iniciada!`);
+  openManualAllocateModal(avaria: AssistanceRequest): void {
+    this.selectedAvaria = avaria;
+    // Filter 
+    this.availableTechnicians = this.users.filter(user => this.isUserAvailable(user));
+    this.isManualAllocateModalOpen = true;
   }
 
-  manualAllocate(avaria: AssistanceRequest): void {
-    alert(`Avaria ID ${avaria.id} - Alocação manual iniciada!`);
+  openAutoAllocateModal(avaria: AssistanceRequest): void {
+    this.selectedAvaria = avaria;
+    // Filter
+    const availableTechnicians = this.users.filter(user => this.isUserAvailable(user));
+    this.autoAllocationCandidate = availableTechnicians.length > 0 ? availableTechnicians[0] : null;
+    this.isAutoAllocateModalOpen = true;
   }
+
+  closeAutoAllocateModal(): void {
+    this.isAutoAllocateModalOpen = false;
+    this.selectedAvaria = null;
+    this.autoAllocationCandidate = null;
+  }
+
+  closeManualAllocateModal(): void {
+    this.isManualAllocateModalOpen = false;
+    this.selectedAvaria = null;
+  }
+
+  // fazer backend
+  confirmAutoAllocation(): void {
+    if (this.selectedAvaria && this.autoAllocationCandidate) {
+      alert(`Alocando Avaria ID: ${this.selectedAvaria.id} a ${this.autoAllocationCandidate.name}`);
+      this.closeAutoAllocateModal();
+    }
+  }
+
+  //backend disto
+  allocateToUser(user: User): void {
+    if (this.selectedAvaria) {
+      alert(`Alocando Avaria ID: ${this.selectedAvaria.id} a ${user.name}`);
+      this.closeManualAllocateModal();
+    }
+  }
+
+  isUserAvailable(user: User): boolean {
+    // ver se é um técnico
+    if (!user.role || user.role.toLowerCase() !== 'técnico') {
+      return false;
+    }
+
+    const dayNames = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+    const today = new Date();
+    const currentDay = dayNames[today.getDay()];
+
+    // Check if today's day matches the user's day off
+    if (user.dayOff && user.dayOff.toLowerCase() === currentDay.toLowerCase()) {
+      return false;
+    }
+
+    // Check if today falls within the user's vacation period
+    if (user.startHoliday && user.endHoliday) {
+      const start = new Date(user.startHoliday);
+      const end = new Date(user.endHoliday);
+      if (today >= start && today <= end) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
 
   criarAvaria() {
     if (!this.selectedPanelId) {
