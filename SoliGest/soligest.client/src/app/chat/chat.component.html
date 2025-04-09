@@ -1,0 +1,156 @@
+<div class="page-wrapper">
+  <!-- Header -->
+  <header class="soligest-header">
+    <img src="/logo.jpg" alt="Logo" class="header-logo" />
+    <div class="header-title">SoliGest</div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="content-container">
+    <!-- Side Menu -->
+    <div class="left-section" [class.hidden]="isMenuCollapsed">
+      <div id="sideMenu">
+        <div id="upperMenu">
+          <h1 routerLink="/">SoliGest</h1>
+          <button class="menu-toggle-btn" (click)="toggleMenu()">
+            <i class="fas fa-bars"></i> Menu
+          </button>
+        </div>
+
+        <div id="menuOptions">
+          <a routerLink="/avarias" class="menu-link">
+            <span>Gestão das Avarias</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <a routerLink="/funcionario" class="menu-link">
+            <span>Funcionários</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <a routerLink="/metricas" class="menu-link">
+            <span>Métricas</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <a routerLink="/paineis-solares" class="menu-link">
+            <span>Painéis</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <a routerLink="/mapa" class="menu-link">
+            <span>Mapa</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <a routerLink="/chat" class="menu-link active">
+            <span>Chat</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+
+          <button class="signout-btn" (click)="signOut()">
+            <i class="fas fa-sign-out-alt"></i> Sair
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Collapsed Menu Button -->
+    <button class="menu-collapsed-btn" *ngIf="isMenuCollapsed" (click)="toggleMenu()">
+      <i class="fas fa-bars"></i> Menu
+    </button>
+
+    <!-- Chat Area -->
+    <div class="right-section" [class.expanded]="isMenuCollapsed">
+      <div class="chat-container">
+        <h2 class="chat-title">Chat</h2>
+
+        <div class="chat-columns-container">
+          <!-- Current Conversation -->
+          <div class="chat-current-conversation">
+            <div class="conversation-section">
+              <h3>Conversa com {{currentContact?.name || 'Selecione um contato'}}</h3>
+              <div class="message-container">
+                <div *ngFor="let msg of currentMessages"
+                     class="message"
+                     [class.received]="!msg.sent"
+                     [class.sent]="msg.sent">
+                  {{msg.content}}
+                  <div class="message-time">{{formatTime(msg.time)}}</div>
+                </div>
+              </div>
+              <div class="message-input-container">
+                <div class="message-input">
+                  <input type="text"
+                         placeholder="Escrever..."
+                         [(ngModel)]="newMessage"
+                         (keyup.enter)="sendMessage()"
+                         [disabled]="!currentContact">
+                  <button class="send-btn" (click)="sendMessage()" [disabled]="!currentContact">
+                    <i class="fas fa-paper-plane"></i> <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Conversations List -->
+          <div class="chat-conversations-list">
+            <div class="conversation-section">
+              <div class="conversation-header">
+                <button class="new-conversation-btn" (click)="openNewChatModal()">
+                  Nova conversa <i class="fas fa-plus"></i>
+                </button>
+              </div>
+              <div class="conversation-list">
+                <div class="conversation-item"
+                     *ngFor="let conversation of sortedConversations()"
+                     (click)="selectConversation(conversation)"
+                     [class.active]="conversation.contact.id === currentContact?.id">
+                  <div class="contact-info">
+                    <div class="contact-name">{{conversation.contact.name}}</div>
+                    <div class="last-message">{{truncate(conversation.lastMessage, 25)}}</div>
+                  </div>
+                  <div class="message-meta">
+                    <div class="message-time">{{formatTime(conversation.lastMessageTime)}}</div>
+                    <div class="unread-count" *ngIf="conversation.unreadCount > 0">
+                      {{conversation.unreadCount}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Chat Modal -->
+    <div class="modal-overlay" *ngIf="showNewChatModal" (click)="closeModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>Iniciar nova conversa</h3>
+          <button class="close-btn" (click)="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Pesquisar contatos..." [(ngModel)]="searchTerm">
+          </div>
+          <div class="contact-list">
+            <div class="contact-item"
+                 *ngFor="let contact of filteredContacts()"
+                 (click)="startNewConversation(contact)">
+              <div class="contact-avatar">{{getInitials(contact.name)}}</div>
+              <div class="contact-details">
+                <div class="contact-name">{{contact.name}}</div>
+                <div class="contact-position">{{contact.position}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="soligest-footer">
+      <p>Sistema de assistência a painéis solares</p>
+      <a href="#">Ajuda (?)</a> | <a href="#">Criadores</a>
+    </footer>
+  </div>
+</div>
