@@ -11,6 +11,11 @@ declare var google: any;
   standalone: false
 })
 export class FuncionarioComponent implements OnInit {
+  sortBy: string = 'id';
+  sortDirection: string = 'asc';
+  searchTerm: string = '';
+  filteredFuncionarios: User[] = [];
+  selectedFuncionarios: User | null = null;
   public users: User[] = [];
   selectedUsers: User[] = [];
   isBulkDeleteModalOpen: boolean = false;
@@ -21,6 +26,9 @@ export class FuncionarioComponent implements OnInit {
   private map: any;
 
   constructor(private service: UsersService, private router: Router) { }
+
+
+  sortedFuncionarios: User[] = [];
 
   ngOnInit() {
     this.getUsers();
@@ -58,6 +66,8 @@ export class FuncionarioComponent implements OnInit {
       (result) => {
         this.users = result;
         this.addUserMarkers();
+        this.sortFuncionarios();
+        this.filterFuncionarios();
       },
       (error) => {
         console.error(error);
@@ -150,5 +160,53 @@ export class FuncionarioComponent implements OnInit {
 
   closeDetailsModal(): void {
     this.isDetailsModalOpen = false;
+  }
+
+  sortFuncionarios(): void {
+    this.sortedFuncionarios = [...this.users].sort((a, b) => {
+      let valueA: any, valueB: any;
+
+      switch (this.sortBy) {
+        //case 'priority':
+        //  const priorityOrder: { [key: string]: number } = { 'Alta': 3, 'Média': 2, 'Baixa': 1 };
+        //  valueA = a.priority ? priorityOrder[a.priority] : 0;
+        //  valueB = b.priority ? priorityOrder[b.priority] : 0;
+        //  break;
+        case 'name':
+          valueA = a.name.toLowerCase();
+          valueB = b.name.toLowerCase();
+          break;
+        case 'id':
+          valueA = a.id;
+          valueB = b.id;
+          break;
+        //case 'status':
+        //  const statusOrder: { [key: string]: number } = { 'Vermelho': 3, 'Amarelo': 2, 'Verde': 1 };
+        //  valueA = statusOrder[a.status] || 0;
+        //  valueB = statusOrder[b.status] || 0;
+        //  break;
+        default:
+          valueA = a.id;
+          valueB = b.id;
+      }
+
+      return this.sortDirection === 'asc' ? (valueA < valueB ? -1 : 1) : (valueA > valueB ? -1 : 1);
+    });
+
+    this.filterFuncionarios();
+    if (this.map) {
+      this.clearMarkers();
+      this.addUserMarkers();
+    }
+  }
+
+  clearMarkers(): void {
+    this.initMap();
+  }
+
+  filterFuncionarios(): void {
+    this.filteredFuncionarios = this.sortedFuncionarios.filter(
+      funcionario => funcionario.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 }

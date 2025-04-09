@@ -25,6 +25,22 @@
             Apagar selecionados
           </button>
         </div>
+        <div class="sort-container">
+          <div class="sort-options">
+            <label for="search-bar">Procurar:</label>
+            <input type="text" id="search-bar" class="search-input" [(ngModel)]="searchTerm" (input)="filterFuncionarios()" placeholder="Nome ou Cargo" />
+
+            <label for="sort-by">Ordenar por:</label>
+            <select id="sort-by" class="sort-dropdown" [(ngModel)]="sortBy" (change)="sortFuncionarios()">
+              <option value="name">Nome</option>
+              <option value="id">ID</option>
+            </select>
+            <select id="sort-direction" class="sort-dropdown" [(ngModel)]="sortDirection" (change)="sortFuncionarios()">
+              <option value="asc">Crescente</option>
+              <option value="desc">Decrescente</option>
+            </select>
+          </div>
+        </div>
 
         <div class="table-container">
           <h2>Lista de Utilizadores Ativos</h2>
@@ -42,7 +58,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of users"
+              <tr *ngFor="let user of filteredFuncionarios"
                   [class.table-primary]="isSelected(user)">
                 <td class="select-cell">
                   <input type="checkbox"
