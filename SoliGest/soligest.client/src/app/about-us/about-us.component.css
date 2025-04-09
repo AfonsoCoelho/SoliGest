@@ -1,0 +1,245 @@
+/* General Styles */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  position: relative;
+}
+
+/* Header */
+.soligest-header {
+  display: flex;
+  align-items: center;
+  background-color: #37AFE1;
+  color: black;
+  padding: 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 60px;
+  box-sizing: border-box;
+}
+
+.header-logo {
+  width: 40px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Content Container */
+.content-container {
+  flex: 1;
+  display: flex;
+  margin-top: 60px;
+  padding-bottom: 60px;
+  min-height: calc(100vh - 120px);
+  position: relative;
+}
+
+/* Left Section - Menu */
+.left-section {
+  width: 250px;
+  background: linear-gradient(to bottom, #d1d1d1, #ffffff);
+  padding: 20px;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+  height: calc(100vh - 120px);
+  position: fixed;
+  z-index: 90;
+  box-sizing: border-box;
+}
+
+  .left-section.hidden {
+    transform: translateX(-100%);
+  }
+
+/* Menu Toggle Button */
+.menu-toggle-btn {
+  background-color: #FFC300;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+  .menu-toggle-btn:hover {
+    background-color: #e6b800;
+  }
+
+/* Collapsed Menu Button */
+.menu-collapsed-btn {
+  position: fixed;
+  left: 0;
+  top: 75px;
+  z-index: 110;
+  background-color: #FFC300;
+  color: black;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  padding: 12px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+  .menu-collapsed-btn:hover {
+    background-color: #e6b800;
+    padding-left: 25px;
+  }
+
+/* Right Section - Map Area */
+.right-section {
+  margin-left: 250px;
+  padding: 20px;
+  background-color: #f5f5f5;
+  transition: margin-left 0.3s ease;
+  flex: 1;
+  height: calc(100vh - 120px);
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+  .right-section.expanded {
+    margin-left: 0;
+    width: 100%;
+  }
+
+/* Menu Styles */
+#sideMenu {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#upperMenu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+  #upperMenu h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+  }
+
+#menuOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: calc(100% - 70px);
+  overflow-y: auto;
+}
+
+.menu-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #FFC300;
+  color: black;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+  .menu-link:hover, .menu-link.active {
+    background-color: #e6b800;
+  }
+
+  .menu-link i {
+    font-size: 14px;
+  }
+
+/* Signout Button */
+.signout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 15px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: auto;
+  transition: all 0.3s ease;
+}
+
+  .signout-btn:hover {
+    background-color: #c82333;
+  }
+
+/* Footer */
+.soligest-footer {
+  text-align: center;
+  background-color: #37AFE1;
+  color: black;
+  padding: 15px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  box-sizing: border-box;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+  .soligest-footer p,
+  .soligest-footer a {
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+    margin: 0 10px;
+  }
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .left-section {
+    width: 80%;
+  }
+
+    .left-section.hidden {
+      transform: translateX(-100%);
+    }
+
+  .right-section {
+    margin-left: 0;
+  }
+
+    .right-section.expanded {
+      width: 100%;
+    }
+
+  .menu-collapsed-btn {
+    top: 70px;
+  }
+
+  .map-container {
+    padding: 15px;
+  }
+}
