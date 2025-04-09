@@ -24,6 +24,7 @@ import { PaineisSolaresComponent } from './paineis-solares/paineis-solares.compo
 import { AvariasComponent } from './avarias/avarias.component';
 import { ChatComponent } from './chat/chat.component';
 import { AboutUsComponent } from './about-us/about-us.component';
+import { HelpComponent } from './help/help.component';
 
 
 
@@ -43,7 +44,8 @@ import { AboutUsComponent } from './about-us/about-us.component';
     PaineisSolaresComponent,
     AvariasComponent,
     ChatComponent,
-    AboutUsComponent
+    AboutUsComponent,
+    HelpComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
