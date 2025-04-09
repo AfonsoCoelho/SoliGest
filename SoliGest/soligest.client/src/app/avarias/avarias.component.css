@@ -286,6 +286,12 @@
   position: relative;
 }
 
+.modal-actions {
+    display: flex;
+  justify-content: space-between;
+}
+
+
 .close {
   color: #aaa;
   position: absolute;

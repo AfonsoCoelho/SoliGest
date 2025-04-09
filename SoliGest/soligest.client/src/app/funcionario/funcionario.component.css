@@ -300,3 +300,37 @@ footer {
     gap: 10px;
   }
 }
+
+.aloc-buttons {
+  display: flex;
+  justify-content: flex-end; /* Alinha os botões à direita */
+  gap: 10px; /* Espaçamento entre os botões */
+  margin-top: 10px; /* Espaço acima dos botões */
+}
+
+
+.manual-aloc,
+.auto-aloc {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: #1976d2; /* Cor do botão de alocação manual */
+  color: white; /* Cor do texto */
+  transition: background-color 0.3s ease; /* Efeito de transição */
+}
+
+.manual-aloc:hover {
+  background-color: #1565c0; /* Cor ao passar o mouse no botão de alocação manual */
+}
+
+.auto-aloc {
+  background-color: #388e3c; /* Cor do botão de alocação automática */
+}
+
+.auto-aloc:hover {
+  background-color: #2e7d32; /* Cor ao passar o mouse no botão de alocação automática */
+}
+
+

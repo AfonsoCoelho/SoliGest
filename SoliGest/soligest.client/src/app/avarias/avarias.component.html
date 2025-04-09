@@ -38,7 +38,7 @@
             <div class="panel-header">
               <h3>Avaria ID: {{ avaria.id }}</h3>
               <div class="panel-actions-container">
-                <button class="action-btn view-btn" (click)="openViewModal(avaria); $event.stopPropagation()">
+                <button class="action-btn view-btn" (click)="selectAvaria(avaria); $event.stopPropagation()">
                   <i class="fas fa-eye"></i> Consultar
                 </button>
                 <button class="action-btn edit-btn" (click)="openEditModal(avaria); $event.stopPropagation()">
@@ -52,6 +52,10 @@
             <p>{{ avaria.solarPanel.name }}</p>
             <p *ngIf="avaria.priority">Prioridade: {{ avaria.priority }}</p>
             <p class="status-text">Estado: {{ avaria.status }}</p>
+            <div class="aloc-buttons">
+              <button class="manual-aloc" (click)="openManualAllocateModal(avaria); $event.stopPropagation()">Alocar Manualmente</button>
+              <button class="auto-aloc" (click)="openAutoAllocateModal(avaria); $event.stopPropagation()">Alocar Automaticamente</button>
+            </div>
           </div>
         </div>
 
@@ -65,23 +69,6 @@
       <div class="map-container">
         <h2>Localização dos Painéis com Avarias</h2>
         <div id="map"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" *ngIf="showViewModal">
-    <div class="modal-content">
-      <span class="close" (click)="onCloseViewModal()">&times;</span>
-      <h2>Detalhes da Avaria ID: {{viewingAvaria?.id}}</h2>
-      <p><strong>Painel:</strong> {{viewingAvaria?.solarPanel?.name}}</p>
-      <p><strong>ID do Painel:</strong> {{viewingAvaria?.solarPanel?.id}}</p>
-      <p><strong>Prioridade:</strong> {{viewingAvaria?.priority}}</p>
-      <p><strong>Estado:</strong> {{viewingAvaria?.status}}</p>
-      <p><strong>Data do Pedido:</strong> {{viewingAvaria?.requestDate}}</p>
-      <p><strong>Data de Resolução:</strong> {{viewingAvaria?.resolutionDate || 'Não resolvido'}}</p>
-      <p><strong>Descrição:</strong> {{viewingAvaria?.description}}</p>
-      <div class="form-actions">
-        <button class="confirm-btn" (click)="onCloseViewModal()">Fechar</button>
       </div>
     </div>
   </div>
@@ -136,6 +123,7 @@
             <option *ngFor="let panel of panels" [value]="panel.id">Painel ID {{ panel.id }}, {{ panel.name }}</option>
           </select>
         </div>
+
         <div class="form-group">
           <label for="create-priority">Prioridade:</label>
           <select id="create-priority" [(ngModel)]="selectedPriority" name="create-priority" class="form-control" required>
@@ -175,6 +163,65 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal para alocação manual -->
+  <div class="modal" *ngIf="isManualAllocateModalOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeManualAllocateModal()">&times;</span>
+      <h2>Alocar Funcionário á Avaria ID: {{ selectedAvaria?.id }}</h2>
+      <p><strong>Painel:</strong> {{ selectedAvaria?.solarPanel?.name }}</p>
+      <p><strong>Descrição:</strong> {{ selectedAvaria?.description }}</p>
+
+      <h3>Funcionários Disponíveis:</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Cargo</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of availableTechnicians">
+              <td>{{ user.id }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.role }}</td>
+              <td>
+                <button class="allocate-btn" (click)="allocateToUser(user)">Alocar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button class="cancel-btn" (click)="closeManualAllocateModal()">Cancelar</button>
+    </div>
+  </div>
+
+
+  <!-- Modal para alocação automática -->
+  <div class="modal" *ngIf="isAutoAllocateModalOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeAutoAllocateModal()">&times;</span>
+      <h2>Alocação automática á Avaria ID: {{ selectedAvaria?.id }}</h2>
+      <p><strong>Painel:</strong> {{ selectedAvaria?.solarPanel?.name }}</p>
+      <p><strong>Descrição:</strong> {{ selectedAvaria?.description }}</p>
+      <h3>Funcionário Selecionado:</h3>
+      <p *ngIf="autoAllocationCandidate">
+        <strong>ID:</strong> {{ autoAllocationCandidate.id }} <br>
+        <strong>Nome:</strong> {{ autoAllocationCandidate.name }} <br>
+        <strong>Cargo:</strong> {{ autoAllocationCandidate.role }}
+      </p>
+      <p *ngIf="!autoAllocationCandidate">Nenhum funcionário disponível.</p>
+      <div class="modal-actions">
+        <button class="cancel-btn" (click)="closeAutoAllocateModal()">Cancelar</button>
+        <button class="confirm-btn" (click)="confirmAutoAllocation()" [disabled]="!autoAllocationCandidate">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+
 
   <footer class="soligest-footer">
     <p>Sistema de assistência a painéis solares</p>
