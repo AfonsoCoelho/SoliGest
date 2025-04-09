@@ -22,6 +22,7 @@ import { FuncionarioDetailsComponent } from './funcionario-details/funcionario-d
 import { PaineisSolaresComponent } from './paineis-solares/paineis-solares.component';
 
 import { AvariasComponent } from './avarias/avarias.component';
+import { ChatComponent } from './chat/chat.component';
 
 
 
@@ -39,7 +40,8 @@ import { AvariasComponent } from './avarias/avarias.component';
     FuncionarioEditComponent,
     FuncionarioDetailsComponent,
     PaineisSolaresComponent,
-    AvariasComponent
+    AvariasComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
