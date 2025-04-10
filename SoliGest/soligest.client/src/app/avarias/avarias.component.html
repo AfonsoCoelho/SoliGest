@@ -85,6 +85,15 @@
           </select>
         </div>
         <div class="form-group">
+          <label for="edit-technician">Funcionário Alocado:</label>
+          <select id="edit-technician" [(ngModel)]="selectedTechnicianId" name="edit-technician" class="form-control">
+            <option [ngValue]="null">N/A (Remover Técnico)</option>
+            <option *ngFor="let tech of availableTechnicians" [ngValue]="tech.id">
+              {{ tech.name }} (ID: {{ tech.id }})
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
           <label for="edit-priority">Prioridade:</label>
           <select id="edit-priority" [(ngModel)]="selectedPriority" name="edit-priority" class="form-control">
             <option value="Alta">Alta</option>

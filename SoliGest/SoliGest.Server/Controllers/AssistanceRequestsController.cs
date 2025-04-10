@@ -25,14 +25,14 @@ namespace SoliGest.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AssistanceRequest>>> GetAll()
         {
-            return await _context.AssistanceRequest.Include(a => a.SolarPanel).ToListAsync();
+            return await _context.AssistanceRequest.Include(a => a.SolarPanel).Include(a => a.AssignedUser).ToListAsync();
         }
 
         // GET: api/AssistanceRequest/5
         [HttpGet("{id}")]
         public async Task<ActionResult<AssistanceRequest>> GetById(int id)
         {
-            var request = await _context.AssistanceRequest.Include(a => a.SolarPanel).FirstOrDefaultAsync(a => a.Id == id);
+            var request = await _context.AssistanceRequest.Include(a => a.SolarPanel).Include(a => a.AssignedUser).FirstOrDefaultAsync(a => a.Id == id);
 
             if (request == null)
             {
@@ -70,6 +70,16 @@ namespace SoliGest.Server.Controllers
                 SolarPanel = solarPanel
             };
 
+            if (!string.IsNullOrEmpty(request.AssignedUserId))
+            {
+                var user = await _context.Users.FindAsync(request.AssignedUserId);
+                if (user == null)
+                    return BadRequest(new { message = "Utilizador atribuído não encontrado." });
+
+                assistanceRequest.AssignedUser = user;
+            }
+
+
             await _context.AssistanceRequest.AddAsync(assistanceRequest);
             await _context.SaveChangesAsync();
 
@@ -106,6 +116,19 @@ namespace SoliGest.Server.Controllers
             assistanceRequest.Description = request.Description;
             assistanceRequest.RequestDate = request.RequestDate;
             assistanceRequest.ResolutionDate = request.ResolutionDate;
+
+            if (!string.IsNullOrEmpty(request.AssignedUserId))
+            {
+                var user = await _context.Users.FindAsync(request.AssignedUserId);
+                if (user == null)
+                    return BadRequest(new { message = "Utilizador atribuído não encontrado." });
+
+                assistanceRequest.AssignedUser = user;
+            }
+            //else
+            //{
+            //    assistanceRequest.AssignedUser = null;
+            //}
 
             _context.Update(assistanceRequest);
 
@@ -160,6 +183,7 @@ namespace SoliGest.Server.Controllers
         public string Priority { get; set; }
         public string Status { get; set; }
         public string StatusClass { get; set; }
+        public string? AssignedUserId { get; set; }
     }
     public class AssistanceRequestCreateModel
     {
@@ -170,5 +194,6 @@ namespace SoliGest.Server.Controllers
         public string Priority { get; set; }
         public string Status { get; set; }
         public string StatusClass { get; set; }
+        public string? AssignedUserId { get; set; }
     }
 }

@@ -30,6 +30,9 @@ export class AvariasComponent implements OnInit {
   public users: User[] = []; // Array para armazenar usuários
   autoAllocationCandidate: User | null = null;
   availableTechnicians: User[] = [];
+  selectedTechnicianId: number | null = null; // Altere aqui para number
+
+
 
 
   // Modais
@@ -71,11 +74,13 @@ export class AvariasComponent implements OnInit {
     this.showModal = false;
   }
 
-  openEditModal(avaria: AssistanceRequest): void {
-    this.selectedAvaria = { ...avaria }; // Cria uma cópia para evitar alterações diretas
-    this.selectedPanelId = avaria.solarPanel.id;
-    this.selectedPriority = avaria.priority || '';
+  openEditModal(avaria: any): void {
+    this.selectedAvaria = avaria;
+    this.selectedPanelId = avaria.solarPanel?.id;
+    this.selectedPriority = avaria.priority;
     this.selectedStatus = avaria.status;
+    this.selectedTechnicianId = avaria.technician?.id || null;
+    this.selectedTechnicianId = avaria.assignedUser ? +avaria.assignedUser.id : null; 
     this.showEditModal = true;
   }
 
@@ -220,6 +225,7 @@ export class AvariasComponent implements OnInit {
             <p style="margin: 0; color: ${this.getStatusColor(avaria.status)}; font-weight: bold;">
               <strong>Estado:</strong> ${avaria.status}
             </p>
+            <p><strong>Técnico:</strong> ${avaria.assignedUser?.name || 'Não atribuído'}</p>
           </div>
         `
         });
@@ -337,6 +343,7 @@ export class AvariasComponent implements OnInit {
             <p style="color: ${this.getStatusColor(avaria.status)}; font-weight: bold;">
               <strong>Estado:</strong> ${avaria.status}
             </p>
+            <p><strong>Técnico alocado:</strong> ${avaria.assignedUser?.name || 'Não atribuído'}</p>
           </div>
         `;
 
@@ -382,18 +389,64 @@ export class AvariasComponent implements OnInit {
   // fazer backend
   confirmAutoAllocation(): void {
     if (this.selectedAvaria && this.autoAllocationCandidate) {
-      alert(`Alocando Avaria ID: ${this.selectedAvaria.id} a ${this.autoAllocationCandidate.name}`);
-      this.closeAutoAllocateModal();
+      // Build the update model based on the selected assistance request data.
+      const updatedAssistanceRequest: AssistanceRequestCreateModel = {
+        requestDate: this.selectedAvaria.requestDate,
+        resolutionDate: this.selectedAvaria.resolutionDate,
+        description: this.selectedAvaria.description,
+        solarPanelId: this.selectedAvaria.solarPanel.id,
+        priority: this.selectedAvaria.priority ?? '',
+        status: this.selectedAvaria.status ?? '',
+        statusClass: this.selectedAvaria.statusClass ?? '',
+        assignedUserId: this.autoAllocationCandidate.id  // Use the candidate's id
+      };
+
+      // Call the update endpoint with the auto allocation candidate's id.
+      this.aRService.update(this.selectedAvaria.id, updatedAssistanceRequest).subscribe(
+        (result) => {
+          alert(`Avaria ID: ${this.selectedAvaria!.id} atribuída a ${this.autoAllocationCandidate!.name} com sucesso.`);
+          this.closeAutoAllocateModal();
+          this.loadAssistanceRequests();
+        },
+        (error) => {
+          alert("Ocorreu um erro ao alocar automaticamente o funcionário.");
+          console.error(error);
+        }
+      );
     }
   }
+
 
   //backend disto
   allocateToUser(user: User): void {
     if (this.selectedAvaria) {
-      alert(`Alocando Avaria ID: ${this.selectedAvaria.id} a ${user.name}`);
-      this.closeManualAllocateModal();
+      // Build the update model based on the existing assistance request data,
+      // adding the new assignedUserId.
+      const updatedAssistanceRequest: AssistanceRequestCreateModel = {
+        requestDate: this.selectedAvaria.requestDate,
+        resolutionDate: this.selectedAvaria.resolutionDate,
+        description: this.selectedAvaria.description,
+        solarPanelId: this.selectedAvaria.solarPanel.id,
+        priority: this.selectedAvaria.priority ?? '',
+        status: this.selectedAvaria.status,
+        statusClass: this.selectedAvaria.statusClass,
+        assignedUserId: user.id  // Now using a string-based id
+      };
+
+      this.aRService.update(this.selectedAvaria.id, updatedAssistanceRequest).subscribe(
+        (result) => {
+          alert(`Avaria ID: ${this.selectedAvaria!.id} atribuída a ${user.name} com sucesso.`);
+          this.closeManualAllocateModal();
+          this.loadAssistanceRequests();
+        },
+        (error) => {
+          alert("Ocorreu um erro ao atribuir o técnico.");
+          console.error(error);
+        }
+      );
     }
   }
+
 
   isUserAvailable(user: User): boolean {
     // ver se é um técnico
@@ -462,7 +515,8 @@ export class AvariasComponent implements OnInit {
         statusClass: this.getStatusClass(this.selectedStatus),
         resolutionDate: this.selectedAvaria.resolutionDate || "",
         description: this.selectedAvaria.description || "",
-        solarPanelId: this.selectedPanelId
+        solarPanelId: this.selectedPanelId,
+        //assignedUserId: this.selectedTechnicianId ?? undefined // Se null, converte para undefined
       };
 
       this.aRService.update(id, updatedAssistanceRequest).subscribe(
