@@ -57,7 +57,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  /*margin-bottom: 15px;*/
+  flex-wrap: wrap
 }
 
 .panel-actions {
@@ -87,6 +88,7 @@
 .panel-actions-container {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .action-btn {
@@ -223,10 +225,10 @@
   transition: all 0.3s ease;
 }
 
-  .panel:hover {
+  /*.panel:hover {
     transform: translateY(-3px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-  }
+  }*/
 
 .panel-header {
   display: flex;
@@ -365,6 +367,38 @@
 .confirm-btn:hover {
   background-color: #45a049;
 }
+
+/* NOVO ESTILO para forçar os botões de alocação a ficarem em linha abaixo */
+.aloc-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.manual-aloc,
+.auto-aloc {
+  background-color: #FFC300;
+  color: black;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+  .manual-aloc:hover,
+  .auto-aloc:hover {
+    background-color: #e6b800;
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+
+
 
 /* Responsividade */
 @media (max-width: 768px) {
