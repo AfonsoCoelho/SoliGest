@@ -9,7 +9,7 @@ namespace SoliGest.Server.Data
     {
         public static async Task SeedSolarPanelsAsync(SoliGestServerContext context)
         {
-            if (await context.FindAsync<SolarPanel>(1) == null)
+            if (!context.SolarPanel.Any())
             {
                 SolarPanel solarPanel1 = new SolarPanel
                 {

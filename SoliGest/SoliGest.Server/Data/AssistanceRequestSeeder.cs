@@ -15,7 +15,7 @@ namespace SoliGest.Server.Data
             var solarPanel2 = await context.SolarPanel.FirstOrDefaultAsync(a => a.Id == 2);
             var solarPanel3 = await context.SolarPanel.FirstOrDefaultAsync(a => a.Id == 3);
 
-            if (await context.FindAsync<AssistanceRequest>(1) == null)
+            if (!context.AssistanceRequest.Any())
             {
                 AssistanceRequest assistanceRequest1 = new AssistanceRequest
                 {
