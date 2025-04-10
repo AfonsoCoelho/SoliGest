@@ -34,11 +34,11 @@
             <span>Painéis</span>
             <i class="fas fa-chevron-right"></i>
           </a>
-          <a routerLink="/mapa" class="menu-link ">
+          <a routerLink="/mapa" class="menu-link">
             <span>Mapa</span>
             <i class="fas fa-chevron-right"></i>
           </a>
-          <a routerLink="/chat" class="menu-link ">
+          <a routerLink="/chat" class="menu-link">
             <span>Chat</span>
             <i class="fas fa-chevron-right"></i>
           </a>
@@ -58,7 +58,11 @@
     <!-- Mapa -->
     <div class="right-section" [class.expanded]="isMenuCollapsed">
       <div class="map-container">
-        <h2>Mapa dos Painéis Solares</h2>
+        <h2>Mapa</h2>
+        <div id="map-filters">
+          <p><input type="checkbox" id="solarPanelEnabled" (change)="filterMap()" [(ngModel)]="showSolarPanels" />Paineis Solares</p>
+          <p><input type="checkbox" id="techniansEnabled" (change)="filterMap()" [(ngModel)]="showTechnicians" />Técnicos</p>
+        </div>
         <div id="map"></div>
       </div>
     </div>

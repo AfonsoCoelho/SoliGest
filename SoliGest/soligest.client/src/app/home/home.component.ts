@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthorizeService } from '../../api-authorization/authorize.service';
+import { SolarPanelsService } from '../services/solar-panels.service';
+import { UsersService } from '../services/users.service';
 
 declare var google: any;
 
@@ -15,8 +17,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   public isMenuCollapsed: boolean = false;
   private map: any;
   private markers: any[] = [];
+  public showSolarPanels: boolean = true;
+  public showTechnicians: boolean = true;
 
-  constructor(private auth: AuthorizeService, private router: Router) { }
+  constructor(private auth: AuthorizeService, private router: Router, private sPService: SolarPanelsService, private uService: UsersService) { }
 
   ngOnInit() {
     this.auth.onStateChanged().subscribe((state: boolean) => {
@@ -27,6 +31,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.initMap();
     this.loadSolarPanels();
+    this.loadTechnicians();
   }
 
   toggleMenu(): void {
@@ -67,21 +72,82 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   private loadSolarPanels(): void {
-    const panels = [
-      { id: 1, lat: 38.736946, lng: -9.142685, status: 'operational' },
-      { id: 2, lat: 38.726946, lng: -9.152685, status: 'maintenance' },
-      { id: 3, lat: 38.746946, lng: -9.132685, status: 'faulty' }
-    ];
+    var panels;
 
-    panels.forEach(panel => {
-      const marker = new google.maps.Marker({
-        position: new google.maps.LatLng(panel.lat, panel.lng),
-        map: this.map,
-        title: `Painel Solar #${panel.id}`,
-        icon: this.getMarkerIcon(panel.status)
-      });
-      this.markers.push(marker);
-    });
+    this.sPService.getSolarPanels().subscribe(
+      (result) => {
+        panels = result;
+        //this.sortPanels();
+        //this.addPanelMarkers(); // Adiciona os markers APÓS carregar e ordenar os painéis
+        panels.forEach(panel => {
+          const marker = new google.maps.Marker({
+            position: new google.maps.LatLng(panel.latitude, panel.longitude),
+            map: this.map,
+            title: `Painel Solar #${panel.id}`,
+            icon: this.getMarkerIcon(panel.status)
+          });
+          this.markers.push(marker);
+
+          const infoWindow = new google.maps.InfoWindow({
+            content: `
+                      <div style="padding: 10px;">
+                        <h3 style="margin: 0 0 5px 0;">Painel Solar ID: ${panel.id}</h3>
+                        <p style="margin: 0 0 5px 0;"><strong>Localização:</strong> ${panel.name}</p>
+                      </div>
+                    `
+          });
+
+          marker.addListener('click', () => {
+            infoWindow.open(this.map, marker);
+          });
+        });
+      },
+      (error) => {
+        console.error(error);
+      }
+    );   
+
+    this.adjustMapView();
+  }
+
+  private loadTechnicians(): void {
+    var users;
+
+    this.uService.getUsers().subscribe(
+      (result) => {
+        users = result;
+        users.forEach(user => {
+          if (user.role === "Técnico") {
+            const marker = new google.maps.Marker({
+              position: new google.maps.LatLng(user.phoneNumber, user.phoneNumber),
+              map: this.map,
+              title: `Técnico #${user.id}`,
+              icon: this.getMarkerIcon('faulty')
+            });
+            this.markers.push(marker);
+            alert("Técnico no mapa!")
+
+            const infoWindow = new google.maps.InfoWindow({
+              content: `
+                        <div style="padding: 10px;">
+                          <h3 style="margin: 0 0 5px 0;">Técnico ID: ${user.id}</h3>
+                          <p style="margin: 0 0 5px 0;"><strong>Nome:</strong> ${user.name}</p>
+                          <p style="margin: 0 0 5px 0;"><strong>Contacto:</strong> ${user.phoneNumber || 'N/A'}</p>
+                          </p>
+                        </div>
+                      `
+            });
+
+            marker.addListener('click', () => {
+              infoWindow.open(this.map, marker);
+            });
+          }
+        });
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
 
     this.adjustMapView();
   }
@@ -105,5 +171,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
       case 'faulty': return { url: baseUrl + 'red-dot.png' };
       default: return { url: baseUrl + 'blue-dot.png' };
     }
+  }
+
+  filterMap(): void {
+    this.markers = [];
+    this.initMap();
+    if (this.showSolarPanels) {
+      this.loadSolarPanels();
+    }
+    if (this.showTechnicians) {
+      this.loadTechnicians();
+    }
+    this.adjustMapView();
+  }
+
+  resetMarkers(): void {
+    this.markers = [];
   }
 }
