@@ -79,7 +79,8 @@ export class AvariasComponent implements OnInit {
     this.selectedPanelId = avaria.solarPanel?.id;
     this.selectedPriority = avaria.priority;
     this.selectedStatus = avaria.status;
-    this.selectedTechnicianId = avaria.user?.id?.toString() ?? null;
+    this.selectedTechnicianId = avaria.user?.id ?? null;
+
 
     this.availableTechnicians = this.users.filter(user => this.isUserAvailable(user));
 
@@ -521,7 +522,8 @@ export class AvariasComponent implements OnInit {
         resolutionDate: this.selectedAvaria.resolutionDate || "",
         description: this.selectedAvaria.description || "",
         solarPanelId: this.selectedPanelId,
-        assignedUserId: this.selectedTechnicianId ? this.selectedTechnicianId.toString() : undefined
+        assignedUserId: this.selectedTechnicianId != null ? this.selectedTechnicianId.toString() : undefined
+
       };
 
       this.aRService.update(id, updatedAssistanceRequest).subscribe(
