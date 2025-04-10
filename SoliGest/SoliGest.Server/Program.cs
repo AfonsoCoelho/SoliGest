@@ -101,10 +101,11 @@ using (var scope = app.Services.CreateScope())
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = services.GetRequiredService<UserManager<User>>();
     var context = services.GetRequiredService<SoliGestServerContext>();
+    var logger = services.GetRequiredService<ILogger<Program>>();
 
     //await context.Database.MigrateAsync();
 
-    await RoleSeeder.SeedRoles(roleManager);
+    await RoleSeeder.SeedRoles(roleManager, logger);
     await UserSeeder.SeedUsersAsync(userManager);
     await SolarPanelSeeder.SeedSolarPanelsAsync(context);
     await AssistanceRequestSeeder.SeedAssistanceRequestsAsync(context);
