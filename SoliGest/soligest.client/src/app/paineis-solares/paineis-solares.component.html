@@ -11,6 +11,9 @@
 
         <div class="sort-container">
           <div class="sort-options">
+            <!-- Adicione esta linha para a barra de pesquisa -->
+            <label for="sort-by">Pesquisar:</label>
+            <input type="text" class="search-input" placeholder="Pesquisar rua/cidade..." [(ngModel)]="searchTerm" (input)="filterPanels()">
             <label for="sort-by">Ordenar por:</label>
             <select id="sort-by" class="sort-dropdown" [(ngModel)]="sortBy" (change)="sortPanels()">
               <option value="priority">Prioridade</option>
@@ -22,7 +25,9 @@
               <option value="asc">Crescente</option>
               <option value="desc">Decrescente</option>
             </select>
+
           </div>
+          
           <div class="sort-actions">
             <button class="create-btn" (click)="openCreatePanelModal()">
               <i class="fas fa-plus"></i> Criar Painel
@@ -198,4 +203,4 @@
     <p>Sistema de assistência a painéis solares</p>
     <a href="#">Ajuda (?)</a> | <a href="#">Criadores</a>
   </footer>
-</div>
+

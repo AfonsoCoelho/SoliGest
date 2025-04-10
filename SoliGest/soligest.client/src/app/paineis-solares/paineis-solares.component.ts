@@ -14,12 +14,14 @@ declare var google: any;
 export class PaineisSolaresComponent implements OnInit {
   sortBy: string = 'id';
   sortDirection: string = 'asc';
+  searchTerm: string = '';
 
   public panelsData: SolarPanel[] = [];
   sortedPanels: SolarPanel[] = [];
-  markers: any[] = []; // Array para guardar os markers do mapa
-  infoWindow: any = null; // InfoWindow para mostrar detalhes do painel
-  selectedPanel: SolarPanel | null = null; // Painel selecionado na lista
+  filteredPanels: SolarPanel[] = [];
+  markers: any[] = [];
+  infoWindow: any = null;
+  selectedPanel: SolarPanel | null = null;
 
   map: any;
 
@@ -58,8 +60,7 @@ export class PaineisSolaresComponent implements OnInit {
     this.service.getSolarPanels().subscribe(
       (result) => {
         this.panelsData = result;
-        this.sortPanels();
-        this.addPanelMarkers(); // Adiciona os markers APÓS carregar e ordenar os painéis
+        this.filterPanels();
       },
       (error) => {
         console.error(error);
@@ -80,11 +81,10 @@ export class PaineisSolaresComponent implements OnInit {
   }
 
   addPanelMarkers(): void {
-    // Limpa os markers existentes
     this.clearMarkers();
     this.markers = [];
 
-    this.sortedPanels.forEach(panel => {
+    this.filteredPanels.forEach(panel => {
       if (panel.latitude && panel.longitude) {
         const marker = new google.maps.Marker({
           position: { lat: panel.latitude, lng: panel.longitude },
@@ -113,10 +113,24 @@ export class PaineisSolaresComponent implements OnInit {
           }
           infoWindow.open(this.map, marker);
           this.infoWindow = infoWindow;
-          this.selectedPanel = panel; // Opcional: Marca o painel clicado
+          this.selectedPanel = panel;
         });
       }
     });
+  }
+
+  filterPanels(): void {
+    if (!this.searchTerm) {
+      this.filteredPanels = [...this.panelsData];
+    } else {
+      const term = this.searchTerm.toLowerCase();
+      this.filteredPanels = this.panelsData.filter(panel =>
+        panel.name.toLowerCase().includes(term) ||
+        (panel.address && panel.address.toLowerCase().includes(term)) ||
+        (panel.description && panel.description.toLowerCase().includes(term))
+      );
+    }
+    this.sortPanels();
   }
 
   clearMarkers(): void {
@@ -130,8 +144,11 @@ export class PaineisSolaresComponent implements OnInit {
       this.map.setCenter({ lat: panel.latitude, lng: panel.longitude });
       this.map.setZoom(15);
 
-      // Abre o popup do marker correspondente
-      const marker = this.markers.find(m => m.getPosition().lat() === panel.latitude && m.getPosition().lng() === panel.longitude);
+      const marker = this.markers.find(m =>
+        m.getPosition().lat() === panel.latitude &&
+        m.getPosition().lng() === panel.longitude
+      );
+
       if (marker && this.infoWindow) {
         this.infoWindow.close();
         const infoWindowContent = `
@@ -186,9 +203,9 @@ export class PaineisSolaresComponent implements OnInit {
 
     const id = this.editingPanel.id;
     const name = this.editingPanel.name;
-    const prority = this.editingPanel.priority;
+    const priority = this.editingPanel.priority;
     const status = this.editingPanel.status;
-    const statusClass = this.getStatusClass(status); // Atualiza a statusClass
+    const statusClass = this.getStatusClass(status);
     const latitude = this.editingPanel.latitude;
     const longitude = this.editingPanel.longitude;
     const description = this.editingPanel.description;
@@ -197,11 +214,11 @@ export class PaineisSolaresComponent implements OnInit {
     const address = "";
 
     if (id) {
-      this.service.updateSolarPanel(id, name, prority, status, statusClass, latitude, longitude, description, phone, email, address).subscribe(
+      this.service.updateSolarPanel(id, name, priority, status, statusClass, latitude, longitude, description, phone, email, address).subscribe(
         (result) => {
           alert("Painel solar atualizado com sucesso!");
           this.closeEditPanelModal();
-          this.loadPanels(); // Recarrega os painéis para atualizar o mapa
+          this.loadPanels();
         },
         (error) => {
           alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
@@ -244,7 +261,7 @@ export class PaineisSolaresComponent implements OnInit {
       (result) => {
         alert("Novo painel solar criado com sucesso!");
         this.closeCreatePanelModal();
-        this.loadPanels(); // Recarrega os painéis para atualizar o mapa
+        this.loadPanels();
       },
       (error) => {
         alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
@@ -269,7 +286,7 @@ export class PaineisSolaresComponent implements OnInit {
         (result) => {
           alert("Painel solar removido com sucesso!");
           this.cancelDelete();
-          this.loadPanels(); // Recarrega os painéis para atualizar o mapa
+          this.loadPanels();
         },
         (error) => {
           alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
@@ -280,7 +297,7 @@ export class PaineisSolaresComponent implements OnInit {
   }
 
   sortPanels(): void {
-    this.sortedPanels = [...this.panelsData].sort((a, b) => {
+    this.sortedPanels = [...this.filteredPanels].sort((a, b) => {
       let valueA: any, valueB: any;
 
       switch (this.sortBy) {
@@ -311,7 +328,7 @@ export class PaineisSolaresComponent implements OnInit {
     });
 
     if (this.map) {
-      this.addPanelMarkers(); // Atualiza os markers após a ordenação
+      this.addPanelMarkers();
     }
   }
 
@@ -334,7 +351,6 @@ export class PaineisSolaresComponent implements OnInit {
     }
   }
 
-  // Método chamado quando um painel da lista é clicado
   selectPanel(panel: SolarPanel): void {
     this.flyToPanel(panel);
   }
