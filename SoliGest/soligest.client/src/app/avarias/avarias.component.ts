@@ -79,8 +79,7 @@ export class AvariasComponent implements OnInit {
     this.selectedPanelId = avaria.solarPanel?.id;
     this.selectedPriority = avaria.priority;
     this.selectedStatus = avaria.status;
-    this.selectedTechnicianId = avaria.technician?.id || null;
-    this.selectedTechnicianId = avaria.assignedUser ? +avaria.assignedUser.id : null;
+    this.selectedTechnicianId = avaria.user?.id?.toString() ?? null;
 
     this.availableTechnicians = this.users.filter(user => this.isUserAvailable(user));
 
@@ -410,6 +409,7 @@ export class AvariasComponent implements OnInit {
           alert(`Avaria ID: ${this.selectedAvaria!.id} atribuída a ${this.autoAllocationCandidate!.name} com sucesso.`);
           this.closeAutoAllocateModal();
           this.loadAssistanceRequests();
+          window.location.reload(); //por agora, assim a info window nao buga temp
         },
         (error) => {
           alert("Ocorreu um erro ao alocar automaticamente o funcionário.");
@@ -441,6 +441,7 @@ export class AvariasComponent implements OnInit {
           alert(`Avaria ID: ${this.selectedAvaria!.id} atribuída a ${user.name} com sucesso.`);
           this.closeManualAllocateModal();
           this.loadAssistanceRequests();
+          window.location.reload(); //por agora, assim a info window nao buga temp
         },
         (error) => {
           alert("Ocorreu um erro ao atribuir o técnico.");
@@ -500,6 +501,7 @@ export class AvariasComponent implements OnInit {
         alert("Novo pedido de assistência técnica criado com sucesso!");
         this.onCloseModal();
         this.loadAssistanceRequests();
+        window.location.reload(); //por agora, assim a info window nao buga temp
       },
       (error) => {
         alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
@@ -527,6 +529,7 @@ export class AvariasComponent implements OnInit {
           alert("Pedido de assistência técnica atualizado com sucesso!");
           this.onCloseEditModal();
           this.loadAssistanceRequests();
+          window.location.reload(); //por agora, assim a info window nao buga temp
         },
         (error) => {
           alert("Ocorreu um erro. Por favor tente novamente mais tarde.");

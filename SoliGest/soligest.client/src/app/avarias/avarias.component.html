@@ -87,9 +87,9 @@
         <div class="form-group">
           <label for="edit-technician">Funcionário Alocado:</label>
           <select id="edit-technician" [(ngModel)]="selectedTechnicianId" name="edit-technician" class="form-control">
-            <option [ngValue]="null">N/A (Remover Técnico)</option>
-            <option *ngFor="let tech of availableTechnicians" [ngValue]="tech.id">
-              {{ tech.name }} (ID: {{ tech.id }})
+            <option [value]="null">N/A (Remover Técnico)</option>
+            <option *ngFor="let user of availableTechnicians" [ngValue]="user.id">
+              {{ user.name }} (ID: {{ user.id }})
             </option>
           </select>
         </div>
