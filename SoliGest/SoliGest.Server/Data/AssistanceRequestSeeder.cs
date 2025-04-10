@@ -14,6 +14,12 @@ namespace SoliGest.Server.Data
             var solarPanel1 = await context.SolarPanel.FirstOrDefaultAsync();
             var solarPanel2 = await context.SolarPanel.FirstOrDefaultAsync(a => a.Id == 2);
             var solarPanel3 = await context.SolarPanel.FirstOrDefaultAsync(a => a.Id == 3);
+            var user1 = await context.Users.FirstOrDefaultAsync();
+            if (user1 == null)
+            {
+                Console.WriteLine("user1 e null atencao");
+            }
+            Console.WriteLine("teste yaa");
 
             if (!context.AssistanceRequest.Any())
             {
@@ -25,7 +31,8 @@ namespace SoliGest.Server.Data
                     StatusClass = "status-red",
                     ResolutionDate = "2022-01-01",
                     Description = "Descrição Pedido de assistência 1",
-                    SolarPanel = solarPanel1
+                    SolarPanel = solarPanel1,
+                    AssignedUser = user1
                 };
 
                 await context.AddAsync(assistanceRequest1);
@@ -38,7 +45,8 @@ namespace SoliGest.Server.Data
                     StatusClass = "status-red",
                     ResolutionDate = "2022-01-01",
                     Description = "Descrição Pedido de assistência 2",
-                    SolarPanel = solarPanel2
+                    SolarPanel = solarPanel2,
+                    AssignedUser = user1
                 };
 
                 await context.AddAsync(assistanceRequest2);

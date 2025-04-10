@@ -24,5 +24,4 @@ namespace SoliGest.Server.Models
         public string StartHoliday { get; set; }
         public string EndHoliday { get; set; }
     }
-
 }

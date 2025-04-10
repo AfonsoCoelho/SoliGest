@@ -22,5 +22,6 @@ namespace SoliGest.Server.Models
         [Required(ErrorMessage = "É obrigatório indicar um painel solar.")]
         [Display(Name = "Painel Solar")]
         public required SolarPanel SolarPanel { get; set; }
+        public User? AssignedUser { get; set; }
     }
 }
