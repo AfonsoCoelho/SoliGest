@@ -150,6 +150,15 @@
           </select>
         </div>
         <div class="form-group">
+          <label for="edit-technician">Funcionário Alocado:</label>
+          <select id="edit-technician" [(ngModel)]="selectedTechnicianId" name="edit-technician" class="form-control">
+            <option [ngValue]="null">N/A (Não alocar por agora)</option>
+            <option *ngFor="let tech of availableTechnicians" [ngValue]="tech.id">
+              {{ tech.name }} (ID: {{ tech.id }})
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
           <label for="create-description">Descrição:</label>
           <textarea id="create-description" [(ngModel)]="newAvariaDescription" name="create-description" class="form-control"></textarea>
         </div>

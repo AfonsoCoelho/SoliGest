@@ -80,7 +80,10 @@ export class AvariasComponent implements OnInit {
     this.selectedPriority = avaria.priority;
     this.selectedStatus = avaria.status;
     this.selectedTechnicianId = avaria.technician?.id || null;
-    this.selectedTechnicianId = avaria.assignedUser ? +avaria.assignedUser.id : null; 
+    this.selectedTechnicianId = avaria.assignedUser ? +avaria.assignedUser.id : null;
+
+    this.availableTechnicians = this.users.filter(user => this.isUserAvailable(user));
+
     this.showEditModal = true;
   }
 
@@ -386,7 +389,7 @@ export class AvariasComponent implements OnInit {
     this.selectedAvaria = null;
   }
 
-  // fazer backend
+  // backend auto alocacao
   confirmAutoAllocation(): void {
     if (this.selectedAvaria && this.autoAllocationCandidate) {
       // Build the update model based on the selected assistance request data.
@@ -398,7 +401,7 @@ export class AvariasComponent implements OnInit {
         priority: this.selectedAvaria.priority ?? '',
         status: this.selectedAvaria.status ?? '',
         statusClass: this.selectedAvaria.statusClass ?? '',
-        assignedUserId: this.autoAllocationCandidate.id  // Use the candidate's id
+        assignedUserId: this.autoAllocationCandidate.id
       };
 
       // Call the update endpoint with the auto allocation candidate's id.
@@ -417,7 +420,7 @@ export class AvariasComponent implements OnInit {
   }
 
 
-  //backend disto
+  //backend disto este é o manual alocacao
   allocateToUser(user: User): void {
     if (this.selectedAvaria) {
       // Build the update model based on the existing assistance request data,
@@ -447,7 +450,6 @@ export class AvariasComponent implements OnInit {
     }
   }
 
-
   isUserAvailable(user: User): boolean {
     // ver se é um técnico
     if (!user.role || user.role.toLowerCase() !== 'técnico') {
@@ -475,7 +477,6 @@ export class AvariasComponent implements OnInit {
     return true;
   }
 
-
   criarAvaria() {
     if (!this.selectedPanelId) {
       alert('Por favor selecione um painel!');
@@ -489,7 +490,9 @@ export class AvariasComponent implements OnInit {
       statusClass: this.getStatusClass(this.selectedStatus),
       resolutionDate: "",
       description: this.newAvariaDescription,
-      solarPanelId: this.selectedPanelId
+      solarPanelId: this.selectedPanelId,
+      assignedUserId: this.selectedTechnicianId ? this.selectedTechnicianId.toString() : undefined // Convert to string if not null
+
     };
 
     this.aRService.create(newAssistanceRequest).subscribe(
@@ -516,7 +519,7 @@ export class AvariasComponent implements OnInit {
         resolutionDate: this.selectedAvaria.resolutionDate || "",
         description: this.selectedAvaria.description || "",
         solarPanelId: this.selectedPanelId,
-        //assignedUserId: this.selectedTechnicianId ?? undefined // Se null, converte para undefined
+        assignedUserId: this.selectedTechnicianId ? this.selectedTechnicianId.toString() : undefined
       };
 
       this.aRService.update(id, updatedAssistanceRequest).subscribe(
