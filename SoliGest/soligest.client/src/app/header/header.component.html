@@ -1,0 +1,64 @@
+<header class="soligest-header">
+  <div class="header-left">
+    <img src="/logo.jpg" alt="Logo" class="header-logo" routerLink="/" />
+    <div class="header-title">SoliGest</div>
+  </div>
+
+  <div class="header-right">
+    <!-- Ícone de Notificações -->
+    <div class="notification-icon" (click)="toggleNotifications()">
+      <i class="fas fa-bell"></i>
+      <span class="notification-badge" *ngIf="unreadNotifications.length > 0">
+        {{ unreadNotifications.length }}
+      </span>
+    </div>
+
+    <!-- Painel de Notificações -->
+    <div class="notifications-panel" *ngIf="showNotificationsPanel">
+      <div class="panel-header">
+        <span>Notificações:</span>
+        <button class="mark-all" (click)="markAllAsRead()">Marcar todas como lidas</button>
+      </div>
+
+      <div *ngIf="notifications.length === 0" class="no-notifications">
+        Nenhuma notificação
+      </div>
+
+      <div *ngFor="let notif of notifications" class="notification-item">
+        <i [class]="getNotificationIcon(notif.type)"></i>
+        <div class="notification-content">
+          <strong>{{ notif.title }}</strong>
+          <p>{{ notif.message }}</p>
+          <small>{{ notif.time | date:'short' }}</small>
+        </div>
+        <button class="dismiss-btn" (click)="dismissNotification(notif.id, $event)">&times;</button>
+      </div>
+    </div>
+ 
+
+
+  <!-- Chat -->
+  <div class="header-icon" (click)="openChat()" title="Chat">
+    <i class="fas fa-comment-dots"></i>
+  </div>
+
+  <!-- Perfil -->
+  <div class="profile-section" [class.active]="showProfileMenu">
+    <div class="profile-container" (click)="toggleProfileMenu()">
+      <img [src]="profileImageUrl" alt="Perfil" class="profile-image" />
+      <i class="fas fa-caret-down profile-caret"></i>
+    </div>
+
+    <div class="profile-dropdown" *ngIf="showProfileMenu">
+      <a routerLink="/perfil" class="dropdown-item">
+        <i class="fas fa-user item-icon"></i>
+        <span>Meu Perfil</span>
+      </a>
+      <a (click)="logout()" class="dropdown-item logout">
+        <i class="fas fa-sign-out-alt item-icon"></i>
+        <span>Sair</span>
+      </a>
+    </div>
+  </div>
+  </div>
+</header>

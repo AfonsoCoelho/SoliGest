@@ -25,6 +25,8 @@ import { AvariasComponent } from './avarias/avarias.component';
 import { ChatComponent } from './chat/chat.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { HelpComponent } from './help/help.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 
@@ -45,7 +47,9 @@ import { HelpComponent } from './help/help.component';
     AvariasComponent,
     ChatComponent,
     AboutUsComponent,
-    HelpComponent
+    HelpComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,

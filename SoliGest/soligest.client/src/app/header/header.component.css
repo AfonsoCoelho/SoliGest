@@ -1,0 +1,329 @@
+/* HEADER COMPONENT - CSS OTIMIZADO */
+.soligest-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #37AFE1;
+  padding: 0 20px;
+  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+}
+
+/* LEFT SECTION */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-logo {
+  height: 40px;
+  width: auto;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: transform 0.2s ease;
+}
+
+  .header-logo:hover {
+    transform: scale(1.05);
+  }
+
+.header-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+  .header-title:hover {
+    color: #000;
+  }
+
+/* RIGHT SECTION */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+/* NOTIFICATION ICON */
+.notification-icon {
+  position: relative;
+  cursor: pointer;
+  color: #333;
+  font-size: 1.2rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 8px;
+}
+
+  .notification-icon:hover {
+    color: #000;
+    transform: scale(1.1);
+  }
+
+.notification-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #dc3545;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  pointer-events: none;
+  border: 2px solid #37AFE1;
+}
+
+/* NOTIFICATIONS PANEL */
+.notifications-panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 360px; /* Aumentado de 320px para mais espaço */
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  padding: 16px 20px; /* padding maior para mais espaço interno */
+  animation: slideDown 0.3s ease forwards;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notification-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+  .notification-item:hover {
+    background-color: #f7f7f7;
+  }
+
+.notification-icon-wrapper {
+  font-size: 1.2rem;
+  color: #37AFE1;
+}
+
+.notification-content {
+  flex-grow: 1;
+}
+
+.notification-title {
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+.notification-message {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 4px 0;
+}
+
+.notification-time {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+/* Dismiss button */
+.dismiss-btn {
+  background: transparent;
+  border: none;
+  font-size: 0.8rem;
+  color: #888;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+  .dismiss-btn:hover {
+    color: #e74c3c;
+  }
+
+/* CHAT ICON */
+.header-icon {
+  cursor: pointer;
+  color: #333;
+  font-size: 1.2rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 8px;
+}
+
+  .header-icon:hover {
+    color: #000;
+    transform: scale(1.1);
+  }
+
+/* PROFILE SECTION */
+.profile-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  height: 100%;
+  padding: 0 5px;
+}
+
+.profile-image {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.profile-container:hover .profile-image {
+  transform: scale(1.05);
+}
+
+.profile-caret {
+  font-size: 0.8rem;
+  color: #fff;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  margin-top: 5px;
+  overflow: hidden;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  gap: 10px;
+}
+
+  .dropdown-item:hover {
+    background-color: #f5f5f5;
+  }
+
+.logout {
+  border-top: 1px solid #eee;
+}
+
+/* Botão "Marcar todas como lidas" */
+.mark-all {
+  background-color: #ffc107; /* amarelo vibrante */
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+  .mark-all:hover {
+    background-color: #e0a800; /* amarelo mais escuro no hover */
+  }
+
+/* ANIMATIONS */
+@keyframes slideDown {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+    max-height: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+    max-height: 70vh;
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .soligest-header {
+    padding: 0 15px;
+  }
+
+/*  .notifications-panel {
+    width: 320px;
+    right: -10px;
+  }*/
+}
+
+@media (max-width: 480px) {
+  .soligest-header {
+    padding: 0 10px;
+  }
+
+  .header-title {
+    font-size: 1.3rem;
+  }
+
+/*  .notifications-panel {
+    width: 280px;
+    max-height: 60vh;
+  }*/
+
+
+  /* Cabeçalho do painel */
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+    /* Título */
+    .panel-header span {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+  
+
+}

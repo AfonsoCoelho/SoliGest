@@ -1,74 +1,81 @@
-<div class="page-wrapper">
-  <!-- Header -->
-  <header class="soligest-header" routerLink="">
-    <img src="/logo.jpg" alt="Logo" class="header-logo" />
-    <div class="header-title">SoliGest</div>
-  </header>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoliGest - Ajuda</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- Header -->
+    <app-header></app-header>
 
-  <!-- Conteúdo principal -->
-  <div class="content-container">
-    <!-- Menu lateral -->
-    <div class="left-section" [class.hidden]="isMenuCollapsed">
-      <div id="sideMenu">
-        <div id="upperMenu">
-          <h1 routerLink="/">SoliGest</h1>
-          <button class="menu-toggle-btn" (click)="toggleMenu()">
-            <i class="fas fa-bars"></i> Menu
-          </button>
+    <!-- Conteúdo principal -->
+    <div class="content-container">
+      <!-- Menu lateral -->
+      <div class="left-section" [class.hidden]="isMenuCollapsed">
+        <div id="sideMenu">
+          <div id="upperMenu">
+            <h1 routerLink="/">SoliGest</h1>
+            <button class="menu-toggle-btn" (click)="toggleMenu()">
+              <i class="fas fa-bars"></i> Menu
+            </button>
+          </div>
+
+          <div id="menuOptions">
+            <a routerLink="/avarias" class="menu-link">
+              <span>Gestão das Avarias</span>
+              <i class="fas fa-chevron-right"></i>
+            </a>
+            <a routerLink="/funcionario" class="menu-link">
+              <span>Funcionários</span>
+              <i class="fas fa-chevron-right"></i>
+            </a>
+            <a href="#" class="menu-link">
+              <span>Métricas</span>
+              <i class="fas fa-chevron-right"></i>
+            </a>
+            <a routerLink="/paineis-solares" class="menu-link">
+              <span>Painéis</span>
+              <i class="fas fa-chevron-right"></i>
+            </a>
+            <a routerLink="/mapa" class="menu-link ">
+              <span>Mapa</span>
+              <i class="fas fa-chevron-right"></i>
+            </a>
+            <a routerLink="/chat" class="menu-link ">
+              <span>Chat</span>
+              <i class="fas fa-chevron-right"></i>
+            </a>
+
+            <button class="signout-btn" (click)="signOut()">
+              <i class="fas fa-sign-out-alt"></i> Sair
+            </button>
+          </div>
         </div>
+      </div>
 
-        <div id="menuOptions">
-          <a routerLink="/avarias" class="menu-link">
-            <span>Gestão das Avarias</span>
-            <i class="fas fa-chevron-right"></i>
-          </a>
-          <a routerLink="/funcionario" class="menu-link">
-            <span>Funcionários</span>
-            <i class="fas fa-chevron-right"></i>
-          </a>
-          <a href="#" class="menu-link">
-            <span>Métricas</span>
-            <i class="fas fa-chevron-right"></i>
-          </a>
-          <a routerLink="/paineis-solares" class="menu-link">
-            <span>Painéis</span>
-            <i class="fas fa-chevron-right"></i>
-          </a>
-          <a routerLink="/mapa" class="menu-link ">
-            <span>Mapa</span>
-            <i class="fas fa-chevron-right"></i>
-          </a>
-          <a routerLink="/chat" class="menu-link ">
-            <span>Chat</span>
-            <i class="fas fa-chevron-right"></i>
-          </a>
+      <!-- Botão para expandir menu -->
+      <button class="menu-collapsed-btn" *ngIf="isMenuCollapsed" (click)="toggleMenu()">
+        <i class="fas fa-bars"></i> Menu
+      </button>
 
-          <button class="signout-btn" (click)="signOut()">
-            <i class="fas fa-sign-out-alt"></i> Sair
-          </button>
+      <!-- Conteúdo principal -->
+      <div class="right-section" [class.expanded]="isMenuCollapsed">
+        <div class="help-content">
+          <h2>Ajuda</h2>
+          <p>Tratando-se esta de uma plataforma opensource, todo o respositório deste projeto encontra-se público na plataforma <a href="https://www.github.com">Github</a>.</p>
+          <p>Para questões mais técnicas sugerimos que consulte o nosso <a href="https://www.google.com">manual técnico</a>.</p>
+          <p>Para utilizadores do sistema aconselhamos a leitura do nosso <a href="https://www.google.com">manual de utilizador</a>.</p>
+          <p>A nossa equipa faculta também uma série de videos de exemplificação de utilização da plataforma que podem ser consultados <a href="https://www.google.com">aqui</a>.</p>
+          <p>Quaisquer outras questões de qualquer teor, encorajamos o contacto através do email <a href="mailto:geral@soligest.com">geral&#64;soligest.com</a></p>
         </div>
       </div>
     </div>
 
-    <!-- Botão para expandir menu (visível apenas quando recolhido) -->
-    <button class="menu-collapsed-btn" *ngIf="isMenuCollapsed" (click)="toggleMenu()">
-      <i class="fas fa-bars"></i> Menu
-    </button>
-
-    <!-- Mapa -->
-    <div class="right-section" [class.expanded]="isMenuCollapsed">
-      <h2>Ajuda</h2>
-      <p>Tratando-se esta de uma plataforma opensource, todo o respositório deste projeto encontra-se público na plataforma <a href="https://www.github.com">Github</a>.</p>
-      <p>Para questões mais técnicas sugerimos que consulte o nosso <a href="https://www.google.com">manual técnico</a>.</p>
-      <p>Para utilizadores do sistema aconselhamos a leitura do nosso <a href="https://www.google.com">manual de utilizador</a>.</p>
-      <p>A nossa equipa faculta também uma série de videos de exemplificação de utilização da plataforma que podem ser consultados <a href="https://www.google.com">aqui</a>.</p>
-      <p>Quaisquer outras questões de qualquer teor, encorajamos o contacto através do email <a href="mailto:geral@soligest.com">geral&#64;soligest.com</a></p>
-    </div>
+    <app-footer></app-footer>
   </div>
-
-  <!-- Footer -->
-  <footer class="soligest-footer">
-    <p>Sistema de assistência a painéis solares</p>
-    <a routerLink="/help">Ajuda (?)</a> | <a routerLink="/about-us">Criadores</a>
-  </footer>
-</div>
+</body>
+</html>

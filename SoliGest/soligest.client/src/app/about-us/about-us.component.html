@@ -1,101 +1,107 @@
-<div class="page-wrapper">
-  <!-- Header -->
-  <header class="soligest-header" routerLink="">
-    <img src="/logo.jpg" alt="Logo" class="header-logo" />
-    <div class="header-title">SoliGest</div>
-  </header>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoliGest</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="page-wrapper">
+    <app-header></app-header>
 
-  <!-- Conteúdo principal -->
-  <div class="content-container">
-    <!-- Menu lateral -->
-    <div class="left-section" [class.hidden]="isMenuCollapsed">
-      <div id="sideMenu">
-        <div id="upperMenu">
-          <h1 routerLink="/">SoliGest</h1>
-          <button class="menu-toggle-btn" (click)="toggleMenu()">
-            <i class="fas fa-bars"></i> Menu
-          </button>
+    <!-- Conteúdo principal -->
+    <div class="content-container">
+      <!-- Menu lateral -->
+      <div class="left-section" [class.hidden]="isMenuCollapsed">
+        <div id="sideMenu">
+          <div id="upperMenu">
+            <h1 routerLink="/">SoliGest</h1>
+            <button class="menu-toggle-btn" (click)="toggleMenu()">
+              <i class="fas fa-bars"></i> Menu
+            </button>
+          </div>
+
+          <div id="menuOptions">
+            <a routerLink="/avarias" class="menu-link">
+              <span>Gestão das Avarias</span>
+              <i class="fas fa-chevron-right"></i>
+            </a>
+            <a routerLink="/funcionario" class="menu-link">
+              <span>Funcionários</span>
+              <i class="fas fa-chevron-right"></i>
+            </a>
+            <a href="#" class="menu-link">
+              <span>Métricas</span>
+              <i class="fas fa-chevron-right"></i>
+            </a>
+            <a routerLink="/paineis-solares" class="menu-link">
+              <span>Painéis</span>
+              <i class="fas fa-chevron-right"></i>
+            </a>
+            <a routerLink="/mapa" class="menu-link ">
+              <span>Mapa</span>
+              <i class="fas fa-chevron-right"></i>
+            </a>
+            <a routerLink="/chat" class="menu-link ">
+              <span>Chat</span>
+              <i class="fas fa-chevron-right"></i>
+            </a>
+
+            <button class="signout-btn" (click)="signOut()">
+              <i class="fas fa-sign-out-alt"></i> Sair
+            </button>
+          </div>
         </div>
+      </div>
 
-        <div id="menuOptions">
-          <a routerLink="/avarias" class="menu-link">
-            <span>Gestão das Avarias</span>
-            <i class="fas fa-chevron-right"></i>
-          </a>
-          <a routerLink="/funcionario" class="menu-link">
-            <span>Funcionários</span>
-            <i class="fas fa-chevron-right"></i>
-          </a>
-          <a href="#" class="menu-link">
-            <span>Métricas</span>
-            <i class="fas fa-chevron-right"></i>
-          </a>
-          <a routerLink="/paineis-solares" class="menu-link">
-            <span>Painéis</span>
-            <i class="fas fa-chevron-right"></i>
-          </a>
-          <a routerLink="/mapa" class="menu-link ">
-            <span>Mapa</span>
-            <i class="fas fa-chevron-right"></i>
-          </a>
-          <a routerLink="/chat" class="menu-link ">
-            <span>Chat</span>
-            <i class="fas fa-chevron-right"></i>
-          </a>
+      <!-- Botão para expandir menu -->
+      <button class="menu-collapsed-btn" *ngIf="isMenuCollapsed" (click)="toggleMenu()">
+        <i class="fas fa-bars"></i> Menu
+      </button>
 
-          <button class="signout-btn" (click)="signOut()">
-            <i class="fas fa-sign-out-alt"></i> Sair
-          </button>
+      <!-- Conteúdo principal -->
+      <div class="right-section" [class.expanded]="isMenuCollapsed">
+        <div class="main-content">
+          <h2>Créditos</h2>
+          <p>Esta plataforma foi desenvolvida para propósitos académicos</p>
+          <p>Licenciatura em Engenharia Informática, 3.º ano, Insituto Politécnico de Setúbal, Escola Superior de Técnologia de Setúbal</p>
+          <p>
+            No âmbito das seguintes unidades curriculares e respetivos docentes:
+          </p>
+          <ul>
+            <li>Engenharia de Software Aplicada</li>
+            <ul>
+              <li>Prof. Nuno Pina Gonçalves - Responsável da Unidade Curricular</li>
+              <li>Prof. Gabriel Pestana - Professor Assistente</li>
+              <li>Prof. Paulo Fournier - Professor Assistente</li>
+            </ul>
+            <li>Programação Visual</li>
+            <ul>
+              <li>Prof. José Cordeiro - Responsável da Unidade Curricular</li>
+            </ul>
+            <li>Gestão de Projetos Informáticos</li>
+            <ul>
+              <li>Prof. Gabriel Pestana - Responsável da Unidade Curricular</li>
+              <li>Prof. Nuno Pina Gonçalves - Professor Assistente</li>
+            </ul>
+          </ul>
+          <p>Todas estas unidades curriculares foram frequentadas no ano letivo de 2024/2025 e estão dentro do plano curricular do<br /> 3.º ano da Licenciatura em Engenharia Informática pela Escola Superior de Técnologia de Setúbal inserida no Insituto Politécnico de Setúbal.</p>
+          <p>O grupo de alunos foi composto por:</p>
+          <ul>
+            <li>Afonso Coelho, estudante n.º 202100258, nas funções de Gestor de Projeto, Programador, Desginer e Analista</li>
+            <li>Afonso Correia, estudante n.º 202101001, nas funções de Programador, Desginer e Analista</li>
+            <li>António Fernandes, estudante n.º 202100236, nas funções de Programador, Desginer e Analista</li>
+            <li>Diogo Poupinha, estudante n.º 202200184, nas funções de Programador, Desginer e Analista</li>
+            <li>Ian Resende, estudante n.º 202100243, nas funções de Programador, Desginer e Analista</li>
+          </ul>
+          <p>Qualquer questão, denúncia de erro ou sugestão de melhoria deve ser relatada para <a href="mailto:geral@soligest.com">geral&#64;soligest.com</a></p>
         </div>
       </div>
     </div>
 
-    <!-- Botão para expandir menu (visível apenas quando recolhido) -->
-    <button class="menu-collapsed-btn" *ngIf="isMenuCollapsed" (click)="toggleMenu()">
-      <i class="fas fa-bars"></i> Menu
-    </button>
-
-    <!-- Mapa -->
-    <div class="right-section" [class.expanded]="isMenuCollapsed">
-      <h2>Créditos</h2>
-      <p>Esta plataforma foi desenvolvida para propósitos académicos</p>
-      <p>Licenciatura em Engenharia Informática, 3.º ano, Insituto Politécnico de Setúbal, Escola Superior de Técnologia de Setúbal</p>
-      <p>
-        No âmbito das seguintes unidades curriculares e respetivos docentes:
-      </p>
-      <ul>
-        <li>Engenharia de Software Aplicada</li>
-        <ul>
-          <li>Prof. Nuno Pina Gonçalves - Responsável da Unidade Curricular</li>
-          <li>Prof. Gabriel Pestana - Professor Assistente</li>
-          <li>Prof. Paulo Fournier - Professor Assistente</li>
-        </ul>
-        <li>Programação Visual</li>
-        <ul>
-          <li>Prof. José Cordeiro - Responsável da Unidade Curricular</li>
-        </ul>
-        <li>Gestão de Projetos Informáticos</li>
-        <ul>
-          <li>Prof. Gabriel Pestana - Responsável da Unidade Curricular</li>
-          <li>Prof. Nuno Pina Gonçalves - Professor Assistente</li>
-        </ul>
-      </ul>
-      <p>Todas estas unidades curriculares foram frequentadas no ano letivo de 2024/2025 e estão dentro do plano curricular do<br /> 3.º ano da Licenciatura em Engenharia Informática pela Escola Superior de Técnologia de Setúbal inserida no Insituto Politécnico de Setúbal.</p>
-      <p>O grupo de alunos foi composto por:</p>
-      <ul>
-        <li>Afonso Coelho, estudante n.º 202100258, nas funções de Gestor de Projeto, Programador, Desginer e Analista</li>
-        <li>Afonso Correia, estudante n.º 202101001, nas funções de Programador, Desginer e Analista</li>
-        <li>António Fernandes, estudante n.º 202100236, nas funções de Programador, Desginer e Analista</li>
-        <li>Diogo Poupinha, estudante n.º 202200184, nas funções de Programador, Desginer e Analista</li>
-        <li>Ian Resende, estudante n.º 202100243, nas funções de Programador, Desginer e Analista</li>
-      </ul>
-      <p>Qualquer questão, denúncia de erro ou sugestão de melhoria deve ser relatada para <a href="mailto:geral@soligest.com">geral&#64;soligest.com</a></p>
-    </div>
+    <app-footer></app-footer>
   </div>
-
-  <!-- Footer -->
-  <footer class="soligest-footer">
-    <p>Sistema de assistência a painéis solares</p>
-    <a href="#">Ajuda (?)</a> | <a routerLink="/about-us">Criadores</a>
-  </footer>
-</div>
+</body>
+</html>
