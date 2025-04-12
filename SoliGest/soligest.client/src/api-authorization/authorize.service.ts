@@ -50,7 +50,6 @@ export class AuthorizeService {
     );
   }
 
-  // Registro de novo utilizador
   public register(name: string, address1: string, address2: string, phoneNumber: string, birthDate: Date, email: string, password: string, role: string, dayOff: string, startHoliday: string, endHoliday: string): Observable<boolean> {
     return this.http.post('api/Users/signup', { name, address1, address2, phoneNumber, birthDate, email, password, role, dayOff, startHoliday, endHoliday }, { observe: 'response' }).pipe(
       map((res) => res.ok),
@@ -58,19 +57,15 @@ export class AuthorizeService {
     );
   }
 
-  // Logout - Remove o token e notifica o estado
   public signOut(): void {
     this.clearToken();
     this._authStateChanged.next(false);
   }
 
-  // Verifica se o utilizador está autenticado
   public isSignedIn(): boolean {
     return this.hasToken();
   }
 
-  
-  // check if the user is authenticated. the endpoint is protected so 401 if not.
   public user() {
     return this.http.get<UserInfo>('/manage/info', {
       withCredentials: true
@@ -80,7 +75,6 @@ export class AuthorizeService {
       }));
   }
 
-  // Obter informações do utilizador autenticado
   public getUserInfo(): Observable<UserInfo> {
     const token = localStorage.getItem('authToken');
     if (!token) {

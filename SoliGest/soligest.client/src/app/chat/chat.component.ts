@@ -1,6 +1,20 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthorizeService } from '../../api-authorization/authorize.service';
+import { ChatService } from '../services/chat.service';
+
+interface Conversation {
+  id?: number;
+  contact: Contact;
+  messages: any[];
+  unreadCount?: number;
+}
+
+interface Contact {
+  id: string;
+  name: string;
+  position?: string;
+}
 
 @Component({
   selector: 'app-chat',
@@ -18,47 +32,117 @@ export class ChatComponent {
   public searchTerm: string = '';
   public newMessage: string = '';
 
-  // Current chat
-  public currentContact: any = null;
+  
+  public currentUser: string = '';
+  public currentContact: Contact | null = null;
   public currentMessages: any[] = [];
+  public conversations: Conversation[] = [];
+  public contacts: Contact[] = [];
 
-  // Data
-  public conversations = [
-    {
-      contact: { id: 1, name: 'António Mendes', position: 'Técnico' },
-      lastMessage: 'BLA BLA BLA',
-      lastMessageTime: new Date(Date.now() - 3600000),
-      messages: [
-        { content: 'BLA BLA BLA', sent: false, time: new Date(Date.now() - 3600000) },
-        { content: 'BECA BECA BECA', sent: true, time: new Date(Date.now() - 1800000) },
-        { content: 'ZIMBABUE', sent: false, time: new Date() }
-      ],
-      unreadCount: 0
-    },
-    {
-      contact: { id: 2, name: 'João Silva', position: 'Gerente' },
-      lastMessage: 'Precisamos falar sobre o projeto',
-      lastMessageTime: new Date(Date.now() - 86400000),
-      messages: [
-        { content: 'Olá, como vai?', sent: false, time: new Date(Date.now() - 86400000) },
-        { content: 'Precisamos falar sobre o projeto', sent: false, time: new Date(Date.now() - 82800000) }
-      ],
-      unreadCount: 2
-    }
-  ];
-
-  public availableContacts = [
-    { id: 3, name: 'Maria Santos', position: 'Supervisora' },
-    { id: 4, name: 'Carlos Oliveira', position: 'Técnico' },
-    { id: 5, name: 'Ana Pereira', position: 'Administradora' },
-    { id: 6, name: 'Pedro Alves', position: 'Supervisora' },
-    { id: 7, name: 'Sofia Martins', position: 'Técnica' }
-  ];
-
-  constructor(private auth: AuthorizeService, private router: Router) {
+  constructor(private auth: AuthorizeService, private router: Router, private chatService: ChatService) {
     this.auth.onStateChanged().subscribe((state: boolean) => {
       this.isSignedIn = state;
+
+      if (this.isSignedIn) {
+        this.auth.getUserInfo().subscribe((userInfo) => {
+          this.currentUser = userInfo.name;
+        });
+      }
     });
+  }
+
+
+  ngOnInit(): void {
+    this.chatService.startConnection();
+
+    this.chatService.onMessageReceived((user: string, message: any) => {
+      // Procura a conversa que possua o contato remetente
+      let conversation = this.conversations.find(conv => conv.contact.id === user);
+      if (conversation) {
+        conversation.messages.push({
+          content: message,
+          sent: false,
+          time: new Date()
+        });
+        conversation.unreadCount = (conversation.unreadCount || 0) + 1;
+        
+        if (this.currentContact && this.currentContact.id === conversation.contact.id) {
+          this.currentMessages = conversation.messages;
+          conversation.unreadCount = 0;
+        }
+      } else {
+        let newConversation: Conversation = {
+          contact: { id: user, name: user },
+          messages: [{
+            content: message,
+            sent: false,
+            time: new Date()
+          }],
+          unreadCount: 1
+        };
+        this.conversations.push(newConversation);
+      }
+    });
+
+    this.chatService.getConversations().subscribe((data: any[]) => {
+      this.conversations = data.map(conv => {
+        return {
+          contact: conv.contact,
+          messages: conv.messages,
+          unreadCount: 0
+        } as Conversation;
+      });
+    });
+
+    this.chatService.getAvailableContacts().subscribe((data: any[]) => {
+      this.contacts = data;
+    });
+  }
+
+  
+
+  sendMessage(): void {
+    if (this.newMessage.trim() && this.currentContact) {
+      const sender = this.currentUser || 'Utilizador';
+      // Envia via SignalR
+      this.chatService.sendMessage(sender, this.newMessage);
+
+      const messageDto = {
+        receiverId: this.currentContact.id,
+        content: this.newMessage
+      };
+
+      this.chatService.saveMessage(messageDto).subscribe();
+
+      let conversation = this.conversations.find(conv => conv.contact.id === this.currentContact!.id);
+      if (!conversation) {
+        conversation = {
+          contact: this.currentContact,
+          messages: [],
+          unreadCount: 0
+        };
+        this.conversations.push(conversation);
+      }
+      conversation.messages.push({ content: this.newMessage, sent: true, time: new Date() });
+      this.currentMessages = conversation.messages;
+      this.newMessage = '';
+    }
+  }
+
+  startNewConversation(contact: Contact): void {
+    // Verifica se já existe uma conversa para o contato selecionado
+    let conversation = this.conversations.find(conv => conv.contact.id === contact.id);
+    if (!conversation) {
+      conversation = {
+        contact: contact,
+        messages: [],
+        unreadCount: 0
+      };
+      this.conversations.push(conversation);
+    }
+    this.currentContact = contact;
+    this.currentMessages = conversation.messages;
+    this.closeModal();
   }
 
   // Utility methods
@@ -77,18 +161,10 @@ export class ChatComponent {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 
-  sortedConversations() {
-    return [...this.conversations].sort((a, b) =>
-      new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime()
-    );
-  }
 
-  filteredContacts() {
-    if (!this.searchTerm) return this.availableContacts;
-    const term = this.searchTerm.toLowerCase();
-    return this.availableContacts.filter(contact =>
-      contact.name.toLowerCase().includes(term) ||
-      (contact.position && contact.position.toLowerCase().includes(term))
+  filteredContacts(): Contact[] {
+    return this.contacts.filter(contact =>
+      contact.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
@@ -120,69 +196,5 @@ export class ChatComponent {
     this.currentContact = conversation.contact;
     this.currentMessages = conversation.messages;
     conversation.unreadCount = 0;
-  }
-
-  startNewConversation(contact: any): void {
-    const existingConversation = this.conversations.find(c => c.contact.id === contact.id);
-
-    if (existingConversation) {
-      this.selectConversation(existingConversation);
-    } else {
-      const newConversation = {
-        contact: contact,
-        lastMessage: '',
-        lastMessageTime: new Date(),
-        messages: [],
-        unreadCount: 0
-      };
-      this.conversations.unshift(newConversation);
-      this.selectConversation(newConversation);
-    }
-
-    this.closeModal();
-  }
-
-  sendMessage(): void {
-    if (this.newMessage.trim() && this.currentContact) {
-      const newMsg = {
-        content: this.newMessage,
-        sent: true,
-        time: new Date()
-      };
-
-      this.currentMessages.push(newMsg);
-
-      // Update conversation in list
-      const conversation = this.conversations.find(c => c.contact.id === this.currentContact.id);
-      if (conversation) {
-        conversation.lastMessage = this.newMessage;
-        conversation.lastMessageTime = new Date();
-        conversation.messages = [...this.currentMessages];
-
-        // Move to top
-        this.conversations = [
-          conversation,
-          ...this.conversations.filter(c => c.contact.id !== this.currentContact.id)
-        ];
-      }
-
-      this.newMessage = '';
-
-      // Simulate reply after 1 second
-      setTimeout(() => {
-        const reply = {
-          content: 'Resposta automática',
-          sent: false,
-          time: new Date()
-        };
-        this.currentMessages.push(reply);
-
-        if (conversation) {
-          conversation.lastMessage = reply.content;
-          conversation.lastMessageTime = reply.time;
-          conversation.messages = [...this.currentMessages];
-        }
-      }, 1000);
-    }
   }
 }
