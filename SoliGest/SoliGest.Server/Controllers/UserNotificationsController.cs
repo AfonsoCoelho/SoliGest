@@ -20,16 +20,36 @@ namespace SoliGest.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserNotification>>> GetUserNotifications()
         {
-            return await _context.UserNotification.ToListAsync();
+            return await _context.UserNotification.Include(uN => uN.User).Include(uN => uN.Notification).ToListAsync();
         }
 
         // POST: api/UserNotifications
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<IActionResult> PostUserNotification(UserNotification userNotification)
+        public async Task<IActionResult> PostUserNotification([FromBody]UserNotificationUpdateModel model)
         {
             try
             {
+                User user = await _context.FindAsync<User>(model.UserId);
+                if(user == null)
+                {
+                    return BadRequest("O utilizador com o Id fornecido não foi encontrado.");
+                }
+                Notification notification = await _context.FindAsync<Notification>(model.NotificationId);
+                if (notification == null)
+                {
+                    return BadRequest("A notificação com o Id fornecido não foi encontrada.");
+                }
+                UserNotification userNotification = new UserNotification
+                {
+                    UserNotificationId = 0,
+                    User = user,
+                    UserId = model.UserId,
+                    Notification = notification,
+                    NotificationId = model.NotificationId,
+                    ReceivedDate = DateTime.Now,
+                    isRead = false
+                };
                 _context.UserNotification.Add(userNotification);
                 await _context.SaveChangesAsync();
 
@@ -70,7 +90,7 @@ namespace SoliGest.Server.Controllers
         {
             try
             {
-                var userNotification = await _context.FindAsync<UserNotification>(id);
+                var userNotification = await _context.UserNotification.Include(uN => uN.User).Include(uN => uN.Notification).FirstOrDefaultAsync(uN => uN.UserNotificationId == id);
                 if (userNotification != null)
                 {
                     return userNotification;
@@ -91,27 +111,27 @@ namespace SoliGest.Server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUserNotification([FromBody]UserNotificationUpdateModel model)
         {
-            var userNotification = await _context.FindAsync<UserNotification>();
+            var userNotification = await _context.FindAsync<UserNotification>(model.UserNotificationId);
             if (userNotification == null)
             {
                 return NotFound($"Não foi possível encontrar a notificação com o ID '{model.UserNotificationId}'.");
             }
 
             userNotification.UserId = model.UserId;
-            var user = _context.FindAsync<User>(userNotification.UserId);
-            if(user.Result != null)
+            var user = await _context.FindAsync<User>(userNotification.UserId);
+            if(user != null)
             {
-                userNotification.User = user.Result;
+                userNotification.User = user;
             }
             else
             {
                 return BadRequest("O id de uilizador indicado não está associado a nenhum utilizador.");
             }
             userNotification.NotificationId = model.NotificationId;
-            var notification = _context.FindAsync<Notification>(userNotification.NotificationId);
-            if (notification.Result != null)
+            var notification = await _context.FindAsync<Notification>(userNotification.NotificationId);
+            if (notification != null)
             {
-                userNotification.Notification = notification.Result;
+                userNotification.Notification = notification;
             }
             else
             {
