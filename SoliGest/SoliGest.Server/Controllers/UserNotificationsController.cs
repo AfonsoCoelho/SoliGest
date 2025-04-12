@@ -152,6 +152,29 @@ namespace SoliGest.Server.Controllers
             return Ok(new { message = "Notificação atualizada com sucesso!" });
         }
 
+        [HttpPut("{id}/markAsRead")]
+        public async Task<IActionResult> MarkNotificationAsRead(int userNotificationId)
+        {
+            var notification = await _context.FindAsync<UserNotification>(userNotificationId);
+            if(notification == null)
+            {
+                return NotFound($"Não foi possível encontrar a notificação com o ID '{RouteData.Values}'.");
+            }
+            return Ok();
+        }
+
+        [HttpGet("/ByUserId/{userId}")]
+        public async Task<IActionResult> GetUserNotificationsByUserId(string userId)
+        {
+            var userNotifications = await _context.UserNotification.Where(un => un.UserId.Equals(userId)).Include(un => un.User).Include(un => un.Notification).ToListAsync();
+            Console.WriteLine(RouteData);
+            if (userNotifications == null)
+            {
+                return NotFound($"Não foi possível encontrar a notificação com o ID '{RouteData}'.");
+            }
+            return Ok(userNotifications);
+        }
+
         public class UserNotificationUpdateModel
         {
             public int UserNotificationId { get; set; }
