@@ -135,7 +135,7 @@ namespace SoliGest.Server.Controllers
             }
             else
             {
-                return BadRequest("O id de notificação indicado não está associado a nenhum utilizador.");
+                return BadRequest("O id de notificação indicado não está associado a nenhuma notificação.");
             }
             userNotification.ReceivedDate = model.ReceivedDate;
             userNotification.isRead = model.isRead;
