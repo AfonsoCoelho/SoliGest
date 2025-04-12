@@ -13,7 +13,7 @@ namespace SoliGest.Server.Data
                 Notification notification = await context.Notification.FirstOrDefaultAsync(n => n.Id == 1);
                 UserNotification userNotification1 = new UserNotification
                 {
-                    UserNotificationId = 1,
+                    UserNotificationId = 0,
                     User = user,
                     UserId = user.Id,
                     Notification = notification,
@@ -26,7 +26,7 @@ namespace SoliGest.Server.Data
 
                 UserNotification userNotification2 = new UserNotification
                 {
-                    UserNotificationId = 1,
+                    UserNotificationId = 0,
                     User = user,
                     UserId = user.Id,
                     Notification = notification,
@@ -39,7 +39,7 @@ namespace SoliGest.Server.Data
 
                 UserNotification userNotification3 = new UserNotification
                 {
-                    UserNotificationId = 1,
+                    UserNotificationId = 0,
                     User = user,
                     UserId = user.Id,
                     Notification = notification,
