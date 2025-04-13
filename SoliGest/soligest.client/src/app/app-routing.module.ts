@@ -17,6 +17,7 @@ import { FuncionarioDetailsComponent } from './funcionario-details/funcionario-d
 import { ChatComponent } from './chat/chat.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { HelpComponent } from './help/help.component';
+import { MetricsComponent } from './metrics/metrics.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, // A raiz agora carrega a página de registar
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'chat', component: ChatComponent },
   { path: 'about-us', component: AboutUsComponent },
   { path: 'help', component: HelpComponent },
+  { path: 'metrics', component: MetricsComponent },
 
   { path: '**', redirectTo: '' } // Qualquer rota inválida vai para registar
 ];

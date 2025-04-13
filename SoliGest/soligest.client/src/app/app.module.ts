@@ -1,6 +1,7 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,6 +28,7 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { HelpComponent } from './help/help.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { MetricsComponent } from './metrics/metrics.component';
 
 
 
@@ -49,15 +51,17 @@ import { FooterComponent } from './footer/footer.component';
     AboutUsComponent,
     HelpComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    MetricsComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
     AppRoutingModule, FormsModule,
-    ReactiveFormsModule, ApiAuthorizationModule
+    ReactiveFormsModule, ApiAuthorizationModule, 
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    provideCharts(withDefaultRegisterables()),
     AuthGuard,
     AuthorizeService
   ],

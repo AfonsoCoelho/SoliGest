@@ -1,0 +1,45 @@
+<div class="page-wrapper">
+  <app-header></app-header>
+
+  <div class="content-container">
+    <div class="metrics-container">
+      <h2>Métricas de Performance</h2>
+      <div class="metrics-container">
+        <div class="metric-card" *ngIf="totalUsers !== null">
+          <h4>Utilizadores</h4>
+          <p>{{ totalUsers }}</p>
+        </div>
+
+        <div class="metric-card" *ngIf="totalPanels !== null">
+          <h4>Painéis</h4>
+          <p>{{ totalPanels }}</p>
+        </div>
+
+        <div class="metric-card" *ngIf="averageRepairTime !== null">
+          <h4>Tempo Médio de Reparação</h4>
+          <p>{{ averageRepairTime }} h</p>
+        </div>
+
+        <!--
+     <div class="metric-card" *ngIf="totalAvarias !== null">
+      <h4>Total de Avarias</h4>
+      <p>{{ totalAvarias }}</p>
+    </div>
+  </div>
+   -->
+        <div style="display: block;">
+          <canvas
+                  baseChart
+                  [data]="doughnutChartData"
+                  [labels]="doughnutChartLabels"
+                  [chartType]="doughnutChartType"
+                  [options]="doughnutChartOptions"
+                  [colors]="doughnutChartColors">
+          </canvas>
+        </div>
+      </div>
+  </div>
+</div>
+<app-footer></app-footer>
+
+
