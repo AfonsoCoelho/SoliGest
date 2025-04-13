@@ -107,4 +107,8 @@ export class AuthorizeService {
       catchError(() => of(false))
     );
   }
+
+  public getToken(): string | null {
+    return localStorage.getItem('authToken');
+  }
 }

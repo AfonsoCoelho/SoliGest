@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import * as signalR from '@microsoft/signalr';
 import { Observable } from 'rxjs';
+import { AuthorizeService } from '../../api-authorization/authorize.service';
 
 export interface Conversation {
   id?: number;
@@ -28,11 +30,13 @@ export class ChatService {
   private hubConnection: signalR.HubConnection | null = null;
   private baseUrl = '/api/Chat';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private auth: AuthorizeService) { }
 
   startConnection(): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('/chatHub') // Atualize a URL se necessário
+      .withUrl('https://127.0.0.1:49893/chatHub', {
+        accessTokenFactory: () => this.auth.getToken()
+      } as signalR.IHttpConnectionOptions) 
       .withAutomaticReconnect()
       .build();
 
@@ -43,7 +47,12 @@ export class ChatService {
   }
   
   getConversations(): Observable<Conversation[]> {
-    return this.http.get<Conversation[]>(`${this.baseUrl}/conversations`);
+    const token = this.auth.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<Conversation[]>(`${this.baseUrl}/conversations`, { headers });
   }
 
   sendMessage(sender: string, content: string): void {
@@ -62,10 +71,22 @@ export class ChatService {
   }
 
   getAvailableContacts(): Observable<Contact[]> {
-    return this.http.get<Contact[]>(`${this.baseUrl}/contacts`);
+    const token = this.auth.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<Contact[]>(`${this.baseUrl}/contacts`, { headers });
   }
 
   saveMessage(messageDto: ChatMessageDto): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/message`, messageDto);
+    const token = this.auth.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.post<any>(`${this.baseUrl}/message`, messageDto, { headers });
   }
+
+
 }

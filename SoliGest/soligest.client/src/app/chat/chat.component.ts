@@ -6,8 +6,10 @@ import { ChatService } from '../services/chat.service';
 interface Conversation {
   id?: number;
   contact: Contact;
+  lastMessage: string;
+  lastMessageTimeStamp: Date;
   messages: any[];
-  unreadCount?: number;
+  unreadCount: number;
 }
 
 interface Contact {
@@ -65,6 +67,7 @@ export class ChatComponent {
           time: new Date()
         });
         conversation.unreadCount = (conversation.unreadCount || 0) + 1;
+
         
         if (this.currentContact && this.currentContact.id === conversation.contact.id) {
           this.currentMessages = conversation.messages;
@@ -78,6 +81,8 @@ export class ChatComponent {
             sent: false,
             time: new Date()
           }],
+          lastMessage: message,
+          lastMessageTimeStamp: new Date(),
           unreadCount: 1
         };
         this.conversations.push(newConversation);
@@ -119,23 +124,28 @@ export class ChatComponent {
         conversation = {
           contact: this.currentContact,
           messages: [],
+          lastMessage: "",
+          lastMessageTimeStamp: new Date(),
           unreadCount: 0
         };
         this.conversations.push(conversation);
       }
+
       conversation.messages.push({ content: this.newMessage, sent: true, time: new Date() });
+      conversation.lastMessage = this.newMessage;
       this.currentMessages = conversation.messages;
       this.newMessage = '';
     }
   }
 
   startNewConversation(contact: Contact): void {
-    // Verifica se já existe uma conversa para o contato selecionado
     let conversation = this.conversations.find(conv => conv.contact.id === contact.id);
     if (!conversation) {
       conversation = {
         contact: contact,
         messages: [],
+        lastMessage: "",
+        lastMessageTimeStamp: new Date(),
         unreadCount: 0
       };
       this.conversations.push(conversation);
@@ -166,6 +176,14 @@ export class ChatComponent {
     return this.contacts.filter(contact =>
       contact.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
+  }
+
+  sortedConversations(): Conversation[] {
+    return this.conversations.sort((a, b) => {
+      const aTime = a.messages.length ? new Date(a.messages[a.messages.length - 1].time).getTime() : 0;
+      const bTime = b.messages.length ? new Date(b.messages[b.messages.length - 1].time).getTime() : 0;
+      return bTime - aTime;
+    });
   }
 
   // Menu methods

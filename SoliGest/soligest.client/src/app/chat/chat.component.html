@@ -103,7 +103,7 @@
                     <div class="last-message">{{truncate(conversation.lastMessage, 25)}}</div>
                   </div>
                   <div class="message-meta">
-                    <div class="message-time">{{formatTime(conversation.lastMessageTime)}}</div>
+                    <div class="message-time">{{formatTime(conversation.lastMessageTimeStamp)}}</div>
                     <div class="unread-count" *ngIf="conversation.unreadCount > 0">
                       {{conversation.unreadCount}}
                     </div>

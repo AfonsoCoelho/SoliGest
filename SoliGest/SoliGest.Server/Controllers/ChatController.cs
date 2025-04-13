@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SoliGest.Server.Data;
-using SoliGest.Server.Models; // Ajusta este namespace conforme a estrutura dos teus modelos
+using SoliGest.Server.Models;
 using System.Threading.Tasks;
 using System;
 using System.Linq;
@@ -49,7 +49,6 @@ namespace SoliGest.Server.Controllers
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized();
 
-            // Exemplo: Buscar todos os utilizadores que não sejam o utilizador atual.
             var contacts = await _context.Users
                 .Where(u => u.Id != userId)
                 .Select(u => new
