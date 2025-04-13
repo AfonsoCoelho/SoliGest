@@ -10,18 +10,22 @@ export class MetricsService {
   constructor(private http: HttpClient) { }
 
   getTotalUsers(): Observable<any> {
-    return this.http.get<any>(`api/MetricsController/total-usuarios`);
+    return this.http.get<any>(`api/Metrics/total-usuarios`);
   }
 
   getTotalPanels(): Observable<any> {
-    return this.http.get<any>(`api/MetricsController/total-paineis`);
+    return this.http.get<any>(`api/Metrics/total-paineis`);
   }
 
-  getAssistanceRequestPerStatus(): Observable<any> {
-    return this.http.get<any>(`api/MetricsController/avarias-status`);
+  getTotalAssistanceRequests(): Observable<any> {
+    return this.http.get<any>(`api/Metrics/total-pedidos-assistencia`);
+  }
+
+  getAssistanceRequestPerPriority(): Observable<any> {
+    return this.http.get<any>(`api/Metrics/avarias-priority`);
   }
 
   getAverageRepairTime(): Observable<any> {
-    return this.http.get<any>(`api/MetricsController/tempo-medio-reparacao`);
+    return this.http.get<any>(`api/Metrics/tempo-medio-reparacao`);
   }
 }

@@ -1,7 +1,7 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { NgApexchartsModule } from "ng-apexcharts";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,6 +32,7 @@ import { MetricsComponent } from './metrics/metrics.component';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,11 +58,11 @@ import { MetricsComponent } from './metrics/metrics.component';
   imports: [
     BrowserModule, HttpClientModule,
     AppRoutingModule, FormsModule,
-    ReactiveFormsModule, ApiAuthorizationModule, 
+    ReactiveFormsModule, ApiAuthorizationModule,
+    NgApexchartsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    provideCharts(withDefaultRegisterables()),
     AuthGuard,
     AuthorizeService
   ],

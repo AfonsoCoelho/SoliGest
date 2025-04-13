@@ -36,7 +36,6 @@ const routes: Routes = [
   { path: 'about-us', component: AboutUsComponent },
   { path: 'help', component: HelpComponent },
   { path: 'metrics', component: MetricsComponent },
-
   { path: '**', redirectTo: '' } // Qualquer rota inválida vai para registar
 ];
 

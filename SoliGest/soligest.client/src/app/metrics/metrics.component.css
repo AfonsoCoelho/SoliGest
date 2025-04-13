@@ -1,386 +1,79 @@
-/* Estilo da página completa */
+/* 1. Ajustes gerais de página */
 .page-wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   font-family: 'Roboto', sans-serif;
+  background-color: #f9f9fc; /* Fundo bem claro, quase branco */
 }
 
-/* Header */
-.soligest-header {
-  display: flex;
-  align-items: center;
-  background-color: #37AFE1;
-  color: black;
-  padding: 15px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-}
-
-.header-logo {
-  width: 40px;
-  height: auto;
-  margin-right: 10px;
-}
-
-.header-title {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-/* Container do conteúdo */
 .content-container {
   flex: 1;
   display: flex;
-  margin-top: 60px;
-  padding-bottom: 60px;
-}
-
-.left-section {
-  width: 50%;
-  background: linear-gradient(to bottom, #d1d1d1, #ffffff);
-  padding: 20px;
-  overflow-y: auto;
-}
-
-.right-section {
-  width: 50%;
-  padding: 20px;
-  background-color: #f5f5f5;
-}
-
-/* Cabeçalho e ações */
-.panels-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.panel-actions {
-  display: flex;
-  gap: 10px;
-}
-
-/* Botões */
-.create-btn {
-  background-color: #FFC300;
-  color: black;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-weight: bold;
-}
-
-  .create-btn:hover {
-    background-color: #e6b800;
-  }
-
-/* Estilos para os botões de ação */
-.panel-actions-container {
-  display: flex;
-  gap: 8px;
-}
-
-.action-btn {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 14px;
-  transition: all 0.3s ease;
-}
-
-  .action-btn:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
-  }
-
-.view-btn {
-  background-color: #28a745; /* Verde */
-}
-
-.edit-btn {
-  background-color: #ffc107; /* Amarelo */
-  color: #212529; /* Texto escuro para melhor contraste */
-}
-
-.delete-btn {
-  background-color: #dc3545; /* Vermelho */
-}
-
-/* Ícones Font Awesome */
-.fas {
-  font-size: 14px;
-}
-
-/* Sort Options - Ajustado para alinhar à esquerda */
-.sort-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.sort-options {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: #37AFE1;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.sort-actions {
-  display: flex;
-  gap: 10px;
-}
-
-/* Mapa */
-.map-container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-  .map-container h2 {
-    background-color: #37AFE1;
-    color: black;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
-    margin-bottom: 15px;
-  }
-
-#map {
-  height: calc(100vh - 180px);
-  width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-/* Footer */
-.soligest-footer {
-  text-align: center;
-  background-color: #37AFE1;
-  color: black;
-  padding: 15px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-  .soligest-footer p,
-  .soligest-footer a {
-    font-weight: bold;
-    color: black;
-    text-decoration: none;
-    margin: 0 10px;
-  }
-
-/* Estilos dos painéis */
-.panels-section h2 {
-  background-color: #FFC300;
-  color: black;
-  padding: 10px;
-  border-radius: 5px;
-  text-align: center;
-}
-
-.panels-container {
-  max-height: 430px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.panel {
-  padding: 15px;
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
-  position: relative;
-}
-
-.panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.status-red {
-  border-left: 4px solid #ff0000;
-}
-
-.status-green {
-  border-left: 4px solid #00aa00;
-}
-
-.status-yellow {
-  border-left: 4px solid #ffaa00;
-}
-
-.status-text {
-  font-weight: bold;
-}
-
-/* Modais */
-.modal {
-  display: flex;
-  position: fixed;
-  z-index: 2000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  align-items: center;
   justify-content: center;
+  padding: 2rem;
 }
 
-.modal-content {
-  background-color: #fefefe;
-  padding: 20px;
+/* 2. Container das métricas */
+.metrics-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+  .metrics-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+/* 3. Grid dos cards (métricas) */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* 4. Cartão individual de métrica */
+.metric-card {
+  position: relative;
+  background-color: #eaf4ff;
   border-radius: 8px;
-  width: 80%;
-  max-width: 500px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem 1rem 2rem;
+  min-height: 150px;
+  overflow: hidden;
 }
 
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
+  .metric-card:hover {
+    transform: translateY(-3px);
+  }
+
+  .metric-card h4 {
+    margin: 0;
+    color: #263238;
+    font-size: 1rem;
+  }
+
+.metric-data {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #D9534F;
+  text-align: center;
 }
 
-  .close:hover {
-    color: black;
-  }
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-
-  .form-group input,
-  .form-group select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-
-.form-actions {
+/* 5. Container do gráfico */
+.chart-container {
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 20px;
+  justify-content: flex-start;
 }
 
-.cancel-btn {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.confirm-btn {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.cancel-btn:hover {
-  background-color: #d32f2f;
-}
-
-.confirm-btn:hover {
-  background-color: #45a049;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-  .content-container {
-    flex-direction: column;
-  }
-
-  .left-section,
-  .right-section {
+  .chart-container apx-chart {
+    max-width: 450px;
     width: 100%;
   }
-
-  #map {
-    height: 300px;
-  }
-
-  .sort-container {
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-  }
-
-  .search-input {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    width: 200px;
-    transition: all 0.3s ease;
-  }
-
-    .search-input:focus {
-      outline: none;
-      border-color: #37AFE1;
-      box-shadow: 0 0 0 2px rgba(55, 175, 225, 0.2);
-    }
-
-  /* Ajuste para o container de ordenação */
-  .sort-options {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background-color: #37AFE1;
-    padding: 10px;
-    border-radius: 5px;
-    flex-wrap: wrap; /* Permite que os itens quebrem linha em telas pequenas */
-  }
-
-  /* Responsividade para telas menores */
-  @media (max-width: 768px) {
-    .sort-options {
-      gap: 8px;
-    }
-
-    .search-input {
-      width: 100%;
-      order: 3; /* Coloca a barra de pesquisa abaixo em telas pequenas */
-    }
-  }
-}

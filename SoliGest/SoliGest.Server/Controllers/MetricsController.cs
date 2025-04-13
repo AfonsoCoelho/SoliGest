@@ -28,21 +28,26 @@ public class MetricsController : ControllerBase
         return Ok(new { totalPanels = total });
     }
 
+    [HttpGet("total-pedidos-assistencia")]
+    public async Task<IActionResult> GetTotalAssistanceRequests()
+    {
+        int total = await _context.AssistanceRequest.CountAsync();
+        return Ok(new { totalAssistanceRequests = total});
+    }
 
-
-    [HttpGet("avarias-status")]
+    [HttpGet("avarias-priority")]
     public async Task<IActionResult> GetAssistanceRequestPerStatus()
     {
         var result = await _context.AssistanceRequest
-            .GroupBy(a => a.Status)
+            .GroupBy(a => a.Priority)
             .Select(g => new
             {
-                Status = g.Key,
+                Prioridade = g.Key,
                 Quantidade = g.Count()
             })
             .ToListAsync();
 
-        var dict = result.ToDictionary(x => x.Status, x => x.Quantidade);
+        var dict = result.ToDictionary(x => x.Prioridade, x => x.Quantidade);
 
         return Ok(dict);
     }

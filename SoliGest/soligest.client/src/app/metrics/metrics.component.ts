@@ -1,40 +1,59 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MetricsService } from "../services/metrics.service";
-import { ChartOptions, ChartType } from 'chart.js';
+import {
+  ApexNonAxisChartSeries,
+  ApexResponsive,
+  ApexChart,
+  ChartComponent,
+} from "ng-apexcharts";
+
+export type ChartOptions = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  responsive: ApexResponsive[];
+  labels: any;
+  title: any;
+};
 
 @Component({
   selector: 'app-metrics',
-  standalone: false,
   templateUrl: './metrics.component.html',
-  styleUrl: './metrics.component.css'
+  styleUrl: './metrics.component.css',
+  standalone: false
 })
-
 export class MetricsComponent implements OnInit {
+  @ViewChild("chart") chart!: ChartComponent;
+
+  public chartOptions: ChartOptions = {
+    title: {
+      text: ""
+    },
+      series: [],
+      chart: {
+          height: 350,
+          type: "pie",
+      },
+      responsive: [
+          {
+              breakpoint: 480,
+              options: {
+                  chart: {
+                      width: 200,
+                  },
+                  legend: {
+                      position: "bottom",
+                  },
+              },
+          },
+      ],
+      labels: [],
+  };
+
   averageRepairTime: number = 0;
   totalPanels: number = 0;
   totalUsers: number = 0;
   totalAssistanceRequests: number = 0;
-  requestsPerStatus: any;
-
-  doughnutChartLabels: any[] = [];
-  doughnutChartData: number[] = [];
-  doughnutChartType: ChartType = 'doughnut';
-  doughnutChartOptions: ChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'top',
-      }
-    }
-  };
-  doughnutChartColors = [
-    {
-      backgroundColor: ['#D61F1F', '#FFD301', '#006B3D']
-    }
-  ];
-  pieChartLegend = true;
-
+  requestsPerPriority: any;
 
   constructor(private metricsService: MetricsService) { }
 
@@ -43,44 +62,79 @@ export class MetricsComponent implements OnInit {
   }
 
   loadMetrics(): void {
-
-    this.metricsService.getAverageRepairTime().subscribe(
-      (response) => {
+    this.metricsService.getAverageRepairTime().subscribe({
+      next: (response) => {
         this.averageRepairTime = response.averageRepairTime;
       },
-      (error) => {
+      error: (error) => {
         console.error('Error fetching average response time:', error);
       }
-    );
+    });
 
-    this.metricsService.getTotalPanels().subscribe(
-      (response) => {
+    this.metricsService.getTotalPanels().subscribe({
+      next: (response) => {
         this.totalPanels = response.totalPanels;
       },
-      (error) => {
+      error: (error) => {
         console.error('Error fetching total panels:', error);
       }
-    );
+    });
 
-    this.metricsService.getTotalUsers().subscribe(
-      (response) => {
+    this.metricsService.getTotalUsers().subscribe({
+      next: (response) => {
         this.totalUsers = response.totalUsers;
       },
-      (error) => {
+      error: (error) => {
         console.error('Error fetching total users:', error);
       }
-    );
+    });
 
-    this.metricsService.getAssistanceRequestPerStatus().subscribe(
-      (response) => {
-        this.requestsPerStatus = response;
-        this.doughnutChartLabels = Object.keys(response);
-        this.doughnutChartData = Object.values(response);
+    this.metricsService.getTotalAssistanceRequests().subscribe({
+      next: (response) => {
+        this.totalAssistanceRequests = response.totalAssistanceRequests;
       },
-      (error) => {
-        console.error('Error fetching requests per status:', error);
+      error: (error) => {
+        console.error('Error fetching total requests', error);
       }
-    );
+    });
 
+    this.metricsService.getAssistanceRequestPerPriority().subscribe({
+      next: (response) => {
+        this.requestsPerPriority = response;
+        this.buildChart();
+      },
+      error: (error) => {
+        console.error('Error fetching requests per priority:', error);
+      }
+    });
+  }
+
+  buildChart() {
+    if (this.requestsPerPriority) {
+      this.chartOptions = {
+        title: {
+          text: "Número de Pedidos de Assistência por Prioridade"
+        },
+        series: Object.values(this.requestsPerPriority),
+        chart: {
+          height: 350,
+          type: "pie",
+        },
+        labels: Object.keys(this.requestsPerPriority),
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200,
+              },
+              legend: {
+                position: "bottom",
+              },
+            },
+          },
+        ],
+      };
+    }
   }
 }
