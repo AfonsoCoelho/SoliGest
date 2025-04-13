@@ -24,12 +24,12 @@
         Nenhuma notificação
       </div>
 
-      <div *ngFor="let notif of notifications" class="notification-item">
-        <i [class]="getNotificationIcon(notif.type)"></i>
+      <div *ngFor="let notif of realNotifications" class="notification-item">
+        <!--<i [class]="getNotificationIcon(notif.type)"></i>-->
         <div class="notification-content">
-          <strong>{{ notif.title }}</strong>
-          <p>{{ notif.message }}</p>
-          <small>{{ notif.time | date:'short' }}</small>
+          <!--<strong>{{ notif.title }}</strong>-->
+          <p>{{ notif.notification.message }}</p>
+          <!--<small>{{ notif.time | date:'short' }}</small>-->
         </div>
         <button class="dismiss-btn" (click)="dismissNotification(notif.id, $event)">&times;</button>
       </div>

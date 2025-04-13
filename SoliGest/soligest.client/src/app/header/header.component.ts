@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthorizeService } from '../../api-authorization/authorize.service';
+import { UserNotification, UserNotificationsService } from '../services/user-notifications.service';
+import { User } from '../services/users.service';
 
 interface Notification {
   id: number;
@@ -17,8 +20,14 @@ interface Notification {
   styleUrls: ['./header.component.css'],
   standalone:false
 })
-export class HeaderComponent {
-  constructor(public router: Router) { }
+export class HeaderComponent implements OnInit{
+  constructor(public router: Router, private authService: AuthorizeService, private un: UserNotificationsService) { }
+    ngOnInit(): void {
+      //this.getNotifications();
+      //this.authService.user().subscribe(
+      //  (result) => console.log(result)
+      //)
+    }
   showNotificationsPanel = false;
   showProfileMenu = false;
   profileImageUrl = 'assets/images/default-profile.png';
@@ -52,6 +61,8 @@ export class HeaderComponent {
     }
   ];
 
+  realNotifications: UserNotification[] = [];
+
   // Getter para notificações não lidas
   get unreadNotifications(): Notification[] {
     return this.notifications.filter(n => !n.read);
@@ -63,6 +74,13 @@ export class HeaderComponent {
 
   toggleProfileMenu(): void {
     this.showProfileMenu = !this.showProfileMenu;
+  }
+
+  getNotifications(): void {    
+    this.un.getByLoggedInUser().subscribe(
+      (result: UserNotification[]) => this.realNotifications = result,
+      (error: any) => console.error(error)
+    );
   }
 
   getNotificationIcon(type: string): string {

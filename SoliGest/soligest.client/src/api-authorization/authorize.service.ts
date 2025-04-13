@@ -113,4 +113,11 @@ export class AuthorizeService {
       catchError(() => of(false))
     );
   }
+
+  //public getToken(): undefined {
+  //  if (this.hasToken()) {
+  //    return localStorage.getItem('authToken') || 'a';
+  //  }
+    
+  //}
 }

@@ -37,6 +37,10 @@ export class UsersService {
   saveHolidays(userId: string, holidays: { inicio: Date; fim: Date }[]): Observable<any> {
     return this.http.post(`api/Holidays/${userId}`, holidays);
   }
+
+  //getUserByEmail(email: string): Observable<User> {
+  //  return this.http.get<User>('api/Users/', email);
+  //}
 }
 
 export interface User {
