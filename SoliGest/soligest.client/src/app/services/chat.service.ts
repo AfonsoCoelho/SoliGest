@@ -34,7 +34,7 @@ export class ChatService {
 
   startConnection(): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://127.0.0.1:49893/chatHub', {
+      .withUrl('/chathub', {
         accessTokenFactory: () => this.auth.getToken()
       } as signalR.IHttpConnectionOptions) 
       .withAutomaticReconnect()

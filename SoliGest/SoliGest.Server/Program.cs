@@ -14,9 +14,6 @@ builder.Services.AddDbContext<SoliGestServerContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SoliGestServerContext") ?? throw new InvalidOperationException("Connection string 'SoliGestServerContext' not found.")));
 
 // Add services to the container.
-
-
-
 builder.Services.Configure<JwtBearerOptions>(
     IdentityConstants.BearerScheme,
     options =>
@@ -164,12 +161,6 @@ if (app.Environment.IsDevelopment())
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseEndpoints(endpoints =>
-{
-    _ = endpoints.MapHub<ChatHub>("/chatHub");
-
-});
 
 app.MapControllers();
 

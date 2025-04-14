@@ -43,6 +43,7 @@ export class ChatComponent {
 
   constructor(private auth: AuthorizeService, private router: Router, private chatService: ChatService) {
     this.auth.onStateChanged().subscribe((state: boolean) => {
+      console.log(state);
       this.isSignedIn = state;
 
       if (this.isSignedIn) {

@@ -73,6 +73,7 @@ namespace SoliGest.Server.Controllers
             // Gerar os claims do utilizador
             var claims = new List<Claim>
             {
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim("Name", user.Name),
                 new Claim("Email", user.Email),
                 new Claim("UserId", user.Id)
