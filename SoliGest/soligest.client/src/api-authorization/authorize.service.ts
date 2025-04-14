@@ -11,8 +11,11 @@ import { ActivatedRoute } from '@angular/router';
 export class AuthorizeService {  
 
   private _authStateChanged: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.hasToken());
+  private loggedUserEmail: string;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute) {
+    this.loggedUserEmail = "";
+  }
 
   public onStateChanged() {
     return this._authStateChanged.asObservable();
@@ -40,6 +43,7 @@ export class AuthorizeService {
         if (response && response.token) {
           this.saveToken(response.token);
           this._authStateChanged.next(true);
+          this.loggedUserEmail = email;
           return true;
         }
         return false;
@@ -62,6 +66,7 @@ export class AuthorizeService {
   public signOut(): void {
     this.clearToken();
     this._authStateChanged.next(false);
+    this.loggedUserEmail = "";
   }
 
   // Verifica se o utilizador está autenticado
@@ -113,4 +118,20 @@ export class AuthorizeService {
       catchError(() => of(false))
     );
   }
+
+  public getLoggedUserEmail(): any {
+    //if (this.isSignedIn()) {
+    //  return this.loggedUserEmail;
+    //}
+    //else {
+    //  return false;
+    //}
+    return this.loggedUserEmail;
+  }
+
+  //public getLoggedUser(): Observable<User> {
+  //  if (this.isSignedIn()) {
+  //    return this.loggedUserEmail;
+  //  }
+  //}
 }
