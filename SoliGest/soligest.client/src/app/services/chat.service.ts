@@ -34,7 +34,7 @@ export class ChatService {
 
   startConnection(): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://127.0.0.1:49893/chatHub', {
+      .withUrl('/chathub', {
         accessTokenFactory: () => this.auth.getToken()
       } as signalR.IHttpConnectionOptions) 
       .withAutomaticReconnect()
@@ -52,7 +52,7 @@ export class ChatService {
       'Authorization': `Bearer ${token}`
     });
 
-    return this.http.get<Conversation[]>(`${this.baseUrl}/conversations`, { headers });
+    return this.http.get<Conversation[]>(`${this.baseUrl}/conversations`);
   }
 
   sendMessage(sender: string, content: string): void {
@@ -76,7 +76,7 @@ export class ChatService {
       'Authorization': `Bearer ${token}`
     });
 
-    return this.http.get<Contact[]>(`${this.baseUrl}/contacts`, { headers });
+    return this.http.get<Contact[]>(`${this.baseUrl}/contacts`);
   }
 
   saveMessage(messageDto: ChatMessageDto): Observable<any> {
@@ -85,7 +85,7 @@ export class ChatService {
       'Authorization': `Bearer ${token}`
     });
 
-    return this.http.post<any>(`${this.baseUrl}/message`, messageDto, { headers });
+    return this.http.post<any>(`${this.baseUrl}/message`, messageDto);
   }
 
 

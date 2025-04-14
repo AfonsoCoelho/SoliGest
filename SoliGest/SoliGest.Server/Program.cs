@@ -165,12 +165,6 @@ app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-{
-    _ = endpoints.MapHub<ChatHub>("/chatHub");
-
-});
-
 app.MapControllers();
 
 app.MapGroup("/api").MapIdentityApi<User>();

@@ -15,6 +15,7 @@ export class AuthorizeService {
   constructor(private http: HttpClient, private route: ActivatedRoute) { }
 
   public onStateChanged() {
+    console.log("token " + localStorage.getItem('authToken'));
     return this._authStateChanged.asObservable();
   }
 
