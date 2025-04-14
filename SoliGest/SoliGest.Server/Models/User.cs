@@ -23,5 +23,6 @@ namespace SoliGest.Server.Models
         public string EndHoliday { get; set; }
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
+        public bool? isActive { get; set; } = false;
     }
 }
