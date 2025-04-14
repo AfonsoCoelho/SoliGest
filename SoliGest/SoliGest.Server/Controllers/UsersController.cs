@@ -247,15 +247,45 @@ namespace SoliGest.Server.Controllers
         }
 
         // GET: api/People/5
-        [HttpGet("{id}")]
+        [HttpGet("by-id/{id}")]
         public async Task<ActionResult<User>> GetPerson(string id)
         {
             try
             {
                 var person = await _context.Users.FindAsync(id);
 
-                return person;
+                if(person != null)
+                {
+                    return person;
+                }
+                else
+                {
+                    return NotFound();
+                }
             } 
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        // GET: api/People/5
+        [HttpGet("by-email/{email}")]
+        public async Task<ActionResult<User>> GetUserByEmail(string email)
+        {
+            try
+            {
+                var person = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
+
+                if (person != null)
+                {
+                    return person;
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
             catch
             {
                 return NotFound();
