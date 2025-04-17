@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -39,7 +39,22 @@ export class UsersService {
   }
 
   getUserByEmail(email: string): Observable<User> {
-    return this.http.get<User>('api/Users/by-email' + email);
+    return this.http.get<User>('api/Users/by-email/' + email);
+  }
+
+  setUserAsActive(userId: string): Observable<User> {
+    return this.http.put<User>('api/Users/set-user-as-active/' + userId, userId);
+  }
+
+  setUserAsInactive(userId: string): Observable<User> {
+    return this.http.put<User>('api/Users/set-user-as-inactive/' + userId, userId);
+  }
+
+  updateUserLocation(userId: string, longitude: number, latitude: number): Observable<User> {
+    const params = new HttpParams()
+      .set('longitude', longitude)
+      .set('latitude', latitude);
+    return this.http.put<User>('api/Users/update-location/' + userId + '/?longitude=' + longitude + '&latitude=' + latitude, userId);
   }
 }
 
