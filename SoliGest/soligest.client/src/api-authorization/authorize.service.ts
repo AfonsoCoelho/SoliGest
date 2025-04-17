@@ -86,6 +86,11 @@ export class AuthorizeService {
   public signOut(): void {
     this.clearToken();
     this._authStateChanged.next(false);
+    this.us.setUserAsInactive(this.loggedUser.id).subscribe(
+      (result) => {
+        this.loggedUser = result;
+      }
+    );
     this.loggedUserEmail = "";
   }
 
