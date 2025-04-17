@@ -17,7 +17,7 @@ export class AuthorizeService {
   private userLatitude: number;
   private userLongitude: number;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private us: UsersService) {
     this.loggedUserEmail = "";
     this.loggedUser = 0;
     this.userLatitude = 0;
@@ -51,6 +51,12 @@ export class AuthorizeService {
           this.saveToken(response.token);
           this._authStateChanged.next(true);
           this.loggedUserEmail = email;
+          this.loggedUser = this.us.getUserByEmail(this.loggedUserEmail).subscribe(
+            (result) => {
+              this.loggedUser = result;
+              console.log(this.loggedUser);
+            }
+          )
           return true;
         }
         return false;
