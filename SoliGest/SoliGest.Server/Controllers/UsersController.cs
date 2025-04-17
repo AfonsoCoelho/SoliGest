@@ -329,6 +329,81 @@ namespace SoliGest.Server.Controllers
             }
         }
 
+        [HttpPut("set-user-as-active/{userId}")]
+        public async Task<IActionResult> SetUserAsActive(string userId)
+        {
+            try
+            {
+                var user = await _context.Users.FindAsync(userId);
+                if(user == null)
+                {
+                    return BadRequest($"User with id {userId} not found!");
+                }
+                else
+                {
+                    user.isActive = true;
+                    await _context.SaveChangesAsync();
+                }
+
+                return CreatedAtAction("GetPerson", new { id = user.Id }, user);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("set-user-as-inactive/{userId}")]
+        public async Task<IActionResult> SetUserAsInactive(string userId)
+        {
+            try
+            {
+                var user = await _context.Users.FindAsync(userId);
+                if (user == null)
+                {
+                    return BadRequest($"User with id {userId} not found!");
+                }
+                else
+                {
+                    user.isActive = false;
+                    await _context.SaveChangesAsync();
+                }
+
+                return CreatedAtAction("GetPerson", new { id = user.Id }, user);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("update-location/{userId}")]
+        public async Task<IActionResult> UpdateUserLocation(string userId, double longitude, double latitude)
+        {
+            try
+            {
+                var user = await _context.Users.FindAsync(userId);
+                if (user == null)
+                {
+                    return BadRequest($"User with id {userId} not found!");
+                }
+                else
+                {
+                    Console.WriteLine("Longitude: " + longitude + ", Latitude: " + latitude);
+                    user.Latitude = latitude;
+                    user.Longitude = longitude;
+                    await _context.SaveChangesAsync();
+                    Console.WriteLine(user);
+                }
+
+                return CreatedAtAction("GetPerson", new { id = user.Id }, user);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         // GET: api/People
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetPerson()
