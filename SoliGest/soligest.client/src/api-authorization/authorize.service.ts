@@ -55,6 +55,13 @@ export class AuthorizeService {
             (result) => {
               this.loggedUser = result;
               console.log(this.loggedUser);
+              this.us.setUserAsActive(this.loggedUser.id).subscribe(
+                (result) => {
+                  this.loggedUser = result;
+                  console.log(this.loggedUser);
+                },
+                (error) => console.error(error)
+              );
             }
           )
           return true;
