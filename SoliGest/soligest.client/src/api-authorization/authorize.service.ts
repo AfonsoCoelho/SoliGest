@@ -98,6 +98,7 @@ export class AuthorizeService {
       (error) => console.error(error)
     );
     this.loggedUserEmail = "";
+    this.loggedUser = null;
   }
 
   // Verifica se o utilizador está autenticado
