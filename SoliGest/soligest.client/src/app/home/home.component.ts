@@ -26,25 +26,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.auth.onStateChanged().subscribe((state: boolean) => {
       this.isSignedIn = state;
     });
-    this.getLocation();
   }
-
-  getLocation() : void {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(this.success, this.error);
-  } else {
-    alert("Geolocation is not supported by this browser.");
-  }
-}
-
-success(position: any) {
-  alert("Latitude: " + position.coords.latitude +
-    "<br>Longitude: " + position.coords.longitude);
-}
-
-error(): void {
-  alert("Sorry, no position available.");
-}
 
   ngAfterViewInit(): void {
     this.initMap();
