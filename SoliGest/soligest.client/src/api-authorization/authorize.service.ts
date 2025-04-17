@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, catchError, map, of } from 'rxjs';
 import { UserInfo } from './authorize.dto';
 import { ActivatedRoute } from '@angular/router';
+import { User, UsersService } from '../app/services/users.service';
 
 
 @Injectable({
@@ -12,9 +13,15 @@ export class AuthorizeService {
 
   private _authStateChanged: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.hasToken());
   private loggedUserEmail: string;
+  private loggedUser: any;
+  private userLatitude: number;
+  private userLongitude: number;
 
   constructor(private http: HttpClient, private route: ActivatedRoute) {
     this.loggedUserEmail = "";
+    this.loggedUser = 0;
+    this.userLatitude = 0;
+    this.userLongitude = 0;
   }
 
   public onStateChanged() {
