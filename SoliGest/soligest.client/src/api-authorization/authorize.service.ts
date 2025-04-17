@@ -59,6 +59,7 @@ export class AuthorizeService {
                 (result) => {
                   this.loggedUser = result;
                   console.log(this.loggedUser);
+                  this.getUserLocation();
                 },
                 (error) => console.error(error)
               );
@@ -80,6 +81,30 @@ export class AuthorizeService {
       map((res) => res.ok),
       catchError(() => of(false))
     );
+  }
+
+  public getUserLocation() {
+    var userId = this.loggedUser.id;
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          this.userLatitude = latitude;
+          this.userLongitude = longitude;
+          this.us.updateUserLocation(userId, this.userLatitude, this.userLongitude).subscribe(
+            (result) => {
+              this.loggedUser = result;
+            },
+            (error) => console.error(error)
+          );
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    } else {
+      console.error("Ocorreu um erro");
+    }
   }
 
   // Logout - Remove o token e notifica o estado
