@@ -72,6 +72,9 @@ export interface User {
   dayOff: string;
   startHoliday: string;
   endHoliday: string;
+  latitude: number;
+  longitude: number;
+  isActive: boolean;
 }
 
 //{
