@@ -12,13 +12,15 @@ import { User, UsersService } from '../app/services/users.service';
 export class AuthorizeService {  
 
   private _authStateChanged: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.hasToken());
+  private loggedUserId: string | null;
   private loggedUserEmail: string;
-  private loggedUser: any;
+  private loggedUser: User | number;
   private userLatitude: number;
   private userLongitude: number;
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private us: UsersService) {
     this.loggedUserEmail = "";
+    this.loggedUserId = localStorage.getItem('loggedUserId');;
     this.loggedUser = 0;
     this.userLatitude = 0;
     this.userLongitude = 0;
@@ -54,11 +56,11 @@ export class AuthorizeService {
           this.loggedUser = this.us.getUserByEmail(this.loggedUserEmail).subscribe(
             (result) => {
               this.loggedUser = result;
-              console.log(this.loggedUser);
+              localStorage.setItem('loggedUserId', this.loggedUser.id);
+              this.loggedUserId = this.loggedUser.id;
               this.us.setUserAsActive(this.loggedUser.id).subscribe(
                 (result) => {
                   this.loggedUser = result;
-                  console.log(this.loggedUser);
                   if (this.loggedUser.role == "Técnico") {
                     this.getUserLocation();
                   }
@@ -113,19 +115,23 @@ export class AuthorizeService {
   public signOut(): void {
     this.clearToken();
     this._authStateChanged.next(false);
-    this.us.setUserAsInactive(this.loggedUser.id).subscribe(
-      (result) => {
-        this.loggedUser = result;
-      }
-    );
-    this.us.updateUserLocation(this.loggedUser.id, 0, 0).subscribe(
-      (result) => {
-        this.loggedUser = result;
-      },
-      (error) => console.error(error)
-    );
-    this.loggedUserEmail = "";
-    this.loggedUser = null;
+    if (this.loggedUserId) {
+      this.us.setUserAsInactive(this.loggedUserId).subscribe(
+        (result) => {
+          this.loggedUser = result;
+        },
+        (error) => console.error(error)
+      );
+      this.us.updateUserLocation(this.loggedUserId, 0, 0).subscribe(
+        (result) => {
+          this.loggedUser = result;
+        },
+        (error) => console.error(error)
+      );
+      this.loggedUserEmail = "";
+      this.loggedUser = null;
+      localStorage.removeItem('loggedUserId');
+    }
   }
 
   // Verifica se o utilizador está autenticado

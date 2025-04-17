@@ -30,8 +30,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initMap();
-    this.loadSolarPanels();
-    this.loadTechnicians();
+    this.filterMap();
   }
 
   toggleMenu(): void {
@@ -125,7 +124,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
               icon: this.getMarkerIcon('faulty')
             });
             this.markers.push(marker);
-            alert("Técnico no mapa!")
 
             const infoWindow = new google.maps.InfoWindow({
               content: `
@@ -174,7 +172,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   filterMap(): void {
-    this.markers = [];
+    this.resetMarkers();
     this.initMap();
     if (this.showSolarPanels) {
       this.loadSolarPanels();
