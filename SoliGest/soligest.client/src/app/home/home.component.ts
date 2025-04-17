@@ -117,9 +117,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
       (result) => {
         users = result;
         users.forEach(user => {
-          if (user.role === "Técnico") {
+          if (user.role === "Técnico" && user.latitude && user.longitude) {
             const marker = new google.maps.Marker({
-              position: new google.maps.LatLng(user.phoneNumber, user.phoneNumber),
+              position: new google.maps.LatLng(user.latitude, user.longitude),
               map: this.map,
               title: `Técnico #${user.id}`,
               icon: this.getMarkerIcon('faulty')
