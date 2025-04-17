@@ -378,7 +378,7 @@ namespace SoliGest.Server.Controllers
         }
 
         [HttpPut("update-location/{userId}")]
-        public async Task<IActionResult> UpdateUserLocation(string userId, double longitude, double latitude)
+        public async Task<IActionResult> UpdateUserLocation(string userId, double latitude, double longitude)
         {
             try
             {
@@ -389,11 +389,9 @@ namespace SoliGest.Server.Controllers
                 }
                 else
                 {
-                    Console.WriteLine("Longitude: " + longitude + ", Latitude: " + latitude);
                     user.Latitude = latitude;
                     user.Longitude = longitude;
                     await _context.SaveChangesAsync();
-                    Console.WriteLine(user);
                 }
 
                 return CreatedAtAction("GetPerson", new { id = user.Id }, user);

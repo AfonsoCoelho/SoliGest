@@ -50,11 +50,11 @@ export class UsersService {
     return this.http.put<User>('api/Users/set-user-as-inactive/' + userId, userId);
   }
 
-  updateUserLocation(userId: string, longitude: number, latitude: number): Observable<User> {
+  updateUserLocation(userId: string, latitude: number, longitude: number): Observable<User> {
     const params = new HttpParams()
-      .set('longitude', longitude)
-      .set('latitude', latitude);
-    return this.http.put<User>('api/Users/update-location/' + userId + '/?longitude=' + longitude + '&latitude=' + latitude, userId);
+      .set('latitude', latitude)
+      .set('longitude', longitude);
+    return this.http.put<User>('api/Users/update-location/' + userId + '/?latitude=' + latitude + '&longitude=' + longitude, userId);
   }
 }
 
