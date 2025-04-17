@@ -59,7 +59,9 @@ export class AuthorizeService {
                 (result) => {
                   this.loggedUser = result;
                   console.log(this.loggedUser);
-                  this.getUserLocation();
+                  if (this.loggedUser.role == "Técnico") {
+                    this.getUserLocation();
+                  }
                 },
                 (error) => console.error(error)
               );
