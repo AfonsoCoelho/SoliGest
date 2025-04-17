@@ -91,6 +91,12 @@ export class AuthorizeService {
         this.loggedUser = result;
       }
     );
+    this.us.updateUserLocation(this.loggedUser.id, 0, 0).subscribe(
+      (result) => {
+        this.loggedUser = result;
+      },
+      (error) => console.error(error)
+    );
     this.loggedUserEmail = "";
   }
 
