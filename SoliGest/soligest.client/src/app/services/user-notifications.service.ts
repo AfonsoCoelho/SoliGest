@@ -71,20 +71,12 @@ export class UserNotificationsService {
   //}
 
   getByLoggedInUser(): any {
-    var userEmail: string;
-    var user: User;
-    var users: UserInfo[];
-    var allNotifications: UserNotification[];
-    var userNotifications: UserNotification[];
-    var userInfo: UserInfo;
-    if (this.authService.isSignedIn()) {
-      this.authService.getUserInfo().forEach(
-        (result) => {
-          users.push(result);
-          console.log(result);
-        },
-        
-      );
+    var loggedUserId = localStorage.getItem('loggedUserId');
+    if (loggedUserId) {
+      return this.http.get<UserNotification[]>('api/UserNotifications/ByUserId/' + loggedUserId);
+    }
+    else {
+      return null;
     }
   }
 }
