@@ -30,6 +30,7 @@ export class HeaderComponent implements OnInit{
       this.getNotifications();
     }
   showNotificationsPanel = false;
+  showNotificationsPanel2 = false;
   showProfileMenu = false;
   profileImageUrl = 'profileIcon.png';
 
@@ -71,6 +72,10 @@ export class HeaderComponent implements OnInit{
 
   toggleNotifications(): void {
     this.showNotificationsPanel = !this.showNotificationsPanel;
+  }
+
+  toggleRealNotifications(): void {
+    this.showNotificationsPanel2 = !this.showNotificationsPanel2;
   }
 
   toggleProfileMenu(): void {
