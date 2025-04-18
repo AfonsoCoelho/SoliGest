@@ -8,6 +8,7 @@
         public virtual Notification Notification { get; set; }
         public int NotificationId { get; set; }
         public DateTime ReceivedDate { get; set; }
-        public bool isRead { get; set; }
+        public bool IsRead { get; set; }
+        public string? Link { get; set; }
     }
 }

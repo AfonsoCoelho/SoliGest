@@ -48,7 +48,7 @@ namespace SoliGest.Server.Controllers
                     Notification = notification,
                     NotificationId = model.NotificationId,
                     ReceivedDate = DateTime.Now,
-                    isRead = false
+                    IsRead = false
                 };
                 _context.UserNotification.Add(userNotification);
                 await _context.SaveChangesAsync();
@@ -138,7 +138,7 @@ namespace SoliGest.Server.Controllers
                 return BadRequest("O id de notificação indicado não está associado a nenhuma notificação.");
             }
             userNotification.ReceivedDate = model.ReceivedDate;
-            userNotification.isRead = model.isRead;
+            userNotification.IsRead = model.IsRead;
 
             _context.Update(userNotification);
 
@@ -180,7 +180,7 @@ namespace SoliGest.Server.Controllers
             public string UserId { get; set; }
             public int NotificationId { get; set; }
             public DateTime ReceivedDate { get; set; }
-            public bool isRead { get; set; }
+            public bool IsRead { get; set; }
         }
     }
 }

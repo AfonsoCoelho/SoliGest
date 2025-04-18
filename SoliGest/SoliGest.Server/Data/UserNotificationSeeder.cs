@@ -19,7 +19,7 @@ namespace SoliGest.Server.Data
                     Notification = notification,
                     NotificationId = notification.Id,
                     ReceivedDate = DateTime.Now,
-                    isRead = false
+                    IsRead = false
                 };
 
                 await context.AddAsync(userNotification1);
@@ -32,7 +32,7 @@ namespace SoliGest.Server.Data
                     Notification = notification,
                     NotificationId = notification.Id,
                     ReceivedDate = DateTime.Now,
-                    isRead = false
+                    IsRead = false
                 };
 
                 await context.AddAsync(userNotification2);
@@ -45,7 +45,7 @@ namespace SoliGest.Server.Data
                     Notification = notification,
                     NotificationId = notification.Id,
                     ReceivedDate = DateTime.Now,
-                    isRead = false
+                    IsRead = false
                 };
 
                 await context.AddAsync(userNotification3);

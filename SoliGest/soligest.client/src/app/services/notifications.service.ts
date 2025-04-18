@@ -32,6 +32,7 @@ export class NotificationsService {
 
 export interface Notification {
   id: number;
+  title: string;
   type: string;
   message: string;
 }

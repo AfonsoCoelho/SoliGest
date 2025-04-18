@@ -13,7 +13,8 @@ namespace SoliGest.Server.Data
             {
                 Notification notification1 = new Notification
                 {
-                    Type = "Info",
+                    Title = "Notificação 1",
+                    Type = "message",
                     Message = "Tem uma nova assistência técnica atribuída."
                 };
 
@@ -21,7 +22,8 @@ namespace SoliGest.Server.Data
 
                 Notification notification2 = new Notification
                 {
-                    Type = "Info",
+                    Title = "Notificação 2",
+                    Type = "alert",
                     Message = "Assistência técnica 99 solucionada!"
                 };
 
@@ -29,7 +31,8 @@ namespace SoliGest.Server.Data
 
                 Notification notification3 = new Notification
                 {
-                    Type = "Info",
+                    Title = "Notificação 3",
+                    Type = "warning",
                     Message = "Uma assistência técnica foi atualizada!"
                 };
 
