@@ -163,11 +163,10 @@ namespace SoliGest.Server.Controllers
             return Ok();
         }
 
-        [HttpGet("/ByUserId/{userId}")]
+        [HttpGet("ByUserId/{userId}")]
         public async Task<IActionResult> GetUserNotificationsByUserId(string userId)
         {
             var userNotifications = await _context.UserNotification.Where(un => un.UserId.Equals(userId)).Include(un => un.User).Include(un => un.Notification).ToListAsync();
-            Console.WriteLine(RouteData);
             if (userNotifications == null)
             {
                 return NotFound($"Não foi possível encontrar a notificação com o ID '{RouteData}'.");
