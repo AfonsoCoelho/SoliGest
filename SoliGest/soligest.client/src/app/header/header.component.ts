@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit{
       //this.authService.user().subscribe(
       //  (result) => console.log(result)
       //)
+      this.getNotifications();
     }
   showNotificationsPanel = false;
   showProfileMenu = false;
