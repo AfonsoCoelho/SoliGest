@@ -247,15 +247,45 @@ namespace SoliGest.Server.Controllers
         }
 
         // GET: api/People/5
-        [HttpGet("{id}")]
+        [HttpGet("by-id/{id}")]
         public async Task<ActionResult<User>> GetPerson(string id)
         {
             try
             {
                 var person = await _context.Users.FindAsync(id);
 
-                return person;
+                if(person != null)
+                {
+                    return person;
+                }
+                else
+                {
+                    return NotFound();
+                }
             } 
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        // GET: api/People/5
+        [HttpGet("by-email/{email}")]
+        public async Task<ActionResult<User>> GetUserByEmail(string email)
+        {
+            try
+            {
+                var person = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
+
+                if (person != null)
+                {
+                    return person;
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
             catch
             {
                 return NotFound();
@@ -290,6 +320,79 @@ namespace SoliGest.Server.Controllers
             {
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetPerson", new { id = user.Id }, user);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("set-user-as-active/{userId}")]
+        public async Task<IActionResult> SetUserAsActive(string userId)
+        {
+            try
+            {
+                var user = await _context.Users.FindAsync(userId);
+                if(user == null)
+                {
+                    return BadRequest($"User with id {userId} not found!");
+                }
+                else
+                {
+                    user.isActive = true;
+                    await _context.SaveChangesAsync();
+                }
+
+                return CreatedAtAction("GetPerson", new { id = user.Id }, user);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("set-user-as-inactive/{userId}")]
+        public async Task<IActionResult> SetUserAsInactive(string userId)
+        {
+            try
+            {
+                var user = await _context.Users.FindAsync(userId);
+                if (user == null)
+                {
+                    return BadRequest($"User with id {userId} not found!");
+                }
+                else
+                {
+                    user.isActive = false;
+                    await _context.SaveChangesAsync();
+                }
+
+                return CreatedAtAction("GetPerson", new { id = user.Id }, user);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("update-location/{userId}")]
+        public async Task<IActionResult> UpdateUserLocation(string userId, double latitude, double longitude)
+        {
+            try
+            {
+                var user = await _context.Users.FindAsync(userId);
+                if (user == null)
+                {
+                    return BadRequest($"User with id {userId} not found!");
+                }
+                else
+                {
+                    user.Latitude = latitude;
+                    user.Longitude = longitude;
+                    await _context.SaveChangesAsync();
+                }
 
                 return CreatedAtAction("GetPerson", new { id = user.Id }, user);
             }

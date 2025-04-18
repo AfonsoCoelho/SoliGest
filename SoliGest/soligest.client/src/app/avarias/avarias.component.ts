@@ -67,6 +67,7 @@ export class AvariasComponent implements OnInit {
     this.selectedPriority = '';
     this.selectedStatus = '';
     this.newAvariaDescription = '';
+    this.availableTechnicians = this.users.filter(user => this.isUserAvailable(user));
     this.showModal = true;
   }
 
@@ -79,11 +80,8 @@ export class AvariasComponent implements OnInit {
     this.selectedPanelId = avaria.solarPanel?.id;
     this.selectedPriority = avaria.priority;
     this.selectedStatus = avaria.status;
-    this.selectedTechnicianId = avaria.user?.id ?? null;
-
-
+    this.selectedTechnicianId = avaria.assignedUser?.id ?? null; //pode aparecer n/a se o tecnico alocado tiver no dia de folga mas n da erro, a opcao default fica n/a
     this.availableTechnicians = this.users.filter(user => this.isUserAvailable(user));
-
     this.showEditModal = true;
   }
 
@@ -144,6 +142,7 @@ export class AvariasComponent implements OnInit {
     this.loadSolarPanels();
     this.loadAssistanceRequests();
     this.loadUsers();
+    //this.availableTechnicians = this.users.filter(user => this.isUserAvailable(user));   
   }
 
   initMap(): void {

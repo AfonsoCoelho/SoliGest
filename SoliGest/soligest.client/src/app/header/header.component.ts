@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit{
     }
   showNotificationsPanel = false;
   showProfileMenu = false;
-  profileImageUrl = 'assets/images/default-profile.png';
+  profileImageUrl = 'profileIcon.png';
 
   notifications: Notification[] = [
     {
