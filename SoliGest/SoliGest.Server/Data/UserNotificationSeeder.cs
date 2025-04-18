@@ -9,7 +9,7 @@ namespace SoliGest.Server.Data
         {
             if (!context.UserNotification.Any())
             {
-                User user = await context.Users.FirstOrDefaultAsync(u => u.Role.Equals("Técnico"));
+                User user = await context.Users.FirstOrDefaultAsync(u => u.Email.Equals("technician@mail.com"));
                 Notification notification = await context.Notification.FirstOrDefaultAsync(n => n.Id == 1);
                 UserNotification userNotification1 = new UserNotification
                 {
