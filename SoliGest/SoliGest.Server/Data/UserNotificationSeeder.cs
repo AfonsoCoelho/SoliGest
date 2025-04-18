@@ -10,40 +10,45 @@ namespace SoliGest.Server.Data
             if (!context.UserNotification.Any())
             {
                 User user = await context.Users.FirstOrDefaultAsync(u => u.Email.Equals("technician@mail.com"));
-                Notification notification = await context.Notification.FirstOrDefaultAsync(n => n.Id == 1);
+                Notification notification1 = await context.Notification.FindAsync(1);
                 UserNotification userNotification1 = new UserNotification
                 {
                     UserNotificationId = 0,
                     User = user,
                     UserId = user.Id,
-                    Notification = notification,
-                    NotificationId = notification.Id,
+                    Notification = notification1,
+                    NotificationId = notification1.Id,
                     ReceivedDate = DateTime.Now,
                     IsRead = false
                 };
 
                 await context.AddAsync(userNotification1);
 
+
+                Notification notification2 = await context.Notification.FindAsync(2);
+
                 UserNotification userNotification2 = new UserNotification
                 {
                     UserNotificationId = 0,
                     User = user,
                     UserId = user.Id,
-                    Notification = notification,
-                    NotificationId = notification.Id,
+                    Notification = notification2,
+                    NotificationId = notification2.Id,
                     ReceivedDate = DateTime.Now,
                     IsRead = false
                 };
 
                 await context.AddAsync(userNotification2);
 
+                Notification notification3 = await context.Notification.FindAsync(3);
+
                 UserNotification userNotification3 = new UserNotification
                 {
                     UserNotificationId = 0,
                     User = user,
                     UserId = user.Id,
-                    Notification = notification,
-                    NotificationId = notification.Id,
+                    Notification = notification3,
+                    NotificationId = notification3.Id,
                     ReceivedDate = DateTime.Now,
                     IsRead = false
                 };
