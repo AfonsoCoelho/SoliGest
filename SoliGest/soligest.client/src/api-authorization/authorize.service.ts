@@ -14,7 +14,7 @@ export class AuthorizeService {
   private _authStateChanged: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.hasToken());
   private loggedUserId: string | null;
   private loggedUserEmail: string;
-  private loggedUser: User | number;
+  private loggedUser: any;
   private userLatitude: number;
   private userLongitude: number;
 
