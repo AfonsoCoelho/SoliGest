@@ -53,7 +53,7 @@ export class AuthorizeService {
           this.saveToken(response.token);
           this._authStateChanged.next(true);
           this.loggedUserEmail = email;
-          this.loggedUser = this.us.getUserByEmail(this.loggedUserEmail).subscribe(
+          this.us.getUserByEmail(this.loggedUserEmail).subscribe(
             (result) => {
               this.loggedUser = result;
               localStorage.setItem('loggedUserId', this.loggedUser.id);
