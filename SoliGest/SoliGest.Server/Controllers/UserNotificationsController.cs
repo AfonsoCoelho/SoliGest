@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SoliGest.Server.Data;
 using SoliGest.Server.Models;
+using SoliGest.Server.Services;
 
 namespace SoliGest.Server.Controllers
 {
@@ -10,10 +11,12 @@ namespace SoliGest.Server.Controllers
     public class UserNotificationsController : Controller
     {
         private readonly SoliGestServerContext _context;
+        private readonly IUserNotificationService _userNotificationService;
 
-        public UserNotificationsController(SoliGestServerContext context)
+        public UserNotificationsController(SoliGestServerContext context, IUserNotificationService userNotificationService)
         {
             _context = context;
+            _userNotificationService = userNotificationService;
         }
 
         // GET: api/UserNotifications
@@ -30,30 +33,9 @@ namespace SoliGest.Server.Controllers
         {
             try
             {
-                User user = await _context.FindAsync<User>(model.UserId);
-                if(user == null)
-                {
-                    return BadRequest("O utilizador com o Id fornecido não foi encontrado.");
-                }
-                Notification notification = await _context.FindAsync<Notification>(model.NotificationId);
-                if (notification == null)
-                {
-                    return BadRequest("A notificação com o Id fornecido não foi encontrada.");
-                }
-                UserNotification userNotification = new UserNotification
-                {
-                    UserNotificationId = 0,
-                    User = user,
-                    UserId = model.UserId,
-                    Notification = notification,
-                    NotificationId = model.NotificationId,
-                    ReceivedDate = DateTime.Now,
-                    IsRead = false
-                };
-                _context.UserNotification.Add(userNotification);
-                await _context.SaveChangesAsync();
+                await _userNotificationService.PostUserNotification(model);
 
-                return CreatedAtAction("GetUserNotification", new { id = userNotification.UserNotificationId }, userNotification);
+                return Ok();
             }
             catch
             {
