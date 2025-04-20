@@ -38,8 +38,8 @@ export class UsersService {
     return this.http.post(`api/Holidays/${userId}`, holidays);
   }
 
-  getUserByEmail(email: string): Observable<User> {
-    return this.http.get<User>('api/Users/by-email/' + email);
+  async getUserByEmail(email: string): Promise<Observable<User>> {
+    return await this.http.get<User>('api/Users/by-email/' + email);
   }
 
   setUserAsActive(userId: string): Observable<User> {

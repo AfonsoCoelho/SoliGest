@@ -46,28 +46,34 @@ export class AuthorizeService {
   }
 
   // Login baseado em JWT
-  public signIn(email: string, password: string): Observable<boolean> {
-    return this.http.post<{ token: string }>('/api/Users/signin', { email, password }).pipe(
+  public async signIn(email: string, password: string): Promise<Observable<boolean>> {
+    return await this.http.post<{ token: string }>('/api/Users/signin', { email, password }).pipe(
       map((response) => {
         if (response && response.token) {
           this.saveToken(response.token);
           this._authStateChanged.next(true);
           this.loggedUserEmail = email;
-          this.us.getUserByEmail(this.loggedUserEmail).subscribe(
-            (result) => {
-              this.loggedUser = result;
-              localStorage.setItem('loggedUserId', this.loggedUser.id);
-              this.loggedUserId = this.loggedUser.id;
-              this.us.setUserAsActive(this.loggedUser.id).subscribe(
+          this.loggedUser = this.us.getUserByEmail(this.loggedUserEmail).then(
+            (result) =>
+              result.subscribe(
                 (result) => {
+                  console.log(result);
                   this.loggedUser = result;
-                  if (this.loggedUser.role == "Técnico") {
-                    this.getUserLocation();
-                  }
+                  console.log(this.loggedUser.id);
+                  localStorage.setItem('loggedUserId', this.loggedUser.id);
+                  this.loggedUserId = this.loggedUser.id;
+                  this.us.setUserAsActive(this.loggedUser.id).subscribe(
+                    (result) => {
+                      this.loggedUser = result;
+                      if (this.loggedUser.role == "Técnico") {
+                        this.getUserLocation();
+                      }
+                    },
+                    (error) => console.error(error)
+                  );
                 },
                 (error) => console.error(error)
-              );
-            }
+              )
           )
           return true;
         }
