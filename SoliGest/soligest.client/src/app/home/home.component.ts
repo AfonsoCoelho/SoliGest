@@ -48,6 +48,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.auth.signOut();
       this.router.navigateByUrl('');
       alert("Adeus!");
+      this.router.navigateByUrl('login');
     } else {
       this.router.navigateByUrl('login');
     }

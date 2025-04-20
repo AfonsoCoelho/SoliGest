@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  public async login(event: Event): Promise<void> {
+  public login(event: Event): void {
     event.preventDefault(); // Previne o comportamento padrão do formulário
     if (!this.loginForm.valid) {
       alert("Por favor corriga os erros do formulário!");
@@ -39,24 +39,19 @@ export class LoginComponent implements OnInit {
     const email = this.loginForm.get('email')?.value;
     const password = this.loginForm.get('password')?.value;
 
-    await this.authService.signIn(email, password).then(
+    this.authService.signIn(email, password).subscribe(
       (result) => {
-        result.subscribe(
-          (result) => {
-            if (result) {
-              this.router.navigateByUrl("/");
-              alert("Login efetuado com sucesso!"); // Redireciona para a página inicial
-            } else {
-              alert("Email ou password inválidos!");
-            }
+          if (result) {
+            this.router.navigateByUrl("/");
+            alert("Login efetuado com sucesso!"); // Redireciona para a página inicial
+          } else {
+            alert("Email ou password inválidos!");
+          }
           },
           (error) => {
             this.authFailed = true; // Mostra mensagem de erro se falhar
             alert("Ocorreu um erro! Por favor tente novamente mais tarde.");
           },
         )
-      },
-      (error) => console.error(error)
-      )
   }
 }
