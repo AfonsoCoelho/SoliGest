@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SoliGest.Server.Data;
 using SoliGest.Server.Models;
+using SoliGest.Server.Services;
+using static SoliGest.Server.Controllers.UserNotificationsController;
 
 namespace SoliGest.Server.Controllers
 {
@@ -15,10 +17,12 @@ namespace SoliGest.Server.Controllers
     public class AssistanceRequestsController : Controller
     {
         private readonly SoliGestServerContext _context;
+        private readonly IUserNotificationService _userNotificationService;
 
-        public AssistanceRequestsController(SoliGestServerContext context)
+        public AssistanceRequestsController(SoliGestServerContext context, IUserNotificationService userNotificationService)
         {
             _context = context;
+            _userNotificationService = userNotificationService;
         }
 
         // GET: api/AssistanceRequest
@@ -123,7 +127,20 @@ namespace SoliGest.Server.Controllers
                 if (user == null)
                     return BadRequest(new { message = "Utilizador atribuído não encontrado." });
 
-                assistanceRequest.AssignedUser = user;
+                if (assistanceRequest.AssignedUser != user)
+                {
+                    UserNotificationUpdateModel unum = new UserNotificationUpdateModel {
+                        UserNotificationId = 0,
+                        UserId = user.Id,
+                        NotificationId = 1,
+                        IsRead = false,
+                        ReceivedDate = DateTime.Now
+                    };
+
+                    await _userNotificationService.PostUserNotification(unum);
+                }
+
+                assistanceRequest.AssignedUser = user;                
             }
             //else
             //{
