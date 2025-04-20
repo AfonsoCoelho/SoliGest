@@ -15,11 +15,13 @@ namespace SoliGest.Server.Data
         {
         }
 
-        public DbSet<SoliGest.Server.Models.SolarPanel> SolarPanel { get; set; } = default!;
-        public DbSet<SoliGest.Server.Models.Address> Address { get; set; } = default!;
-        public DbSet<SoliGest.Server.Models.AssistanceRequest> AssistanceRequest { get; set; } = default!;
+        public DbSet<SolarPanel> SolarPanel { get; set; } = default!;
+        public DbSet<Address> Address { get; set; } = default!;
+        public DbSet<AssistanceRequest> AssistanceRequest { get; set; } = default!;
         public DbSet<DayOff> DaysOff { get; set; }
         public DbSet<Holidays> Holidays { get; set; }
+        public DbSet<Notification> Notification { get; set; }
+        public DbSet<UserNotification> UserNotification { get; set; }
 
         //public DbSet<SoliGest.Server.Models.User> User { get; set; } = default!;
     }

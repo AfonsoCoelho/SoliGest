@@ -14,7 +14,7 @@ export class AuthorizeService {
   private _authStateChanged: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.hasToken());
   private loggedUserId: string | null;
   private loggedUserEmail: string;
-  private loggedUser: User | number;
+  private loggedUser: any;
   private userLatitude: number;
   private userLongitude: number;
 
@@ -53,7 +53,7 @@ export class AuthorizeService {
           this.saveToken(response.token);
           this._authStateChanged.next(true);
           this.loggedUserEmail = email;
-          this.loggedUser = this.us.getUserByEmail(this.loggedUserEmail).subscribe(
+          this.us.getUserByEmail(this.loggedUserEmail).subscribe(
             (result) => {
               this.loggedUser = result;
               localStorage.setItem('loggedUserId', this.loggedUser.id);
@@ -184,6 +184,11 @@ export class AuthorizeService {
     );
   }
 
+  //public getToken(): undefined {
+  //  if (this.hasToken()) {
+  //    return localStorage.getItem('authToken') || 'a';
+  //  }
+    
   public getLoggedUserEmail(): any {
     //if (this.isSignedIn()) {
     //  return this.loggedUserEmail;

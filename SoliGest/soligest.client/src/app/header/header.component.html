@@ -24,7 +24,7 @@
         Nenhuma notificação
       </div>
 
-      <div *ngFor="let notif of notifications" class="notification-item">
+      <div *ngFor="let notif of notifications" class="notification-item" routerLink="{{notif.link}}">
         <i [class]="getNotificationIcon(notif.type)"></i>
         <div class="notification-content">
           <strong>{{ notif.title }}</strong>
@@ -34,31 +34,62 @@
         <button class="dismiss-btn" (click)="dismissNotification(notif.id, $event)">&times;</button>
       </div>
     </div>
- 
 
-
-  <!-- Chat -->
-  <div class="header-icon" (click)="openChat()" title="Chat">
-    <i class="fas fa-comment-dots"></i>
-  </div>
-
-  <!-- Perfil -->
-  <div class="profile-section" [class.active]="showProfileMenu">
-    <div class="profile-container" (click)="toggleProfileMenu()">
-      <img [src]="profileImageUrl" alt="Perfil" class="profile-image" />
-      <i class="fas fa-caret-down profile-caret"></i>
+    <!-- Ícone de Notificações 2 -->
+    <div class="notification-icon" (click)="toggleRealNotifications()">
+      <i class="fas fa-bell"></i>
+      <span class="notification-badge" *ngIf="unreadNotifications.length > 0">
+        {{ unreadNotifications.length }}
+      </span>
     </div>
 
-    <div class="profile-dropdown" *ngIf="showProfileMenu">
-      <a routerLink="/perfil" class="dropdown-item">
-        <i class="fas fa-user item-icon"></i>
-        <span>Meu Perfil</span>
-      </a>
-      <a (click)="logout()" class="dropdown-item logout">
-        <i class="fas fa-sign-out-alt item-icon"></i>
-        <span>Sair</span>
-      </a>
+    <!-- Painel de Notificações 2 -->
+    <div class="notifications-panel" *ngIf="showNotificationsPanel2">
+      <div class="panel-header">
+        <span>Notificações:</span>
+      </div>
+
+      <div *ngIf="notifications.length === 0" class="no-notifications">
+        Nenhuma notificação
+      </div>
+
+      <div *ngFor="let notif of realNotifications" class="notification-item">
+        <i [class]="getNotificationIcon(notif.notification.type)"></i>
+        <div class="notification-content">
+          <strong>{{ notif.notification.title }}</strong>
+          <p>{{ notif.notification.message }}</p>
+          <small>{{ notif.receivedDate | date:'short' }}</small>
+          <small>{{ notif.id }}</small>
+        </div>
+        <button class="dismiss-btn" (click)="dismissNotification(notif.id, $event)">&times;</button>
+      </div>
+      <button class="mark-all" (click)="markAllAsRead()">Marcar todas como lidas</button>
     </div>
-  </div>
+
+
+
+    <!-- Chat -->
+    <div class="header-icon" (click)="openChat()" title="Chat">
+      <i class="fas fa-comment-dots"></i>
+    </div>
+
+    <!-- Perfil -->
+    <div class="profile-section" [class.active]="showProfileMenu">
+      <div class="profile-container" (click)="toggleProfileMenu()">
+        <img [src]="profileImageUrl" alt="Perfil" class="profile-image" />
+        <i class="fas fa-caret-down profile-caret"></i>
+      </div>
+
+      <div class="profile-dropdown" *ngIf="showProfileMenu">
+        <a routerLink="/perfil" class="dropdown-item">
+          <i class="fas fa-user item-icon"></i>
+          <span>Meu Perfil</span>
+        </a>
+        <a (click)="logout()" class="dropdown-item logout">
+          <i class="fas fa-sign-out-alt item-icon"></i>
+          <span>Sair</span>
+        </a>
+      </div>
+    </div>
   </div>
 </header>

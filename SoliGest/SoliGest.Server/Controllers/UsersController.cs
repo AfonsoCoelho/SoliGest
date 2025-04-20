@@ -28,13 +28,15 @@ namespace SoliGest.Server.Controllers
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
         private readonly SoliGestServerContext _context;
+        private readonly IUserService _userService;
 
-        public UsersController(UserManager<User> userManager, IConfiguration configuration, IEmailService emailService, SoliGestServerContext context)
+        public UsersController(UserManager<User> userManager, IConfiguration configuration, IEmailService emailService, SoliGestServerContext context, IUserService userService)
         {
             _userManager = userManager;
             _configuration = configuration;
             _emailService = emailService;
             _context = context;
+            _userService = userService;
         }
 
         [HttpPost("signup")]
@@ -275,16 +277,9 @@ namespace SoliGest.Server.Controllers
         {
             try
             {
-                var person = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
+                await _userService.GetUserByEmail(email);
 
-                if (person != null)
-                {
-                    return person;
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return Ok();
             }
             catch
             {
