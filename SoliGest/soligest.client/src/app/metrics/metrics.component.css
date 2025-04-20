@@ -1,49 +1,207 @@
-/* 1. Ajustes gerais de página */
+/* Reset e Estilos Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+body, html {
+  height: 100%;
+}
+
+/* Wrapper geral */
 .page-wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  font-family: 'Roboto', sans-serif;
-  background-color: #f9f9fc; /* Fundo bem claro, quase branco */
+  position: relative;
 }
 
-.content-container {
-  flex: 1;
+/* Header fixo */
+.soligest-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  padding: 15px;
+  background-color: #37AFE1;
+  color: black;
   display: flex;
-  justify-content: center;
-  padding: 2rem;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
 }
 
-/* 2. Container das métricas */
-.metrics-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+/* Container principal abaixo do header */
+.content-container {
+  display: flex;
+  flex: 1;
+  margin-top: 60px;
+  padding-bottom: 60px; /* espaço para o footer */
+  min-height: calc(100vh - 120px);
+  position: relative;
 }
 
-  .metrics-container h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #333;
+/* Menu lateral */
+.left-section {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 250px;
+  height: calc(100vh - 120px);
+  background: linear-gradient(to bottom, #d1d1d1, #ffffff);
+  padding: 20px;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+  z-index: 90;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+  .left-section.hidden {
+    transform: translateX(-100%);
   }
 
-/* 3. Grid dos cards (métricas) */
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
-  margin-bottom: 2rem;
+/* Botões de menu */
+.menu-toggle-btn,
+.menu-collapsed-btn {
+  background-color: #FFC300;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, padding-left 0.3s ease;
 }
 
-/* 4. Cartão individual de métrica */
+.menu-toggle-btn {
+  padding: 8px 12px;
+}
+
+  .menu-toggle-btn:hover {
+    background-color: #e6b800;
+  }
+
+.menu-collapsed-btn {
+  position: fixed;
+  top: 75px;
+  left: 0;
+  padding: 12px 20px;
+  font-weight: bold;
+  border-radius: 0 5px 5px 0;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  z-index: 110;
+}
+
+  .menu-collapsed-btn:hover {
+    background-color: #e6b800;
+    padding-left: 25px;
+  }
+
+/* Links do menu */
+#sideMenu {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#upperMenu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+#menuOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex-grow: 1;
+}
+
+.menu-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #FFC300;
+  color: black;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+  .menu-link:hover,
+  .menu-link.active {
+    background-color: #e6b800;
+  }
+
+.signout-btn {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 15px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+  .signout-btn:hover {
+    background-color: #c82333;
+  }
+
+/* Área principal das Métricas */
+.right-section {
+  margin-left: 250px;
+  padding: 20px;
+  background-color: #f5f5f5;
+  transition: margin-left 0.3s ease;
+  flex: 1;
+  height: calc(100vh - 120px);
+  box-sizing: border-box;
+}
+
+  .right-section.expanded {
+    margin-left: 0;
+  }
+
+/* Container das métricas */
+.metrics-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Grid de cards */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 20px;
+}
+
+/* Cada card */
 .metric-card {
-  position: relative;
   background-color: #eaf4ff;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem 1rem 2rem;
-  min-height: 150px;
-  overflow: hidden;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  min-height: 180px;
 }
 
   .metric-card:hover {
@@ -51,29 +209,62 @@
   }
 
   .metric-card h4 {
-    margin: 0;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    font-weight: 500;
     color: #263238;
-    font-size: 1rem;
   }
 
 .metric-data {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   font-weight: 600;
   color: #D9534F;
   text-align: center;
+  margin: auto 0;
 }
 
-/* 5. Container do gráfico */
+/* Gráfico */
 .chart-container {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
-  .chart-container apx-chart {
-    max-width: 450px;
-    width: 100%;
+.chart-wrapper {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+/* Footer fixo */
+.soligest-footer,
+app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: #37AFE1;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  box-sizing: border-box;
+  z-index: 100;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
+}
+
+@media (max-width: 600px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .right-section {
+    padding-bottom: 20px;
+  }
+}

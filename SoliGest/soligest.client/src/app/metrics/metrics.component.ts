@@ -6,6 +6,8 @@ import {
   ApexChart,
   ChartComponent,
 } from "ng-apexcharts";
+import { AuthorizeService } from '../../api-authorization/authorize.service';
+import { Router } from '@angular/router';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -23,6 +25,8 @@ export type ChartOptions = {
 })
 export class MetricsComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent;
+  public isSignedIn: boolean = false;
+  public isMenuCollapsed: boolean = false;
 
   public chartOptions: ChartOptions = {
     title: {
@@ -55,10 +59,24 @@ export class MetricsComponent implements OnInit {
   totalAssistanceRequests: number = 0;
   requestsPerPriority: any;
 
-  constructor(private metricsService: MetricsService) { }
+  constructor(private metricsService: MetricsService, private auth: AuthorizeService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadMetrics();
+  }
+
+  toggleMenu(): void {
+    this.isMenuCollapsed = !this.isMenuCollapsed;
+  }
+
+  signOut() {
+    if (this.isSignedIn) {
+      this.auth.signOut();
+      this.router.navigateByUrl('');
+      alert("Adeus!");
+    } else {
+      this.router.navigateByUrl('login');
+    }
   }
 
   loadMetrics(): void {

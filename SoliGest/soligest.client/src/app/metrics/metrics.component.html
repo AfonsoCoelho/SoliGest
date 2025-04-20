@@ -1,45 +1,98 @@
 <div class="page-wrapper">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <!-- Header -->
   <app-header></app-header>
 
+  <!-- Conteúdo principal -->
   <div class="content-container">
-    <div class="metrics-container">
-      <h2>Métricas de Performance</h2>
-      <!-- Cards de Métricas -->
-      <div class="cards-grid">
-        <div class="metric-card" *ngIf="totalUsers !== null">
-          <h4>Utilizadores</h4>
-          <div class="metric-data">{{ totalUsers }}</div>
+    <!-- Menu lateral -->
+    <div class="left-section" [class.hidden]="isMenuCollapsed">
+      <div id="sideMenu">
+        <div id="upperMenu">
+          <h1 routerLink="/">SoliGest</h1>
+          <button class="menu-toggle-btn" (click)="toggleMenu()">
+            <i class="fas fa-bars"></i> Menu
+          </button>
         </div>
 
-        <div class="metric-card" *ngIf="totalPanels !== null">
-          <h4>Painéis</h4>
-          <div class="metric-data">{{ totalPanels }}</div>
-        </div>
+        <div id="menuOptions">
+          <a routerLink="/avarias" class="menu-link">
+            <span>Gestão das Avarias</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <a routerLink="/funcionario" class="menu-link">
+            <span>Funcionários</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <a routerLink="/metrics" class="menu-link active">
+            <span>Métricas</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <a routerLink="/paineis-solares" class="menu-link">
+            <span>Painéis</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <a routerLink="/mapa" class="menu-link">
+            <span>Mapa</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          <a routerLink="/chat" class="menu-link">
+            <span>Chat</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
 
-        <div class="metric-card" *ngIf="averageRepairTime !== null">
-          <h4>Tempo Médio de Reparação</h4>
-          <div class="metric-data">{{ averageRepairTime }} min</div>
-        </div>
-
-        <div class="metric-card" *ngIf="totalAssistanceRequests !== null">
-          <h4>Total de Avarias</h4>
-          <div class="metric-data">{{ totalAssistanceRequests }}</div>
+          <button class="signout-btn" (click)="signOut()">
+            <i class="fas fa-sign-out-alt"></i> Sair
+          </button>
         </div>
       </div>
+    </div>
 
-      <!-- Gráfico -->
-      <div class="metric-card">
-        <div class="chart-container">
-          <apx-chart [title]="chartOptions.title"
-                     [series]="chartOptions.series"
-                     [chart]="chartOptions.chart"
-                     [labels]="chartOptions.labels"
-                     [responsive]="chartOptions.responsive">
-          </apx-chart>
+    <!-- Botão para expandir menu (visível apenas quando recolhido) -->
+    <button class="menu-collapsed-btn" *ngIf="isMenuCollapsed" (click)="toggleMenu()">
+      <i class="fas fa-bars"></i> Menu
+    </button>
+
+    <!-- Conteúdo das métricas -->
+    <div class="right-section" [class.expanded]="isMenuCollapsed">
+      <div class="metrics-container">
+        <h2>Métricas de Performance</h2>
+
+        <div class="cards-grid">
+          <div class="metric-card">
+            <h4>Utilizadores</h4>
+            <div class="metric-data">{{ totalUsers }}</div>
+          </div>
+          <div class="metric-card">
+            <h4>Painéis</h4>
+            <div class="metric-data">{{ totalPanels }}</div>
+          </div>
+          <div class="metric-card">
+            <h4>Tempo Médio de Reparação</h4>
+            <div class="metric-data">{{ averageRepairTime }} min</div>
+          </div>
+          <div class="metric-card">
+            <h4>Total de Avarias</h4>
+            <div class="metric-data">{{ totalAssistanceRequests }}</div>
+          </div>
+        </div>
+
+        <div class="chart-wrapper">
+          <div class="metric-card">
+            <div class="chart-container">
+              <apx-chart [series]="chartOptions.series"
+                         [chart]="chartOptions.chart"
+                         [labels]="chartOptions.labels"
+                         [responsive]="chartOptions.responsive">
+              </apx-chart>
+            </div>
+          </div>
         </div>
       </div>
-      
     </div>
   </div>
+
+  <!-- Footer -->
   <app-footer></app-footer>
 </div>
