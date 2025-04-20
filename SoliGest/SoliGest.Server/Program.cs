@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SoliGest.Server.Controllers;
 using SoliGest.Server.Data;
 using SoliGest.Server.Models;
 using SoliGest.Server.Services;
@@ -92,6 +93,10 @@ builder.Services.AddSwaggerGen(options =>
             }
         });
 });
+
+builder.Services.AddScoped<IUserNotificationService, UserNotificationService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 var app = builder.Build();
 
