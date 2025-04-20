@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit{
       //this.authService.user().subscribe(
       //  (result) => console.log(result)
       //)
+      
       this.getNotifications();
     }
   showNotificationsPanel = false;
@@ -66,8 +67,8 @@ export class HeaderComponent implements OnInit{
   realNotifications: UserNotification[] = [];
 
   // Getter para notificações não lidas
-  get unreadNotifications(): Notification[] {
-    return this.notifications.filter(n => !n.read);
+  get unreadNotifications(): UserNotification[] {
+    return this.realNotifications.filter(n => !n.isRead);
   }
 
   toggleNotifications(): void {
@@ -99,9 +100,17 @@ export class HeaderComponent implements OnInit{
     return icons[type] ?? 'fas fa-bell';
   }
 
-  dismissNotification(id: number, event: Event): void {
-    event.stopPropagation();
-    this.notifications = this.notifications.filter(n => n.id !== id);
+  dismissNotification(id: number): void {
+    this.un.delete(id).subscribe(
+      (result) => {
+        alert("Notificação apagada com sucesso!");
+        this.getNotifications();
+      },
+      (error) => {
+        alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+        console.error(error);
+      }
+    );
   }
 
   markAllAsRead(): void {

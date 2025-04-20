@@ -82,7 +82,7 @@ export class UserNotificationsService {
 }
 
 export interface UserNotification {
-  id: number;
+  userNotificationId: number;
   user: User;
   userId: number;
   notification: Notification;
@@ -92,7 +92,7 @@ export interface UserNotification {
 }
 
 export interface UserNotificationUpdateModel {
-  id: number;
+  userNotificationId: number;
   userId: number;
   notificationId: number;
   receivedDate: Date;

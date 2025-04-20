@@ -39,19 +39,19 @@ export class LoginComponent implements OnInit {
     const email = this.loginForm.get('email')?.value;
     const password = this.loginForm.get('password')?.value;
 
-    this.authService.signIn(email, password).subscribe({
-      next: (response) => {
-        if (response) {
-          this.router.navigateByUrl("/");
-          alert("Login efetuado com sucesso!"); // Redireciona para a página inicial
-        } else {
-          alert("Email ou password inválidos!");
-        }
-      },
-      error: () => {
-        this.authFailed = true; // Mostra mensagem de erro se falhar
-        alert("Ocorreu um erro! Por favor tente novamente mais tarde.");
-      }
-    });
+    this.authService.signIn(email, password).subscribe(
+      (result) => {
+          if (result) {
+            this.router.navigateByUrl("/");
+            alert("Login efetuado com sucesso!"); // Redireciona para a página inicial
+          } else {
+            alert("Email ou password inválidos!");
+          }
+          },
+          (error) => {
+            this.authFailed = true; // Mostra mensagem de erro se falhar
+            alert("Ocorreu um erro! Por favor tente novamente mais tarde.");
+          },
+        )
   }
 }
