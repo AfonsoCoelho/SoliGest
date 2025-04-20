@@ -277,9 +277,9 @@ namespace SoliGest.Server.Controllers
         {
             try
             {
-                await _userService.GetUserByEmail(email);
+                var user = await _userService.GetUserByEmail(email);
 
-                return Ok();
+                return Ok(user);
             }
             catch
             {
