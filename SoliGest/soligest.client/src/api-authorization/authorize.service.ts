@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, catchError, map, of } from 'rxjs';
 import { UserInfo } from './authorize.dto';
 import { ActivatedRoute } from '@angular/router';
+import { ChatService } from '../app/services/chat.service';
 
 
 @Injectable({
@@ -12,10 +13,10 @@ export class AuthorizeService {
 
   private _authStateChanged: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.hasToken());
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute, private injector: Injector) { }
 
   public onStateChanged() {
-    console.log("token " + localStorage.getItem('authToken'));
+    console.log("token " + localStorage.getItem('authToken') + "\n\n\n user:\n" + this.user());
     return this._authStateChanged.asObservable();
   }
 
@@ -41,6 +42,12 @@ export class AuthorizeService {
         if (response && response.token) {
           this.saveToken(response.token);
           this._authStateChanged.next(true);
+
+          const chat = this.injector.get(ChatService);
+          chat.startConnection()
+            .then(() => console.log('Hub iniciado no login'))
+            .catch(err => console.error(err));
+
           return true;
         }
         return false;
@@ -72,6 +79,7 @@ export class AuthorizeService {
       withCredentials: true
     }).pipe(
       catchError((_: HttpErrorResponse, __: Observable<UserInfo>) => {
+        console.log(of({} as UserInfo));
         return of({} as UserInfo);
       }));
   }

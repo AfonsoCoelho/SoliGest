@@ -7,6 +7,7 @@ using SoliGest.Server.Data;
 using SoliGest.Server.Hubs;
 using SoliGest.Server.Models;
 using SoliGest.Server.Services;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,7 +50,8 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"]
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        NameClaimType = ClaimTypes.NameIdentifier,
     };
 
     options.Events = new JwtBearerEvents
@@ -59,6 +61,7 @@ builder.Services.AddAuthentication(options =>
             var accessToken = context.Request.Query["access_token"];
 
             var path = context.HttpContext.Request.Path;
+
             if (!string.IsNullOrEmpty(accessToken) &&
                 (path.StartsWithSegments("/chatHub")))
             {

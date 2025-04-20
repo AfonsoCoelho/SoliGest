@@ -100,10 +100,10 @@
                      [class.active]="conversation.contact.id === currentContact?.id">
                   <div class="contact-info">
                     <div class="contact-name">{{conversation.contact.name}}</div>
-                    <div class="last-message">{{truncate(conversation.lastMessage, 25)}}</div>
+                    <div class="last-message">{{truncate(conversation.lastMessage.content, 25)}}</div>
                   </div>
                   <div class="message-meta">
-                    <div class="message-time">{{formatTime(conversation.lastMessageTimeStamp)}}</div>
+                    <div class="message-time">{{formatTime(conversation.lastMessage.time)}}</div>
                     <div class="unread-count" *ngIf="conversation.unreadCount > 0">
                       {{conversation.unreadCount}}
                     </div>
@@ -135,7 +135,6 @@
               <div class="contact-avatar">{{getInitials(contact.name)}}</div>
               <div class="contact-details">
                 <div class="contact-name">{{contact.name}}</div>
-                <div class="contact-position">{{contact.position}}</div>
               </div>
             </div>
           </div>
