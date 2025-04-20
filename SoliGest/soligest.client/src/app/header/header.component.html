@@ -5,35 +5,6 @@
   </div>
 
   <div class="header-right">
-    <!-- Ícone de Notificações -->
-    <div class="notification-icon" (click)="toggleNotifications()">
-      <i class="fas fa-bell"></i>
-      <span class="notification-badge" *ngIf="unreadNotifications.length > 0">
-        {{ unreadNotifications.length }}
-      </span>
-    </div>
-
-    <!-- Painel de Notificações -->
-    <div class="notifications-panel" *ngIf="showNotificationsPanel">
-      <div class="panel-header">
-        <span>Notificações:</span>
-        <button class="mark-all" (click)="markAllAsRead()">Marcar todas como lidas</button>
-      </div>
-
-      <div *ngIf="notifications.length === 0" class="no-notifications">
-        Nenhuma notificação
-      </div>
-
-      <div *ngFor="let notif of notifications" class="notification-item" routerLink="{{notif.link}}">
-        <i [class]="getNotificationIcon(notif.type)"></i>
-        <div class="notification-content">
-          <strong>{{ notif.title }}</strong>
-          <p>{{ notif.message }}</p>
-          <small>{{ notif.time | date:'short' }}</small>
-        </div>
-        <button class="dismiss-btn" (click)="dismissNotification(notif.id, $event)">&times;</button>
-      </div>
-    </div>
 
     <!-- Ícone de Notificações 2 -->
     <div class="notification-icon" (click)="toggleRealNotifications()">
@@ -59,9 +30,8 @@
           <strong>{{ notif.notification.title }}</strong>
           <p>{{ notif.notification.message }}</p>
           <small>{{ notif.receivedDate | date:'short' }}</small>
-          <small>{{ notif.id }}</small>
         </div>
-        <button class="dismiss-btn" (click)="dismissNotification(notif.id, $event)">&times;</button>
+        <button class="dismiss-btn" (click)="dismissNotification(notif.userNotificationId)">&times;</button>
       </div>
       <button class="mark-all" (click)="markAllAsRead()">Marcar todas como lidas</button>
     </div>
