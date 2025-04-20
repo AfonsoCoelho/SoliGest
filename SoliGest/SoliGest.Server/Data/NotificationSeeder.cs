@@ -13,9 +13,9 @@ namespace SoliGest.Server.Data
             {
                 Notification notification1 = new Notification
                 {
-                    Title = "Notificação 1",
+                    Title = "Nova assistência técnica atribuída!",
                     Type = "message",
-                    Message = "Tem uma nova assistência técnica atribuída."
+                    Message = "Clique para saber mais sobre o painel avariado."
                 };
 
                 await context.AddAsync(notification1);
