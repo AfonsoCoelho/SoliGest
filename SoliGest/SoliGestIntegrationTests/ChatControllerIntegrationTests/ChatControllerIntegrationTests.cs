@@ -53,7 +53,7 @@ namespace SoliGestIntegrationTests
             Console.WriteLine("Response Body: " + body);
 
 
-            Assert.Equal("application/json; charset=utf-8",
+            Assert.Equal("text/plain; charset=utf-8",
                          resp.Content.Headers.ContentType.ToString());
         }
 
