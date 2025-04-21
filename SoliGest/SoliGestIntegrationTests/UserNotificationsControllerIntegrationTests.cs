@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using SoliGest.Server.Controllers;
 using SoliGest.Server.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -37,27 +39,21 @@ namespace SoliGestIntegrationTests
             var client = _factory.CreateClient();
 
             // Primeiro cria uma notificação para testar
-            var createResponse = await CreateTestUserNotification(client);
-            if (!createResponse.IsSuccessStatusCode)
-            {
-                Assert.True(false, "Falha ao criar notificação de teste");
-                return;
-            }
-
-            var createdNotification = JsonConvert.DeserializeObject<UserNotification>(await createResponse.Content.ReadAsStringAsync());
+            var testNotification = await CreateAndGetTestUserNotification(client);
+            Assert.NotNull(testNotification);
 
             // Agora busca pelo ID criado
-            var response = await client.GetAsync($"/api/UserNotifications/{createdNotification.UserNotificationId}");
+            var response = await client.GetAsync($"/api/UserNotifications/{testNotification.UserNotificationId}");
 
             response.EnsureSuccessStatusCode();
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType.ToString());
 
             // Limpeza
-            await client.DeleteAsync($"/api/UserNotifications/{createdNotification.UserNotificationId}");
+            await client.DeleteAsync($"/api/UserNotifications/{testNotification.UserNotificationId}");
         }
 
         [Fact]
-        public async Task Post_UserNotification_ReturnsSuccess()
+        public async Task Post_UserNotification_ReturnsCreated()
         {
             var client = _factory.CreateClient();
 
@@ -74,23 +70,15 @@ namespace SoliGestIntegrationTests
 
             var response = await client.PostAsync("/api/UserNotifications", content);
 
-            // O controlador retorna Ok() em vez de Created()
             response.EnsureSuccessStatusCode();
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+            // Deserializar a resposta para obter o ID para limpeza
+            var createdNotification = JsonConvert.DeserializeObject<UserNotification>(await response.Content.ReadAsStringAsync());
+            Assert.NotNull(createdNotification);
 
             // Limpeza
-            if (response.IsSuccessStatusCode)
-            {
-                // Como o POST não retorna o objeto criado, precisamos buscar a última notificação do usuário
-                var notificationsResponse = await client.GetAsync($"/api/UserNotifications/ByUserId/{userNotification.UserId}");
-                var notifications = JsonConvert.DeserializeObject<List<UserNotification>>(await notificationsResponse.Content.ReadAsStringAsync());
-                var lastNotification = notifications?.LastOrDefault();
-
-                if (lastNotification != null)
-                {
-                    await client.DeleteAsync($"/api/UserNotifications/{lastNotification.UserNotificationId}");
-                }
-            }
+            await client.DeleteAsync($"/api/UserNotifications/{createdNotification.UserNotificationId}");
         }
 
         [Fact]
@@ -99,14 +87,8 @@ namespace SoliGestIntegrationTests
             var client = _factory.CreateClient();
 
             // Primeiro cria uma notificação para testar
-            var createResponse = await CreateTestUserNotification(client);
-            if (!createResponse.IsSuccessStatusCode)
-            {
-                Assert.True(false, "Falha ao criar notificação de teste");
-                return;
-            }
-
-            var createdNotification = JsonConvert.DeserializeObject<UserNotification>(await createResponse.Content.ReadAsStringAsync());
+            var createdNotification = await CreateAndGetTestUserNotification(client);
+            Assert.NotNull(createdNotification);
 
             var updatedUserNotification = new UserNotificationsController.UserNotificationUpdateModel
             {
@@ -119,10 +101,37 @@ namespace SoliGestIntegrationTests
 
             var content = new StringContent(JsonConvert.SerializeObject(updatedUserNotification), Encoding.UTF8, "application/json");
 
-            var response = await client.PutAsync("/api/UserNotifications", content);
+            // Usar a URL correta com o ID na rota
+            var response = await client.PutAsync($"/api/UserNotifications/{createdNotification.UserNotificationId}", content);
 
             response.EnsureSuccessStatusCode();
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            // Limpeza
+            await client.DeleteAsync($"/api/UserNotifications/{createdNotification.UserNotificationId}");
+        }
+
+        [Fact]
+        public async Task MarkAsRead_UserNotification_ReturnsOk()
+        {
+            var client = _factory.CreateClient();
+
+            // Primeiro cria uma notificação para testar
+            var createdNotification = await CreateAndGetTestUserNotification(client);
+            Assert.NotNull(createdNotification);
+
+            // Marca a notificação como lida
+            var response = await client.PutAsync($"/api/UserNotifications/markAsRead/{createdNotification.UserNotificationId}", null);
+
+            response.EnsureSuccessStatusCode();
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            // Verifica se foi realmente marcada como lida
+            var getResponse = await client.GetAsync($"/api/UserNotifications/{createdNotification.UserNotificationId}");
+            getResponse.EnsureSuccessStatusCode();
+
+            var updatedNotification = JsonConvert.DeserializeObject<UserNotification>(await getResponse.Content.ReadAsStringAsync());
+            Assert.True(updatedNotification.IsRead);
 
             // Limpeza
             await client.DeleteAsync($"/api/UserNotifications/{createdNotification.UserNotificationId}");
@@ -134,22 +143,43 @@ namespace SoliGestIntegrationTests
             var client = _factory.CreateClient();
 
             // Primeiro cria uma notificação para testar
-            var createResponse = await CreateTestUserNotification(client);
-            if (!createResponse.IsSuccessStatusCode)
-            {
-                Assert.True(false, "Falha ao criar notificação de teste");
-                return;
-            }
-
-            var createdNotification = JsonConvert.DeserializeObject<UserNotification>(await createResponse.Content.ReadAsStringAsync());
+            var createdNotification = await CreateAndGetTestUserNotification(client);
+            Assert.NotNull(createdNotification);
 
             var response = await client.DeleteAsync($"/api/UserNotifications/{createdNotification.UserNotificationId}");
 
             response.EnsureSuccessStatusCode();
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            // Verifica se realmente foi excluído
+            var getResponse = await client.GetAsync($"/api/UserNotifications/{createdNotification.UserNotificationId}");
+            Assert.Equal(HttpStatusCode.NotFound, getResponse.StatusCode);
         }
 
-        private async Task<HttpResponseMessage> CreateTestUserNotification(HttpClient client)
+        [Fact]
+        public async Task GetByUserId_UserNotifications_ReturnsSuccess()
+        {
+            var client = _factory.CreateClient();
+
+            // Primeiro cria uma notificação para testar
+            var createdNotification = await CreateAndGetTestUserNotification(client);
+            Assert.NotNull(createdNotification);
+
+            // Busca notificações do usuário
+            var response = await client.GetAsync($"/api/UserNotifications/ByUserId/{createdNotification.UserId}");
+
+            response.EnsureSuccessStatusCode();
+            Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType.ToString());
+
+            var notifications = JsonConvert.DeserializeObject<List<UserNotification>>(await response.Content.ReadAsStringAsync());
+            Assert.NotNull(notifications);
+            Assert.True(notifications.Any());
+
+            // Limpeza
+            await client.DeleteAsync($"/api/UserNotifications/{createdNotification.UserNotificationId}");
+        }
+
+        private async Task<UserNotification> CreateAndGetTestUserNotification(HttpClient client)
         {
             var userNotification = new UserNotificationsController.UserNotificationUpdateModel
             {
@@ -161,7 +191,14 @@ namespace SoliGestIntegrationTests
             };
 
             var content = new StringContent(JsonConvert.SerializeObject(userNotification), Encoding.UTF8, "application/json");
-            return await client.PostAsync("/api/UserNotifications", content);
+            var response = await client.PostAsync("/api/UserNotifications", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            return JsonConvert.DeserializeObject<UserNotification>(await response.Content.ReadAsStringAsync());
         }
     }
 }
