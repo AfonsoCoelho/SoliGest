@@ -206,17 +206,15 @@ export class PaineisSolaresComponent implements OnInit {
     const priority = this.editingPanel.priority;
     const status = this.editingPanel.status;
     const statusClass = this.getStatusClass(status);
-    const latitude = this.editingPanel.latitude;
-    const longitude = this.editingPanel.longitude;
     const description = this.editingPanel.description;
     const phone = this.editingPanel.phoneNumber;
     const email = this.editingPanel.email;
-    const address = "";
 
     if (id) {
-      this.service.updateSolarPanel(id, name, priority, status, statusClass, latitude, longitude, description, phone, email, address).subscribe(
+      this.service.updateSolarPanel(id, name, priority, status, statusClass, description, phone, email).subscribe(
         (result) => {
           alert("Painel solar atualizado com sucesso!");
+          console.log(result);
           this.closeEditPanelModal();
           this.loadPanels();
         },
@@ -254,12 +252,13 @@ export class PaineisSolaresComponent implements OnInit {
       description: this.newPanel.description,
       phoneNumber: this.newPanel.phoneNumber,
       email: this.newPanel.email,
-      address: "a"
+      address: this.newPanel.address
     };
 
     this.service.createSolarPanel(solarPanel).subscribe(
       (result) => {
         alert("Novo painel solar criado com sucesso!");
+        console.log(result);
         this.closeCreatePanelModal();
         this.loadPanels();
       },

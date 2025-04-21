@@ -94,9 +94,11 @@ builder.Services.AddSwaggerGen(options =>
         });
 });
 
+
 builder.Services.AddScoped<IUserNotificationService, UserNotificationService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+builder.Services.AddHttpClient<IGeoCodingService, GeoCodingService>();
 
 var app = builder.Build();
 

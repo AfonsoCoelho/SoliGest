@@ -8,7 +8,6 @@
 
         <div class="sort-container">
           <div class="sort-options">
-            <!-- Adicione esta linha para a barra de pesquisa -->
             <label for="sort-by">Pesquisar:</label>
             <input type="text" class="search-input" placeholder="Pesquisar rua/cidade..." [(ngModel)]="searchTerm" (input)="filterPanels()">
             <label for="sort-by">Ordenar por:</label>
@@ -90,7 +89,7 @@
       <h2>Editar Painel ID: {{editingPanel.id}}</h2>
       <form (ngSubmit)="updatePanel()">
         <div class="form-group">
-          <label for="edit-name">Nome/Localização:</label>
+          <label for="edit-name">Nome:</label>
           <input type="text" id="edit-name" [(ngModel)]="editingPanel.name" name="edit-name" required>
         </div>
         <div class="form-group">
@@ -135,8 +134,12 @@
       <h2>Criar Novo Painel</h2>
       <form (ngSubmit)="createPanel()">
         <div class="form-group">
-          <label for="create-name">Nome/Localização:</label>
+          <label for="create-name">Nome:</label>
           <input type="text" id="create-name" [(ngModel)]="newPanel.name" name="create-name" required>
+        </div>
+        <div class="form-group">
+          <label for="create-address">Localização:</label>
+          <input type="text" id="create-address" [(ngModel)]="newPanel.address" name="create-address" required>
         </div>
         <div class="form-group">
           <label for="create-priority">Prioridade:</label>
@@ -158,16 +161,6 @@
           <label for="create-description">Descrição:</label>
           <textarea id="create-description" [(ngModel)]="newPanel.description" name="create-description"></textarea>
         </div>
-
-        <div class="form-group">
-          <label for="create-latitude">Latitude:</label>
-          <input type="text" id="create-latitude">
-        </div>
-        <div class="form-group">
-          <label for="create-longitude">Longitude:</label>
-          <input type="text" id="create-longitude">
-        </div>
-
         <div class="form-group">
           <label for="create-phone">Telefone:</label>
           <input type="number" id="create-phone" [(ngModel)]="newPanel.phoneNumber" name="create-phone">

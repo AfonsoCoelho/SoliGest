@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SoliGest.Server.Data;
 using SoliGest.Server.Models;
+using SoliGest.Server.Services;
 
 namespace SoliGest.Server.Controllers
 {
@@ -17,24 +18,28 @@ namespace SoliGest.Server.Controllers
     public class SolarPanelsController : Controller
     {
         private readonly SoliGestServerContext _context;
+        private readonly IGeoCodingService _geo;
 
-        public SolarPanelsController(SoliGestServerContext context)
+        
+        public SolarPanelsController(SoliGestServerContext context, IGeoCodingService geo)
         {
             _context = context;
+            _geo = geo;
         }
 
-        // GET: api/People
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SolarPanel>>> GetSolarPanel()
         {
             return await _context.SolarPanel.ToListAsync();
         }
 
-        // POST: api/People
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<IActionResult> PostSolarPanel(SolarPanel solarPanel)
         {
+            SolarPanel result = this.GetGeocodeResult(solarPanel);
+
             try
             {
                 _context.SolarPanel.Add(solarPanel);
@@ -48,7 +53,6 @@ namespace SoliGest.Server.Controllers
             }
         }
 
-        // DELETE: api/People/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSolarPanel(int id)
         {
@@ -71,7 +75,6 @@ namespace SoliGest.Server.Controllers
             }
         }
 
-        // GET: api/People/5
         [HttpGet("{id}")]
         public async Task<ActionResult<SolarPanel>> GetSolarPanel(int id)
         {
@@ -93,7 +96,6 @@ namespace SoliGest.Server.Controllers
             }
         }
 
-        // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSolarPanel([FromBody] SolarPanelUpdateModel model)
@@ -108,12 +110,12 @@ namespace SoliGest.Server.Controllers
             solarPanel.Priority = model.Priority;
             solarPanel.Status = model.Status;
             solarPanel.StatusClass = model.StatusClass;
-            solarPanel.Latitude = model.Latitude;
-            solarPanel.Longitude = model.Longitude;
             solarPanel.Description = model.Description;
             solarPanel.PhoneNumber = model.PhoneNumber;
             solarPanel.Email = model.Email;
             solarPanel.Address = model.Address;
+
+            solarPanel = this.GetGeocodeResult(solarPanel);
 
             _context.Update<SolarPanel>(solarPanel);
 
@@ -125,6 +127,15 @@ namespace SoliGest.Server.Controllers
             }
 
             return Ok(new { message = "Painel solar atualizado com sucesso!" });
+        }
+        
+        private SolarPanel GetGeocodeResult(SolarPanel solarPanel)
+        {
+            GeocodeResult? result =  _geo.GeocodeAsync(solarPanel.Address).Result;
+            solarPanel.Latitude = result?.Latitude ?? 0;
+            solarPanel.Longitude = result?.Longitude ?? 0;
+
+            return solarPanel;
         }
     }
 
