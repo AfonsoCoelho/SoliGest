@@ -5,10 +5,13 @@ namespace SoliGest.Server.Hubs
 {
     public class ChatHub : Hub
     {
-        public async Task SendMessage(string user, string message)
+        public async Task SendMessage(string receiverId, string content)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            var senderId = Context.UserIdentifier;
+
+            await Clients.User(receiverId)
+                         .SendAsync("ReceiveMessage", senderId, content);
         }
     }
-    
+
 }

@@ -9,7 +9,6 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pag
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Shared;
 using SendGrid.Helpers.Mail;
 using SoliGest.Server.Data;
-//using SoliGest.Server.Migrations;
 using SoliGest.Server.Models;
 using SoliGest.Server.Services;
 using System;
@@ -74,6 +73,7 @@ namespace SoliGest.Server.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("Name", user.Name),
                 new Claim("Email", user.Email),
                 new Claim("UserId", user.Id)

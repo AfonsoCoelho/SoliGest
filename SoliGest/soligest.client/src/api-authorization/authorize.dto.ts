@@ -6,6 +6,7 @@ export interface UserDto {
 
 // manage/info
 export interface UserInfo {
+  id: string;
   name: string;
   email: string;
   isEmailConfirmed: boolean;

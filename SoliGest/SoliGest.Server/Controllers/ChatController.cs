@@ -142,6 +142,7 @@ namespace SoliGest.Server.Controllers
                 await _context.SaveChangesAsync();
             }
 
+            // Create message entity with required navigation
             var message = new Message
             {
                 Content = messageDto.Content,
