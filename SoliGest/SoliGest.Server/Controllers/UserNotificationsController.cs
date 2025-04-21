@@ -159,7 +159,7 @@ namespace SoliGest.Server.Controllers
         public class UserNotificationUpdateModel
         {
             public int UserNotificationId { get; set; }
-            public string UserId { get; set; }
+            public required string UserId { get; set; }
             public int NotificationId { get; set; }
             public DateTime ReceivedDate { get; set; }
             public bool IsRead { get; set; }
