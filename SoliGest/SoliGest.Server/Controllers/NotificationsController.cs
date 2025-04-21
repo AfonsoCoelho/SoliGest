@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SoliGest.Server.Data;
 using SoliGest.Server.Models;
+using System.Data;
 
 namespace SoliGest.Server.Controllers
 {
@@ -97,6 +98,7 @@ namespace SoliGest.Server.Controllers
                 return NotFound($"Não foi possível encontrar a notificação com o ID '{updatedNotification.Id}'.");
             }
 
+            notification.Title = updatedNotification.Title;
             notification.Type = updatedNotification.Type;
             notification.Message = updatedNotification.Message;
 
