@@ -30,8 +30,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initMap();
-    this.loadSolarPanels();
-    this.loadTechnicians();
+    this.filterMap();
   }
 
   toggleMenu(): void {
@@ -49,6 +48,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.auth.signOut();
       this.router.navigateByUrl('');
       alert("Adeus!");
+      this.router.navigateByUrl('login');
     } else {
       this.router.navigateByUrl('login');
     }
@@ -117,15 +117,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
       (result) => {
         users = result;
         users.forEach(user => {
-          if (user.role === "Técnico") {
+          if (user.role === "Técnico" && user.latitude && user.longitude) {
             const marker = new google.maps.Marker({
-              position: new google.maps.LatLng(user.phoneNumber, user.phoneNumber),
+              position: new google.maps.LatLng(user.latitude, user.longitude),
               map: this.map,
               title: `Técnico #${user.id}`,
               icon: this.getMarkerIcon('faulty')
             });
             this.markers.push(marker);
-            alert("Técnico no mapa!")
 
             const infoWindow = new google.maps.InfoWindow({
               content: `
@@ -174,7 +173,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   filterMap(): void {
-    this.markers = [];
+    this.resetMarkers();
     this.initMap();
     if (this.showSolarPanels) {
       this.loadSolarPanels();

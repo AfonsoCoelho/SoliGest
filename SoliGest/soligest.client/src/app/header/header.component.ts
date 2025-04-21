@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthorizeService } from '../../api-authorization/authorize.service';
+import { UserNotification, UserNotificationsService } from '../services/user-notifications.service';
+import { User } from '../services/users.service';
 
 interface Notification {
   id: number;
@@ -17,11 +20,20 @@ interface Notification {
   styleUrls: ['./header.component.css'],
   standalone:false
 })
-export class HeaderComponent {
-  constructor(public router: Router) { }
+export class HeaderComponent implements OnInit{
+  constructor(public router: Router, private authService: AuthorizeService, private un: UserNotificationsService) { }
+    ngOnInit(): void {
+      //this.getNotifications();
+      //this.authService.user().subscribe(
+      //  (result) => console.log(result)
+      //)
+      
+      this.getNotifications();
+    }
   showNotificationsPanel = false;
+  showNotificationsPanel2 = false;
   showProfileMenu = false;
-  profileImageUrl = 'assets/images/default-profile.png';
+  profileImageUrl = 'profileIcon.png';
 
   notifications: Notification[] = [
     {
@@ -52,17 +64,30 @@ export class HeaderComponent {
     }
   ];
 
+  realNotifications: UserNotification[] = [];
+
   // Getter para notificações não lidas
-  get unreadNotifications(): Notification[] {
-    return this.notifications.filter(n => !n.read);
+  get unreadNotifications(): UserNotification[] {
+    return this.realNotifications.filter(n => !n.isRead);
   }
 
   toggleNotifications(): void {
     this.showNotificationsPanel = !this.showNotificationsPanel;
   }
 
+  toggleRealNotifications(): void {
+    this.showNotificationsPanel2 = !this.showNotificationsPanel2;
+  }
+
   toggleProfileMenu(): void {
     this.showProfileMenu = !this.showProfileMenu;
+  }
+
+  getNotifications(): void {    
+    this.un.getByLoggedInUser().subscribe(
+      (result: UserNotification[]) => this.realNotifications = result,
+      (error: any) => console.error(error)
+    );
   }
 
   getNotificationIcon(type: string): string {
@@ -75,9 +100,17 @@ export class HeaderComponent {
     return icons[type] ?? 'fas fa-bell';
   }
 
-  dismissNotification(id: number, event: Event): void {
-    event.stopPropagation();
-    this.notifications = this.notifications.filter(n => n.id !== id);
+  dismissNotification(id: number): void {
+    this.un.delete(id).subscribe(
+      (result) => {
+        alert("Notificação apagada com sucesso!");
+        this.getNotifications();
+      },
+      (error) => {
+        alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+        console.error(error);
+      }
+    );
   }
 
   markAllAsRead(): void {

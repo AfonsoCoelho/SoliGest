@@ -84,7 +84,7 @@
         <div class="form-group">
           <label for="edit-technician">Funcionário Alocado:</label>
           <select id="edit-technician" [(ngModel)]="selectedTechnicianId" name="edit-technician" class="form-control">
-            <option [value]="null">N/A (Remover Técnico)</option>
+            <option [ngValue]="null">N/A (Remover Técnico)</option>
             <option *ngFor="let user of availableTechnicians" [ngValue]="user.id">
               {{ user.name }} (ID: {{ user.id }})
             </option>
@@ -195,6 +195,7 @@
               <th>ID</th>
               <th>Nome</th>
               <th>Cargo</th>
+              <th>Ativo</th>
               <th>Ação</th>
             </tr>
           </thead>
@@ -203,6 +204,11 @@
               <td>{{ user.id }}</td>
               <td>{{ user.name }}</td>
               <td>{{ user.role }}</td>
+              <td class="status-dot-cell">
+                <span class="status-dot"
+                      [ngClass]="user.isActive ? 'green-dot' : 'red-dot'"
+                      title="{{ user.isActive ? 'Ativo' : 'Inativo' }}"></span>
+              </td>
               <td>
                 <button class="allocate-btn" (click)="allocateToUser(user)">Alocar</button>
               </td>
@@ -226,7 +232,8 @@
       <p *ngIf="autoAllocationCandidate">
         <strong>ID:</strong> {{ autoAllocationCandidate.id }} <br>
         <strong>Nome:</strong> {{ autoAllocationCandidate.name }} <br>
-        <strong>Cargo:</strong> {{ autoAllocationCandidate.role }}
+        <strong>Cargo:</strong> {{ autoAllocationCandidate.role }} <br>
+        <strong>Ativo: </strong><span class="status-dot" [ngClass]="autoAllocationCandidate.isActive ? 'green-dot' : 'red-dot'" title="{{ autoAllocationCandidate.isActive ? 'Ativo' : 'Inativo' }}"> </span>
       </p>
       <p *ngIf="!autoAllocationCandidate">Nenhum funcionário disponível.</p>
       <div class="modal-actions">

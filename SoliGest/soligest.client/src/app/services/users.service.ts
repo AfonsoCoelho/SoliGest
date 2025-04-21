@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -37,6 +37,25 @@ export class UsersService {
   saveHolidays(userId: string, holidays: { inicio: Date; fim: Date }[]): Observable<any> {
     return this.http.post(`api/Holidays/${userId}`, holidays);
   }
+
+  getUserByEmail(email: string): Observable<User> {
+    return this.http.get<User>('api/Users/by-email/' + email);
+  }
+
+  setUserAsActive(userId: string): Observable<User> {
+    return this.http.put<User>('api/Users/set-user-as-active/' + userId, userId);
+  }
+
+  setUserAsInactive(userId: string): Observable<User> {
+    return this.http.put<User>('api/Users/set-user-as-inactive/' + userId, userId);
+  }
+
+  updateUserLocation(userId: string, latitude: number, longitude: number): Observable<User> {
+    const params = new HttpParams()
+      .set('latitude', latitude)
+      .set('longitude', longitude);
+    return this.http.put<User>('api/Users/update-location/' + userId + '/?latitude=' + latitude + '&longitude=' + longitude, userId);
+  }
 }
 
 export interface User {
@@ -53,6 +72,9 @@ export interface User {
   dayOff: string;
   startHoliday: string;
   endHoliday: string;
+  latitude: number;
+  longitude: number;
+  isActive: boolean;
 }
 
 //{

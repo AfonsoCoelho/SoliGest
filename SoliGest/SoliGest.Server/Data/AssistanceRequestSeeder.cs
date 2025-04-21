@@ -14,7 +14,7 @@ namespace SoliGest.Server.Data
             var solarPanel1 = await context.SolarPanel.FirstOrDefaultAsync();
             var solarPanel2 = await context.SolarPanel.FirstOrDefaultAsync(a => a.Id == 2);
             var solarPanel3 = await context.SolarPanel.FirstOrDefaultAsync(a => a.Id == 3);
-            var user1 = await context.Users.FirstOrDefaultAsync();
+            var user1 = await context.Users.FirstOrDefaultAsync(u => u.Role.Equals("Técnico"));
             if (user1 == null)
             {
                 Console.WriteLine("user1 e null atencao");

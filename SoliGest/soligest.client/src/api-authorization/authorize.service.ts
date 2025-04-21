@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, Subject, catchError, map, of } from 'rxjs'
 import { UserInfo } from './authorize.dto';
 import { ActivatedRoute } from '@angular/router';
 import { ChatService } from '../app/services/chat.service';
+import { User, UsersService } from '../app/services/users.service';
 
 
 @Injectable({
@@ -12,8 +13,20 @@ import { ChatService } from '../app/services/chat.service';
 export class AuthorizeService {  
 
   private _authStateChanged: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.hasToken());
+  private loggedUserId: string | null;
+  private loggedUserEmail: string;
+  private loggedUser: any;
+  private userLatitude: number;
+  private userLongitude: number;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private injector: Injector) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute, private us: UsersService, private injector: Injector) {
+    this.loggedUserEmail = "";
+    this.loggedUserId = localStorage.getItem('loggedUserId');;
+    this.loggedUser = 0;
+    this.userLatitude = 0;
+    this.userLongitude = 0;
+  }
+
 
   public onStateChanged() {
     console.log("token " + localStorage.getItem('authToken') + "\n\n\n user:\n" + this.user());
@@ -48,6 +61,23 @@ export class AuthorizeService {
             .then(() => console.log('Hub iniciado no login'))
             .catch(err => console.error(err));
 
+          this.loggedUserEmail = email;
+          this.us.getUserByEmail(this.loggedUserEmail).subscribe(
+            (result) => {
+              this.loggedUser = result;
+              localStorage.setItem('loggedUserId', this.loggedUser.id);
+              this.loggedUserId = this.loggedUser.id;
+              this.us.setUserAsActive(this.loggedUser.id).subscribe(
+                (result) => {
+                  this.loggedUser = result;
+                  if (this.loggedUser.role == "Técnico") {
+                    this.getUserLocation();
+                  }
+                },
+                (error) => console.error(error)
+              );
+            }
+          )
           return true;
         }
         return false;
@@ -65,9 +95,50 @@ export class AuthorizeService {
     );
   }
 
+  public getUserLocation() {
+    var userId = this.loggedUser.id;
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          this.userLatitude = latitude;
+          this.userLongitude = longitude;
+          this.us.updateUserLocation(userId, this.userLatitude, this.userLongitude).subscribe(
+            (result) => {
+              this.loggedUser = result;
+            },
+            (error) => console.error(error)
+          );
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    } else {
+      console.error("Ocorreu um erro");
+    }
+  }
+
   public signOut(): void {
     this.clearToken();
     this._authStateChanged.next(false);
+    if (this.loggedUserId) {
+      this.us.setUserAsInactive(this.loggedUserId).subscribe(
+        (result) => {
+          this.loggedUser = result;
+        },
+        (error) => console.error(error)
+      );
+      this.us.updateUserLocation(this.loggedUserId, 0, 0).subscribe(
+        (result) => {
+          this.loggedUser = result;
+        },
+        (error) => console.error(error)
+      );
+      this.loggedUserEmail = "";
+      this.loggedUser = null;
+      localStorage.removeItem('loggedUserId');
+    }
   }
 
   public isSignedIn(): boolean {
@@ -117,7 +188,24 @@ export class AuthorizeService {
     );
   }
 
-  public getToken(): string | null {
-    return localStorage.getItem('authToken');
+  public getToken(): string {
+    if (this.hasToken()) {
+      return localStorage.getItem('authToken') || 'a';
   }
+    
+  public getLoggedUserEmail(): any {
+    //if (this.isSignedIn()) {
+    //  return this.loggedUserEmail;
+    //}
+    //else {
+    //  return false;
+    //}
+    return this.loggedUserEmail;
+  }
+
+  //public getLoggedUser(): Observable<User> {
+  //  if (this.isSignedIn()) {
+  //    return this.loggedUserEmail;
+  //  }
+  //}
 }

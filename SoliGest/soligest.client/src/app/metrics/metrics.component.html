@@ -1,4 +1,6 @@
 <div class="page-wrapper">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <!-- Header -->
   <app-header></app-header>
 
@@ -23,7 +25,7 @@
             <span>Funcionários</span>
             <i class="fas fa-chevron-right"></i>
           </a>
-          <a href="/metrics" class="menu-link">
+          <a routerLink="/metrics" class="menu-link active">
             <span>Métricas</span>
             <i class="fas fa-chevron-right"></i>
           </a>
@@ -52,15 +54,41 @@
       <i class="fas fa-bars"></i> Menu
     </button>
 
-    <!-- Mapa -->
+    <!-- Conteúdo das métricas -->
     <div class="right-section" [class.expanded]="isMenuCollapsed">
-      <div class="map-container">
-        <h2>Mapa</h2>
-        <div id="map-filters">
-          <p><input type="checkbox" id="solarPanelEnabled" (change)="filterMap()" [(ngModel)]="showSolarPanels" />Paineis Solares</p>
-          <p><input type="checkbox" id="techniansEnabled" (change)="filterMap()" [(ngModel)]="showTechnicians" />Técnicos</p>
+      <div class="metrics-container">
+        <h2>Métricas de Performance</h2>
+
+        <div class="cards-grid">
+          <div class="metric-card">
+            <h4>Utilizadores</h4>
+            <div class="metric-data">{{ totalUsers }}</div>
+          </div>
+          <div class="metric-card">
+            <h4>Painéis</h4>
+            <div class="metric-data">{{ totalPanels }}</div>
+          </div>
+          <div class="metric-card">
+            <h4>Tempo Médio de Reparação</h4>
+            <div class="metric-data">{{ averageRepairTime }} min</div>
+          </div>
+          <div class="metric-card">
+            <h4>Total de Avarias</h4>
+            <div class="metric-data">{{ totalAssistanceRequests }}</div>
+          </div>
         </div>
-        <div id="map"></div>
+
+        <div class="chart-wrapper">
+          <div class="metric-card">
+            <div class="chart-container">
+              <apx-chart [series]="chartOptions.series"
+                         [chart]="chartOptions.chart"
+                         [labels]="chartOptions.labels"
+                         [responsive]="chartOptions.responsive">
+              </apx-chart>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

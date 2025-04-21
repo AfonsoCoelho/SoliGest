@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SoliGest.Server.Controllers;
 using SoliGest.Server.Data;
 using SoliGest.Server.Hubs;
 using SoliGest.Server.Models;
@@ -122,6 +123,9 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddSignalR();
 
+builder.Services.AddScoped<IUserNotificationService, UserNotificationService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 var app = builder.Build();
 
 app.UseCors(builder =>
@@ -147,6 +151,8 @@ using (var scope = app.Services.CreateScope())
     await UserSeeder.SeedUsersAsync(userManager);
     await SolarPanelSeeder.SeedSolarPanelsAsync(context);
     await AssistanceRequestSeeder.SeedAssistanceRequestsAsync(context);
+    await NotificationSeeder.SeedNotificationsAsync(context);
+    await UserNotificationSeeder.SeedUserNotificationsAsync(context);
 }
 
 app.UseHttpsRedirection();

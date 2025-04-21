@@ -425,3 +425,24 @@
     flex-wrap: wrap;
   }
 }
+
+.status-dot-cell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.green-dot {
+  background-color: #28a745; /* green */
+}
+
+.red-dot {
+  background-color: #dc3545; /* red */
+}
+
