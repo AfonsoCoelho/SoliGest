@@ -191,6 +191,8 @@ export class AuthorizeService {
   public getToken(): string {
     if (this.hasToken()) {
       return localStorage.getItem('authToken') || 'a';
+    }
+    return 'a';
   }
     
   public getLoggedUserEmail(): any {
