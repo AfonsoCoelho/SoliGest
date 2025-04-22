@@ -26,8 +26,8 @@ interface ConversationDto {
 
 // UI interfaces
 export interface UiMessage {
-  content: string;
   sent: boolean;
+  content: string;
   time: Date;
 }
 export interface UiConversation {
@@ -79,63 +79,43 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.auth.onStateChanged()
       .pipe(filter(signedIn => signedIn))
       .subscribe(() => {
+        this.auth.getUserInfo().subscribe(userInfo => {
+          this.currentUser = userInfo.name;
+          this.currentUserId = userInfo.id;
 
-        this.chatService.onMessageReceived((senderId: string, message: string) => {
-          const conv = this.conversations.find(c => c.contact.id === senderId);
-          const uiMsg: UiMessage = {
-            content: message,
-            sent: false,
-            time: new Date()
-          };
-
-          if (conv) {
-            conv.messages.push(uiMsg);
-            conv.lastMessage = uiMsg;
-            conv.unreadCount++;
-            if (this.currentContact?.id === senderId) {
-              this.currentMessages = conv.messages;
-              conv.unreadCount = 0;
-            }
-          } else {
-            this.conversations.push({
-              id: 0,
-              contact: { id: senderId, name: senderId },
-              messages: [uiMsg],
-              lastMessage: uiMsg,
-              unreadCount: 1
-            });
-          }
+          this.loadConversations();
 
         });
-
-        this.chatService.getConversations()
-          .subscribe((dtos: Conversation[]) => {
-            this.conversations = dtos.map(dto => {
-              const msgs: UiMessage[] = dto.messages.map(m => ({
-                content: m.content,
-                sent: m.senderId === this.currentUserId,
-                time: new Date(m.timestamp)
-              }));
-
-              return {
-                id: dto.id,
-                contact: dto.contact,
-                messages: msgs,
-                lastMessage: msgs[msgs.length - 1],
-                unreadCount: 0
-              } as UiConversation;
-            });
-          });
-
-        // Load contacts
-        this.chatService.getAvailableContacts()
-          .subscribe(data => this.contacts = data);
       });
   }
+
+
+  private loadConversations(): void {
+    this.chatService.getConversations()
+      .subscribe((dtos) => {
+        this.conversations = dtos.map(dto => {
+          const msgs = dto.messages.map(m => ({
+            content: m.content,
+            sent: m.senderId === this.currentUserId,
+            time: new Date(m.timestamp)
+          }));
+          return {
+            id: dto.id,
+            contact: dto.contact,
+            messages: msgs,
+            lastMessage: msgs[msgs.length - 1],
+            unreadCount: 0
+          } as UiConversation;
+        });
+      });
+
+    this.chatService.getAvailableContacts()
+      .subscribe(cts => this.contacts = cts);
+  }
+
 
   sendMessage(): void {
     if (!this.currentContact || !this.newMessage.trim()) return;
@@ -159,6 +139,14 @@ export class ChatComponent implements OnInit {
     }
 
     this.newMessage = '';
+  }
+
+  onMessageReceived(callback: (sender: string, message: any) => void): void {
+    if (this.hubConnection) {
+      this.hubConnection.on('ReceiveMessage', (sender: string, message: any) => {
+        callback(sender, message);
+      });
+    }
   }
 
   startNewConversation(contact: Contact): void {

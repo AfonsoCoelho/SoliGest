@@ -22,11 +22,11 @@ namespace SoliGest.Server.Models
         public string StartHoliday { get; set; }
         public string EndHoliday { get; set; }
 
-        public ICollection<Conversation>? Conversations { get; set; } // Conversas do utilizador
-        public ICollection<Message>? SentMessages { get; set; } // Mensagens enviadas
-        public ICollection<Message>? ReceivedMessages { get; set; } // Mensagens recebidas
+        public ICollection<Conversation> Conversations { get; set; }
+        public ICollection<Message> MessagesSent { get; set; }
+        public ICollection<Message> MessagesReceived { get; set; }
 
-
+            
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
         public bool? isActive { get; set; } = false;

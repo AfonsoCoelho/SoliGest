@@ -191,15 +191,17 @@ export class AuthorizeService {
   public getToken(): string {
     if (this.hasToken()) {
       return localStorage.getItem('authToken') || 'a';
+    }
+      return "Not Available";
   }
     
   public getLoggedUserEmail(): any {
-    //if (this.isSignedIn()) {
-    //  return this.loggedUserEmail;
-    //}
-    //else {
-    //  return false;
-    //}
+    if (this.isSignedIn()) {
+      return this.loggedUserEmail;
+    }
+    else {
+      return false;
+    }
     return this.loggedUserEmail;
   }
 

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
-import * as signalR from '@microsoft/signalr';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import * as signalR from '@microsoft/signalr';
 import { AuthorizeService } from '../../api-authorization/authorize.service';
-import { HubConnectionState } from '@microsoft/signalr';
 
 export interface Conversation {
   id?: number;
@@ -24,20 +22,16 @@ export interface ChatMessageDto {
   content: string;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class ChatService {
   private hubConnection: signalR.HubConnection | null = null;
-  private baseUrl = '/api/Chat';
+  private baseUrl = '/api/chat';
 
   constructor(private http: HttpClient, private auth: AuthorizeService) { }
 
   public startConnection(): Promise<void> {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('/chathub', {
-        accessTokenFactory: () => this.auth.getToken() || ''
-      })
+      .withUrl('/chathub', { accessTokenFactory: () => this.auth.getToken() || '' })
       .withAutomaticReconnect()
       .build();
 
@@ -49,50 +43,30 @@ export class ChatService {
         throw err;
       });
   }
-  
+
   getConversations(): Observable<Conversation[]> {
-    const token = this.auth.getToken();
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+    return this.http.get<Conversation[]>(`${this.baseUrl}/conversations`, {
+      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.auth.getToken()}` })
     });
-
-    return this.http.get<Conversation[]>(`${this.baseUrl}/conversations`);
   }
 
-  public sendMessage(receiverId: string, content: string): void {
-    if (this.hubConnection!.state !== HubConnectionState.Connected) {
-      console.warn('Tentativa de enviar sem ligação SignalR estabelecida');
-      return;
-    }
-    this.hubConnection!.invoke('SendMessage', receiverId, content)
-      .catch(err => console.error('Erro ao enviar via SignalR:', err));
+  public sendMessage(receiverId: string, content: string): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/message`, { receiverId, content }, {
+      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.auth.getToken()}` })
+    });
   }
 
-  onMessageReceived(callback: (sender: string, message: any) => void): void {
+  onMessageReceived(callback: (sender: string, message: string, timestamp: string) => void): void {
     if (this.hubConnection) {
-      this.hubConnection.on('ReceiveMessage', (sender: string, message: any) => {
-        callback(sender, message);
+      this.hubConnection.on('ReceiveMessage', (sender, message, timestamp) => {
+        callback(sender, message, timestamp);
       });
     }
   }
 
   getAvailableContacts(): Observable<Contact[]> {
-    const token = this.auth.getToken();
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+    return this.http.get<Contact[]>(`${this.baseUrl}/contacts`, {
+      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.auth.getToken()}` })
     });
-
-    return this.http.get<Contact[]>(`${this.baseUrl}/contacts`);
   }
-
-  saveMessage(messageDto: ChatMessageDto): Observable<any> {
-    const token = this.auth.getToken();
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
-    return this.http.post<any>(`${this.baseUrl}/message`, messageDto);
-  }
-
-
 }

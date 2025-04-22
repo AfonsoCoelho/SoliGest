@@ -34,30 +34,62 @@ namespace SoliGest.Server.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            //
+            // 1) Many-to-Many: Conversation ↔ User
+            //
             modelBuilder.Entity<Conversation>()
-                .HasOne(c => c.User)
+                .HasMany(c => c.Users)
                 .WithMany(u => u.Conversations)
-                .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                // Opcional: definir nome e colunas da tabela de ligação
+                .UsingEntity<Dictionary<string, object>>(
+                    "ConversationUser",
+                    join => join
+                        .HasOne<User>()
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade),
+                    join => join
+                        .HasOne<Conversation>()
+                        .WithMany()
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade),
+                    join =>
+                    {
+                        join.HasKey("ConversationId", "UserId");
+                        join.ToTable("ConversationUsers");
+                    }
+                );
 
+            //
+            // 2) Conversation → Contact (1:N via shadow FK ContactId)
+            //
             modelBuilder.Entity<Conversation>()
                 .HasOne(c => c.Contact)
-                .WithMany()
-                .HasForeignKey(c => c.ContactId)
+                .WithMany()                    // Contact não navega de volta
+                .HasForeignKey("ContactId")    // Shadow property
                 .OnDelete(DeleteBehavior.Restrict);
 
+            //
+            // 3) Message → Sender (User) (1:N)
+            //
             modelBuilder.Entity<Message>()
                 .HasOne(m => m.Sender)
-                .WithMany(u => u.SentMessages)
+                .WithMany(u => u.MessagesSent) // usa MessagesSent
                 .HasForeignKey(m => m.SenderId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            //
+            // 4) Message → Receiver (User) (1:N)
+            //
             modelBuilder.Entity<Message>()
                 .HasOne(m => m.Receiver)
-                .WithMany(u => u.ReceivedMessages)
+                .WithMany(u => u.MessagesReceived) // usa MessagesReceived
                 .HasForeignKey(m => m.ReceiverId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            //
+            // 5) Message → Conversation (N:1)
+            //
             modelBuilder.Entity<Message>()
                 .HasOne(m => m.Conversation)
                 .WithMany(c => c.Messages)

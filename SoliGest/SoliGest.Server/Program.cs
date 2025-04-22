@@ -7,6 +7,7 @@ using SoliGest.Server.Controllers;
 using SoliGest.Server.Data;
 using SoliGest.Server.Hubs;
 using SoliGest.Server.Models;
+using SoliGest.Server.Repositories;
 using SoliGest.Server.Services;
 using System.Security.Claims;
 using System.Text;
@@ -78,6 +79,7 @@ builder.Services.AddIdentityCore<User>()
 
 builder.Services.AddAuthorization();
 builder.Services.AddTransient<IEmailService, SendGridEmailService>();
+builder.Services.AddScoped<IChatRepository, ChatRepository>();
 
 builder.Services.AddIdentityApiEndpoints<User>();
 
@@ -126,15 +128,21 @@ builder.Services.AddSignalR();
 builder.Services.AddScoped<IUserNotificationService, UserNotificationService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials()
+              .SetIsOriginAllowed(_ => true);
+    });
+});
+
+
 var app = builder.Build();
 
-app.UseCors(builder =>
-{
-    builder.WithOrigins("https://127.0.0.1:49893/")
-           .AllowAnyMethod()
-           .AllowAnyHeader()
-           .AllowCredentials();
-});
+
 
 
 using (var scope = app.Services.CreateScope())
