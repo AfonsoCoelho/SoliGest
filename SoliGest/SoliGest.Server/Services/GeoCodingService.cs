@@ -26,13 +26,26 @@ namespace SoliGest.Server.Services
             resp.EnsureSuccessStatusCode();
             
             using var doc = await JsonDocument.ParseAsync(await resp.Content.ReadAsStreamAsync());
-            
-            if (doc.RootElement.GetProperty("status").GetString() != "OK") return null;
 
-            Console.WriteLine("\n\n returned \n\n" + doc + "\n\n\n\n\n");
+            var root = doc.RootElement;
+            var status = root.GetProperty("status").GetString();
 
-            var loc = doc.RootElement.GetProperty("results")[0]
-                       .GetProperty("geometry").GetProperty("location");
+            if (status != "OK")
+            {
+                var errorMsg = root.GetProperty("error_message").GetString();
+                Console.WriteLine($"Status não-OK: {status}, erro: {errorMsg}");
+                return new GeocodeResult { Latitude = 1.1, Longitude = 1.1 };
+            }
+
+            var results = root.GetProperty("results");
+            if (results.GetArrayLength() == 0)
+            {
+                Console.WriteLine("ZERO_RESULTS: nenhum resultado encontrado.");
+                return new GeocodeResult { Latitude = 0.0, Longitude = 0.0 };
+            }
+
+            var loc = results.GetProperty("geometry").GetProperty("location");
+            Console.WriteLine("location JSON: " + loc.GetRawText());
 
             return new GeocodeResult
             {

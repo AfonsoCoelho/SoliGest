@@ -132,10 +132,11 @@ namespace SoliGest.Server.Controllers
         private SolarPanel GetGeocodeResult(SolarPanel solarPanel)
         {
             GeocodeResult? result =  _geo.GeocodeAsync(solarPanel.Address).Result;
-            solarPanel.Latitude = result?.Latitude ?? 0;
-            solarPanel.Longitude = result?.Longitude ?? 0;
+            SolarPanel fixedPanel = solarPanel;
+            fixedPanel.Latitude = result?.Latitude ?? 0;
+            fixedPanel.Longitude = result?.Longitude ?? 0;
 
-            return solarPanel;
+            return fixedPanel;
         }
     }
 
