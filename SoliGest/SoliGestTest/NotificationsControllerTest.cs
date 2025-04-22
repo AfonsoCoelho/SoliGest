@@ -1,15 +1,11 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SoliGest.Server.Controllers;
 using SoliGest.Server.Data;
 using SoliGest.Server.Models;
-using SoliGest.Server.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace SoliGestTest
 {
@@ -17,17 +13,17 @@ namespace SoliGestTest
     {
         private readonly DbContextOptions<SoliGestServerContext> _options;
         private readonly SoliGestServerContext _context;
-        private readonly IUserNotificationService _userNotificationService;
         private readonly NotificationsController _controller;
 
         public NotificationsControllerTest()
         {
+            // Usa um nome único de base de dados em memória para isolar cada teste
+            var dbName = Guid.NewGuid().ToString();
             _options = new DbContextOptionsBuilder<SoliGestServerContext>()
-                .UseInMemoryDatabase(databaseName: "SoliGestTestDB_Create")
+                .UseInMemoryDatabase(databaseName: dbName)
                 .Options;
 
             _context = new SoliGestServerContext(_options);
-            _userNotificationService = new UserNotificationService(_context);
             _controller = new NotificationsController(_context);
         }
 
@@ -37,7 +33,6 @@ namespace SoliGestTest
             // Arrange
             var notification = new Notification
             {
-                Id = 0,
                 Message = "message",
                 Title = "title",
                 Type = "type"
@@ -49,9 +44,8 @@ namespace SoliGestTest
             // Assert
             var createdResult = Assert.IsType<CreatedAtActionResult>(result);
             Assert.Equal("GetNotification", createdResult.ActionName);
-
-            var returned = createdResult.Value as Notification;
-            Assert.NotNull(returned);
+            var returned = Assert.IsType<Notification>(createdResult.Value);
+            Assert.Equal(notification.Message, returned.Message);
         }
 
         [Fact]
@@ -60,31 +54,28 @@ namespace SoliGestTest
             // Arrange
             var notification = new Notification
             {
-                Id = 1,
                 Message = "message",
                 Title = "title",
                 Type = "type"
             };
-
             _context.Notification.Add(notification);
+            await _context.SaveChangesAsync();
 
             // Act
-            var result = await _controller.GetNotification(1);
+            var actionResult = await _controller.GetNotification(notification.Id);
 
             // Assert
-            Assert.Equal(notification, result.Value);
+            Assert.Equal(notification, actionResult.Value);
         }
 
-
-
         [Fact]
-        public async Task GetById_ReturnsNotFound_WhenRequestDoesNotExist()
+        public async Task GetById_ReturnsNotFound_WhenNotificationDoesNotExist()
         {
             // Act
-            var result = await _controller.GetNotification(1);
+            var actionResult = await _controller.GetNotification(1);
 
             // Assert
-            Assert.IsType<NotFoundObjectResult>(result.Result);
+            Assert.IsType<NotFoundObjectResult>(actionResult.Result);
         }
 
         [Fact]
@@ -93,17 +84,16 @@ namespace SoliGestTest
             // Arrange
             var notification = new Notification
             {
-                Id = 1,
                 Message = "message",
                 Title = "title",
                 Type = "type"
             };
-
             _context.Notification.Add(notification);
+            await _context.SaveChangesAsync();
 
             var updatedNotification = new Notification
             {
-                Id = 1,
+                Id = notification.Id,
                 Message = "updated message",
                 Title = "updated title",
                 Type = "updated type"
@@ -113,11 +103,17 @@ namespace SoliGestTest
             var result = await _controller.PutNotification(updatedNotification);
 
             // Assert
-            Assert.IsType<OkResult>(result);
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            // Usa reflection porque a propriedade de objeto anónimo é internal
+            var value = okResult.Value;
+            var prop = value.GetType().GetProperty("message");
+            Assert.NotNull(prop);
+            var msg = prop.GetValue(value) as string;
+            Assert.Equal("Notificação atualizada com sucesso!", msg);
         }
 
         [Fact]
-        public async Task Update_AssistanceRequest_ReturnsNotFound_WhenRequestDoesNotExist()
+        public async Task Update_Notification_ReturnsNotFound_WhenNotificationDoesNotExist()
         {
             // Arrange
             var updatedNotification = new Notification
@@ -132,35 +128,34 @@ namespace SoliGestTest
             var result = await _controller.PutNotification(updatedNotification);
 
             // Assert
-            Assert.IsType<OkResult>(result);
+            Assert.IsType<NotFoundObjectResult>(result);
         }
 
         [Fact]
-        public async Task Delete_Notification_ReturnsOk_WhenRequestExists()
+        public async Task Delete_Notification_ReturnsOk_WhenNotificationExists()
         {
             // Arrange
             var notification = new Notification
             {
-                Id = 0,
                 Message = "message",
                 Title = "title",
                 Type = "type"
             };
-
             _context.Notification.Add(notification);
+            await _context.SaveChangesAsync();
 
             // Act
-            var result = await _controller.DeleteNotification(1);
+            var result = await _controller.DeleteNotification(notification.Id);
 
             // Assert
-            Assert.IsType<Ok>(result);
+            Assert.IsType<OkResult>(result);
         }
 
         [Fact]
-        public async Task Delete_Notification_ReturnsNotFound_WhenRequestDoesNotExist()
+        public async Task Delete_Notification_ReturnsNotFound_WhenNotificationDoesNotExist()
         {
             // Act
-            var result = await _controller.DeleteNotification(999); // ID que não existe
+            var result = await _controller.DeleteNotification(999);
 
             // Assert
             Assert.IsType<NotFoundObjectResult>(result);
