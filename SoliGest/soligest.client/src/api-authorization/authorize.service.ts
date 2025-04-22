@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, catchError, map, of } from 'rxjs';
 import { UserInfo } from './authorize.dto';
 import { ActivatedRoute } from '@angular/router';
+import { ChatService } from '../app/services/chat.service';
 import { User, UsersService } from '../app/services/users.service';
 
 
@@ -18,7 +19,7 @@ export class AuthorizeService {
   private userLatitude: number;
   private userLongitude: number;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private us: UsersService) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private us: UsersService, private injector: Injector) {
     this.loggedUserEmail = "";
     this.loggedUserId = localStorage.getItem('loggedUserId');;
     this.loggedUser = 0;
@@ -26,7 +27,9 @@ export class AuthorizeService {
     this.userLongitude = 0;
   }
 
+
   public onStateChanged() {
+    console.log("token " + localStorage.getItem('authToken') + "\n\n\n user:\n" + this.user());
     return this._authStateChanged.asObservable();
   }
 
@@ -52,6 +55,12 @@ export class AuthorizeService {
         if (response && response.token) {
           this.saveToken(response.token);
           this._authStateChanged.next(true);
+
+          const chat = this.injector.get(ChatService);
+          chat.startConnection()
+            .then(() => console.log('Hub iniciado no login'))
+            .catch(err => console.error(err));
+
           this.loggedUserEmail = email;
           this.us.getUserByEmail(this.loggedUserEmail).subscribe(
             (result) => {
@@ -79,7 +88,6 @@ export class AuthorizeService {
     );
   }
 
-  // Registro de novo utilizador
   public register(name: string, address1: string, address2: string, phoneNumber: string, birthDate: Date, email: string, password: string, role: string, dayOff: string, startHoliday: string, endHoliday: string): Observable<boolean> {
     return this.http.post('api/Users/signup', { name, address1, address2, phoneNumber, birthDate, email, password, role, dayOff, startHoliday, endHoliday }, { observe: 'response' }).pipe(
       map((res) => res.ok),
@@ -111,7 +119,6 @@ export class AuthorizeService {
     }
   }
 
-  // Logout - Remove o token e notifica o estado
   public signOut(): void {
     this.clearToken();
     this._authStateChanged.next(false);
@@ -134,23 +141,20 @@ export class AuthorizeService {
     }
   }
 
-  // Verifica se o utilizador está autenticado
   public isSignedIn(): boolean {
     return this.hasToken();
   }
 
-  
-  // check if the user is authenticated. the endpoint is protected so 401 if not.
   public user() {
     return this.http.get<UserInfo>('/manage/info', {
       withCredentials: true
     }).pipe(
       catchError((_: HttpErrorResponse, __: Observable<UserInfo>) => {
+        console.log(of({} as UserInfo));
         return of({} as UserInfo);
       }));
   }
 
-  // Obter informações do utilizador autenticado
   public getUserInfo(): Observable<UserInfo> {
     const token = localStorage.getItem('authToken');
     if (!token) {
@@ -184,10 +188,10 @@ export class AuthorizeService {
     );
   }
 
-  //public getToken(): undefined {
-  //  if (this.hasToken()) {
-  //    return localStorage.getItem('authToken') || 'a';
-  //  }
+  public getToken(): string {
+    if (this.hasToken()) {
+      return localStorage.getItem('authToken') || 'a';
+  }
     
   public getLoggedUserEmail(): any {
     //if (this.isSignedIn()) {
