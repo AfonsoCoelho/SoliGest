@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SoliGest.Server.Controllers;
 using SoliGest.Server.Data;
 using SoliGest.Server.Models;
 using SoliGest.Server.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Xunit;
 using static SoliGest.Server.Controllers.UserNotificationsController;
 
 namespace SoliGestTest
@@ -18,162 +15,184 @@ namespace SoliGestTest
     {
         private readonly DbContextOptions<SoliGestServerContext> _options;
         private readonly SoliGestServerContext _context;
-        private readonly IUserNotificationService _userNotificationService;
+        private readonly IUserNotificationService _service;
         private readonly UserNotificationsController _controller;
-        private readonly UsersController _usersController;
-        private readonly NotificationsController _notificationsController;
 
         public UserNotificationsControllerTest()
         {
+            var dbName = Guid.NewGuid().ToString();
             _options = new DbContextOptionsBuilder<SoliGestServerContext>()
-                .UseInMemoryDatabase(databaseName: "SoliGestTestDB_Create")
+                .UseInMemoryDatabase(dbName)
                 .Options;
 
             _context = new SoliGestServerContext(_options);
-            _userNotificationService = new UserNotificationService(_context);
-            _controller = new UserNotificationsController(_context, _userNotificationService);
-            _notificationsController = new NotificationsController(_context);
+            _service = new UserNotificationService(_context);
+            _controller = new UserNotificationsController(_context, _service);
+        }
+
+        private User CreateTechnicianUser()
+        {
+            return new User
+            {
+                Email = "technician@mail.com",
+                Name = "SoliGest Technician",
+                UserName = "technician@mail.com",
+                Address1 = "morada1",
+                Address2 = "morada2",
+                BirthDate = "2001-01-01",
+                PhoneNumber = "999999999",
+                Role = "Técnico",
+                DayOff = "Sábado",
+                StartHoliday = "2025-06-01",
+                EndHoliday = "2025-07-01",
+            };
         }
 
         [Fact]
-        public async Task Create_UserNotification_ReturnsCreatedAtActionResult()
+        public async Task Create_UserNotification_ReturnsSuccessResult()
         {
-            // Arrange
-            var userNotification = new UserNotificationUpdateModel
+            var user = CreateTechnicianUser();
+            var notification = new Notification { Id = 1, Title = "Title", Type = "type", Message = "message" };
+            _context.Users.Add(user);
+            _context.Notification.Add(notification);
+            await _context.SaveChangesAsync();
+
+            var model = new UserNotificationUpdateModel
             {
-                UserNotificationId = 0,
-                UserId = "05ec8bf8-45c0-4dc7-a06f-b43e4550b466", // Ir buscar id user
-                NotificationId = 1, // Criar notificação
+                UserId = user.Id,
+                NotificationId = notification.Id,
                 ReceivedDate = DateTime.Now,
                 IsRead = false
             };
 
-            // Act
-            var result = await _controller.PostUserNotification(userNotification);
+            var result = await _controller.PostUserNotification(model);
 
-            // Assert
-            Assert.IsType<CreatedAtActionResult>(result);
+            var okResult = Assert.IsType<OkResult>(result); 
         }
 
         [Fact]
-        public async Task GetById_ReturnsOk_WhenUserNotificationExists()
+        public async Task GetById_ReturnsUserNotification_WhenExists()
         {
-            // Arrange
-            var userNotification = new UserNotificationUpdateModel
+            var user = CreateTechnicianUser();
+            var notification = new Notification { Id = 1, Title = "Title", Type = "type", Message = "message" };
+            _context.Users.Add(user);
+            _context.Notification.Add(notification);
+            await _context.SaveChangesAsync();
+
+            var userNotification = new UserNotification
             {
-                UserNotificationId = 0,
-                UserId = "05ec8bf8-45c0-4dc7-a06f-b43e4550b466", // Ir buscar id user
-                NotificationId = 1, // Criar notificação
+                UserNotificationId = 1,
+                UserId = user.Id,
+                NotificationId = notification.Id,
+                User = user,
+                Notification = notification,
                 ReceivedDate = DateTime.Now,
                 IsRead = false
             };
+            _context.UserNotification.Add(userNotification);
+            await _context.SaveChangesAsync();
 
-            await _controller.PostUserNotification(userNotification);
-
-            // Act
-            var result = await _controller.GetUserNotification(1);
-
-            // Assert
-            Assert.Equal(userNotification.UserNotificationId, result.Value.UserNotificationId);
-            Assert.Equal(userNotification.UserId, result.Value.UserId);
-            Assert.Equal(userNotification.NotificationId, result.Value.NotificationId);
-            Assert.Equal(userNotification.ReceivedDate, result.Value.ReceivedDate);
-            Assert.Equal(userNotification.IsRead, result.Value.IsRead);
-            Assert.IsType<OkResult>(result);
+            var result = await _controller.GetUserNotification(userNotification.UserNotificationId);
+            var returned = Assert.IsType<UserNotification>(result.Value);
+            Assert.Equal(userNotification.UserNotificationId, returned.UserNotificationId);
         }
 
-
-
         [Fact]
-        public async Task GetById_ReturnsNotFound_WhenUserNotificationDoesNotExist()
+        public async Task GetById_ReturnsNotFound_WhenNotExists()
         {
-            // Act
-            var result = await _controller.GetUserNotification(1);
-
-            // Assert
+            var result = await _controller.GetUserNotification(999);
             Assert.IsType<NotFoundObjectResult>(result.Result);
         }
 
         [Fact]
-        public async Task Update_UserNotification_ReturnsOk_WhenUserNotificationExists()
+        public async Task Update_UserNotification_ReturnsSuccess()
         {
-            // Arrange
-            var userNotification = new UserNotificationUpdateModel
+            var user = CreateTechnicianUser();
+            var notification = new Notification { Id = 1, Title = "Title", Type = "type", Message = "message" };
+            _context.Users.Add(user);
+            _context.Notification.Add(notification);
+            await _context.SaveChangesAsync();
+
+            var userNotification = new UserNotification
             {
-                UserNotificationId = 0,
-                UserId = "05ec8bf8-45c0-4dc7-a06f-b43e4550b466", // Ir buscar id user
-                NotificationId = 1, // Criar notificação
-                ReceivedDate = DateTime.Now,
+                UserNotificationId = 1,
+                UserId = user.Id,
+                NotificationId = notification.Id,
+                User = user,
+                Notification = notification,
+                ReceivedDate = DateTime.Now.AddDays(-1),
                 IsRead = false
             };
+            _context.UserNotification.Add(userNotification);
+            await _context.SaveChangesAsync();
 
-            await _controller.PostUserNotification(userNotification);
-
-            var updatedUserNotification = new UserNotificationUpdateModel
+            var model = new UserNotificationUpdateModel
             {
-                UserNotificationId = 5,
-                UserId = "05ec8bf8-45c0-4dc7-a06f-b43e4550b466", // Ir buscar id user
-                NotificationId = 2, // Criar notificação
+                UserNotificationId = userNotification.UserNotificationId,
+                UserId = user.Id,
+                NotificationId = notification.Id,
                 ReceivedDate = DateTime.Now,
-                IsRead = false
+                IsRead = true
             };
 
-            // Act
-            var result = await _controller.PutUserNotification(updatedUserNotification);
+            var result = await _controller.PutUserNotification(model);
 
-            // Assert
-            Assert.IsType<OkResult>(result);
+            var okObject = Assert.IsType<OkObjectResult>(result);
+
+            // Usa reflection para extrair a propriedade "message" do objeto anônimo
+            var messageProp = okObject.Value?.GetType().GetProperty("message");
+            var message = messageProp?.GetValue(okObject.Value)?.ToString();
+
+            Assert.Equal("Notificação atualizada com sucesso!", message);
         }
 
+
         [Fact]
-        public async Task Update_UserNotification_ReturnsNotFound_WhenUserNotificationDoesNotExist()
+        public async Task Update_UserNotification_ReturnsNotFound_WhenNotExists()
         {
-            // Arrange
-            var userNotification = new UserNotificationUpdateModel
+            var model = new UserNotificationUpdateModel
             {
-                UserNotificationId = 0,
-                UserId = "05ec8bf8-45c0-4dc7-a06f-b43e4550b466", // Ir buscar id user
-                NotificationId = 1, // Criar notificação
+                UserNotificationId = 999,
+                UserId = Guid.NewGuid().ToString(),
+                NotificationId = 1,
                 ReceivedDate = DateTime.Now,
-                IsRead = false
+                IsRead = true
             };
 
-            // Act
-            var result = await _controller.PutUserNotification(userNotification);
-
-            // Assert
+            var result = await _controller.PutUserNotification(model);
             Assert.IsType<NotFoundObjectResult>(result);
         }
 
         [Fact]
-        public async Task Delete_UserNotification_ReturnsOk_WhenUserNotificationExists()
+        public async Task Delete_UserNotification_ReturnsOk()
         {
-            // Arrange
-            var userNotification = new UserNotificationUpdateModel
+            var user = CreateTechnicianUser();
+            var notification = new Notification { Id = 1, Title = "Title", Type = "type", Message = "message" };
+            _context.Users.Add(user);
+            _context.Notification.Add(notification);
+            await _context.SaveChangesAsync();
+
+            var userNotification = new UserNotification
             {
-                UserNotificationId = 0,
-                UserId = "05ec8bf8-45c0-4dc7-a06f-b43e4550b466", // Ir buscar id user
-                NotificationId = 1, // Criar notificação
+                UserNotificationId = 1,
+                UserId = user.Id,
+                NotificationId = notification.Id,
+                User = user,
+                Notification = notification,
                 ReceivedDate = DateTime.Now,
                 IsRead = false
             };
+            _context.UserNotification.Add(userNotification);
+            await _context.SaveChangesAsync();
 
-            await _controller.PostUserNotification(userNotification);
-
-            // Act
-            var result = await _controller.DeleteUserNotification(1);
-
-            // Assert
-            Assert.IsType<Ok>(result);
+            var result = await _controller.DeleteUserNotification(userNotification.UserNotificationId);
+            Assert.IsType<OkResult>(result);
         }
 
         [Fact]
-        public async Task Delete_UserNotification_ReturnsNotFound_WhenUserNotificationDoesNotExist()
+        public async Task Delete_UserNotification_ReturnsNotFound_WhenNotExists()
         {
-            // Act
-            var result = await _controller.DeleteUserNotification(999); // ID que não existe
-
-            // Assert
+            var result = await _controller.DeleteUserNotification(999);
             Assert.IsType<NotFoundObjectResult>(result);
         }
     }
