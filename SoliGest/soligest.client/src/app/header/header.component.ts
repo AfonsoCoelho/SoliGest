@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthorizeService } from '../../api-authorization/authorize.service';
 import { UserNotification, UserNotificationsService } from '../services/user-notifications.service';
-import { User } from '../services/users.service';
+import { User, UsersService } from '../services/users.service';
 
 interface Notification {
   id: number;
@@ -21,7 +21,7 @@ interface Notification {
   standalone:false
 })
 export class HeaderComponent implements OnInit{
-  constructor(public router: Router, private authService: AuthorizeService, private un: UserNotificationsService) { }
+  constructor(public router: Router, private authService: AuthorizeService, private un: UserNotificationsService, private us: UsersService) { }
     ngOnInit(): void {
       //this.getNotifications();
       //this.authService.user().subscribe(
