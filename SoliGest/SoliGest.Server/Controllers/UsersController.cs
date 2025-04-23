@@ -397,6 +397,30 @@ namespace SoliGest.Server.Controllers
             }
         }
 
+        [HttpPut("save-profile-picture/{userId}")]
+        public async Task<string> SaveProfilePicture(string userId, IFormFile file)
+        {
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+            if(!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            var uniqueFileName = Guid.NewGuid().ToString() + '_' + userId + "_" + file.FileName;
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+
+            var user = await _context.Users.FindAsync(userId);
+            user.ProfilePictureUrl = uniqueFileName;
+            await _context.SaveChangesAsync();
+
+            return Path.Combine("uploads", uniqueFileName);
+        }
+
         // GET: api/People
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetPerson()
