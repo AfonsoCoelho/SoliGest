@@ -60,6 +60,7 @@ export class UsersService {
 
 export interface User {
   id: string;
+  profilePictureUrl: string;
   name: string;
   address1: string;
   address2: string;
