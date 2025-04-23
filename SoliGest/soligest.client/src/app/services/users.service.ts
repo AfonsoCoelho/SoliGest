@@ -56,6 +56,10 @@ export class UsersService {
       .set('longitude', longitude);
     return this.http.put<User>('api/Users/update-location/' + userId + '/?latitude=' + latitude + '&longitude=' + longitude, userId);
   }
+
+  saveProfilePicture(userId: string, file: any): Observable<User>  {
+    return this.http.put<User>('api/Users/save-profile-picture/?file=' + file, userId);
+  }
 }
 
 export interface User {
