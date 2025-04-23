@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AuthorizeService } from '../../api-authorization/authorize.service';
 import { ChatService, Conversation } from '../services/chat.service';
+import { UsersService } from '../services/users.service';
 
 interface Contact {
   id: string;
@@ -65,17 +66,23 @@ export class ChatComponent implements OnInit {
   constructor(
     private auth: AuthorizeService,
     private router: Router,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private us: UsersService
   ) {
 
     this.auth.onStateChanged().subscribe(state => {
       this.isSignedIn = state;
       if (state) {
-        this.auth.getUserInfo().subscribe(userInfo => {
-          this.currentUser = userInfo.name;
-          this.currentUserId = userInfo.id;
-        });
-      }
+        //this.auth.getUserInfo().subscribe(userInfo => {
+        //  this.currentUser = userInfo.name;
+        //  this.currentUserId = userInfo.id;
+        //});
+        this.currentUserId = localStorage.getItem('loggedUserId') ?? '';
+        this.us.getUser(this.currentUserId).subscribe(
+          (result) => this.currentUser = result.name,
+          (error) => console.error(error)
+          )
+      };
     });
   }
 
