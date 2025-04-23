@@ -24,10 +24,9 @@ namespace SoliGest.Server.Controllers
         }
 
         // GET: api/chat/conversations
-        [HttpGet("conversations")]
-        public async Task<IActionResult> GetConversations()
+        [HttpGet("conversations:{userId}")]
+        public async Task<IActionResult> GetConversationsFor(string userId)
         {
-            var userId = User.FindFirst("sub")?.Value;
             if (userId == null) return Unauthorized();
 
             var convos = await _repo.GetConversationsFor(userId);
@@ -50,6 +49,17 @@ namespace SoliGest.Server.Controllers
 
             return Ok();
         }
+
+        [HttpGet("contacts")]
+        public async Task<IActionResult> GetAvailableContacts()
+        {
+            var userId = User.FindFirst("sub")?.Value;
+            if (userId == null) return Unauthorized();
+
+            var contacts = await _repo.GetAvailableContacts(userId);
+            return Ok(contacts);
+        }
+
     }
 
     // DTO usado no POST

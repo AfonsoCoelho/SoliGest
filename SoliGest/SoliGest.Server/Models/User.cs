@@ -30,6 +30,7 @@ namespace SoliGest.Server.Models
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
         public bool? isActive { get; set; } = false;
+        public bool? isEmailConfirmed { get; set; } = false;
 
     }
 }

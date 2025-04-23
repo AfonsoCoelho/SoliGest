@@ -19,7 +19,7 @@ export class AuthorizeService {
   private userLatitude: number;
   private userLongitude: number;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private us: UsersService, private injector: Injector) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private us: UsersService) {
     this.loggedUserEmail = "";
     this.loggedUserId = localStorage.getItem('loggedUserId');;
     this.loggedUser = 0;
@@ -55,11 +55,6 @@ export class AuthorizeService {
         if (response && response.token) {
           this.saveToken(response.token);
           this._authStateChanged.next(true);
-
-          const chat = this.injector.get(ChatService);
-          chat.startConnection()
-            .then(() => console.log('Hub iniciado no login'))
-            .catch(err => console.error(err));
 
           this.loggedUserEmail = email;
           this.us.getUserByEmail(this.loggedUserEmail).subscribe(
@@ -162,7 +157,7 @@ export class AuthorizeService {
     }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<UserInfo>('/api/userinfo', { headers }).pipe(
+    return this.http.get<UserInfo>('by-email/' + this.getLoggedUserEmail(), { headers }).pipe(
       catchError(() => of({} as UserInfo))
     );
   }
@@ -202,7 +197,6 @@ export class AuthorizeService {
     else {
       return false;
     }
-    return this.loggedUserEmail;
   }
 
   //public getLoggedUser(): Observable<User> {

@@ -59,7 +59,7 @@ namespace SoliGestTest
             _repoMock.Setup(r => r.GetConversationsFor("user1")).ReturnsAsync(new[] { conv });
 
             // Act
-            var result = await _controller.GetConversations();
+            var result = await _controller.GetConversationsFor("user1");
 
             // Assert
             result.Should().BeOfType<OkObjectResult>();
@@ -111,7 +111,7 @@ namespace SoliGestTest
             _controller.ControllerContext.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
 
             // Act
-            var result = await _controller.GetConversations();
+            var result = await _controller.GetConversationsFor("");
 
             // Assert
             result.Should().BeOfType<UnauthorizedResult>();

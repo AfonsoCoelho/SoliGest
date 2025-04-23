@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import * as signalR from '@microsoft/signalr';
 import { AuthorizeService } from '../../api-authorization/authorize.service';
+import { User } from './users.service';
 
 export interface Conversation {
   id?: number;
@@ -30,6 +31,10 @@ export class ChatService {
   constructor(private http: HttpClient, private auth: AuthorizeService) { }
 
   public startConnection(): Promise<void> {
+    if (this.hubConnection) {
+      return Promise.resolve();
+    }
+
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl('/chathub', { accessTokenFactory: () => this.auth.getToken() || '' })
       .withAutomaticReconnect()
@@ -43,9 +48,15 @@ export class ChatService {
         throw err;
       });
   }
+  getAllUsersAsContacts(): Observable<Contact[]> {
+       return this.http.get<User[]>('/api/Users', {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.auth.getToken()}` })
+       }).pipe(map(users => users.map(u => ({ id: u.id, name: u.name } as Contact))));
+ }
 
-  getConversations(): Observable<Conversation[]> {
-    return this.http.get<Conversation[]>(`${this.baseUrl}/conversations`, {
+
+  getConversationsFor(userId: string): Observable<Conversation[]> {
+    return this.http.get<Conversation[]>(`${this.baseUrl}/conversations:` + userId ,{
       headers: new HttpHeaders({ 'Authorization': `Bearer ${this.auth.getToken()}` })
     });
   }

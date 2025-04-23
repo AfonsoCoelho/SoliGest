@@ -14,7 +14,7 @@ export class UsersService {
   }
 
   getUser(id: string): Observable<User> {
-    return this.http.get<User>('api/Users/' + id);
+    return this.http.get<User>('api/Users/by-id/' + id);
   }
 
   createUser(user: User): Observable<User> {

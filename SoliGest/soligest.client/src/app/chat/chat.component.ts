@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AuthorizeService } from '../../api-authorization/authorize.service';
 import { ChatService, Conversation } from '../services/chat.service';
-import { UsersService } from '../services/users.service';
+import { User, UsersService } from '../services/users.service';
+import { UserInfo } from '../../api-authorization/authorize.dto';
 
 interface Contact {
   id: string;
@@ -54,7 +55,8 @@ export class ChatComponent implements OnInit {
   public searchTerm = '';
   public newMessage = '';
 
-  public currentUser = '';
+  public currentUser: User | undefined;
+
   public currentUserId = '';
   public currentContact: Contact | null = null;
   public currentMessages: UiMessage[] = [];
@@ -68,43 +70,36 @@ export class ChatComponent implements OnInit {
     private router: Router,
     private chatService: ChatService,
     private us: UsersService
-  ) {
+  ) {}
 
+  ngOnInit(): void {
     this.auth.onStateChanged().subscribe(state => {
       this.isSignedIn = state;
       if (state) {
-        //this.auth.getUserInfo().subscribe(userInfo => {
-        //  this.currentUser = userInfo.name;
-        //  this.currentUserId = userInfo.id;
-        //});
         this.currentUserId = localStorage.getItem('loggedUserId') ?? '';
         this.us.getUser(this.currentUserId).subscribe(
-          (result) => this.currentUser = result.name,
-          (error) => console.error(error)
-          )
+          (result) => this.currentUser = result,
+          (error) => console.log(error)
+        );
+
+        this.chatService.startConnection()
+              .then(() => this.loadConversations())
+              .catch(err => console.error('Não foi possível ligar ao Hub', err));
       };
     });
-  }
 
-  ngOnInit(): void {
-    this.auth.onStateChanged()
-      .pipe(filter(signedIn => signedIn))
-      .subscribe(() => {
-        this.auth.getUserInfo().subscribe(userInfo => {
-          this.currentUser = userInfo.name;
-          this.currentUserId = userInfo.id;
-
-          this.loadConversations();
-
-        });
-      });
+    if (this.hubConnection && this.contacts == null) {
+      this.chatService.startConnection()
+        .then(() => this.loadConversations())
+        .catch(err => console.error('Não foi possível ligar ao Hub', err));
+    }
   }
 
 
   private loadConversations(): void {
     this.hubConnection = this.chatService.getHubConnection();
 
-    this.chatService.getConversations()
+    this.chatService.getConversationsFor(this.currentUserId)
       .subscribe((dtos) => {
         this.conversations = dtos.map(dto => {
           const msgs = dto.messages.map(m => ({
@@ -122,8 +117,10 @@ export class ChatComponent implements OnInit {
         });
       });
 
-    this.chatService.getAvailableContacts()
-      .subscribe(cts => this.contacts = cts);
+    this.chatService.getAllUsersAsContacts().subscribe(cts => {
+      this.contacts = cts.filter(c => c.id !== this.currentUserId);
+      console.log(JSON.stringify(this.contacts, null, 2));
+    });
   }
 
 
