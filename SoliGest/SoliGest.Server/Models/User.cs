@@ -6,6 +6,8 @@ namespace SoliGest.Server.Models
 {
     public class User : IdentityUser
     {
+        public string? ProfilePictureUrl { get; set; }
+
         [Required(ErrorMessage = "O nome é obrigatório.")]
         [Display(Name = "Nome")]
         public string Name { get; set; }
