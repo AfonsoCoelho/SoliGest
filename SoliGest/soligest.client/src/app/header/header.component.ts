@@ -90,6 +90,13 @@ export class HeaderComponent implements OnInit{
     );
   }
 
+  getProfilePic(): void {
+    this.us.getUser(localStorage.getItem('loggedUserId') ?? '').subscribe(
+      (result) => this.profileImageUrl = '/uploads/' + result.profilePictureUrl,
+      (error) => console.error(error)
+    )
+  }
+
   getNotificationIcon(type: string): string {
     const icons: Record<string, string> = {
       'message': 'fas fa-comment-alt',
