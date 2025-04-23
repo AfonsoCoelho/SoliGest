@@ -27,8 +27,11 @@ export class HeaderComponent implements OnInit{
       //this.authService.user().subscribe(
       //  (result) => console.log(result)
       //)
-      
-      this.getNotifications();
+
+      if (localStorage.getItem('loggedUserId') != null) {
+        this.getProfilePic();
+        this.getNotifications();
+      }
     }
   showNotificationsPanel = false;
   showNotificationsPanel2 = false;
