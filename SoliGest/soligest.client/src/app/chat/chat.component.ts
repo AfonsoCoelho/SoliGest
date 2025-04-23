@@ -4,7 +4,6 @@ import { filter } from 'rxjs/operators';
 import { AuthorizeService } from '../../api-authorization/authorize.service';
 import { ChatService, Conversation } from '../services/chat.service';
 
-// DTO interfaces (define here since chat.models.ts doesn't exist)
 interface Contact {
   id: string;
   name: string;
@@ -15,7 +14,7 @@ interface MessageDto {
   senderId: string;
   receiverId: string;
   content: string;
-  timestamp: string; // from server
+  timestamp: string;
 }
 
 interface ConversationDto {
@@ -61,6 +60,8 @@ export class ChatComponent implements OnInit {
   public conversations: UiConversation[] = [];
   public contacts: Contact[] = [];
 
+  public hubConnection: signalR.HubConnection | null = null;
+
   constructor(
     private auth: AuthorizeService,
     private router: Router,
@@ -94,6 +95,8 @@ export class ChatComponent implements OnInit {
 
 
   private loadConversations(): void {
+    this.hubConnection = this.chatService.getHubConnection();
+
     this.chatService.getConversations()
       .subscribe((dtos) => {
         this.conversations = dtos.map(dto => {
@@ -122,10 +125,6 @@ export class ChatComponent implements OnInit {
 
     this.chatService.sendMessage(this.currentContact.id, this.newMessage);
 
-    this.chatService.saveMessage({
-      receiverId: this.currentContact.id,
-      content: this.newMessage
-    }).subscribe();
 
     const uiMsg: UiMessage = {
       content: this.newMessage,

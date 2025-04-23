@@ -9,7 +9,7 @@
         public required User Sender { get; set; }
         public required string ReceiverId { get; set; }
         public required User Receiver { get; set; }
-        public int ConversationId { get; set; }
-        public Conversation Conversation { get; set; }
+        public required int ConversationId { get; set; }
+        public required Conversation Conversation { get; set; }
     }
 }

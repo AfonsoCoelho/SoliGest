@@ -56,6 +56,14 @@ export class ChatService {
     });
   }
 
+  getHubConnection(): signalR.HubConnection | null {
+    if (!this.hubConnection) {
+      throw new Error('Hub connection not started.');
+    }
+
+    return this.hubConnection;
+  }
+
   onMessageReceived(callback: (sender: string, message: string, timestamp: string) => void): void {
     if (this.hubConnection) {
       this.hubConnection.on('ReceiveMessage', (sender, message, timestamp) => {

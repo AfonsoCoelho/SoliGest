@@ -40,7 +40,6 @@ namespace SoliGest.Server.Data
             modelBuilder.Entity<Conversation>()
                 .HasMany(c => c.Users)
                 .WithMany(u => u.Conversations)
-                // Opcional: definir nome e colunas da tabela de ligação
                 .UsingEntity<Dictionary<string, object>>(
                     "ConversationUser",
                     join => join
@@ -65,8 +64,8 @@ namespace SoliGest.Server.Data
             //
             modelBuilder.Entity<Conversation>()
                 .HasOne(c => c.Contact)
-                .WithMany()                    // Contact não navega de volta
-                .HasForeignKey("ContactId")    // Shadow property
+                .WithMany()
+                .HasForeignKey("ContactId")
                 .OnDelete(DeleteBehavior.Restrict);
 
             //
@@ -74,7 +73,7 @@ namespace SoliGest.Server.Data
             //
             modelBuilder.Entity<Message>()
                 .HasOne(m => m.Sender)
-                .WithMany(u => u.MessagesSent) // usa MessagesSent
+                .WithMany(u => u.MessagesSent)
                 .HasForeignKey(m => m.SenderId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -83,7 +82,7 @@ namespace SoliGest.Server.Data
             //
             modelBuilder.Entity<Message>()
                 .HasOne(m => m.Receiver)
-                .WithMany(u => u.MessagesReceived) // usa MessagesReceived
+                .WithMany(u => u.MessagesReceived)
                 .HasForeignKey(m => m.ReceiverId)
                 .OnDelete(DeleteBehavior.Restrict);
 

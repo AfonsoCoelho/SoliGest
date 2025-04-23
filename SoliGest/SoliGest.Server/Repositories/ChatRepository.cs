@@ -20,8 +20,8 @@ namespace SoliGest.Server.Repositories
         public async Task<IEnumerable<Conversation>> GetConversationsFor(string userId)
         {
             return await _db.Conversations
-                .Include(c => c.Contact)      // navegação para Contact
-                .Include(c => c.Messages)     // navegação para mensagens
+                .Include(c => c.Contact)      
+                .Include(c => c.Messages)     
                 .Where(c => c.Users.Any(u => u.Id == userId))
                 .ToListAsync();
         }
@@ -36,7 +36,6 @@ namespace SoliGest.Server.Repositories
 
         public async Task SaveMessage(string senderId, string receiverId, string content, DateTime timestamp)
         {
-            // Tenta obter conversa existente entre sender e receiver
             var conv = await _db.Conversations
                 .Include(c => c.Messages)
                 .FirstOrDefaultAsync(c =>
@@ -45,7 +44,6 @@ namespace SoliGest.Server.Repositories
 
             if (conv == null)
             {
-                // Criar nova conversa
                 conv = new Conversation
                 {
                     CreatedAt = DateTime.UtcNow,
@@ -59,15 +57,16 @@ namespace SoliGest.Server.Repositories
                 _db.Conversations.Add(conv);
             }
 
-            // Adicionar mensagem
-            conv.Messages.Add(new Message
+            conv.Messages.Add(item: new Message
             {
                 SenderId = senderId,
                 Sender = _db.Users.Find(senderId),
                 ReceiverId = receiverId,
                 Receiver = _db.Users.Find(receiverId),
                 Content = content,
-                Timestamp = timestamp
+                Timestamp = timestamp,
+                ConversationId = conv.Id,
+                Conversation = conv
             });
 
             await _db.SaveChangesAsync();

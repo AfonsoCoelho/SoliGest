@@ -28,6 +28,8 @@ namespace SoliGest.Server.Controllers
         public async Task<IActionResult> GetConversations()
         {
             var userId = User.FindFirst("sub")?.Value;
+            if (userId == null) return Unauthorized();
+
             var convos = await _repo.GetConversationsFor(userId);
             return Ok(convos);
         }
@@ -37,6 +39,8 @@ namespace SoliGest.Server.Controllers
         public async Task<IActionResult> SendMessage([FromBody] ChatMessageDto dto)
         {
             var senderId = User.FindFirst("sub")?.Value;
+            if (senderId == null) return Unauthorized();
+
             var timestamp = DateTime.UtcNow;
 
             await _repo.SaveMessage(senderId, dto.ReceiverId, dto.Content, timestamp);
