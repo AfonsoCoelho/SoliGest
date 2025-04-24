@@ -95,7 +95,7 @@ export class HeaderComponent implements OnInit{
 
   getProfilePic(): void {
     this.us.getUser(localStorage.getItem('loggedUserId') ?? '').subscribe(
-      (result) => this.profileImageUrl = '/uploads/' + result.profilePictureUrl,
+      (result) => this.profileImageUrl = 'https://127.0.0.1:7273/uploads/' + result.profilePictureUrl,
       (error) => console.error(error)
     )
   }
