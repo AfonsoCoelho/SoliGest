@@ -14,7 +14,7 @@ export class UsersService {
   }
 
   getUser(id: string): Observable<User> {
-    return this.http.get<User>('api/Users/' + id);
+    return this.http.get<User>('api/Users/by-id/' + id);
   }
 
   createUser(user: User): Observable<User> {
@@ -56,10 +56,23 @@ export class UsersService {
       .set('longitude', longitude);
     return this.http.put<User>('api/Users/update-location/' + userId + '/?latitude=' + latitude + '&longitude=' + longitude, userId);
   }
+
+  saveProfilePicture(userId: string, file: File): Observable<Object> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const url = `api/Users/save-profile-picture/${userId}`;
+
+    return this.http.put(url, formData, {
+      responseType: 'text' as 'json'
+    });
+  }
+
 }
 
 export interface User {
   id: string;
+  profilePictureUrl: string;
   name: string;
   address1: string;
   address2: string;

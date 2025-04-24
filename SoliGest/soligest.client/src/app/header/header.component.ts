@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthorizeService } from '../../api-authorization/authorize.service';
 import { UserNotification, UserNotificationsService } from '../services/user-notifications.service';
-import { User } from '../services/users.service';
+import { User, UsersService } from '../services/users.service';
 
 interface Notification {
   id: number;
@@ -21,14 +21,17 @@ interface Notification {
   standalone:false
 })
 export class HeaderComponent implements OnInit{
-  constructor(public router: Router, private authService: AuthorizeService, private un: UserNotificationsService) { }
+  constructor(public router: Router, private authService: AuthorizeService, private un: UserNotificationsService, private us: UsersService) { }
     ngOnInit(): void {
       //this.getNotifications();
       //this.authService.user().subscribe(
       //  (result) => console.log(result)
       //)
-      
-      this.getNotifications();
+
+      if (localStorage.getItem('loggedUserId') != null) {
+        this.getProfilePic();
+        this.getNotifications();
+      }
     }
   showNotificationsPanel = false;
   showNotificationsPanel2 = false;
@@ -88,6 +91,13 @@ export class HeaderComponent implements OnInit{
       (result: UserNotification[]) => this.realNotifications = result,
       (error: any) => console.error(error)
     );
+  }
+
+  getProfilePic(): void {
+    this.us.getUser(localStorage.getItem('loggedUserId') ?? '').subscribe(
+      (result) => this.profileImageUrl = 'https://127.0.0.1:7273/uploads/' + result.profilePictureUrl,
+      (error) => console.error(error)
+    )
   }
 
   getNotificationIcon(type: string): string {

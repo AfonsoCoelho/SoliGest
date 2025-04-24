@@ -19,6 +19,12 @@
         <h2>Registar Novo Utilizador</h2>
         <form [formGroup]="funcionarioCreateForm" (submit)="register()">
           <div class="form-grid">
+            <!-- Foto de perfil -->
+            <div class="form-group">
+              <label for="profilePic">Foto de perfil</label>
+              <input type="file" id="profilePic" name="profilePic" formControlName="profilePic" (change)="onFileSelected($event)" required>
+            </div>
+
             <!-- Nome Completo -->
             <div class="form-group full-width">
               <label for="name">Nome Completo</label>
@@ -73,7 +79,7 @@
             <div class="form-group">
               <label for="password">Password</label>
               <!--<input type="password" id="password" name="password" [(ngModel)]="user.password"
-      (input)="checkPasswordStrength()" required>-->
+    (input)="checkPasswordStrength()" required>-->
               <input type="password" id="password" name="password" formControlName="password"
                      (input)="checkPasswordStrength()">
               <div class="password-strength">
