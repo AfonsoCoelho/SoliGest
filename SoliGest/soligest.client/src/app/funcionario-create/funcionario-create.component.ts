@@ -15,8 +15,10 @@ export class FuncionarioCreateComponent implements OnInit {
   funcionarioCreateForm!: FormGroup;
   funcionarioCreateFailed: boolean = false;
   funcionarioCreateSucceeded: boolean = false;
+  profilePic: any;
 
   user: any = {
+    profilePictureUrl: '',
     name: '',
     email: '',
     address1: '',
@@ -48,6 +50,7 @@ export class FuncionarioCreateComponent implements OnInit {
       // Inicializar o formulário com validações
       this.funcionarioCreateForm = this.formBuilder.group(
         {
+          profilePic: [''],
           name: ['', Validators.required],
           email: ['', [Validators.required, Validators.email]],
           address1: [],
@@ -172,7 +175,10 @@ export class FuncionarioCreateComponent implements OnInit {
   //  }
   //    this.router.navigate(['/funcionarios']);
   // }
-  
+  onFileSelected(event: any) {
+    this.profilePic = event.target.files[0] as File;
+    console.log(this.profilePic);
+  }
 
   public register(): void {
     if (!this.funcionarioCreateForm.valid) {
@@ -183,6 +189,11 @@ export class FuncionarioCreateComponent implements OnInit {
     this.funcionarioCreateFailed = false;
     this.errors = [];
 
+    const profilePic = this.funcionarioCreateForm.get('profilePic');
+    if (profilePic?.value instanceof File) {
+      var profilePicFile = profilePic.value as File;
+    }
+    alert(profilePic?.value);
     const name = this.funcionarioCreateForm.get('name')?.value;
     const email = this.funcionarioCreateForm.get('email')?.value;
     const password = this.funcionarioCreateForm.get('password')?.value;
@@ -200,6 +211,15 @@ export class FuncionarioCreateComponent implements OnInit {
       response => {
         if (response) {
           this.funcionarioCreateSucceeded = true;
+          this.usersService.getUserByEmail(email).subscribe(
+            (result) => {
+              this.usersService.saveProfilePicture(result.id, this.profilePic).subscribe(
+                (result) => console.log("Foto de perfil guardada!"),
+                (error) => console.error("Erro ao guardar a foto de perfil")
+              )
+            },
+            (error) => console.error("Erro a ir buscar o utilizador após criação")
+          )
           this.router.navigateByUrl("/");
           alert("Registo bem sucedido!");
         }
