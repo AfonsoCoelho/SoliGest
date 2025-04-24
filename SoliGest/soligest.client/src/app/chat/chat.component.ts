@@ -122,10 +122,10 @@ export class ChatComponent implements OnInit {
 
     this.chatService.sendMessage(this.currentContact.id, this.newMessage);
 
-    this.chatService.saveMessage({
-      receiverId: this.currentContact.id,
-      content: this.newMessage
-    }).subscribe();
+    //this.chatService.saveMessage({
+    //  receiverId: this.currentContact.id,
+    //  content: this.newMessage
+    //}).subscribe();
 
     const uiMsg: UiMessage = {
       content: this.newMessage,
@@ -141,13 +141,13 @@ export class ChatComponent implements OnInit {
     this.newMessage = '';
   }
 
-  onMessageReceived(callback: (sender: string, message: any) => void): void {
-    if (this.hubConnection) {
-      this.hubConnection.on('ReceiveMessage', (sender: string, message: any) => {
-        callback(sender, message);
-      });
-    }
-  }
+  //onMessageReceived(callback: (sender: string, message: any) => void): void {
+  //  if (this.hubConnection) {
+  //    this.hubConnection.on('ReceiveMessage', (sender: string, message: any) => {
+  //      callback(sender, message);
+  //    });
+  //  }
+  //}
 
   startNewConversation(contact: Contact): void {
     let conv = this.conversations.find(c => c.contact.id === contact.id);
