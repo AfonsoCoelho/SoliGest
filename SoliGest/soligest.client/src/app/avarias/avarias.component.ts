@@ -7,6 +7,7 @@ import { SolarPanel, SolarPanelsService } from '../services/solar-panels.service
 import { formatDate } from '@angular/common';
 import { UsersService, User } from '../services/users.service';
 
+
 // Declaração do objeto google para TypeScript
 declare var google: any;
 
@@ -31,9 +32,9 @@ export class AvariasComponent implements OnInit {
   autoAllocationCandidate: User | null = null;
   availableTechnicians: User[] = [];
   selectedTechnicianId: number | null = null; // Altere aqui para number
-
-
-
+  popupType: 'success' | 'error' = 'success';
+  timerInterval!: any;
+  timerWidth = 100;
 
   // Modais
   showModal: boolean = false;
@@ -41,12 +42,14 @@ export class AvariasComponent implements OnInit {
   showDeleteConfirm: boolean = false;
   isManualAllocateModalOpen: boolean = false;
   isAutoAllocateModalOpen: boolean = false;
+  popupVisible: boolean = false;
 
   // Formulários
   selectedPanelId: number = 0;
   selectedPriority: string = '';
   selectedStatus: string = '';
   newAvariaDescription: string = ''; // Adicionado para o formulário de criação
+  popupMessage: string = '';
 
 
   constructor(
@@ -61,6 +64,38 @@ export class AvariasComponent implements OnInit {
   avariasData: AssistanceRequest[] = [];
   sortedAvarias: AssistanceRequest[] = [];
   map: any;
+
+  showPopup(type: 'success' | 'error', message: string) {
+    // inicializa
+    this.popupType = type;
+    this.popupMessage = message;
+    this.timerWidth = 100;
+    this.popupVisible = true;
+
+    // limpa qualquer intervalo anterior
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+
+    // diminui 2% a cada 100ms → 50 ciclos → 5s total
+    this.timerInterval = setInterval(() => {
+      this.timerWidth -= 2;
+      if (this.timerWidth <= 0) {
+        this.closePopup();
+      }
+    }, 100);
+  }
+
+  closePopup() {
+    this.popupVisible = false;
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+
+    if (this.popupType == "success") {
+      window.location.reload(); //por agora, ja arranjo depois
+    }
+  }
 
   openCreateModal(): void {
     this.selectedPanelId = 0;
@@ -406,13 +441,17 @@ export class AvariasComponent implements OnInit {
       // Call the update endpoint with the auto allocation candidate's id.
       this.aRService.update(this.selectedAvaria.id, updatedAssistanceRequest).subscribe(
         (result) => {
-          alert(`Avaria ID: ${this.selectedAvaria!.id} atribuída a ${this.autoAllocationCandidate!.name} com sucesso.`);
+          //alert(`Avaria ID: ${this.selectedAvaria!.id} atribuída a ${this.autoAllocationCandidate!.name} com sucesso.`);
+          this.showPopup('success', `Avaria ID: ${this.selectedAvaria!.id} atribuída a ${this.autoAllocationCandidate!.name} com sucesso.`);
           this.closeAutoAllocateModal();
           this.loadAssistanceRequests();
-          window.location.reload(); //por agora, assim a info window nao buga temp
+          setTimeout(() => {
+            window.location.reload();
+          }, 5000);
         },
         (error) => {
-          alert("Ocorreu um erro ao alocar automaticamente o funcionário.");
+          //alert("Ocorreu um erro ao alocar automaticamente o funcionário.");
+          this.showPopup('error', 'Ocorreu um erro ao alocar automaticamente o funcionário.');
           console.error(error);
         }
       );
@@ -438,13 +477,17 @@ export class AvariasComponent implements OnInit {
 
       this.aRService.update(this.selectedAvaria.id, updatedAssistanceRequest).subscribe(
         (result) => {
-          alert(`Avaria ID: ${this.selectedAvaria!.id} atribuída a ${user.name} com sucesso.`);
+          //alert(`Avaria ID: ${this.selectedAvaria!.id} atribuída a ${user.name} com sucesso.`);
+          this.showPopup('success', `Avaria ID: ${this.selectedAvaria!.id} atribuída a ${user.name} com sucesso.`);
           this.closeManualAllocateModal();
           this.loadAssistanceRequests();
-          window.location.reload(); //por agora, assim a info window nao buga temp
+          setTimeout(() => {
+            window.location.reload();
+          }, 5000);
         },
         (error) => {
-          alert("Ocorreu um erro ao atribuir o técnico.");
+          //alert("Ocorreu um erro ao atribuir o técnico.");
+          this.showPopup('error', `Avaria ID: ${this.selectedAvaria!.id} atribuída a ${user.name} com sucesso.`);
           console.error(error);
         }
       );
@@ -480,7 +523,8 @@ export class AvariasComponent implements OnInit {
 
   criarAvaria() {
     if (!this.selectedPanelId) {
-      alert('Por favor selecione um painel!');
+      //alert('Por favor selecione um painel!');
+      this.showPopup('error', 'Por favor selecione um painel!');
       return;
     }
 
@@ -498,13 +542,17 @@ export class AvariasComponent implements OnInit {
 
     this.aRService.create(newAssistanceRequest).subscribe(
       (result) => {
-        alert("Novo pedido de assistência técnica criado com sucesso!");
+        //alert("Novo pedido de assistência técnica criado com sucesso!");
+        this.showPopup('error', 'Novo pedido de assistência técnica criado com sucesso!');
         this.onCloseModal();
         this.loadAssistanceRequests();
-        window.location.reload(); //por agora, assim a info window nao buga temp
+        setTimeout(() => {
+          window.location.reload();
+        }, 5000);
       },
       (error) => {
-        alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+        //alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+        this.showPopup('error', 'Ocorreu um erro. Por favor tente novamente mais tarde.');
         console.error(error);
       }
     );
@@ -527,13 +575,17 @@ export class AvariasComponent implements OnInit {
 
       this.aRService.update(id, updatedAssistanceRequest).subscribe(
         (result) => {
-          alert("Pedido de assistência técnica atualizado com sucesso!");
+          //alert("Pedido de assistência técnica atualizado com sucesso!");
+          this.showPopup('success', `Pedido de assistência técnica atualizado com sucesso!`);
           this.onCloseEditModal();
           this.loadAssistanceRequests();
-          window.location.reload(); //por agora, assim a info window nao buga temp
+          setTimeout(() => {
+            window.location.reload();
+          }, 5000);
         },
         (error) => {
-          alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+          //alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+          this.showPopup('error', `Ocorreu um erro. Por favor tente novamente mais tarde.`);
           console.error(error);
         }
       );
@@ -544,12 +596,14 @@ export class AvariasComponent implements OnInit {
     if (this.selectedAvaria) {
       this.aRService.delete(this.selectedAvaria.id).subscribe(
         (result) => {
-          alert("Pedido de assistência técnica removido com sucesso!");
+          //alert("Pedido de assistência técnica removido com sucesso!");
+          this.showPopup('success', `Pedido de assistência técnica removido com sucesso!`);
           this.onCloseDeleteConfirm();
           this.loadAssistanceRequests();
         },
         (error) => {
-          alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+          //alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+          this.showPopup('error', `Ocorreu um erro. Por favor tente novamente mais tarde.`);
           console.error(error);
         }
       );
