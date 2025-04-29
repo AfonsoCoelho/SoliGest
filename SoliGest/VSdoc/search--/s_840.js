@@ -1,0 +1,1 @@
+search_result['840']=["topic_00000000000001CB.html","TestAuthHandler.HandleAuthenticateAsync Method","Lida com a autenticação, verificando se o cabeçalho de autorização está presente.\r\nSe estiver, cria um usuário de teste e retorna a autenticação com sucesso."];

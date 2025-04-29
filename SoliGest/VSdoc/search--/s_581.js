@@ -1,0 +1,1 @@
+search_result['581']=["topic_0000000000000140.html","MetricsControllerTest.GetTotalPaineis_ReturnsCount Method","Verifica se o método GetTotalPainels retorna a contagem correta de painéis solares."];

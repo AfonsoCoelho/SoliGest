@@ -1,0 +1,1 @@
+search_result['862']=["topic_00000000000001D7.html","MetricsControllerIntegrationTests.GetTotalPainels_EndpointReturnSuccessAndCorrectContentType Method","Verifica se o endpoint GET /api/Metrics/total-paineis retorna sucesso e o número total de painéis solares."];

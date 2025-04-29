@@ -1,0 +1,1 @@
+search_result['542']=["topic_000000000000012D.html","UserNotificationService Constructor","Construtor da classe UserNotificationService.\r\nInicializa o contexto do banco de dados para acesso aos dados."];

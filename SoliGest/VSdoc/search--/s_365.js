@@ -1,0 +1,1 @@
+search_result['365']=["topic_00000000000000C5.html","AssistanceRequest.ResolutionDate Property","A data e hora de resolução do pedido de assistência."];

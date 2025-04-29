@@ -1,0 +1,1 @@
+search_result['150']=["topic_000000000000004F.html","SolarPanelUpdateModel.Latitude Property","Latitude do painel solar."];

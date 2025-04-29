@@ -5,17 +5,27 @@ using SoliGest.Server;
 using SoliGest.Server.Models;
 using Xunit;
 
-namespace SoliGest.Tests.IntegrationTests
+namespace SoliGestIntegrationTests
 {
+    /// <summary>
+    /// Classe de testes de integração para o controlador UserNotificationsController.
+    /// </summary>
     public class UserNotificationsControllerTests : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly HttpClient _client;
 
+        /// <summary>
+        /// Inicializa a instância de testes com um cliente HTTP da aplicação.
+        /// </summary>
+        /// <param name="factory">Fábrica da aplicação para testes de integração.</param>
         public UserNotificationsControllerTests(WebApplicationFactory<Program> factory)
         {
             _client = factory.CreateClient();
         }
 
+        /// <summary>
+        /// Verifica se a rota GET /api/UserNotifications retorna sucesso e uma lista de notificações.
+        /// </summary>
         [Fact]
         public async Task GetAllUserNotifications_ReturnsSuccess()
         {
@@ -26,6 +36,9 @@ namespace SoliGest.Tests.IntegrationTests
             Assert.NotNull(userNotifications);
         }
 
+        /// <summary>
+        /// Verifica se a chamada GET por ID inválido retorna NotFound.
+        /// </summary>
         [Fact]
         public async Task GetUserNotificationById_ReturnsNotFound_ForInvalidId()
         {
@@ -34,6 +47,9 @@ namespace SoliGest.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
+        /// <summary>
+        /// Testa a criação de uma notificação de utilizador válida e verifica se retorna OK ou BadRequest.
+        /// </summary>
         [Fact]
         public async Task PostUserNotification_ReturnsOk_WhenValid()
         {
@@ -52,6 +68,9 @@ namespace SoliGest.Tests.IntegrationTests
             Assert.True(response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.BadRequest);
         }
 
+        /// <summary>
+        /// Testa a atualização de uma notificação com ID inválido e espera retorno NotFound.
+        /// </summary>
         [Fact]
         public async Task PutUserNotification_ReturnsNotFound_WhenInvalidId()
         {
@@ -69,6 +88,9 @@ namespace SoliGest.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
+        /// <summary>
+        /// Testa a exclusão de uma notificação com ID inválido e espera retorno NotFound.
+        /// </summary>
         [Fact]
         public async Task DeleteUserNotification_ReturnsNotFound_WhenIdInvalid()
         {
@@ -77,12 +99,14 @@ namespace SoliGest.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
+        /// <summary>
+        /// Verifica se a rota GET por UserId retorna OK ou NotFound dependendo da existência do utilizador.
+        /// </summary>
         [Fact]
         public async Task GetUserNotificationsByUserId_ReturnsOkOrNotFound()
         {
             var response = await _client.GetAsync("/api/UserNotifications/ByUserId/test-user-id");
 
-            // Pode ser Ok ou NotFound dependendo se existe ou não na base
             Assert.True(response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.NotFound);
         }
     }

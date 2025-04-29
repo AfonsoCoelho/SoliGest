@@ -1,0 +1,1 @@
+search_result['884']=["topic_00000000000001E3.html","SolarPanelsControllerIntegrationTests Constructor","Construtor da classe de testes, inicializa a fábrica da aplicação."];

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SoliGest.Server.Data;
 using SoliGest.Server.Models;
@@ -12,6 +11,9 @@ using static SoliGest.Server.Controllers.UserNotificationsController;
 
 namespace SoliGest.Server.Controllers
 {
+    /// <summary>
+    /// Controlador para gerir pedidos de assistência técnica.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AssistanceRequestsController : Controller
@@ -19,24 +21,42 @@ namespace SoliGest.Server.Controllers
         private readonly SoliGestServerContext _context;
         private readonly IUserNotificationService _userNotificationService;
 
+        /// <summary>
+        /// Construtor do controlador de pedidos de assistência.
+        /// </summary>
+        /// <param name="context">Contexto da base de dados.</param>
+        /// <param name="userNotificationService">Serviço de notificações de utilizador.</param>
         public AssistanceRequestsController(SoliGestServerContext context, IUserNotificationService userNotificationService)
         {
             _context = context;
             _userNotificationService = userNotificationService;
         }
 
-        // GET: api/AssistanceRequest
+        /// <summary>
+        /// Obtém todos os pedidos de assistência.
+        /// </summary>
+        /// <returns>Lista de pedidos de assistência.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AssistanceRequest>>> GetAll()
         {
-            return await _context.AssistanceRequest.Include(a => a.SolarPanel).Include(a => a.AssignedUser).ToListAsync();
+            return await _context.AssistanceRequest
+                .Include(a => a.SolarPanel)
+                .Include(a => a.AssignedUser)
+                .ToListAsync();
         }
 
-        // GET: api/AssistanceRequest/5
+        /// <summary>
+        /// Obtém um pedido de assistência pelo ID.
+        /// </summary>
+        /// <param name="id">ID do pedido.</param>
+        /// <returns>Pedido de assistência.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<AssistanceRequest>> GetById(int id)
         {
-            var request = await _context.AssistanceRequest.Include(a => a.SolarPanel).Include(a => a.AssignedUser).FirstOrDefaultAsync(a => a.Id == id);
+            var request = await _context.AssistanceRequest
+                .Include(a => a.SolarPanel)
+                .Include(a => a.AssignedUser)
+                .FirstOrDefaultAsync(a => a.Id == id);
 
             if (request == null)
             {
@@ -46,9 +66,13 @@ namespace SoliGest.Server.Controllers
             return Ok(request);
         }
 
-        // POST: api/AssistanceRequest
+        /// <summary>
+        /// Cria um novo pedido de assistência.
+        /// </summary>
+        /// <param name="request">Dados do pedido.</param>
+        /// <returns>Pedido criado.</returns>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]AssistanceRequestCreateModel request)
+        public async Task<IActionResult> Create([FromBody] AssistanceRequestCreateModel request)
         {
             if (request == null)
             {
@@ -57,7 +81,7 @@ namespace SoliGest.Server.Controllers
 
             var solarPanel = await _context.FindAsync<SolarPanel>(request.SolarPanelId);
 
-            if(solarPanel == null)
+            if (solarPanel == null)
             {
                 return BadRequest(new { message = "Painel solar não encontrado." });
             }
@@ -83,32 +107,29 @@ namespace SoliGest.Server.Controllers
                 assistanceRequest.AssignedUser = user;
             }
 
-
             await _context.AssistanceRequest.AddAsync(assistanceRequest);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetById), new { id = assistanceRequest.Id }, request);
         }
 
-        // PUT: api/AssistanceRequest/5
+        /// <summary>
+        /// Atualiza um pedido de assistência existente.
+        /// </summary>
+        /// <param name="id">ID do pedido.</param>
+        /// <param name="request">Dados atualizados.</param>
+        /// <returns>Resultado da operação.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] AssistanceRequestUpdateModel request)
         {
-            //if (id != request.Id)
-            //{
-            //    return BadRequest(new { message = "ID do pedido não corresponde." });
-            //}
-
             var solarPanel = await _context.SolarPanel.FindAsync(request.SolarPanelId);
-
-            if(solarPanel == null)
+            if (solarPanel == null)
             {
                 return BadRequest(new { message = "Painel Solar inexistente!" });
             }
 
             var assistanceRequest = await _context.FindAsync<AssistanceRequest>(id);
-
-            if(assistanceRequest == null)
+            if (assistanceRequest == null)
             {
                 return NotFound($"Não foi possível encontrar a assistência técnica com o ID '{id}'.");
             }
@@ -129,7 +150,8 @@ namespace SoliGest.Server.Controllers
 
                 if (assistanceRequest.AssignedUser != user)
                 {
-                    UserNotificationUpdateModel unum = new UserNotificationUpdateModel {
+                    var unum = new UserNotificationUpdateModel
+                    {
                         UserNotificationId = 0,
                         UserId = user.Id,
                         NotificationId = 1,
@@ -140,12 +162,8 @@ namespace SoliGest.Server.Controllers
                     await _userNotificationService.PostUserNotification(unum);
                 }
 
-                assistanceRequest.AssignedUser = user;                
+                assistanceRequest.AssignedUser = user;
             }
-            //else
-            //{
-            //    assistanceRequest.AssignedUser = null;
-            //}
 
             _context.Update(assistanceRequest);
 
@@ -168,7 +186,11 @@ namespace SoliGest.Server.Controllers
             return Ok(new { message = "Pedido de assistência atualizado com sucesso." });
         }
 
-        // DELETE: api/AssistanceRequest/5
+        /// <summary>
+        /// Elimina um pedido de assistência.
+        /// </summary>
+        /// <param name="id">ID do pedido.</param>
+        /// <returns>Resultado da operação.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -184,13 +206,20 @@ namespace SoliGest.Server.Controllers
             return Ok(new { message = "Pedido de assistência removido com sucesso." });
         }
 
+        /// <summary>
+        /// Verifica se um pedido de assistência existe.
+        /// </summary>
+        /// <param name="id">ID do pedido.</param>
+        /// <returns>True se existir, caso contrário False.</returns>
         private bool Exists(int id)
         {
             return _context.AssistanceRequest.Any(e => e.Id == id);
         }
-
     }
 
+    /// <summary>
+    /// Modelo para atualização de pedido de assistência.
+    /// </summary>
     public class AssistanceRequestUpdateModel
     {
         public string RequestDate { get; set; }
@@ -202,6 +231,10 @@ namespace SoliGest.Server.Controllers
         public string StatusClass { get; set; }
         public string? AssignedUserId { get; set; }
     }
+
+    /// <summary>
+    /// Modelo para criação de pedido de assistência.
+    /// </summary>
     public class AssistanceRequestCreateModel
     {
         public string RequestDate { get; set; }

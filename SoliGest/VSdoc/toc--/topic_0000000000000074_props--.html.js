@@ -1,0 +1,1 @@
+var breadcrumbs=[['-1',"",""],['2',"SOLUTION-WIDE PROPERTIES Reference","topic_00000000000001F4.html"],['6',"SoliGest.Server.Controllers Namespace","topic_0000000000000000.html"],['110',"UserLoginModel Class","topic_0000000000000074.html"],['111',"Properties","topic_0000000000000074_props--.html"]];

@@ -1,0 +1,1 @@
+search_result['269']=["topic_0000000000000097.html","AssistanceRequestSeeder.SeedAssistanceRequestsAsync Method","Método assíncrono para semear dados na tabela de pedidos de assistência.\r\nVerifica se já existem registros na tabela e, caso não haja, cria registros iniciais."];

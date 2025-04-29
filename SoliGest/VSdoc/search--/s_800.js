@@ -1,0 +1,1 @@
+search_result['800']=["topic_00000000000001B7.html","PaineisTest.ApagarPainelExistente_DeveRemoverComSucesso Method","Testa a exclusão de um painel solar existente e verifica se o painel é removido com sucesso."];

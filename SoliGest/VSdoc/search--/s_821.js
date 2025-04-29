@@ -1,0 +1,1 @@
+search_result['821']=["topic_00000000000001C2.html","ChatControllerIntegrationTests.PostMessage_EndpointReturnSuccessAndCorrectContentType Method","Testa o endpoint de envio de mensagem para garantir que retorna sucesso e o tipo de conteúdo correto."];

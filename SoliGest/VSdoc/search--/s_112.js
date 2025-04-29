@@ -1,0 +1,1 @@
+search_result['112']=["topic_000000000000003A.html","MetricsController.GetAverageRepairTime Method","Obtém o tempo médio de reparação (em minutos) dos pedidos de assistência resolvidos."];

@@ -1,0 +1,1 @@
+search_result['284']=["topic_000000000000009C.html","SolarPanelSeeder Class","Classe responsável por popular a tabela de painéis solares com dados iniciais."];

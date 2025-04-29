@@ -1,0 +1,1 @@
+search_result['191']=["topic_0000000000000069.html","UsersController.ForgotPassword Method","Inicia o processo de recuperação de palavra-passe enviando um email ao utilizador."];

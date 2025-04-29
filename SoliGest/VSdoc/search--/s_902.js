@@ -1,0 +1,1 @@
+search_result['902']=["topic_00000000000001F0.html","UserNotificationsControllerTests.GetUserNotificationsByUserId_ReturnsOkOrNotFound Method","Verifica se a rota GET por UserId retorna OK ou NotFound dependendo da existência do utilizador."];

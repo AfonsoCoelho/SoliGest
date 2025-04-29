@@ -1,0 +1,1 @@
+search_result['865']=["topic_00000000000001DA.html","MetricsControllerIntegrationTests.GetAverageRepairTime_EndpointReturnSuccessAndCorrectContentType Method","Verifica se o endpoint GET /api/Metrics/tempo-medio-reparacao retorna sucesso e o tempo médio de reparo."];

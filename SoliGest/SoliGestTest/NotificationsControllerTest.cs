@@ -9,12 +9,18 @@ using Xunit;
 
 namespace SoliGestTest
 {
+    /// <summary>
+    /// Classe de teste para o controlador de notificações (NotificationsController).
+    /// </summary>
     public class NotificationsControllerTest
     {
         private readonly DbContextOptions<SoliGestServerContext> _options;
         private readonly SoliGestServerContext _context;
         private readonly NotificationsController _controller;
 
+        /// <summary>
+        /// Construtor para configurar a base de dados em memória e instâncias do controlador.
+        /// </summary>
         public NotificationsControllerTest()
         {
             // Usa um nome único de base de dados em memória para isolar cada teste
@@ -27,6 +33,9 @@ namespace SoliGestTest
             _controller = new NotificationsController(_context);
         }
 
+        /// <summary>
+        /// Testa a criação de uma notificação. Espera-se que a notificação seja criada e retornada com status 201 (Created).
+        /// </summary>
         [Fact]
         public async Task Create_Notification_ReturnsCreatedAtActionResult()
         {
@@ -48,6 +57,9 @@ namespace SoliGestTest
             Assert.Equal(notification.Message, returned.Message);
         }
 
+        /// <summary>
+        /// Testa o método GetNotification quando a notificação existe. Espera-se que retorne a notificação.
+        /// </summary>
         [Fact]
         public async Task GetById_ReturnsOk_WhenNotificationExists()
         {
@@ -68,6 +80,9 @@ namespace SoliGestTest
             Assert.Equal(notification, actionResult.Value);
         }
 
+        /// <summary>
+        /// Testa o método GetNotification quando a notificação não existe. Espera-se que retorne 404 (Not Found).
+        /// </summary>
         [Fact]
         public async Task GetById_ReturnsNotFound_WhenNotificationDoesNotExist()
         {
@@ -78,6 +93,9 @@ namespace SoliGestTest
             Assert.IsType<NotFoundObjectResult>(actionResult.Result);
         }
 
+        /// <summary>
+        /// Testa a atualização de uma notificação existente. Espera-se que retorne uma resposta 200 (OK).
+        /// </summary>
         [Fact]
         public async Task Update_Notification_ReturnsOk_WhenNotificationExists()
         {
@@ -112,6 +130,9 @@ namespace SoliGestTest
             Assert.Equal("Notificação atualizada com sucesso!", msg);
         }
 
+        /// <summary>
+        /// Testa a atualização de uma notificação inexistente. Espera-se que retorne 404 (Not Found).
+        /// </summary>
         [Fact]
         public async Task Update_Notification_ReturnsNotFound_WhenNotificationDoesNotExist()
         {
@@ -131,6 +152,9 @@ namespace SoliGestTest
             Assert.IsType<NotFoundObjectResult>(result);
         }
 
+        /// <summary>
+        /// Testa a exclusão de uma notificação existente. Espera-se que retorne uma resposta 200 (OK).
+        /// </summary>
         [Fact]
         public async Task Delete_Notification_ReturnsOk_WhenNotificationExists()
         {
@@ -151,6 +175,9 @@ namespace SoliGestTest
             Assert.IsType<OkResult>(result);
         }
 
+        /// <summary>
+        /// Testa a exclusão de uma notificação inexistente. Espera-se que retorne 404 (Not Found).
+        /// </summary>
         [Fact]
         public async Task Delete_Notification_ReturnsNotFound_WhenNotificationDoesNotExist()
         {

@@ -1,0 +1,1 @@
+search_result['283']=["topic_000000000000009B.html","RoleSeeder.SeedRoles Method","Método assíncrono para semear dados na tabela de papéis (roles).\r\nVerifica se os papéis já existem e, caso contrário, os cria."];

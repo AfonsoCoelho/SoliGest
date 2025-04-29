@@ -1,0 +1,1 @@
+search_result['108']=["topic_0000000000000036.html","MetricsController.GetTotalUsers Method","Obtém o número total de utilizadores registados."];

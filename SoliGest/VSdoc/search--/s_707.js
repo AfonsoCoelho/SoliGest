@@ -1,0 +1,1 @@
+search_result['707']=["topic_000000000000018C.html","AvariasTest.ApagarAvaria_DeveRemoverComSucesso Method","Testa a remoção de uma avaria, verificando se o alerta de sucesso é exibido após a exclusão."];

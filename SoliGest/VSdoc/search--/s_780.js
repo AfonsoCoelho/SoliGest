@@ -1,0 +1,1 @@
+search_result['780']=["topic_00000000000001AD.html","LoginTest2.Dispose Method","Finaliza o WebDriver após a execução dos testes, liberando os recursos."];

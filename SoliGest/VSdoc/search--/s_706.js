@@ -1,0 +1,1 @@
+search_result['706']=["topic_000000000000018B.html","AvariasTest.EditarAvaria_DeveAtualizarComSucesso Method","Testa a edição de uma avaria, verificando se a prioridade e o status são atualizados corretamente."];

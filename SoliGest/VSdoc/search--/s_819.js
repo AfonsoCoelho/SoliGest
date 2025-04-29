@@ -1,0 +1,1 @@
+search_result['819']=["topic_00000000000001C0.html","ChatControllerIntegrationTests.GetConversations_EndpointReturnSuccessAndCorrectContentType Method","Testa o endpoint de conversas para garantir que retorna sucesso e o tipo de conteúdo correto."];

@@ -1,0 +1,1 @@
+search_result['534']=["topic_000000000000012A.html","SendGridEmailService Constructor","Construtor da classe SendGridEmailService.\r\nInicializa a chave da API do SendGrid a partir da configuração fornecida."];

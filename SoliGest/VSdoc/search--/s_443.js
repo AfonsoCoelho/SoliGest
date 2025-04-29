@@ -1,0 +1,1 @@
+search_result['443']=["topic_00000000000000F0.html","SolarPanel.StatusClass Property","Classe de estilo associada ao status do painel solar."];

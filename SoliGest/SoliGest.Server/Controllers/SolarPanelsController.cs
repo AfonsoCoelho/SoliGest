@@ -12,26 +12,39 @@ using SoliGest.Server.Models;
 
 namespace SoliGest.Server.Controllers
 {
+    /// <summary>
+    /// Controlador responsável pela gestão dos painéis solares.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class SolarPanelsController : Controller
     {
         private readonly SoliGestServerContext _context;
 
+        /// <summary>
+        /// Construtor do controlador de painéis solares.
+        /// </summary>
+        /// <param name="context">Contexto da base de dados.</param>
         public SolarPanelsController(SoliGestServerContext context)
         {
             _context = context;
         }
 
-        // GET: api/People
+        /// <summary>
+        /// Obtém todos os painéis solares.
+        /// </summary>
+        /// <returns>Lista de objetos <see cref="SolarPanel"/>.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SolarPanel>>> GetSolarPanel()
         {
             return await _context.SolarPanel.ToListAsync();
         }
 
-        // POST: api/People
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Cria um novo painel solar.
+        /// </summary>
+        /// <param name="solarPanel">Objeto <see cref="SolarPanel"/> a ser criado.</param>
+        /// <returns>Resposta HTTP com o resultado da operação.</returns>
         [HttpPost]
         public async Task<IActionResult> PostSolarPanel(SolarPanel solarPanel)
         {
@@ -48,14 +61,18 @@ namespace SoliGest.Server.Controllers
             }
         }
 
-        // DELETE: api/People/5
+        /// <summary>
+        /// Remove um painel solar pelo ID.
+        /// </summary>
+        /// <param name="id">ID do painel solar a remover.</param>
+        /// <returns>Resposta HTTP com o resultado da operação.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSolarPanel(int id)
         {
             try
             {
                 var solarPanel = await _context.FindAsync<SolarPanel>(id);
-                if(solarPanel == null)
+                if (solarPanel == null)
                 {
                     return NotFound($"Não foi possível encontrar o painel solar com o ID '{id}'.");
                 }
@@ -71,14 +88,18 @@ namespace SoliGest.Server.Controllers
             }
         }
 
-        // GET: api/People/5
+        /// <summary>
+        /// Obtém um painel solar pelo ID.
+        /// </summary>
+        /// <param name="id">ID do painel solar.</param>
+        /// <returns>Objeto <see cref="SolarPanel"/> correspondente, se existir.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<SolarPanel>> GetSolarPanel(int id)
         {
             try
             {
                 var solarPanel = await _context.FindAsync<SolarPanel>(id);
-                if(solarPanel != null)
+                if (solarPanel != null)
                 {
                     return solarPanel;
                 }
@@ -93,8 +114,11 @@ namespace SoliGest.Server.Controllers
             }
         }
 
-        // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Atualiza os dados de um painel solar existente.
+        /// </summary>
+        /// <param name="model">Modelo com os dados atualizados do painel solar.</param>
+        /// <returns>Resposta HTTP com o resultado da operação.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSolarPanel([FromBody] SolarPanelUpdateModel model)
         {
@@ -128,18 +152,64 @@ namespace SoliGest.Server.Controllers
         }
     }
 
+    /// <summary>
+    /// Modelo de dados para atualização de um painel solar.
+    /// </summary>
     public class SolarPanelUpdateModel
     {
+        /// <summary>
+        /// ID do painel solar.
+        /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Nome do painel solar.
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Prioridade associada ao painel.
+        /// </summary>
         public string Priority { get; set; }
+
+        /// <summary>
+        /// Estado atual do painel solar.
+        /// </summary>
         public string Status { get; set; }
+
+        /// <summary>
+        /// Classe CSS de status (para visualização).
+        /// </summary>
         public string StatusClass { get; set; }
+
+        /// <summary>
+        /// Latitude do painel solar.
+        /// </summary>
         public double Latitude { get; set; }
+
+        /// <summary>
+        /// Longitude do painel solar.
+        /// </summary>
         public double Longitude { get; set; }
+
+        /// <summary>
+        /// Descrição do painel solar.
+        /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Número de telefone associado ao painel.
+        /// </summary>
         public int PhoneNumber { get; set; }
+
+        /// <summary>
+        /// Email de contacto.
+        /// </summary>
         public string Email { get; set; }
+
+        /// <summary>
+        /// Endereço físico do painel solar.
+        /// </summary>
         public string Address { get; set; }
     }
 }

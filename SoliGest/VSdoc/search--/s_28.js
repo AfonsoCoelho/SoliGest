@@ -1,0 +1,1 @@
+search_result['28']=["topic_000000000000000E.html","AssistanceRequestsController.GetById Method","Obtém um pedido de assistência pelo ID."];

@@ -11,6 +11,9 @@ using static SoliGest.Server.Controllers.UserNotificationsController;
 
 namespace SoliGestTest
 {
+    /// <summary>
+    /// Classe de testes unitários para o controlador UserNotificationsController.
+    /// </summary>
     public class UserNotificationsControllerTest
     {
         private readonly DbContextOptions<SoliGestServerContext> _options;
@@ -18,6 +21,9 @@ namespace SoliGestTest
         private readonly IUserNotificationService _service;
         private readonly UserNotificationsController _controller;
 
+        /// <summary>
+        /// Construtor que inicializa o contexto de banco de dados em memória e os serviços necessários para os testes.
+        /// </summary>
         public UserNotificationsControllerTest()
         {
             var dbName = Guid.NewGuid().ToString();
@@ -30,6 +36,10 @@ namespace SoliGestTest
             _controller = new UserNotificationsController(_context, _service);
         }
 
+        /// <summary>
+        /// Cria um usuário do tipo técnico para os testes.
+        /// </summary>
+        /// <returns>Objeto do tipo User.</returns>
         private User CreateTechnicianUser()
         {
             return new User
@@ -48,6 +58,10 @@ namespace SoliGestTest
             };
         }
 
+        /// <summary>
+        /// Testa a criação de uma notificação de usuário com sucesso.
+        /// </summary>
+        /// <returns>Task</returns>
         [Fact]
         public async Task Create_UserNotification_ReturnsSuccessResult()
         {
@@ -67,9 +81,13 @@ namespace SoliGestTest
 
             var result = await _controller.PostUserNotification(model);
 
-            var okResult = Assert.IsType<OkResult>(result); 
+            var okResult = Assert.IsType<OkResult>(result);
         }
 
+        /// <summary>
+        /// Testa a obtenção de uma notificação de usuário pelo ID, caso exista.
+        /// </summary>
+        /// <returns>Task</returns>
         [Fact]
         public async Task GetById_ReturnsUserNotification_WhenExists()
         {
@@ -97,6 +115,10 @@ namespace SoliGestTest
             Assert.Equal(userNotification.UserNotificationId, returned.UserNotificationId);
         }
 
+        /// <summary>
+        /// Testa a obtenção de uma notificação de usuário pelo ID, caso não exista.
+        /// </summary>
+        /// <returns>Task</returns>
         [Fact]
         public async Task GetById_ReturnsNotFound_WhenNotExists()
         {
@@ -104,6 +126,10 @@ namespace SoliGestTest
             Assert.IsType<NotFoundObjectResult>(result.Result);
         }
 
+        /// <summary>
+        /// Testa a atualização de uma notificação de usuário com sucesso.
+        /// </summary>
+        /// <returns>Task</returns>
         [Fact]
         public async Task Update_UserNotification_ReturnsSuccess()
         {
@@ -146,7 +172,10 @@ namespace SoliGestTest
             Assert.Equal("Notificação atualizada com sucesso!", message);
         }
 
-
+        /// <summary>
+        /// Testa a atualização de uma notificação de usuário que não existe.
+        /// </summary>
+        /// <returns>Task</returns>
         [Fact]
         public async Task Update_UserNotification_ReturnsNotFound_WhenNotExists()
         {
@@ -163,6 +192,10 @@ namespace SoliGestTest
             Assert.IsType<NotFoundObjectResult>(result);
         }
 
+        /// <summary>
+        /// Testa a exclusão de uma notificação de usuário com sucesso.
+        /// </summary>
+        /// <returns>Task</returns>
         [Fact]
         public async Task Delete_UserNotification_ReturnsOk()
         {
@@ -189,6 +222,10 @@ namespace SoliGestTest
             Assert.IsType<OkResult>(result);
         }
 
+        /// <summary>
+        /// Testa a exclusão de uma notificação de usuário que não existe.
+        /// </summary>
+        /// <returns>Task</returns>
         [Fact]
         public async Task Delete_UserNotification_ReturnsNotFound_WhenNotExists()
         {

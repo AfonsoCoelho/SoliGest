@@ -1,0 +1,1 @@
+search_result['100']=["topic_0000000000000033.html","HolidaysController.SaveHolidays Method","Regista os períodos de férias de um utilizador, substituindo os anteriores."];

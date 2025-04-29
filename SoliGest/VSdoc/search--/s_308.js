@@ -1,0 +1,1 @@
+search_result['308']=["topic_00000000000000AA.html","UserNotificationSeeder Class","Classe responsável por popular a tabela UserNotification com dados iniciais.\r\nA classe verifica se já existem notificações associadas aos usuários no banco de dados\r\ne, se não, cria notificações para ..."];

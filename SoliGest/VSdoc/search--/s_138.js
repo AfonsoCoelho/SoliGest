@@ -1,0 +1,1 @@
+search_result['138']=["topic_0000000000000048.html","SolarPanelsController.PutSolarPanel Method","Atualiza os dados de um painel solar existente."];

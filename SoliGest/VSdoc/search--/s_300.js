@@ -1,0 +1,1 @@
+search_result['300']=["topic_00000000000000A2.html","SoliGestServerContext.AssistanceRequest Property","Tabela de solicitações de assistência."];

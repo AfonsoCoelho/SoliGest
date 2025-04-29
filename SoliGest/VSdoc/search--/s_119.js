@@ -1,0 +1,1 @@
+search_result['119']=["topic_000000000000003C.html","NotificationsController Constructor","Construtor do controlador NotificationsController.\r\nInicializa o contexto do banco de dados para realizar operações sobre as notificações."];

@@ -1,0 +1,1 @@
+search_result['133']=["topic_0000000000000044_overloads--.html","SolarPanelsController.GetSolarPanel Method","Obtém todos os painéis solares."];

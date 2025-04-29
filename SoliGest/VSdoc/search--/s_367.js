@@ -1,0 +1,1 @@
+search_result['367']=["topic_00000000000000C7.html","AssistanceRequest.SolarPanel Property","O painel solar associado a este pedido de assistência, que é obrigatório."];

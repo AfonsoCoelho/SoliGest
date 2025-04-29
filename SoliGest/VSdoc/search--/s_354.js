@@ -1,0 +1,1 @@
+search_result['354']=["topic_00000000000000BF.html","AssistanceRequest Class","Representa um pedido de assistência técnica relacionado a um painel solar, incluindo informações sobre a data do pedido, a prioridade, o status e a descrição do problema."];

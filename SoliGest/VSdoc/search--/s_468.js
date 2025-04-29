@@ -1,0 +1,1 @@
+search_result['468']=["topic_0000000000000104.html","User.Latitude Property","Latitude da localização do usuário."];

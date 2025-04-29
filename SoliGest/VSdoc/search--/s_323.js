@@ -1,0 +1,1 @@
+search_result['323']=["topic_00000000000000AF.html","ChatHub Class","Classe que implementa o hub de chat utilizando SignalR.\r\nPermite que os usuários enviem e recebam mensagens em tempo real."];

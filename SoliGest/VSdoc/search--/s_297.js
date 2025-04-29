@@ -1,0 +1,1 @@
+search_result['297']=["topic_000000000000009F.html","SoliGestServerContext Constructor","Construtor que inicializa o contexto com as opções de configuração."];

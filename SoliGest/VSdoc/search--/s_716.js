@@ -1,0 +1,1 @@
+search_result['716']=["topic_0000000000000190.html","ChatTest1.LoginAndSendMessage_Should_Display_Sent_Message Method","Testa o login e o envio de mensagem no chat, verificando se a mensagem enviada aparece na conversa."];

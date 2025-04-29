@@ -1,0 +1,1 @@
+search_result['885']=["topic_00000000000001E4.html","SolarPanelsControllerIntegrationTests.Get_EndpointReturnSuccessAndCorrectContentType Method","Verifica se a chamada GET à rota /api/SolarPanels retorna sucesso e o tipo de conteúdo correto."];

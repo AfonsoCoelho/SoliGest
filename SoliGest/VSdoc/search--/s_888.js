@@ -1,0 +1,1 @@
+search_result['888']=["topic_00000000000001E7.html","SolarPanelsControllerIntegrationTests.Put_EndpointReturnSuccessAndCorrectContentType Method","Verifica se a chamada PUT atualiza um painel existente e retorna sucesso e o tipo de conteúdo correto."];

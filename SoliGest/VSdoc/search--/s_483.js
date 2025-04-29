@@ -1,0 +1,1 @@
+search_result['483']=["topic_000000000000010E.html","UserNotification.IsRead Property","Indica se a notificação foi lida pelo usuário."];

@@ -1,24 +1,30 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Shared;
 using SendGrid.Helpers.Mail;
 using SoliGest.Server.Data;
 using SoliGest.Server.Models;
 using SoliGest.Server.Services;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Net;
-using System.Security.Claims;
-using System.Text;
 
 namespace SoliGest.Server.Controllers
 {
+    /// <summary>
+    /// Controlador que gere operações relacionadas com utilizadores, incluindo registo, autenticação,
+    /// recuperação de palavra-passe e gestão de perfil.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -29,7 +35,20 @@ namespace SoliGest.Server.Controllers
         private readonly SoliGestServerContext _context;
         private readonly IUserService _userService;
 
-        public UsersController(UserManager<User> userManager, IConfiguration configuration, IEmailService emailService, SoliGestServerContext context, IUserService userService)
+        /// <summary>
+        /// Construtor do controlador de utilizadores.
+        /// </summary>
+        /// <param name="userManager">Serviço do ASP.NET Identity para gestão de utilizadores.</param>
+        /// <param name="configuration">Configurações da aplicação (JWT, URLs, etc.).</param>
+        /// <param name="emailService">Serviço para envio de emails.</param>
+        /// <param name="context">Contexto da base de dados SoliGest.</param>
+        /// <param name="userService">Serviço customizado para operações adicionais com utilizadores.</param>
+        public UsersController(
+            UserManager<User> userManager,
+            IConfiguration configuration,
+            IEmailService emailService,
+            SoliGestServerContext context,
+            IUserService userService)
         {
             _userManager = userManager;
             _configuration = configuration;
@@ -38,6 +57,11 @@ namespace SoliGest.Server.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// Regista um novo utilizador com as credenciais fornecidas.
+        /// </summary>
+        /// <param name="model">Dados de registo do utilizador.</param>
+        /// <returns>Resultado da operação: sucesso ou lista de erros.</returns>
         [HttpPost("signup")]
         public async Task<IActionResult> Register([FromBody] UserRegistrationModel model)
         {
@@ -45,7 +69,20 @@ namespace SoliGest.Server.Controllers
             if (userExists != null)
                 return BadRequest(new { message = "User already exists." });
 
-            var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name, BirthDate = model.BirthDate, PhoneNumber = model.PhoneNumber, Address1 = model.Address1, Address2 = model.Address2, Role = model.Role, DayOff = model.DayOff, StartHoliday = model.StartHoliday, EndHoliday = model.EndHoliday };
+            var user = new User
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                Name = model.Name,
+                BirthDate = model.BirthDate,
+                PhoneNumber = model.PhoneNumber,
+                Address1 = model.Address1,
+                Address2 = model.Address2,
+                Role = model.Role,
+                DayOff = model.DayOff,
+                StartHoliday = model.StartHoliday,
+                EndHoliday = model.EndHoliday
+            };
 
             var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -57,6 +94,11 @@ namespace SoliGest.Server.Controllers
             return BadRequest(result.Errors);
         }
 
+        /// <summary>
+        /// Autentica o utilizador e gera um token JWT.
+        /// </summary>
+        /// <param name="model">Dados de login (email e password).</param>
+        /// <returns>Token JWT e data de expiração.</returns>
         [HttpPost("signin")]
         public async Task<IActionResult> Login([FromBody] UserLoginModel model)
         {
@@ -65,13 +107,13 @@ namespace SoliGest.Server.Controllers
             {
                 return BadRequest(new { message = "Invalid email or password." });
             }
+
             var passwordValid = await _userManager.CheckPasswordAsync(user, model.Password);
             if (!passwordValid)
             {
                 return BadRequest(new { message = "Invalid email or password." });
             }
 
-            // Gerar os claims do utilizador
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
@@ -81,7 +123,6 @@ namespace SoliGest.Server.Controllers
                 new Claim("UserId", user.Id)
             };
 
-            // Gerar o token JWT
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -89,12 +130,11 @@ namespace SoliGest.Server.Controllers
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddDays(1), // Definir o tempo de expiração
+                expires: DateTime.UtcNow.AddDays(1),
                 signingCredentials: creds);
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-            // Retornar o token ao cliente
             return Ok(new
             {
                 token = tokenString,
@@ -102,11 +142,15 @@ namespace SoliGest.Server.Controllers
             });
         }
 
+        /// <summary>
+        /// Redefine a palavra-passe de um utilizador com base no token enviado.
+        /// </summary>
+        /// <param name="model">Dados para redefinição de password.</param>
+        /// <returns>Resultado da operação.</returns>
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] UserResetPasswordModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-
             if (user == null)
                 return BadRequest(new { message = "Invalid Email." });
 
@@ -120,6 +164,11 @@ namespace SoliGest.Server.Controllers
             return BadRequest(result.Errors);
         }
 
+        /// <summary>
+        /// Inicia o processo de recuperação de palavra-passe enviando um email ao utilizador.
+        /// </summary>
+        /// <param name="model">Email do utilizador para recuperação.</param>
+        /// <returns>Mensagem de resultado.</returns>
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordModel model)
         {
@@ -145,57 +194,20 @@ namespace SoliGest.Server.Controllers
 
                 return Ok(new { message = "Pedido de recuperação de palavra-passe enviado para o email!" });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(500, new { message = "Ocorreu um erro ao tentar processar o teu pedido." });
             }
         }
 
-        // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Atualiza as propriedades de um utilizador existente.
+        /// </summary>
+        /// <param name="model">Dados atualizados do utilizador.</param>
+        /// <returns>Resultado da operação de atualização.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPerson([FromBody] UserUpdateModel model)
         {
-            //var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name, BirthDate = model.BirthDate, PhoneNumber = model.PhoneNumber, Address1 = model.Address1, Address2 = model.Address2 };
-
-            //var result = await _userManager.UpdateAsync(user);
-
-            //if (result.Succeeded)
-            //{
-            //    return Ok(new { message = "Utilizador atualizado com sucesso!" });
-            //}
-            //else
-            //{
-            //    return BadRequest(result.Errors);
-            //}
-            //if (ModelState.IsValid)
-            //{
-            //    var user = await _userManager.FindByEmailAsync(model.Email);
-            //    if (user == null)
-            //    {
-            //        return NotFound();
-            //    }
-
-            //    user.UserName = model.Email;
-            //    user.Email = model.Email;
-            //    user.Name = model.Name;
-            //    user.PhoneNumber = model.PhoneNumber;
-
-            //    var result = await _userManager.UpdateAsync(user);
-
-            //    if (!result.Succeeded)
-            //    {
-            //        ModelState.AddModelError("", result.Errors.First().Description);
-            //        return BadRequest();
-            //    }
-
-            //    //return RedirectToAction("Index");
-            //    return NoContent();
-            //}
-
-            //ModelState.AddModelError("", "Something failed.");
-            //return Ok();
-
             var user = await _userManager.FindByIdAsync(model.Id);
             if (user == null)
             {
@@ -232,32 +244,37 @@ namespace SoliGest.Server.Controllers
             user.EndHoliday = model.EndHoliday;
 
             var result = await _userManager.UpdateAsync(user);
-
             if (!result.Succeeded)
             {
                 ModelState.AddModelError("", result.Errors.First().Description);
                 return BadRequest();
             }
 
-            //await _signInManager.RefreshSignInAsync(user);
-
             return Ok(new { message = "Utilizador atualizado com sucesso!" });
         }
 
+        /// <summary>
+        /// Verifica a existência de um utilizador pelo ID.
+        /// </summary>
+        /// <param name="id">ID do utilizador.</param>
+        /// <returns>True se existir, false caso contrário.</returns>
         private bool UserExists(string id)
         {
             return _context.Users.Any(e => e.Id.Equals(id));
         }
 
-        // GET: api/People/5
+        /// <summary>
+        /// Obtém um utilizador pelo ID.
+        /// </summary>
+        /// <param name="id">ID do utilizador.</param>
+        /// <returns>Objeto <see cref="User"/> se encontrado.</returns>
         [HttpGet("by-id/{id}")]
         public async Task<ActionResult<User>> GetPerson(string id)
         {
             try
             {
                 var person = await _context.Users.FindAsync(id);
-
-                if(person != null)
+                if (person != null)
                 {
                     return person;
                 }
@@ -265,21 +282,24 @@ namespace SoliGest.Server.Controllers
                 {
                     return NotFound();
                 }
-            } 
+            }
             catch
             {
                 return NotFound();
             }
         }
 
-        // GET: api/People/5
+        /// <summary>
+        /// Obtém um utilizador pelo email.
+        /// </summary>
+        /// <param name="email">Email do utilizador.</param>
+        /// <returns>Objeto <see cref="User"/> se encontrado.</returns>
         [HttpGet("by-email/{email}")]
         public async Task<ActionResult<User>> GetUserByEmail(string email)
         {
             try
             {
                 var user = await _userService.GetUserByEmail(email);
-
                 return Ok(user);
             }
             catch
@@ -288,17 +308,20 @@ namespace SoliGest.Server.Controllers
             }
         }
 
-        // DELETE: api/People/5
+        /// <summary>
+        /// Elimina um utilizador pelo ID.
+        /// </summary>
+        /// <param name="id">ID do utilizador.
+        /// </param>
+        /// <returns>Resultado da operação.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePerson(string id)
         {
             try
             {
                 var person = await _context.Users.FindAsync(id);
-
                 _context.Users.Remove(person);
                 await _context.SaveChangesAsync();
-
                 return Ok();
             }
             catch
@@ -307,8 +330,11 @@ namespace SoliGest.Server.Controllers
             }
         }
 
-        // POST: api/People
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Cria um utilizador diretamente no contexto.
+        /// </summary>
+        /// <param name="user">Objeto <see cref="User"/> a ser criado.</param>
+        /// <returns>Objeto criado com status 201.</returns>
         [HttpPost]
         public async Task<IActionResult> PostPerson(User user)
         {
@@ -316,7 +342,6 @@ namespace SoliGest.Server.Controllers
             {
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
-
                 return CreatedAtAction("GetPerson", new { id = user.Id }, user);
             }
             catch
@@ -325,22 +350,23 @@ namespace SoliGest.Server.Controllers
             }
         }
 
+        /// <summary>
+        /// Define um utilizador como ativo.
+        /// </summary>
+        /// <param name="userId">ID do utilizador.</param>
+        /// <returns>Usuário atualizado.</returns>
         [HttpPut("set-user-as-active/{userId}")]
         public async Task<IActionResult> SetUserAsActive(string userId)
         {
             try
             {
                 var user = await _context.Users.FindAsync(userId);
-                if(user == null)
+                if (user == null)
                 {
                     return BadRequest($"User with id {userId} not found!");
                 }
-                else
-                {
-                    user.isActive = true;
-                    await _context.SaveChangesAsync();
-                }
-
+                user.isActive = true;
+                await _context.SaveChangesAsync();
                 return CreatedAtAction("GetPerson", new { id = user.Id }, user);
             }
             catch
@@ -349,6 +375,11 @@ namespace SoliGest.Server.Controllers
             }
         }
 
+        /// <summary>
+        /// Define um utilizador como inativo.
+        /// </summary>
+        /// <param name="userId">ID do utilizador.</param>
+        /// <returns>Usuário atualizado.</returns>
         [HttpPut("set-user-as-inactive/{userId}")]
         public async Task<IActionResult> SetUserAsInactive(string userId)
         {
@@ -359,12 +390,8 @@ namespace SoliGest.Server.Controllers
                 {
                     return BadRequest($"User with id {userId} not found!");
                 }
-                else
-                {
-                    user.isActive = false;
-                    await _context.SaveChangesAsync();
-                }
-
+                user.isActive = false;
+                await _context.SaveChangesAsync();
                 return CreatedAtAction("GetPerson", new { id = user.Id }, user);
             }
             catch
@@ -373,6 +400,13 @@ namespace SoliGest.Server.Controllers
             }
         }
 
+        /// <summary>
+        /// Atualiza a localização geográfica do utilizador.
+        /// </summary>
+        /// <param name="userId">ID do utilizador.</param>
+        /// <param name="latitude">Latitude GPS.</param>
+        /// <param name="longitude">Longitude GPS.</param>
+        /// <returns>Usuário atualizado.</returns>
         [HttpPut("update-location/{userId}")]
         public async Task<IActionResult> UpdateUserLocation(string userId, double latitude, double longitude)
         {
@@ -383,13 +417,9 @@ namespace SoliGest.Server.Controllers
                 {
                     return BadRequest($"User with id {userId} not found!");
                 }
-                else
-                {
-                    user.Latitude = latitude;
-                    user.Longitude = longitude;
-                    await _context.SaveChangesAsync();
-                }
-
+                user.Latitude = latitude;
+                user.Longitude = longitude;
+                await _context.SaveChangesAsync();
                 return CreatedAtAction("GetPerson", new { id = user.Id }, user);
             }
             catch
@@ -398,11 +428,17 @@ namespace SoliGest.Server.Controllers
             }
         }
 
+        /// <summary>
+        /// Guarda uma imagem de perfil para o utilizador.
+        /// </summary>
+        /// <param name="userId">ID do utilizador.</param>
+        /// <param name="file">Ficheiro enviado contendo a imagem.</param>
+        /// <returns>Caminho relativo da imagem guardada.</returns>
         [HttpPut("save-profile-picture/{userId}")]
         public async Task<string> SaveProfilePicture(string userId, IFormFile file)
         {
             var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
-            if(!Directory.Exists(uploadsFolder))
+            if (!Directory.Exists(uploadsFolder))
             {
                 Directory.CreateDirectory(uploadsFolder);
             }
@@ -422,7 +458,10 @@ namespace SoliGest.Server.Controllers
             return Path.Combine("uploads", uniqueFileName);
         }
 
-        // GET: api/People
+        /// <summary>
+        /// Obtém a lista de todos os utilizadores.
+        /// </summary>
+        /// <returns>Lista de objetos <see cref="User"/>.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetPerson()
         {
@@ -430,12 +469,25 @@ namespace SoliGest.Server.Controllers
         }
     }
 
+    /// <summary>
+    /// Modelo de login para autenticação de utilizadores.
+    /// </summary>
     public class UserLoginModel
     {
+        /// <summary>
+        /// Email do utilizador.
+        /// </summary>
         public string Email { get; set; }
+
+        /// <summary>
+        /// Password do utilizador.
+        /// </summary>
         public string Password { get; set; }
     }
 
+    /// <summary>
+    /// Modelo de registo de novo utilizador.
+    /// </summary>
     public class UserRegistrationModel
     {
         public string Name { get; set; }
@@ -451,6 +503,9 @@ namespace SoliGest.Server.Controllers
         public string EndHoliday { get; set; }
     }
 
+    /// <summary>
+    /// Modelo para atualizar dados de um utilizador existente.
+    /// </summary>
     public class UserUpdateModel
     {
         public string Id { get; set; }
@@ -466,13 +521,19 @@ namespace SoliGest.Server.Controllers
         public string EndHoliday { get; set; }
     }
 
+    /// <summary>
+    /// Modelo para redefinição de palavra-passe.
+    /// </summary>
     public class UserResetPasswordModel
     {
         public string Email { get; set; }
         public string Token { get; set; }
         public string NewPassword { get; set; }
     }
-  
+
+    /// <summary>
+    /// Modelo para pedido de recuperação de palavra-passe.
+    /// </summary>
     public class ForgotPasswordModel
     {
         public string Email { get; set; }

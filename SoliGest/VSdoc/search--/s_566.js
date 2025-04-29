@@ -1,0 +1,1 @@
+search_result['566']=["topic_0000000000000136.html","AssistanceRequestsControllerTest.Create_AssistanceRequest_ReturnsCreatedAtActionResult Method","Testa se o método Create do controlador AssistanceRequestsController retorna\r\num CreatedAtActionResult ao criar uma solicitação de assistência."];

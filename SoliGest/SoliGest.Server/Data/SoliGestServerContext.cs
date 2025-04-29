@@ -8,39 +8,78 @@ using SoliGest.Server.Models;
 
 namespace SoliGest.Server.Data
 {
+    /// <summary>
+    /// Contexto do banco de dados da aplicação SoliGest, herda de IdentityDbContext para a gestão de usuários.
+    /// Define as entidades que o Entity Framework irá mapear para o banco de dados, incluindo Painéis Solares, Solicitações de Assistência, Conversas, Mensagens, e Notificações.
+    /// </summary>
     public class SoliGestServerContext : IdentityDbContext<User>
     {
+        /// <summary>
+        /// Construtor que inicializa o contexto com as opções de configuração.
+        /// </summary>
+        /// <param name="options">Opções de configuração para o contexto do banco de dados.</param>
         public SoliGestServerContext(DbContextOptions<SoliGestServerContext> options)
             : base(options)
         {
         }
 
+        /// <summary>
+        /// Tabela de painéis solares.
+        /// </summary>
         public DbSet<SolarPanel> SolarPanel { get; set; } = default!;
+
+        /// <summary>
+        /// Tabela de endereços.
+        /// </summary>
         public DbSet<Address> Address { get; set; } = default!;
+
+        /// <summary>
+        /// Tabela de solicitações de assistência.
+        /// </summary>
         public DbSet<AssistanceRequest> AssistanceRequest { get; set; } = default!;
+
+        /// <summary>
+        /// Tabela de dias de folga.
+        /// </summary>
         public DbSet<DayOff> DaysOff { get; set; }
+
+        /// <summary>
+        /// Tabela de feriados.
+        /// </summary>
         public DbSet<Holidays> Holidays { get; set; }
 
+        /// <summary>
+        /// Tabela de conversas.
+        /// </summary>
         public DbSet<Conversation> Conversations { get; set; }
+
+        /// <summary>
+        /// Tabela de mensagens.
+        /// </summary>
         public DbSet<Message> Messages { get; set; }
 
+        /// <summary>
+        /// Tabela de notificações.
+        /// </summary>
         public DbSet<Notification> Notification { get; set; }
+
+        /// <summary>
+        /// Tabela de notificações de usuários.
+        /// </summary>
         public DbSet<UserNotification> UserNotification { get; set; }
 
-
-        //public DbSet<SoliGest.Server.Models.User> User { get; set; } = default!;
-
+        /// <summary>
+        /// Configuração das relações entre as entidades utilizando o Fluent API.
+        /// </summary>
+        /// <param name="modelBuilder">Modelo de construção de entidades.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            //
-            // 1) Many-to-Many: Conversation ↔ User
-            //
+            // Relacionamento Many-to-Many entre Conversation e User
             modelBuilder.Entity<Conversation>()
                 .HasMany(c => c.Users)
                 .WithMany(u => u.Conversations)
-                // Opcional: definir nome e colunas da tabela de ligação
                 .UsingEntity<Dictionary<string, object>>(
                     "ConversationUser",
                     join => join
@@ -60,36 +99,28 @@ namespace SoliGest.Server.Data
                     }
                 );
 
-            //
-            // 2) Conversation → Contact (1:N via shadow FK ContactId)
-            //
+            // Relacionamento 1:N entre Conversation e Contact
             modelBuilder.Entity<Conversation>()
                 .HasOne(c => c.Contact)
-                .WithMany()                    // Contact não navega de volta
-                .HasForeignKey("ContactId")    // Shadow property
+                .WithMany()
+                .HasForeignKey("ContactId")
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //
-            // 3) Message → Sender (User) (1:N)
-            //
+            // Relacionamento 1:N entre Message e Sender (User)
             modelBuilder.Entity<Message>()
                 .HasOne(m => m.Sender)
-                .WithMany(u => u.MessagesSent) // usa MessagesSent
+                .WithMany(u => u.MessagesSent)
                 .HasForeignKey(m => m.SenderId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //
-            // 4) Message → Receiver (User) (1:N)
-            //
+            // Relacionamento 1:N entre Message e Receiver (User)
             modelBuilder.Entity<Message>()
                 .HasOne(m => m.Receiver)
-                .WithMany(u => u.MessagesReceived) // usa MessagesReceived
+                .WithMany(u => u.MessagesReceived)
                 .HasForeignKey(m => m.ReceiverId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //
-            // 5) Message → Conversation (N:1)
-            //
+            // Relacionamento N:1 entre Message e Conversation
             modelBuilder.Entity<Message>()
                 .HasOne(m => m.Conversation)
                 .WithMany(c => c.Messages)
@@ -97,4 +128,4 @@ namespace SoliGest.Server.Data
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
-} 
+}

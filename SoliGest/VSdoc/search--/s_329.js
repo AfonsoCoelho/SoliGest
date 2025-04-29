@@ -1,0 +1,1 @@
+search_result['329']=["topic_00000000000000B0.html","ChatHub.SendMessage Method","Método responsável por enviar uma mensagem de um usuário para outro.\r\nEnvia a mensagem para o usuário de destino com o conteúdo e a data/hora do envio."];

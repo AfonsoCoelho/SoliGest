@@ -1,0 +1,1 @@
+search_result['626']=["topic_0000000000000159.html","SolarPanelsControllerTest.PostSolarPanel_ReturnsBadRequest_WhenExceptionOccurs Method","Teste que verifica se o método PostSolarPanel retorna BadRequest quando ocorre uma exceção."];

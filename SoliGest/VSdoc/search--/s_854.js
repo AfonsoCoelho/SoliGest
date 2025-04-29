@@ -1,0 +1,1 @@
+search_result['854']=["topic_00000000000001D4.html","MetricsControllerIntegrationTests Class","Testes de integração para o controller de métricas (MetricsController).\r\nVerifica o sucesso das requisições e o tipo de conteúdo das respostas."];

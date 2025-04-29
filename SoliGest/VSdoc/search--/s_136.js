@@ -1,0 +1,1 @@
+search_result['136']=["topic_0000000000000047.html","SolarPanelsController.GetSolarPanel (Int32) Method","Obtém um painel solar pelo ID."];

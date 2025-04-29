@@ -1,0 +1,1 @@
+search_result['825']=["topic_00000000000001C6.html","ChatControllerIntegrationTests.PostMessage_ToExistingConversation_ReturnsSameConversationId Method","Testa o envio de mensagem para uma conversa existente, verificando se o ID da conversa é mantido."];

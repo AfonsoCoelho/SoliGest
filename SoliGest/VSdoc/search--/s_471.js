@@ -1,0 +1,1 @@
+search_result['471']=["topic_0000000000000107.html","UserNotification Class","Representa a associação entre um usuário e uma notificação no sistema.\r\nA classe armazena informações sobre quando o usuário recebeu a notificação e se ela foi lida."];

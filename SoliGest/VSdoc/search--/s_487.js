@@ -1,0 +1,1 @@
+search_result['487']=["topic_0000000000000119.html","ChatRepository Class","Repositório responsável pela gestão de conversas e mensagens no sistema de chat."];

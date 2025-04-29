@@ -1,0 +1,1 @@
+search_result['583']=["topic_0000000000000142.html","MetricsControllerTest.GetAssistanceRequestPerStatus_ReturnsGroupedCounts Method","Verifica se o método GetAssistanceRequestPerStatus retorna a contagem agrupada das solicitações de assistência por status."];

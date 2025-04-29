@@ -1,0 +1,1 @@
+search_result['190']=["topic_0000000000000068.html","UsersController.ResetPassword Method","Redefine a palavra-passe de um utilizador com base no token enviado."];

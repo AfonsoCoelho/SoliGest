@@ -1,0 +1,1 @@
+search_result['568']=["topic_0000000000000138.html","AssistanceRequestsControllerTest.GetById_ReturnsOk_WhenRequestExists Method","Testa se o método GetById retorna um OkObjectResult\r\nquando a solicitação de assistência existe no banco de dados."];

@@ -1,0 +1,1 @@
+search_result['878']=["topic_00000000000001E2.html","SolarPanelsControllerIntegrationTests Class","Testes de integração para o controlador SolarPanelsController."];

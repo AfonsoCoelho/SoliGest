@@ -1,0 +1,1 @@
+search_result['585']=["topic_0000000000000144.html","MetricsControllerTest.GetAverageRepairTime_ReturnsCorrectAverage_WhenResolvedRequestsExist Method","Verifica se o método GetAverageRepairTime retorna a média correta de tempo de reparo quando há solicitações resolvidas."];

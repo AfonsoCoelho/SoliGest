@@ -1,0 +1,1 @@
+search_result['582']=["topic_0000000000000141.html","MetricsControllerTest.GetTotalAssistanceRequests_ReturnsCount Method","Verifica se o método GetTotalAssistanceRequests retorna a contagem correta de solicitações de assistência."];

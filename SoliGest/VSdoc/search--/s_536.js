@@ -1,0 +1,1 @@
+search_result['536']=["topic_000000000000012C.html","UserNotificationService Class","Serviço responsável pela criação de notificações para os usuários.\r\nEste serviço gerencia a adição de notificações ao banco de dados."];

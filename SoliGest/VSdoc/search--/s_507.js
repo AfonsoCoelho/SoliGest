@@ -1,0 +1,1 @@
+search_result['507']=["topic_0000000000000123.html","IEmailService Interface","Interface para o serviço de envio de emails.\r\nDefine a operação de envio de emails para destinatários."];

@@ -1,0 +1,1 @@
+search_result['314']=["topic_00000000000000AB.html","UserNotificationSeeder.SeedUserNotificationsAsync Method","Método assíncrono responsável por semear a tabela UserNotification com dados de exemplo.\r\nEle verifica se a tabela já contém registros, e caso contrário, associa notificações de exemplo ao usuário."];

@@ -1,0 +1,1 @@
+search_result['291']=["topic_000000000000009E.html","SoliGestServerContext Class","Contexto do banco de dados da aplicação SoliGest, herda de IdentityDbContext para a gestão de usuários.\r\nDefine as entidades que o Entity Framework irá mapear para o banco de dados, incluindo Painéis ..."];

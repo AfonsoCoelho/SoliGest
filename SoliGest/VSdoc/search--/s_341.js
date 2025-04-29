@@ -1,0 +1,1 @@
+search_result['341']=["topic_00000000000000B7.html","Address Class","Representa um endereço, incluindo detalhes como linha de endereço, código postal, localidade, cidade e país."];

@@ -1,68 +1,81 @@
-﻿namespace SoliGestAutomationTests;
-
-using System;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using Xunit;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
-
-public class FuncionarioDeleteTest1 : IDisposable
+﻿namespace SoliGestAutomationTests
 {
-    private readonly IWebDriver _driver;
-    private readonly WebDriverWait _wait;
+    using System;
+    using OpenQA.Selenium;
+    using OpenQA.Selenium.Chrome;
+    using Xunit;
+    using OpenQA.Selenium.Support.UI;
+    using SeleniumExtras.WaitHelpers;
 
-    public FuncionarioDeleteTest1()
+    /// <summary>
+    /// Teste automatizado para verificar a exclusão de um funcionário.
+    /// </summary>
+    public class FuncionarioDeleteTest1 : IDisposable
     {
-        var options = new ChromeOptions();
-        options.AddArgument("--ignore-certificate-errors");
-        options.AddArgument("--allow-insecure-localhost");
-        options.AddArgument("--disable-web-security");
+        private readonly IWebDriver _driver;
+        private readonly WebDriverWait _wait;
 
-        _driver = new ChromeDriver(options);
-        _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)); // Aumentando o tempo de espera
-    }
+        /// <summary>
+        /// Inicializa o teste configurando o WebDriver para o navegador Chrome e aguardando o tempo adequado para ações no UI.
+        /// </summary>
+        public FuncionarioDeleteTest1()
+        {
+            var options = new ChromeOptions();
+            options.AddArgument("--ignore-certificate-errors");
+            options.AddArgument("--allow-insecure-localhost");
+            options.AddArgument("--disable-web-security");
 
-    [Fact]
-    public void Funcionario_DeveRemoverComSucesso()
-    {
-        _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/funcionario");
+            _driver = new ChromeDriver(options);
+            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)); // Aumentando o tempo de espera
+        }
 
-        // Espera até que a tabela de funcionários esteja visível
-        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("table-container")));
+        /// <summary>
+        /// Testa a exclusão de um funcionário da lista, verificando a remoção bem-sucedida.
+        /// </summary>
+        [Fact]
+        public void Funcionario_DeveRemoverComSucesso()
+        {
+            _driver.Navigate().GoToUrl("https://soligest.azurewebsites.net/funcionario");
 
-        // Seleciona todas as linhas da tabela que representam os usuários
-        var funcionarios = _driver.FindElements(By.XPath("//tbody/tr"));
+            // Espera até que a tabela de funcionários esteja visível
+            _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("table-container")));
 
-        // Diagnóstico: imprimir o número de funcionários encontrados
-        Console.WriteLine($"Número de funcionários encontrados: {funcionarios.Count}");
+            // Seleciona todas as linhas da tabela que representam os funcionários
+            var funcionarios = _driver.FindElements(By.XPath("//tbody/tr"));
 
-        // Verifica se há funcionários listados
-        Assert.NotEmpty(funcionarios);
+            // Diagnóstico: imprime o número de funcionários encontrados
+            Console.WriteLine($"Número de funcionários encontrados: {funcionarios.Count}");
 
-        // Seleciona o primeiro funcionário
-        var primeiroFuncionario = funcionarios[0]; // Seleciona o primeiro funcionário
+            // Verifica se há funcionários listados
+            Assert.NotEmpty(funcionarios);
 
-        // Clica no botão de apagar do primeiro funcionário
-        var botaoDeletar = primeiroFuncionario.FindElement(By.ClassName("delete-btn"));
-        botaoDeletar.Click();
+            // Seleciona o primeiro funcionário
+            var primeiroFuncionario = funcionarios[0]; // Seleciona o primeiro funcionário
 
-        // Espera o modal de confirmação aparecer
-        _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("modal-content")));
+            // Clica no botão de apagar do primeiro funcionário
+            var botaoDeletar = primeiroFuncionario.FindElement(By.ClassName("delete-btn"));
+            botaoDeletar.Click();
 
-        // Confirma a exclusão
-        _driver.FindElement(By.ClassName("confirm-delete-btn")).Click();
+            // Espera o modal de confirmação aparecer
+            _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("modal-content")));
 
-        // Espera um breve momento para que a exclusão seja processada
-        System.Threading.Thread.Sleep(1000); // Isso pode ser substituído por um melhor uso de espera, dependendo do feedback da sua aplicação
+            // Confirma a exclusão
+            _driver.FindElement(By.ClassName("confirm-delete-btn")).Click();
 
-        // Verifica se o funcionário foi removido da tabela
-        var funcionariosDepois = _driver.FindElements(By.XPath("//tbody/tr"));
-        Assert.Equal(funcionarios.Count - 1, funcionariosDepois.Count);
-    }
+            // Espera um breve momento para que a exclusão seja processada
+            System.Threading.Thread.Sleep(1000); // Isso pode ser substituído por um melhor uso de espera, dependendo do feedback da sua aplicação
 
-    public void Dispose()
-    {
-        _driver.Quit();
+            // Verifica se o funcionário foi removido da tabela
+            var funcionariosDepois = _driver.FindElements(By.XPath("//tbody/tr"));
+            Assert.Equal(funcionarios.Count - 1, funcionariosDepois.Count);
+        }
+
+        /// <summary>
+        /// Finaliza o WebDriver após a execução dos testes.
+        /// </summary>
+        public void Dispose()
+        {
+            _driver.Quit();
+        }
     }
 }

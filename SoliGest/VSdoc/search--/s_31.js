@@ -1,0 +1,1 @@
+search_result['31']=["topic_0000000000000011.html","AssistanceRequestsController.Delete Method","Elimina um pedido de assistência."];

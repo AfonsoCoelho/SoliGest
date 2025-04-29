@@ -1,0 +1,1 @@
+search_result['494']=["topic_000000000000011B.html","ChatRepository.GetConversationsFor Method","Obtém todas as conversas de um usuário específico."];

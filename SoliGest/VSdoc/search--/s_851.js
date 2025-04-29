@@ -1,0 +1,1 @@
+search_result['851']=["topic_00000000000001D1.html","AssistanceRequestsControllerIntegrationTests.Delete_EndpointReturnSuccessAndCorrectContentType Method","Verifica se o endpoint DELETE /api/AssistanceRequests/{id} retorna sucesso e conteúdo JSON."];

@@ -1,0 +1,1 @@
+search_result['826']=["topic_00000000000001C7.html","CustomWebApplicationFactory Class","Fábrica personalizada de aplicação para testes de integração.\r\nEsta classe é usada para configurar a aplicação para execução de testes, incluindo configuração do banco de dados em memória e autenticaç..."];

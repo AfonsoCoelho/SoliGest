@@ -1,0 +1,1 @@
+var breadcrumbs=[['-1',"",""],['2',"SOLUTION-WIDE PROPERTIES Reference","topic_00000000000001F4.html"],['359',"SoliGestAutomationTests Namespace","topic_0000000000000179.html"],['360',"AskResetPwTest1 Class","topic_000000000000017A.html"],['361',"AskResetPwTest1 Constructor","topic_000000000000017B.html"]];

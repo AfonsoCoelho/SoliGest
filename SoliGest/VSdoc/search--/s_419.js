@@ -1,0 +1,1 @@
+search_result['419']=["topic_00000000000000E2.html","Message.ReceiverId Property","Identificador único do usuário destinatário."];

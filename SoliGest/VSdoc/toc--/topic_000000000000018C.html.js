@@ -1,0 +1,1 @@
+var breadcrumbs=[['-1',"",""],['2',"SOLUTION-WIDE PROPERTIES Reference","topic_00000000000001F4.html"],['359',"SoliGestAutomationTests Namespace","topic_0000000000000179.html"],['376',"AvariasTest Class","topic_0000000000000187.html"],['378',"Methods","topic_0000000000000187_methods--.html"],['379',"ApagarAvaria_DeveRemoverComSucesso Method","topic_000000000000018C.html"]];

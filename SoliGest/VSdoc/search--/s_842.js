@@ -1,0 +1,1 @@
+search_result['842']=["topic_00000000000001CD.html","AssistanceRequestsControllerIntegrationTests Class","Testes de integração para o controller de pedidos de assistência (AssistanceRequestsController).\r\nVerifica as respostas dos endpoints e o tipo de conteúdo retornado."];

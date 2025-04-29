@@ -1,0 +1,1 @@
+search_result['364']=["topic_00000000000000C4.html","AssistanceRequest.StatusClass Property","A classe CSS associada ao status para formatação visual."];

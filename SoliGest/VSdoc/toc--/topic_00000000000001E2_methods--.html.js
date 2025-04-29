@@ -1,0 +1,1 @@
+var breadcrumbs=[['-1',"",""],['2',"SOLUTION-WIDE PROPERTIES Reference","topic_00000000000001F4.html"],['442',"SoliGestIntegrationTests Namespace","topic_00000000000001BD.html"],['480',"SolarPanelsControllerIntegrationTests Class","topic_00000000000001E2.html"],['482',"Methods","topic_00000000000001E2_methods--.html"]];

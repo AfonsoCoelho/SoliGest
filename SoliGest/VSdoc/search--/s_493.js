@@ -1,0 +1,1 @@
+search_result['493']=["topic_000000000000011A.html","ChatRepository Constructor","Inicializa uma nova instância do repositório de chat."];

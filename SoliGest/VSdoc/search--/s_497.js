@@ -1,0 +1,1 @@
+search_result['497']=["topic_000000000000011E.html","IChatRepository Interface","Interface para o repositório de chat, que define as operações de gerenciamento de conversas e mensagens."];

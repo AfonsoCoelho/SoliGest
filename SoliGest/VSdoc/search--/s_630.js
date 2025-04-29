@@ -1,0 +1,1 @@
+search_result['630']=["topic_000000000000015D.html","SolarPanelsControllerTest.DeleteSolarPanel_RemovesPanel Method","Teste que verifica se o método DeleteSolarPanel remove um painel solar."];

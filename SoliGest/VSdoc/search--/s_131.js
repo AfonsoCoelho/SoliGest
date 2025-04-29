@@ -1,0 +1,1 @@
+search_result['131']=["topic_0000000000000043.html","SolarPanelsController Constructor","Construtor do controlador de painéis solares."];

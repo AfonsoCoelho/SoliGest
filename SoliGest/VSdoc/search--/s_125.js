@@ -1,0 +1,1 @@
+search_result['125']=["topic_0000000000000042.html","SolarPanelsController Class","Controlador responsável pela gestão dos painéis solares."];

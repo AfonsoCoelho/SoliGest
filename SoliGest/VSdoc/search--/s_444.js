@@ -1,0 +1,1 @@
+search_result['444']=["topic_00000000000000F1.html","SolarPanel.Latitude Property","Latitude de localização do painel solar."];

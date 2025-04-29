@@ -1,0 +1,1 @@
+search_result['290']=["topic_000000000000009D.html","SolarPanelSeeder.SeedSolarPanelsAsync Method","Método assíncrono para semear dados na tabela de painéis solares.\r\nVerifica se a tabela já contém registros, e se não, adiciona novos painéis solares."];

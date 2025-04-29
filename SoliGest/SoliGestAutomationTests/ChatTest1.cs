@@ -8,6 +8,9 @@
     using OpenQA.Selenium.Support.UI;
     using SeleniumExtras.WaitHelpers;
 
+    /// <summary>
+    /// Classe de testes automatizados para verificar a funcionalidade de chat, incluindo login e envio de mensagens.
+    /// </summary>
     public class ChatTest1 : IDisposable
     {
         private readonly IWebDriver _driver;
@@ -16,6 +19,9 @@
         private const string TechnicianPassword = "Tech1!";
         private const int DefaultTimeoutSeconds = 5;
 
+        /// <summary>
+        /// Inicializa a instância do teste, configurando o WebDriver para o navegador Chrome.
+        /// </summary>
         public ChatTest1()
         {
             var options = new ChromeOptions();
@@ -26,60 +32,63 @@
             _driver = new ChromeDriver(options);
         }
 
+        /// <summary>
+        /// Testa o login e o envio de mensagem no chat, verificando se a mensagem enviada aparece na conversa.
+        /// </summary>
         [Fact]
         public void LoginAndSendMessage_Should_Display_Sent_Message()
         {
             var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(DefaultTimeoutSeconds));
 
-            // Navigate to login page
+            // Navega para a página de login
             _driver.Navigate().GoToUrl(LoginUrl);
             wait.Until(ExpectedConditions.ElementIsVisible(By.Id("email")));
 
-            // Perform login
+            // Realiza o login
             TypeSlowly(_driver.FindElement(By.Id("email")), TechnicianEmail);
             TypeSlowly(_driver.FindElement(By.Id("password")), TechnicianPassword);
             _driver.FindElement(By.ClassName("submit-btn")).Click();
 
-            // Wait for success alert and accept
+            // Aguarda o alerta de sucesso e o aceita
             wait.Until(ExpectedConditions.AlertIsPresent());
             var alert = _driver.SwitchTo().Alert();
             Assert.Equal("Login efetuado com sucesso!", alert.Text);
             alert.Accept();
 
-            // Navigate to Chat section
+            // Navega para a seção de chat
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("a[routerLink='/chat']")));
             _driver.FindElement(By.CssSelector("a[routerLink='/chat']")).Click();
 
-            // Wait for chat page to load
+            // Aguarda a página de chat carregar
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".chat-title")));
 
-            // Select the first conversation
+            // Seleciona a primeira conversa
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".conversation-item")));
             var firstConversation = _driver.FindElement(By.CssSelector(".conversation-item"));
             firstConversation.Click();
 
-            // Wait for input to be available
+            // Aguarda o campo de entrada de mensagem ser clicável
             var messageInput = wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("input[placeholder='Escrever...']")));
 
-            // Send a unique test message
+            // Envia uma mensagem de teste única
             string testMessage = "Madje dodo " + DateTime.Now.Ticks;
             TypeSlowly(messageInput, testMessage);
             _driver.FindElement(By.CssSelector("button.send-btn")).Click();
 
-            // Aumentar tempo de espera
+            // Aumenta o tempo de espera
             var longWait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
 
-            // Normalizar o texto da mensagem esperada
+            // Normaliza o texto da mensagem esperada
             string normalizedTestMessage = testMessage.Trim();
 
-            // Esperar até que a mensagem enviada apareça no DOM
+            // Espera até que a mensagem enviada apareça no DOM
             longWait.Until(driver =>
             {
                 var messages = driver.FindElements(By.CssSelector(".message.sent"));
                 return messages.Any(m => m.Text.Trim().Contains(normalizedTestMessage));
             });
 
-            // Obter a mensagem e verificar o conteúdo
+            // Obtém a mensagem enviada e verifica seu conteúdo
             var sentMessage = _driver.FindElements(By.CssSelector(".message.sent"))
                                      .FirstOrDefault(m => m.Text.Trim().Contains(normalizedTestMessage));
 
@@ -87,7 +96,11 @@
             Assert.Contains(normalizedTestMessage, sentMessage.Text.Trim());
         }
 
-
+        /// <summary>
+        /// Digita um texto lentamente em um elemento de entrada, caracter por caracter.
+        /// </summary>
+        /// <param name="element">O elemento de entrada onde o texto será digitado.</param>
+        /// <param name="text">O texto a ser digitado.</param>
         private void TypeSlowly(IWebElement element, string text)
         {
             element.Clear();
@@ -98,6 +111,9 @@
             }
         }
 
+        /// <summary>
+        /// Finaliza o WebDriver após a execução dos testes.
+        /// </summary>
         public void Dispose()
         {
             _driver.Quit();

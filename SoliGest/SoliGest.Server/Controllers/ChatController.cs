@@ -2,13 +2,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using SoliGest.Server.Hubs;
-using SoliGest.Server.Models;        // ajustar namespace
-using SoliGest.Server.Repositories;  // o teu repositório de chat
+using SoliGest.Server.Models;
+using SoliGest.Server.Repositories;
 using System;
 using System.Threading.Tasks;
 
 namespace SoliGest.Server.Controllers
 {
+    /// <summary>
+    /// Controlador responsável pela gestão do sistema de chat entre utilizadores.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
@@ -17,13 +20,21 @@ namespace SoliGest.Server.Controllers
         private readonly IHubContext<ChatHub> _hubContext;
         private readonly IChatRepository _repo;
 
+        /// <summary>
+        /// Construtor do controlador de chat.
+        /// </summary>
+        /// <param name="hubContext">Contexto do Hub SignalR para envio de mensagens em tempo real.</param>
+        /// <param name="repo">Repositório responsável por persistir mensagens e conversas.</param>
         public ChatController(IHubContext<ChatHub> hubContext, IChatRepository repo)
         {
             _hubContext = hubContext;
             _repo = repo;
         }
 
-        // GET: api/chat/conversations
+        /// <summary>
+        /// Obtém todas as conversas associadas ao utilizador autenticado.
+        /// </summary>
+        /// <returns>Lista de conversas do utilizador.</returns>
         [HttpGet("conversations")]
         public async Task<IActionResult> GetConversations()
         {
@@ -32,7 +43,11 @@ namespace SoliGest.Server.Controllers
             return Ok(convos);
         }
 
-        // POST: api/chat/message
+        /// <summary>
+        /// Envia uma nova mensagem para um utilizador.
+        /// </summary>
+        /// <param name="dto">Objeto com os dados da mensagem, incluindo destinatário e conteúdo.</param>
+        /// <returns>Resposta HTTP indicando sucesso da operação.</returns>
         [HttpPost("message")]
         public async Task<IActionResult> SendMessage([FromBody] ChatMessageDto dto)
         {
@@ -48,10 +63,19 @@ namespace SoliGest.Server.Controllers
         }
     }
 
-    // DTO usado no POST
+    /// <summary>
+    /// Data Transfer Object (DTO) utilizado para envio de mensagens no chat.
+    /// </summary>
     public class ChatMessageDto
     {
+        /// <summary>
+        /// ID do utilizador que irá receber a mensagem.
+        /// </summary>
         public string ReceiverId { get; set; }
+
+        /// <summary>
+        /// Conteúdo textual da mensagem.
+        /// </summary>
         public string Content { get; set; }
     }
 }
