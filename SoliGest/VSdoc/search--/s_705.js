@@ -1,0 +1,1 @@
+search_result['705']=["topic_000000000000018A.html","AvariasTest.CriarAvaria_SemSelecionarNada_DeveExibirErro Method","Testa a criação de uma avaria sem seleção de painel, verificando se o erro é exibido."];

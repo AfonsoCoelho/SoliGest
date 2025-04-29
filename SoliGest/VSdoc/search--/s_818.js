@@ -1,0 +1,1 @@
+search_result['818']=["topic_00000000000001BF.html","ChatControllerIntegrationTests Constructor","Inicializa uma nova instância do ChatControllerIntegrationTests e configura o cliente HTTP para os testes."];

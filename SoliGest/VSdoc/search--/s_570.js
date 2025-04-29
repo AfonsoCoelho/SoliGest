@@ -1,0 +1,1 @@
+search_result['570']=["topic_000000000000013A.html","AssistanceRequestsControllerTest.Update_AssistanceRequest_ReturnsOk_WhenRequestExists Method","Testa se o método Update retorna um OkObjectResult\r\nquando a solicitação de assistência é atualizada com sucesso."];

@@ -1,0 +1,1 @@
+search_result['377']=["topic_00000000000000CC.html","Conversation Class","Representa uma conversa no sistema, associada a um contato específico e contendo mensagens trocadas entre usuários."];

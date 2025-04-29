@@ -1,0 +1,1 @@
+c['114']=[['115',"UserNotificationUpdateModel Class","topic_000000000000005E.html",1],['122',"UserNotificationsController Constructor","topic_0000000000000056.html",0],['123',"Methods","topic_0000000000000055_methods--.html",1]];

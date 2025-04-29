@@ -1,0 +1,1 @@
+search_result['1']=["topic_0000000000000001.html","AddressesController Class","Controlador responsável pela gestão de endereços no sistema SoliGest.\r\nFornece operações CRUD para a entidade Address."];

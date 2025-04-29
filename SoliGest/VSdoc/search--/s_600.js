@@ -1,0 +1,1 @@
+search_result['600']=["topic_000000000000014E.html","ExceptionSoliGestServerContext Class","Contexto que lança exceção no SaveChangesAsync para simular erro."];

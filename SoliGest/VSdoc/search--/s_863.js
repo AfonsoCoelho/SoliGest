@@ -1,0 +1,1 @@
+search_result['863']=["topic_00000000000001D8.html","MetricsControllerIntegrationTests.GetTotalAssistanceRequests_EndpointReturnSuccessAndCorrectContentType Method","Verifica se o endpoint GET /api/Metrics/total-pedidos-assistencia retorna sucesso e o número total de pedidos de assistência."];

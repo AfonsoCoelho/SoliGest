@@ -1,0 +1,1 @@
+search_result['889']=["topic_00000000000001E8.html","SolarPanelsControllerIntegrationTests.Post_EndpointReturnSuccessAndCorrectContentType Method","Verifica se a chamada POST cria um novo painel e retorna sucesso e o tipo de conteúdo correto."];

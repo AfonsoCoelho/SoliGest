@@ -1,0 +1,1 @@
+c['74']=[['75',"GetAssistanceRequestPerStatus Method","topic_0000000000000039.html",0],['76',"GetAverageRepairTime Method","topic_000000000000003A.html",0],['77',"GetTotalAssistanceRequests Method","topic_0000000000000038.html",0],['78',"GetTotalPainels Method","topic_0000000000000037.html",0],['79',"GetTotalUsers Method","topic_0000000000000036.html",0]];

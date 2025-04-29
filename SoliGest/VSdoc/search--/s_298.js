@@ -1,0 +1,1 @@
+search_result['298']=["topic_00000000000000A0.html","SoliGestServerContext.SolarPanel Property","Tabela de painéis solares."];

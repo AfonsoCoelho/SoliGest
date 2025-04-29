@@ -1,0 +1,1 @@
+search_result['579']=["topic_000000000000013E.html","MetricsControllerTest.GetTotalUsers_ReturnsZero_WhenNoUsers Method","Verifica se o método GetTotalUsers retorna zero quando não há usuários."];

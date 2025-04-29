@@ -1,0 +1,1 @@
+search_result['433']=["topic_00000000000000EB.html","SolarPanel Class","Representa um painel solar no sistema."];

@@ -1,0 +1,1 @@
+search_result['503']=["topic_000000000000011F.html","IChatRepository.GetConversationsFor Method","Obtém todas as conversas de um usuário específico."];

@@ -1,0 +1,1 @@
+search_result['315']=["topic_00000000000000AC.html","UserSeeder Class","Classe responsável por popular a tabela de usuários no banco de dados.\r\nA classe verifica se os usuários já existem com base no e-mail e, caso contrário, cria usuários com dados de exemplo."];

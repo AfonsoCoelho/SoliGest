@@ -1,0 +1,1 @@
+search_result['75']=["topic_0000000000000029.html","ChatMessageDto.ReceiverId Property","ID do utilizador que irá receber a mensagem."];

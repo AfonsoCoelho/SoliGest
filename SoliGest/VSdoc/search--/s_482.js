@@ -1,0 +1,1 @@
+search_result['482']=["topic_000000000000010D.html","UserNotification.ReceivedDate Property","Data e hora em que a notificação foi recebida pelo usuário."];

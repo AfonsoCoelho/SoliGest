@@ -1,0 +1,1 @@
+search_result['743']=["topic_000000000000019C.html","FuncionarioDeleteTest1.Funcionario_DeveRemoverComSucesso Method","Testa a exclusão de um funcionário da lista, verificando a remoção bem-sucedida."];

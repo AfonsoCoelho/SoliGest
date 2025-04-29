@@ -1,0 +1,1 @@
+var breadcrumbs=[['-1',"",""],['2',"SOLUTION-WIDE PROPERTIES Reference","topic_00000000000001F4.html"],['337',"SoliGest.Server.Services Namespace","topic_0000000000000122.html"],['338',"SendGridEmailService Class","topic_0000000000000129.html"],['340',"Methods","topic_0000000000000129_methods--.html"],['341',"SendEmailAsync Method","topic_000000000000012B.html"]];

@@ -1,0 +1,1 @@
+search_result['567']=["topic_0000000000000137.html","AssistanceRequestsControllerTest.Create_AssistanceRequest_ReturnsBadRequest_WhenSolarPanelNotFound Method","Testa se o método Create retorna um BadRequestObjectResult\r\nquando o painel solar não for encontrado no banco de dados."];

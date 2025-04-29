@@ -1,0 +1,1 @@
+search_result['687']=["topic_0000000000000182.html","AvariasAlocTest Class","Teste de automação para o processo de alocação de técnicos em avarias no sistema.\r\nTesta tanto a alocação automática quanto a manual de técnicos."];

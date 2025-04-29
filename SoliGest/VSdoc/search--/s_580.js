@@ -1,0 +1,1 @@
+search_result['580']=["topic_000000000000013F.html","MetricsControllerTest.GetTotalUsers_ReturnsCount_WhenUsersExist Method","Verifica se o método GetTotalUsers retorna a contagem correta de usuários quando existem usuários na base de dados."];

@@ -1,0 +1,1 @@
+search_result['504']=["topic_0000000000000120.html","IChatRepository.GetAvailableContacts Method","Obtém os contatos disponíveis para um usuário específico, ou seja, usuários com os quais o usuário não está em uma conversa."];

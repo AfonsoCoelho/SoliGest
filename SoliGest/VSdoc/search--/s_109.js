@@ -1,0 +1,1 @@
+search_result['109']=["topic_0000000000000037.html","MetricsController.GetTotalPainels Method","Obtém o número total de painéis solares registados."];

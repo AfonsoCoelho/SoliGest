@@ -1,0 +1,1 @@
+search_result['873']=["topic_00000000000001DD.html","NotificationsControllerIntegrationTests.GetAll_Notifications_ReturnsSuccessAndJson Method","Verifica se o endpoint GET /api/Notifications retorna sucesso e conteúdo JSON."];

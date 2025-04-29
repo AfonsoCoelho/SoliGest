@@ -1,0 +1,1 @@
+search_result['111']=["topic_0000000000000039.html","MetricsController.GetAssistanceRequestPerStatus Method","Obtém a quantidade de pedidos de assistência agrupados por prioridade."];

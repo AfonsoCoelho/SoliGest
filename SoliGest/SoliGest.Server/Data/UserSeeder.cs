@@ -3,10 +3,20 @@ using SoliGest.Server.Models;
 
 namespace SoliGest.Server.Data
 {
+    /// <summary>
+    /// Classe responsável por popular a tabela de usuários no banco de dados.
+    /// A classe verifica se os usuários já existem com base no e-mail e, caso contrário, cria usuários com dados de exemplo.
+    /// </summary>
     public class UserSeeder
     {
+        /// <summary>
+        /// Método assíncrono responsável por semear a tabela de usuários com dados de exemplo.
+        /// Verifica se o usuário com o e-mail especificado já existe no banco de dados, e caso contrário, cria um novo usuário.
+        /// </summary>
+        /// <param name="userManager">O gerenciador de usuários do ASP.NET Identity, usado para manipulação de usuários.</param>
         public static async Task SeedUsersAsync(UserManager<User> userManager)
         {
+            // Verifica se o usuário com o e-mail 'soligestesa@gmail.com' já existe
             if (userManager.FindByEmailAsync("soligestesa@gmail.com").Result == null)
             {
                 User user = new User
@@ -24,10 +34,12 @@ namespace SoliGest.Server.Data
                     EndHoliday = "2025-07-01",
                 };
 
+                // Cria o usuário e adiciona à função 'Supervisor'
                 await userManager.CreateAsync(user, "Admin1!");
                 await userManager.AddToRoleAsync(user, "Supervisor");
             }
 
+            // Verifica e cria o usuário com o e-mail 'administrative@mail.com'
             if (userManager.FindByEmailAsync("administrative@mail.com").Result == null)
             {
                 User user = new User
@@ -49,6 +61,7 @@ namespace SoliGest.Server.Data
                 await userManager.AddToRoleAsync(user, "Administrative");
             }
 
+            // Verifica e cria o usuário com o e-mail 'technician@mail.com'
             if (userManager.FindByEmailAsync("technician@mail.com").Result == null)
             {
                 User user = new User
@@ -70,6 +83,7 @@ namespace SoliGest.Server.Data
                 await userManager.AddToRoleAsync(user, "Technician");
             }
 
+            // Verifica e cria o usuário com o e-mail 'technoya1@mail.com'
             if (userManager.FindByEmailAsync("technoya1@mail.com").Result == null)
             {
                 User user = new User
@@ -91,6 +105,7 @@ namespace SoliGest.Server.Data
                 await userManager.AddToRoleAsync(user, "Technician");
             }
 
+            // Verifica e cria o usuário com o e-mail 'chickenjockey@mail.com'
             if (userManager.FindByEmailAsync("chickenjockey@mail.com").Result == null)
             {
                 User user = new User

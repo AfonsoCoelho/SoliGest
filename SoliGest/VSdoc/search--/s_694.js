@@ -1,0 +1,1 @@
+search_result['694']=["topic_0000000000000184.html","AvariasAlocTest.AutoAllocate_Should_Assign_Technician_And_InfoWindow_Shows_Name Method","Testa a alocação automática de técnico em uma avaria e verifica se o nome do técnico aparece no InfoWindow."];

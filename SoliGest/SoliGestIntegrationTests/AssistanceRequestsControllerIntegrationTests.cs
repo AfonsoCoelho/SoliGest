@@ -1,11 +1,6 @@
-using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using SoliGest.Server.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,64 +8,73 @@ using Xunit;
 
 namespace SoliGestIntegrationTests
 {
+    /// <summary>
+    /// Testes de integração para o controller de pedidos de assistência (AssistanceRequestsController).
+    /// Verifica as respostas dos endpoints e o tipo de conteúdo retornado.
+    /// </summary>
     public class AssistanceRequestsControllerIntegrationTests
     {
         private readonly WebApplicationFactory<Program> _factory;
 
+        /// <summary>
+        /// Construtor padrão para os testes, inicializa a WebApplicationFactory.
+        /// </summary>
         public AssistanceRequestsControllerIntegrationTests()
         {
             _factory = new WebApplicationFactory<Program>();
         }
 
+        /// <summary>
+        /// Verifica se o endpoint GET /api/AssistanceRequests retorna sucesso e conteúdo JSON.
+        /// </summary>
         [Fact]
         public async Task Get_EndpointReturnSuccessAndCorrectContentType()
         {
-            // Arrange
             HttpClient client = _factory.CreateClient();
 
-            // Act
             var response = await client.GetAsync("/api/AssistanceRequests");
 
-            // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
+            response.EnsureSuccessStatusCode(); // 200-299
             Assert.Equal("application/json; charset=utf-8",
                 response.Content.Headers.ContentType.ToString());
         }
 
+        /// <summary>
+        /// Verifica se o endpoint GET /api/AssistanceRequests/{id} retorna sucesso e conteúdo JSON.
+        /// </summary>
         [Fact]
         public async Task GetById_EndpointReturnSuccessAndCorrectContentType()
         {
-            // Arrange
             HttpClient client = _factory.CreateClient();
 
-            // Act
             var response = await client.GetAsync("/api/AssistanceRequests/2");
 
-            // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
+            response.EnsureSuccessStatusCode();
             Assert.Equal("application/json; charset=utf-8",
                 response.Content.Headers.ContentType.ToString());
         }
 
+        /// <summary>
+        /// Verifica se o endpoint DELETE /api/AssistanceRequests/{id} retorna sucesso e conteúdo JSON.
+        /// </summary>
         [Fact]
         public async Task Delete_EndpointReturnSuccessAndCorrectContentType()
         {
-            // Arrange
             HttpClient client = _factory.CreateClient();
 
-            // Act
             var response = await client.DeleteAsync("/api/AssistanceRequests/1");
 
-            // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
+            response.EnsureSuccessStatusCode();
             Assert.Equal("application/json; charset=utf-8",
                 response.Content.Headers.ContentType.ToString());
         }
 
+        /// <summary>
+        /// Verifica se o endpoint PUT /api/AssistanceRequests/{id} retorna sucesso e conteúdo JSON.
+        /// </summary>
         [Fact]
         public async Task Put_EndpointReturnSuccessAndCorrectContentType()
         {
-            // Arrange
             HttpClient client = _factory.CreateClient();
             var arum = new AssistanceRequestUpdateModel
             {
@@ -83,21 +87,20 @@ namespace SoliGestIntegrationTests
                 StatusClass = "New Status Class"
             };
 
-            // Act
             var content = new StringContent(JsonConvert.SerializeObject(arum), Encoding.UTF8, "application/json");
-
             var response = await client.PutAsync("/api/AssistanceRequests/2", content);
 
-            // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
+            response.EnsureSuccessStatusCode();
             Assert.Equal("application/json; charset=utf-8",
                 response.Content.Headers.ContentType.ToString());
         }
 
+        /// <summary>
+        /// Verifica se o endpoint POST /api/AssistanceRequests retorna sucesso e conteúdo JSON.
+        /// </summary>
         [Fact]
         public async Task Post_EndpointReturnSuccessAndCorrectContentType()
         {
-            // Arrange
             HttpClient client = _factory.CreateClient();
             var arcm = new AssistanceRequestCreateModel
             {
@@ -110,13 +113,10 @@ namespace SoliGestIntegrationTests
                 StatusClass = "New Status Class"
             };
 
-            // Act
             var content = new StringContent(JsonConvert.SerializeObject(arcm), Encoding.UTF8, "application/json");
-
             var response = await client.PostAsync("/api/AssistanceRequests/", content);
 
-            // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
+            response.EnsureSuccessStatusCode();
             Assert.Equal("application/json; charset=utf-8",
                 response.Content.Headers.ContentType.ToString());
         }

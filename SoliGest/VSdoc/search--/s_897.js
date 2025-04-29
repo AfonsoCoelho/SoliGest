@@ -1,0 +1,1 @@
+search_result['897']=["topic_00000000000001EB.html","UserNotificationsControllerTests.GetAllUserNotifications_ReturnsSuccess Method","Verifica se a rota GET /api/UserNotifications retorna sucesso e uma lista de notificações."];

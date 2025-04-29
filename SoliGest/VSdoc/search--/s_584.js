@@ -1,0 +1,1 @@
+search_result['584']=["topic_0000000000000143.html","MetricsControllerTest.GetAverageRepairTime_ReturnsZero_WhenNoResolvedRequests Method","Verifica se o método GetAverageRepairTime retorna zero quando não há solicitações resolvidas."];

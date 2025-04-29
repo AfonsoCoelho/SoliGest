@@ -1,0 +1,1 @@
+search_result['850']=["topic_00000000000001D0.html","AssistanceRequestsControllerIntegrationTests.GetById_EndpointReturnSuccessAndCorrectContentType Method","Verifica se o endpoint GET /api/AssistanceRequests/{id} retorna sucesso e conteúdo JSON."];

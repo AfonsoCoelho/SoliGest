@@ -1,0 +1,1 @@
+search_result['544']=["topic_000000000000012F.html","UserService Class","Serviço responsável pela gestão de usuários.\r\nEste serviço permite consultar um usuário pelo seu email."];

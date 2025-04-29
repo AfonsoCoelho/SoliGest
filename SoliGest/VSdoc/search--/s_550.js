@@ -1,0 +1,1 @@
+search_result['550']=["topic_0000000000000130.html","UserService Constructor","Construtor da classe UserService.\r\nInicializa o contexto do banco de dados para acesso aos dados de usuários."];

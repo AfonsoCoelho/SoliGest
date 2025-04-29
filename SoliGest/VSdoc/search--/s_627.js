@@ -1,0 +1,1 @@
+search_result['627']=["topic_000000000000015A.html","SolarPanelsControllerTest.PutSolarPanel_UpdatesExistingPanel Method","Teste que verifica se o método PutSolarPanel atualiza um painel solar existente."];

@@ -1,0 +1,1 @@
+search_result['824']=["topic_00000000000001C5.html","ChatControllerIntegrationTests.PostMessage_WithoutAuth_ReturnsUnauthorized Method","Testa o endpoint de envio de mensagem sem autenticação para garantir que retorna o status não autorizado."];

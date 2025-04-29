@@ -1,0 +1,1 @@
+search_result['369']=["topic_00000000000000C9.html","Contact Class","Representa um contato no sistema, com informações básicas como o identificador e o nome."];

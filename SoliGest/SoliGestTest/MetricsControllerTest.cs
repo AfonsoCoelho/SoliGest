@@ -13,15 +13,20 @@ using Newtonsoft.Json.Linq;
 
 namespace SoliGestTest
 {
+    /// <summary>
+    /// Testes unitários para o controller <see cref="MetricsController"/>.
+    /// </summary>
     public class MetricsControllerTest
     {
         private readonly DbContextOptions<SoliGestServerContext> _options;
         private readonly SoliGestServerContext _context;
         private readonly MetricsController _controller;
 
+        /// <summary>
+        /// Inicializa o ambiente de testes, criando uma base de dados isolada em memória.
+        /// </summary>
         public MetricsControllerTest()
         {
-            // Base de dados isolada para cada teste
             var dbName = Guid.NewGuid().ToString();
             _options = new DbContextOptionsBuilder<SoliGestServerContext>()
                 .UseInMemoryDatabase(databaseName: dbName)
@@ -31,7 +36,9 @@ namespace SoliGestTest
             _controller = new MetricsController(_context);
         }
 
-        // Helper para criar SolarPanel com todas as propriedades obrigatórias
+        /// <summary>
+        /// Cria um painel solar fictício com as propriedades necessárias.
+        /// </summary>
         private SolarPanel CreateDummyPanel() => new SolarPanel
         {
             Name = "panel",
@@ -43,7 +50,9 @@ namespace SoliGestTest
             Priority = "low"
         };
 
-        // Helper para criar User com todas as propriedades obrigatórias
+        /// <summary>
+        /// Cria um usuário fictício com as propriedades necessárias.
+        /// </summary>
         private User CreateDummyUser() => new User
         {
             Name = "User Test",
@@ -56,24 +65,27 @@ namespace SoliGestTest
             Role = "Employee"
         };
 
+        /// <summary>
+        /// Verifica se o método <see cref="MetricsController.GetTotalUsers"/> retorna zero quando não há usuários.
+        /// </summary>
         [Fact]
         public async Task GetTotalUsers_ReturnsZero_WhenNoUsers()
         {
             var result = await _controller.GetTotalUsers();
             var ok = Assert.IsType<OkObjectResult>(result);
 
-            // Converter o resultado para um objeto JSON para acessar as propriedades dinamicamente
             var jsonResult = JsonConvert.SerializeObject(ok.Value);
             var jsonObj = JObject.Parse(jsonResult);
 
-            // Verificar se o valor foi retornado corretamente
             Assert.Equal(0, jsonObj["totalUsers"].Value<int>());
         }
 
+        /// <summary>
+        /// Verifica se o método <see cref="MetricsController.GetTotalUsers"/> retorna a contagem correta de usuários quando existem usuários na base de dados.
+        /// </summary>
         [Fact]
         public async Task GetTotalUsers_ReturnsCount_WhenUsersExist()
         {
-            // Usar o helper para criar usuários válidos
             _context.Users.AddRange(
                 CreateDummyUser(),
                 CreateDummyUser(),
@@ -84,14 +96,15 @@ namespace SoliGestTest
             var result = await _controller.GetTotalUsers();
             var ok = Assert.IsType<OkObjectResult>(result);
 
-            // Converter o resultado para um objeto JSON para acessar as propriedades dinamicamente
             var jsonResult = JsonConvert.SerializeObject(ok.Value);
             var jsonObj = JObject.Parse(jsonResult);
 
-            // Verificar se o valor foi retornado corretamente
             Assert.Equal(3, jsonObj["totalUsers"].Value<int>());
         }
 
+        /// <summary>
+        /// Verifica se o método <see cref="MetricsController.GetTotalPainels"/> retorna a contagem correta de painéis solares.
+        /// </summary>
         [Fact]
         public async Task GetTotalPaineis_ReturnsCount()
         {
@@ -101,14 +114,15 @@ namespace SoliGestTest
             var result = await _controller.GetTotalPainels();
             var ok = Assert.IsType<OkObjectResult>(result);
 
-            // Converter o resultado para um objeto JSON para acessar as propriedades dinamicamente
             var jsonResult = JsonConvert.SerializeObject(ok.Value);
             var jsonObj = JObject.Parse(jsonResult);
 
-            // Verificar se o valor foi retornado corretamente
             Assert.Equal(2, jsonObj["totalPanels"].Value<int>());
         }
 
+        /// <summary>
+        /// Verifica se o método <see cref="MetricsController.GetTotalAssistanceRequests"/> retorna a contagem correta de solicitações de assistência.
+        /// </summary>
         [Fact]
         public async Task GetTotalAssistanceRequests_ReturnsCount()
         {
@@ -124,14 +138,15 @@ namespace SoliGestTest
             var result = await _controller.GetTotalAssistanceRequests();
             var ok = Assert.IsType<OkObjectResult>(result);
 
-            // Converter o resultado para um objeto JSON para acessar as propriedades dinamicamente
             var jsonResult = JsonConvert.SerializeObject(ok.Value);
             var jsonObj = JObject.Parse(jsonResult);
 
-            // Verificar se o valor foi retornado corretamente
             Assert.Equal(3, jsonObj["totalAssistanceRequests"].Value<int>());
         }
 
+        /// <summary>
+        /// Verifica se o método <see cref="MetricsController.GetAssistanceRequestPerStatus"/> retorna a contagem agrupada das solicitações de assistência por status.
+        /// </summary>
         [Fact]
         public async Task GetAssistanceRequestPerStatus_ReturnsGroupedCounts()
         {
@@ -151,6 +166,9 @@ namespace SoliGestTest
             Assert.Equal(1, dict["Low"]);
         }
 
+        /// <summary>
+        /// Verifica se o método <see cref="MetricsController.GetAverageRepairTime"/> retorna zero quando não há solicitações resolvidas.
+        /// </summary>
         [Fact]
         public async Task GetAverageRepairTime_ReturnsZero_WhenNoResolvedRequests()
         {
@@ -171,14 +189,15 @@ namespace SoliGestTest
             var result = await _controller.GetAverageRepairTime();
             var ok = Assert.IsType<OkObjectResult>(result);
 
-            // Converter o resultado para um objeto JSON para acessar as propriedades dinamicamente
             var jsonResult = JsonConvert.SerializeObject(ok.Value);
             var jsonObj = JObject.Parse(jsonResult);
 
-            // Verificar se o valor foi retornado corretamente
             Assert.Equal(0.0, jsonObj["averageRepairTime"].Value<double>());
         }
 
+        /// <summary>
+        /// Verifica se o método <see cref="MetricsController.GetAverageRepairTime"/> retorna a média correta de tempo de reparo quando há solicitações resolvidas.
+        /// </summary>
         [Fact]
         public async Task GetAverageRepairTime_ReturnsCorrectAverage_WhenResolvedRequestsExist()
         {
@@ -211,11 +230,9 @@ namespace SoliGestTest
             var result = await _controller.GetAverageRepairTime();
             var ok = Assert.IsType<OkObjectResult>(result);
 
-            // Converter o resultado para um objeto JSON para acessar as propriedades dinamicamente
             var jsonResult = JsonConvert.SerializeObject(ok.Value);
             var jsonObj = JObject.Parse(jsonResult);
 
-            // Verificar se o valor foi retornado corretamente
             Assert.Equal(75.0, jsonObj["averageRepairTime"].Value<double>());
         }
     }

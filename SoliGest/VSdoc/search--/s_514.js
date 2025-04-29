@@ -1,0 +1,1 @@
+search_result['514']=["topic_0000000000000125.html","IUserNotificationService Interface","Interface para o serviço de notificações de usuário.\r\nDefine as operações relacionadas ao gerenciamento de notificações para usuários."];

@@ -1,0 +1,1 @@
+search_result['833']=["topic_00000000000001C9.html","TestAuthHandler Class","Handler de autenticação personalizado usado para testes.\r\nEste handler simula a autenticação, verificando se o cabeçalho de autorização está presente\r\ne atribuindo um usuário de teste no processo de a..."];

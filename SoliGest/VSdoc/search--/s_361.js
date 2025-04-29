@@ -1,0 +1,1 @@
+search_result['361']=["topic_00000000000000C1.html","AssistanceRequest.RequestDate Property","A data e hora do pedido de assistência, que é obrigatória."];

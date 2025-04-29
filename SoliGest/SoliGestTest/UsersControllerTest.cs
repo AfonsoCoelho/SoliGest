@@ -12,6 +12,9 @@ using System.Linq.Expressions;
 
 namespace SoliGestTest
 {
+    /// <summary>
+    /// Testes para o controller UsersController.
+    /// </summary>
     public class UsersControllerTest
     {
         private readonly Mock<UserManager<User>> _mockUserManager;
@@ -21,6 +24,9 @@ namespace SoliGestTest
         private readonly UsersController _controller;
         private readonly Mock<IUserService> _mockUserService;
 
+        /// <summary>
+        /// Construtor que inicializa as dependências e o controller.
+        /// </summary>
         public UsersControllerTest()
         {
             _mockUserManager = new Mock<UserManager<User>>(
@@ -40,6 +46,10 @@ namespace SoliGestTest
             );
         }
 
+        /// <summary>
+        /// Testa o método Register quando o usuário já existe.
+        /// </summary>
+        /// <returns>Retorna um BadRequest se o usuário já existe.</returns>
         [Fact]
         public async Task Register_UserAlreadyExists_ReturnsBadRequest()
         {
@@ -51,6 +61,10 @@ namespace SoliGestTest
             Assert.IsType<BadRequestObjectResult>(result);
         }
 
+        /// <summary>
+        /// Testa o método Register quando um novo usuário é registrado com sucesso.
+        /// </summary>
+        /// <returns>Retorna um OkObjectResult se o registro for bem-sucedido.</returns>
         [Fact]
         public async Task Register_NewUser_ReturnsOk()
         {
@@ -63,6 +77,10 @@ namespace SoliGestTest
             Assert.IsType<OkObjectResult>(result);
         }
 
+        /// <summary>
+        /// Testa o método Login quando as credenciais são inválidas.
+        /// </summary>
+        /// <returns>Retorna um BadRequest se as credenciais forem inválidas.</returns>
         [Fact]
         public async Task Login_InvalidCredentials_ReturnsBadRequest()
         {
@@ -74,6 +92,10 @@ namespace SoliGestTest
             Assert.IsType<BadRequestObjectResult>(result);
         }
 
+        /// <summary>
+        /// Testa o método Login quando o login é bem-sucedido.
+        /// </summary>
+        /// <returns>Retorna um OkObjectResult se o login for bem-sucedido.</returns>
         [Fact]
         public async Task Login_ReturnsOk()
         {
@@ -89,6 +111,10 @@ namespace SoliGestTest
             Assert.IsType<BadRequestObjectResult>(result);
         }
 
+        /// <summary>
+        /// Testa o método ForgotPassword quando o usuário não é encontrado.
+        /// </summary>
+        /// <returns>Retorna BadRequest se o usuário não for encontrado.</returns>
         [Fact]
         public async Task ForgotPassword_UserNotFound_ReturnsBadRequest()
         {
@@ -102,6 +128,10 @@ namespace SoliGestTest
             Assert.Contains("Email inválido.", result.Value.ToString());
         }
 
+        /// <summary>
+        /// Testa o método ForgotPassword quando um usuário válido solicita a recuperação de senha.
+        /// </summary>
+        /// <returns>Verifica se o email de recuperação foi enviado.</returns>
         [Fact]
         public async Task ForgotPassword_ValidUser_SendsEmail()
         {
@@ -118,10 +148,13 @@ namespace SoliGestTest
             Assert.Contains("Pedido de recuperação de palavra-passe enviado para o email!", result.Value.ToString());
         }
 
+        /// <summary>
+        /// Testa o método ResetPassword quando as senhas não coincidem.
+        /// </summary>
+        /// <returns>Retorna BadRequest se as senhas não coincidirem.</returns>
         [Fact]
         public async Task ResetPassword_DifferentPasswords_ReturnsBadRequest()
         {
-            // Arrange
             var user = new User { Email = "user@test.com" };
             var model = new UserResetPasswordModel
             {
@@ -136,18 +169,19 @@ namespace SoliGestTest
             _mockUserManager.Setup(um => um.ResetPasswordAsync(user, model.Token, model.NewPassword))
                             .ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "Passwords do not match." }));
 
-            // Act
             var result = await _controller.ResetPassword(model) as BadRequestObjectResult;
 
-            // Assert
             Assert.NotNull(result);
             Assert.Equal(400, result.StatusCode);
         }
 
+        /// <summary>
+        /// Testa o método ResetPassword quando a recuperação de senha é bem-sucedida.
+        /// </summary>
+        /// <returns>Retorna Ok se a senha for alterada com sucesso.</returns>
         [Fact]
         public async Task ResetPassword_SuccessfulReset_ReturnsOk()
         {
-            // Arrange
             var user = new User { Email = "user@test.com" };
             var model = new UserResetPasswordModel
             {
@@ -162,19 +196,19 @@ namespace SoliGestTest
             _mockUserManager.Setup(um => um.ResetPasswordAsync(user, model.Token, model.NewPassword))
                             .ReturnsAsync(IdentityResult.Success);
 
-            // Act
             var result = await _controller.ResetPassword(model) as OkObjectResult;
 
-            // Assert
             Assert.NotNull(result);
             Assert.Equal(200, result.StatusCode);
             Assert.Contains("Password changed successfully", result.Value.ToString());
         }
 
+        // Testes Sprint 2
 
-
-        //testes sprint 2
-
+        /// <summary>
+        /// Testa o método PutPerson quando o ID do usuário não corresponde.
+        /// </summary>
+        /// <returns>Retorna NotFound se o ID não corresponder.</returns>
         [Fact]
         public async Task PutPerson_ReturnsBadRequest_WhenIdDoesNotMatch()
         {
@@ -189,6 +223,10 @@ namespace SoliGestTest
             Assert.IsType<NotFoundObjectResult>(result);
         }
 
+        /// <summary>
+        /// Testa o método GetPerson quando o usuário não é encontrado.
+        /// </summary>
+        /// <returns>Retorna NotFound se o usuário não for encontrado.</returns>
         [Fact]
         public async Task GetPerson_ReturnsNotFound_WhenUserDoesNotExist()
         {
@@ -197,6 +235,10 @@ namespace SoliGestTest
             Assert.IsType<NotFoundResult>(result.Result);
         }
 
+        /// <summary>
+        /// Testa o método PostPerson para criação de um novo usuário.
+        /// </summary>
+        /// <returns>Retorna CreatedAtAction se o usuário for criado com sucesso.</returns>
         [Fact]
         public async Task PostPerson_CreatesNewUser()
         {
@@ -218,6 +260,10 @@ namespace SoliGestTest
             Assert.Equal("GetPerson", createdResult.ActionName);
         }
 
+        /// <summary>
+        /// Testa o método DeletePerson quando o usuário não existe.
+        /// </summary>
+        /// <returns>Retorna NotFound se o usuário não for encontrado.</returns>
         [Fact]
         public async Task DeletePerson_ReturnsNotFound_WhenUserDoesNotExist()
         {
@@ -226,6 +272,10 @@ namespace SoliGestTest
             Assert.IsType<NotFoundResult>(result);
         }
 
+        /// <summary>
+        /// Testa o método PutPerson para atualizar os dados de um usuário.
+        /// </summary>
+        /// <returns>Retorna Ok se a atualização for bem-sucedida.</returns>
         [Fact]
         public async Task PutPerson_UpdatesUser_WhenIdMatches()
         {
@@ -240,7 +290,10 @@ namespace SoliGestTest
             Assert.IsType<OkObjectResult>(result);
         }
 
-
+        /// <summary>
+        /// Testa o método GetPerson para retornar um usuário existente.
+        /// </summary>
+        /// <returns>Retorna o usuário se ele existir.</returns>
         [Fact]
         public async Task GetPerson_ReturnsUser_WhenUserExists()
         {
@@ -258,6 +311,10 @@ namespace SoliGestTest
             Assert.Equal("John Doe", result.Value.Name);
         }
 
+        /// <summary>
+        /// Testa o método PostPerson quando a criação do usuário falha.
+        /// </summary>
+        /// <returns>Retorna BadRequest se a criação do usuário falhar.</returns>
         [Fact]
         public async Task PostPerson_ReturnsBadRequest_WhenUserCreationFails()
         {
@@ -269,6 +326,10 @@ namespace SoliGestTest
             Assert.IsType<BadRequestResult>(result);
         }
 
+        /// <summary>
+        /// Testa o método DeletePerson para deletar um usuário existente.
+        /// </summary>
+        /// <returns>Retorna Ok se o usuário for deletado com sucesso.</returns>
         [Fact]
         public async Task DeletePerson_DeletesUser_WhenUserExists()
         {

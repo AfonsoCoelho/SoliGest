@@ -1,0 +1,1 @@
+search_result['181']=["topic_0000000000000064.html","UsersController Class","Controlador que gere operações relacionadas com utilizadores, incluindo registo, autenticação,\r\nrecuperação de palavra-passe e gestão de perfil."];

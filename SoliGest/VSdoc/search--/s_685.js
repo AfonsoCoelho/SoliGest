@@ -1,0 +1,1 @@
+search_result['685']=["topic_0000000000000180.html","AskResetPwTest2.PwRecovery_Should_Show_Error_When_Invalid_Email Method","Testa o cenário onde o usuário tenta recuperar a senha com um email inválido (formato incorreto)."];

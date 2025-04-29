@@ -1,0 +1,1 @@
+search_result['896']=["topic_00000000000001EA.html","UserNotificationsControllerTests Constructor","Inicializa a instância de testes com um cliente HTTP da aplicação."];

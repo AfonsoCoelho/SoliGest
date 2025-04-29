@@ -6,26 +6,43 @@ using System.Data;
 
 namespace SoliGest.Server.Controllers
 {
+    /// <summary>
+    /// Controlador para gerenciar as notificações.
+    /// Permite operações CRUD para as notificações.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class NotificationsController : Controller
     {
         private readonly SoliGestServerContext _context;
 
+        /// <summary>
+        /// Construtor do controlador NotificationsController.
+        /// Inicializa o contexto do banco de dados para realizar operações sobre as notificações.
+        /// </summary>
+        /// <param name="context">O contexto do banco de dados.</param>
         public NotificationsController(SoliGestServerContext context)
         {
             _context = context;
         }
 
-        // GET: api/Notifications
+        /// <summary>
+        /// Obtém todas as notificações.
+        /// </summary>
+        /// <returns>Uma lista de todas as notificações.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Notification>>> GetNotifications()
         {
             return await _context.Notification.ToListAsync();
         }
 
-        // POST: api/Notifications
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Cria uma nova notificação.
+        /// </summary>
+        /// <param name="notification">A notificação a ser criada.</param>
+        /// <returns>Um status de resposta que inclui a notificação criada.</returns>
+        /// <response code="201">Retorna a notificação criada.</response>
+        /// <response code="400">Em caso de erro ao salvar a notificação.</response>
         [HttpPost]
         public async Task<IActionResult> PostNotification(Notification notification)
         {
@@ -42,7 +59,14 @@ namespace SoliGest.Server.Controllers
             }
         }
 
-        // DELETE: api/Notification/5
+        /// <summary>
+        /// Deleta uma notificação existente.
+        /// </summary>
+        /// <param name="id">O ID da notificação a ser deletada.</param>
+        /// <returns>Status de resposta com o resultado da exclusão.</returns>
+        /// <response code="200">Notificação deletada com sucesso.</response>
+        /// <response code="404">Notificação não encontrada.</response>
+        /// <response code="400">Erro ao tentar deletar a notificação.</response>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNotification(int id)
         {
@@ -65,7 +89,14 @@ namespace SoliGest.Server.Controllers
             }
         }
 
-        // GET: api/Notification/5
+        /// <summary>
+        /// Obtém uma notificação específica.
+        /// </summary>
+        /// <param name="id">O ID da notificação a ser retornada.</param>
+        /// <returns>A notificação solicitada.</returns>
+        /// <response code="200">Retorna a notificação encontrada.</response>
+        /// <response code="404">Notificação não encontrada.</response>
+        /// <response code="400">Erro ao tentar buscar a notificação.</response>
         [HttpGet("{id}")]
         public async Task<ActionResult<Notification>> GetNotification(int id)
         {
@@ -87,8 +118,14 @@ namespace SoliGest.Server.Controllers
             }
         }
 
-        // PUT: api/Notification/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Atualiza uma notificação existente.
+        /// </summary>
+        /// <param name="updatedNotification">A notificação com os dados atualizados.</param>
+        /// <returns>Status de resposta com o resultado da atualização.</returns>
+        /// <response code="200">Notificação atualizada com sucesso.</response>
+        /// <response code="404">Notificação não encontrada.</response>
+        /// <response code="400">Erro ao tentar atualizar a notificação.</response>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutNotification(Notification updatedNotification)
         {

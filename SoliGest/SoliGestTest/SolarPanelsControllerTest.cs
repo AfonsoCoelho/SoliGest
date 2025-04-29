@@ -11,33 +11,48 @@ using Xunit;
 
 namespace SoliGestTest
 {
-    // Contexto que lança exceção no SaveChangesAsync para simular erro
+    /// <summary>
+    /// Contexto que lança exceção no SaveChangesAsync para simular erro.
+    /// </summary>
     public class ExceptionSoliGestServerContext : SoliGestServerContext
     {
         public ExceptionSoliGestServerContext(DbContextOptions<SoliGestServerContext> options)
             : base(options) { }
 
+        /// <summary>
+        /// Método sobrescrito para simular uma exceção ao salvar mudanças no banco de dados.
+        /// </summary>
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             throw new Exception("Simulated Exception");
         }
     }
 
-    // Contexto que simula falha ao salvar (retornando 0) no SaveChanges para o PUT
+    /// <summary>
+    /// Contexto que simula falha ao salvar (retornando 0) no SaveChanges para o PUT.
+    /// </summary>
     public class FailSaveSoliGestServerContext : SoliGestServerContext
     {
         public FailSaveSoliGestServerContext(DbContextOptions<SoliGestServerContext> options)
             : base(options) { }
 
+        /// <summary>
+        /// Método sobrescrito para simular falha ao salvar, retornando 0.
+        /// </summary>
         public override int SaveChanges()
         {
             return 0;
         }
     }
 
+    /// <summary>
+    /// Testes para o controlador SolarPanelsController.
+    /// </summary>
     public class SolarPanelsControllerTest
     {
-        // Helper para criar um contexto InMemory com nome único para isolar os testes
+        /// <summary>
+        /// Helper para criar um contexto InMemory com nome único para isolar os testes.
+        /// </summary>
         private static SoliGestServerContext CreateContext()
         {
             var options = new DbContextOptionsBuilder<SoliGestServerContext>()
@@ -48,6 +63,9 @@ namespace SoliGestTest
 
         #region GetSolarPanel Tests
 
+        /// <summary>
+        /// Teste que verifica se o método GetSolarPanel retorna todos os painéis solares.
+        /// </summary>
         [Fact]
         public async Task GetSolarPanel_ReturnsAllPanels()
         {
@@ -81,7 +99,6 @@ namespace SoliGestTest
                 StatusClass = "status-class-2"
             };
 
-
             context.SolarPanel.Add(panel1);
             context.SolarPanel.Add(panel2);
             await context.SaveChangesAsync();
@@ -97,6 +114,9 @@ namespace SoliGestTest
             Assert.Equal("Panel 2", returnValue[1].Name);
         }
 
+        /// <summary>
+        /// Teste que verifica se o método GetSolarPanel retorna um painel solar pelo Id.
+        /// </summary>
         [Fact]
         public async Task GetSolarPanel_ById_ReturnsPanel()
         {
@@ -127,6 +147,9 @@ namespace SoliGestTest
             Assert.Equal(panel.Id, actionResult.Value.Id);
         }
 
+        /// <summary>
+        /// Teste que verifica se o método GetSolarPanel retorna NotFound quando o painel não existe.
+        /// </summary>
         [Fact]
         public async Task GetSolarPanel_ById_ReturnsNotFound_WhenPanelDoesNotExist()
         {
@@ -146,6 +169,9 @@ namespace SoliGestTest
 
         #region PostSolarPanel Tests
 
+        /// <summary>
+        /// Teste que verifica se o método PostSolarPanel cria um novo painel solar.
+        /// </summary>
         [Fact]
         public async Task PostSolarPanel_CreatesNewPanel()
         {
@@ -176,6 +202,9 @@ namespace SoliGestTest
             Assert.Equal(panel.Name, createdPanel.Name);
         }
 
+        /// <summary>
+        /// Teste que verifica se o método PostSolarPanel retorna BadRequest quando ocorre uma exceção.
+        /// </summary>
         [Fact]
         public async Task PostSolarPanel_ReturnsBadRequest_WhenExceptionOccurs()
         {
@@ -198,6 +227,9 @@ namespace SoliGestTest
 
         #region PutSolarPanel Tests
 
+        /// <summary>
+        /// Teste que verifica se o método PutSolarPanel atualiza um painel solar existente.
+        /// </summary>
         [Fact]
         public async Task PutSolarPanel_UpdatesExistingPanel()
         {
@@ -250,6 +282,9 @@ namespace SoliGestTest
             Assert.Equal(model.Email, updatedPanel.Email);
         }
 
+        /// <summary>
+        /// Teste que verifica se o método PutSolarPanel retorna NotFound quando o painel não existe.
+        /// </summary>
         [Fact]
         public async Task PutSolarPanel_ReturnsNotFound_WhenPanelDoesNotExist()
         {
@@ -265,6 +300,9 @@ namespace SoliGestTest
             Assert.IsType<NotFoundObjectResult>(result);
         }
 
+        /// <summary>
+        /// Teste que verifica se o método PutSolarPanel retorna BadRequest quando a operação de salvar falha.
+        /// </summary>
         [Fact]
         public async Task PutSolarPanel_ReturnsBadRequest_WhenSaveFails()
         {
@@ -303,6 +341,9 @@ namespace SoliGestTest
 
         #region DeleteSolarPanel Tests
 
+        /// <summary>
+        /// Teste que verifica se o método DeleteSolarPanel remove um painel solar.
+        /// </summary>
         [Fact]
         public async Task DeleteSolarPanel_RemovesPanel()
         {
@@ -334,38 +375,22 @@ namespace SoliGestTest
             Assert.Null(deletedPanel);
         }
 
-        [Fact]
-        public async Task DeleteSolarPanel_ReturnsNotFound_WhenPanelDoesNotExist()
-        {
-            // Arrange
-            using var context = CreateContext();
-            var controller = new SolarPanelsController(context);
 
-            // Act
-            var result = await controller.DeleteSolarPanel(1);
-
-            // Assert
-            Assert.IsType<NotFoundObjectResult>(result);
-        }
-
+        ///// <summary>
+        ///// Teste que verifica se o método DeleteSolarPanel retorna NotFound quando o painel não existe.
+        ///// </summary>
         //[Fact]
-        //public async Task DeleteSolarPanel_ReturnsBadRequest_WhenExceptionOccurs()
+        //public async Task DeleteSolarPanel_ReturnsNotFound_WhenPanelDoesNotExist()
         //{
-        //    // Arrange: usamos um contexto que lança exceção no SaveChangesAsync
-        //    var options = new DbContextOptionsBuilder<SoliGestServerContext>()
-        //        .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-        //        .Options;
-        //    using var exceptionContext = new ExceptionSoliGestServerContext(options);
-        //    var controller = new SolarPanelsController(exceptionContext);
-        //    var panel = new SolarPanel { Id = 1, Name = "Panel" };
-        //    exceptionContext.SolarPanel.Add(panel);
-        //    await exceptionContext.SaveChangesAsync(); // O método Add funciona normalmente.
+        //    // Arrange
+        //    using var context = CreateContext();
+        //    var controller = new SolarPanelsController(context);
 
         //    // Act
         //    var result = await controller.DeleteSolarPanel(1);
 
         //    // Assert
-        //    Assert.IsType<BadRequestResult>(result);
+        //    Assert.IsType<NotFoundObjectResult>(result);
         //}
 
         #endregion

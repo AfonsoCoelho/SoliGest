@@ -1,0 +1,1 @@
+var breadcrumbs=[['-1',"",""],['2',"SOLUTION-WIDE PROPERTIES Reference","topic_00000000000001F4.html"],['325',"SoliGest.Server.Repositories Namespace","topic_0000000000000118.html"],['332',"IChatRepository Interface","topic_000000000000011E.html"],['333',"Methods","topic_000000000000011E_methods--.html"],['334',"GetAvailableContacts Method","topic_0000000000000120.html"]];

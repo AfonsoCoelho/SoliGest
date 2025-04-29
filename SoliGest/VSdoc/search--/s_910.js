@@ -1,0 +1,1 @@
+search_result['910']=["topic_00000000000001F3.html","UsersControllerIntegrationTests.Get_EndpointReturnSuccessAndCorrectContentType Method","Testa se a rota GET /api/Users retorna com sucesso e com o tipo de conteúdo correto."];

@@ -1,0 +1,1 @@
+search_result['521']=["topic_0000000000000127.html","IUserService Interface","Interface para o serviço de usuários.\r\nDefine as operações relacionadas à manipulação e consulta de usuários no sistema."];

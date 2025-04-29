@@ -1,0 +1,1 @@
+search_result['505']=["topic_0000000000000121.html","IChatRepository.SaveMessage Method","Salva uma nova mensagem ou atualiza uma conversa existente entre dois usuários."];

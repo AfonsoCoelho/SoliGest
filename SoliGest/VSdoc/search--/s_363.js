@@ -1,0 +1,1 @@
+search_result['363']=["topic_00000000000000C3.html","AssistanceRequest.Status Property","O status atual do pedido de assistência."];

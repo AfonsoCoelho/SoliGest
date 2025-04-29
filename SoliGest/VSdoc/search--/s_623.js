@@ -1,0 +1,1 @@
+search_result['623']=["topic_0000000000000156.html","SolarPanelsControllerTest.GetSolarPanel_ById_ReturnsPanel Method","Teste que verifica se o método GetSolarPanel retorna um painel solar pelo Id."];

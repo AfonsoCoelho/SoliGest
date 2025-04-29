@@ -1,0 +1,1 @@
+search_result['188']=["topic_0000000000000066.html","UsersController.Register Method","Regista um novo utilizador com as credenciais fornecidas."];

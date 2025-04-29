@@ -1,0 +1,1 @@
+search_result['366']=["topic_00000000000000C6.html","AssistanceRequest.Description Property","A descrição do problema ou avaria do painel solar."];

@@ -1,0 +1,1 @@
+search_result['528']=["topic_0000000000000129.html","SendGridEmailService Class","Implementação do serviço de envio de e-mails utilizando o SendGrid.\r\nEsta classe é responsável por enviar e-mails através da API do SendGrid."];

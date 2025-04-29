@@ -1,0 +1,1 @@
+search_result['26']=["topic_000000000000000C.html","AssistanceRequestsController Constructor","Construtor do controlador de pedidos de assistência."];

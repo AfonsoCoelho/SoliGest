@@ -1,0 +1,1 @@
+search_result['67']=["topic_0000000000000026.html","ChatController.GetConversations Method","Obtém todas as conversas associadas ao utilizador autenticado."];

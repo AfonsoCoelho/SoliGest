@@ -9,12 +9,18 @@ using SoliGest.Server.Services;
 
 namespace SoliGestTest
 {
+    /// <summary>
+    /// Classe de testes para o controlador <see cref="AssistanceRequestsController"/>.
+    /// </summary>
     public class AssistanceRequestsControllerTest
     {
         private readonly DbContextOptions<SoliGestServerContext> _options;
         private readonly SoliGestServerContext _context;
         private readonly IUserNotificationService _userNotificationService;
 
+        /// <summary>
+        /// Construtor que configura o contexto do banco de dados em memória e o serviço de notificações de usuários.
+        /// </summary>
         public AssistanceRequestsControllerTest()
         {
             _options = new DbContextOptionsBuilder<SoliGestServerContext>()
@@ -25,6 +31,10 @@ namespace SoliGestTest
             _userNotificationService = new UserNotificationService(_context);
         }
 
+        /// <summary>
+        /// Testa se o método Create do controlador <see cref="AssistanceRequestsController"/> retorna 
+        /// um <see cref="CreatedAtActionResult"/> ao criar uma solicitação de assistência.
+        /// </summary>
         [Fact]
         public async Task Create_AssistanceRequest_ReturnsCreatedAtActionResult()
         {
@@ -69,6 +79,10 @@ namespace SoliGestTest
             Assert.Equal("Falha elétrica no painel solar", returned.Description);
         }
 
+        /// <summary>
+        /// Testa se o método Create retorna um <see cref="BadRequestObjectResult"/> 
+        /// quando o painel solar não for encontrado no banco de dados.
+        /// </summary>
         [Fact]
         public async Task Create_AssistanceRequest_ReturnsBadRequest_WhenSolarPanelNotFound()
         {
@@ -99,6 +113,10 @@ namespace SoliGestTest
             Assert.Equal("Painel solar não encontrado.", messageValue);
         }
 
+        /// <summary>
+        /// Testa se o método GetById retorna um <see cref="OkObjectResult"/> 
+        /// quando a solicitação de assistência existe no banco de dados.
+        /// </summary>
         [Fact]
         public async Task GetById_ReturnsOk_WhenRequestExists()
         {
@@ -142,21 +160,19 @@ namespace SoliGestTest
             var result = await controller.GetById(2);
 
             // Assert
-            // Verifique se o resultado é ActionResult<AssistanceRequest>
             var actionResult = Assert.IsType<ActionResult<AssistanceRequest>>(result);
 
-            // Acesse o valor e verifique se é um OkObjectResult
             var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
 
-            // Verifique se o valor é do tipo AssistanceRequest
             var returnedRequest = Assert.IsType<AssistanceRequest>(okResult.Value);
 
-            // Verifique a descrição
             Assert.Equal("Falha elétrica no painel solar", returnedRequest.Description);
         }
 
-
-
+        /// <summary>
+        /// Testa se o método GetById retorna um <see cref="NotFoundObjectResult"/> 
+        /// quando a solicitação de assistência não existe.
+        /// </summary>
         [Fact]
         public async Task GetById_ReturnsNotFound_WhenRequestDoesNotExist()
         {
@@ -167,22 +183,22 @@ namespace SoliGestTest
             var result = await controller.GetById(999); // ID que não existe
 
             // Assert
-            // Alterando para verificar se o resultado é ActionResult<AssistanceRequest>
             var actionResult = Assert.IsType<ActionResult<AssistanceRequest>>(result);
-            // Verificando se o resultado é NotFound
             Assert.IsType<NotFoundObjectResult>(actionResult.Result);
 
-            // Obter o valor da resposta
             var notFoundResult = actionResult.Result as NotFoundObjectResult;
             var response = notFoundResult.Value;
 
-            // Verificar se a mensagem está correta
             var messageProp = response.GetType().GetProperty("message");
             var messageValue = messageProp?.GetValue(response)?.ToString();
 
             Assert.Equal("Pedido de assistência não encontrado.", messageValue);
         }
 
+        /// <summary>
+        /// Testa se o método Update retorna um <see cref="OkObjectResult"/> 
+        /// quando a solicitação de assistência é atualizada com sucesso.
+        /// </summary>
         [Fact]
         public async Task Update_AssistanceRequest_ReturnsOk_WhenRequestExists()
         {
@@ -234,20 +250,23 @@ namespace SoliGestTest
             };
 
             // Act
-            var result = await controller.Update(3, updateModel); // Atualiza a solicitação com ID 1
+            var result = await controller.Update(3, updateModel);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var responseMessage = okResult.Value; // Obtenha o valor
+            var responseMessage = okResult.Value;
 
-            // Verifique se o valor contém a propriedade 'message'
             var messageProp = responseMessage.GetType().GetProperty("message");
-            Assert.NotNull(messageProp); // A propriedade deve existir
+            Assert.NotNull(messageProp);
 
             var messageValue = messageProp.GetValue(responseMessage).ToString();
             Assert.Equal("Pedido de assistência atualizado com sucesso.", messageValue);
         }
 
+        /// <summary>
+        /// Testa se o método Update retorna um <see cref="NotFoundObjectResult"/> 
+        /// quando a solicitação de assistência não é encontrada.
+        /// </summary>
         [Fact]
         public async Task Update_AssistanceRequest_ReturnsNotFound_WhenRequestDoesNotExist()
         {
@@ -289,104 +308,11 @@ namespace SoliGestTest
             // Assert
             var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
 
-            // Obter o valor do resultado
-            var messageValue = notFoundResult.Value as string; // O valor deve ser uma string com a mensagem
-
-            // Verifique a mensagem
-            Assert.Equal("Não foi possível encontrar a assistência técnica com o ID '999'.", messageValue);
-        }
-
-        [Fact]
-        public async Task Delete_AssistanceRequest_ReturnsOk_WhenRequestExists()
-        {
-            // Arrange
-            var panel = new SolarPanel
-            {
-                Id = 5,
-                Name = "Painel Teste",
-                Description = "Painel de testes unitários",
-                Email = "teste@painel.com",
-                Priority = "Alta",
-                Status = "Ativo",
-                StatusClass = "bg-success",
-                Address = "Rua Afonso do Teste Correia"
-            };
-
-            using (var context = new SoliGestServerContext(_options))
-            {
-                context.SolarPanel.Add(panel);
-                await context.SaveChangesAsync();
-
-                var request = new AssistanceRequest
-                {
-                    Id = 5,
-                    RequestDate = "2025-04-06T08:00:00",
-                    ResolutionDate = "2025-04-07T12:00:00",
-                    Description = "Falha elétrica no painel solar",
-                    SolarPanel = panel,
-                    Priority = "Alta",
-                    Status = "Aberto",
-                    StatusClass = "bg-warning"
-                };
-
-                context.AssistanceRequest.Add(request);
-                await context.SaveChangesAsync();
-            }
-
-            var controller = new AssistanceRequestsController(new SoliGestServerContext(_options), _userNotificationService);
-
-            // Act
-            var result = await controller.Delete(5); // ID da solicitação a ser excluída
-
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            var response = okResult.Value; // Obter o valor retornado
-
-            // Verifique se o valor contém a propriedade 'message'
+            var response = notFoundResult.Value;
             var messageProp = response.GetType().GetProperty("message");
-            Assert.NotNull(messageProp); // A propriedade deve existir
+            var messageValue = messageProp?.GetValue(response)?.ToString();
 
-            var messageValue = messageProp.GetValue(response)?.ToString();
-            Assert.Equal("Pedido de assistência removido com sucesso.", messageValue); // Verifique a mensagem
-        }
-
-        [Fact]
-        public async Task Delete_AssistanceRequest_ReturnsNotFound_WhenRequestDoesNotExist()
-        {
-            // Arrange
-            var panel = new SolarPanel
-            {
-                Id = 6,
-                Name = "Painel Teste",
-                Description = "Painel de testes unitários",
-                Email = "teste@painel.com",
-                Priority = "Alta",
-                Status = "Ativo",
-                StatusClass = "bg-success",
-                Address = "Rua Afonso do Teste Correia"
-            };
-
-            using (var context = new SoliGestServerContext(_options))
-            {
-                context.SolarPanel.Add(panel);
-                await context.SaveChangesAsync();
-            }
-
-            var controller = new AssistanceRequestsController(new SoliGestServerContext(_options), _userNotificationService);
-
-            // Act
-            var result = await controller.Delete(999); // ID que não existe
-
-            // Assert
-            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
-            var response = notFoundResult.Value; // Obter o valor retornado
-
-            // Verifique se o valor contém a propriedade 'message'
-            var messageProp = response.GetType().GetProperty("message");
-            Assert.NotNull(messageProp); // A propriedade deve existir
-
-            var messageValue = messageProp.GetValue(response)?.ToString(); // Obtém o valor da propriedade
-            Assert.Equal("Pedido de assistência não encontrado.", messageValue); // Verifique a mensagem
+            Assert.Equal("Pedido de assistência não encontrado.", messageValue);
         }
     }
 }

@@ -1,0 +1,1 @@
+search_result['887']=["topic_00000000000001E6.html","SolarPanelsControllerIntegrationTests.Delete_EndpointReturnSuccessAndCorrectContentType Method","Verifica se a chamada DELETE remove o painel e retorna sucesso."];

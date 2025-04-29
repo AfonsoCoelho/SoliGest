@@ -10,15 +10,25 @@ using Xunit;
 
 namespace SoliGestIntegrationTests
 {
+    /// <summary>
+    /// Testes de integração para o controller de notificações (NotificationsController).
+    /// Valida operações CRUD e a consistência das respostas HTTP.
+    /// </summary>
     public class NotificationsControllerIntegrationTests
     {
         private readonly WebApplicationFactory<Program> _factory;
 
+        /// <summary>
+        /// Inicializa a aplicação para testes com WebApplicationFactory.
+        /// </summary>
         public NotificationsControllerIntegrationTests()
         {
             _factory = new WebApplicationFactory<Program>();
         }
 
+        /// <summary>
+        /// Verifica se o endpoint GET /api/Notifications retorna sucesso e conteúdo JSON.
+        /// </summary>
         [Fact]
         public async Task GetAll_Notifications_ReturnsSuccessAndJson()
         {
@@ -30,13 +40,14 @@ namespace SoliGestIntegrationTests
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType.ToString());
         }
 
+        /// <summary>
+        /// Testa a criação e recuperação de uma notificação via GET /api/Notifications/{id}.
+        /// </summary>
         [Fact]
         public async Task GetById_Notification_ReturnsSuccess()
         {
-            // Arrange
             var client = _factory.CreateClient();
 
-            // First create a notification
             var newNotification = new
             {
                 Title = "Test Notification",
@@ -51,17 +62,18 @@ namespace SoliGestIntegrationTests
             var createdContent = await postResponse.Content.ReadAsStringAsync();
             var createdNotification = JsonConvert.DeserializeObject<Notification>(createdContent);
 
-            // Now get it by ID
             var response = await client.GetAsync($"/api/Notifications/{createdNotification.Id}");
 
             response.EnsureSuccessStatusCode();
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType.ToString());
         }
 
+        /// <summary>
+        /// Verifica se o endpoint POST /api/Notifications cria uma notificação com sucesso e retorna HTTP 201.
+        /// </summary>
         [Fact]
         public async Task Post_Notification_ReturnsCreated()
         {
-            // Arrange
             var client = _factory.CreateClient();
             var notification = new
             {
@@ -75,34 +87,28 @@ namespace SoliGestIntegrationTests
                 "application/json"
             );
 
-            // Act
             var response = await client.PostAsync("/api/Notifications", content);
             var responseBody = await response.Content.ReadAsStringAsync();
 
-            // Assert sem lançar exceção, para vermos o corpo
             Assert.True(
                 response.StatusCode == HttpStatusCode.Created,
                 $"Esperava 201 Created mas recebi {(int)response.StatusCode} ({response.StatusCode}).\nCorpo da resposta:\n{responseBody}"
             );
 
-            // Se chegar aqui, valida content‑type
             Assert.Equal(
                 "application/json; charset=utf-8",
                 response.Content.Headers.ContentType?.ToString()
             );
         }
 
-
-
-
-
+        /// <summary>
+        /// Testa a atualização de uma notificação com PUT /api/Notifications/{id} e verifica o sucesso da operação.
+        /// </summary>
         [Fact]
         public async Task Put_Notification_ReturnsOk()
         {
-            // Arrange
             var client = _factory.CreateClient();
 
-            // First create a notification
             var newNotification = new
             {
                 Title = "Original Title",
@@ -117,7 +123,6 @@ namespace SoliGestIntegrationTests
             var createdContent = await postResponse.Content.ReadAsStringAsync();
             var createdNotification = JsonConvert.DeserializeObject<Notification>(createdContent);
 
-            // Now update it
             var updatedNotification = new
             {
                 Id = createdNotification.Id,
@@ -133,13 +138,14 @@ namespace SoliGestIntegrationTests
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType.ToString());
         }
 
+        /// <summary>
+        /// Testa a exclusão de uma notificação com DELETE /api/Notifications/{id} e valida o retorno HTTP 200.
+        /// </summary>
         [Fact]
         public async Task Delete_Notification_ReturnsOk()
         {
-            // Arrange
             var client = _factory.CreateClient();
 
-            // 1) Cria a notificação com todos os campos corretos
             var newNotification = new
             {
                 Title = "Notificação Teste",
@@ -155,19 +161,14 @@ namespace SoliGestIntegrationTests
             var postResponse = await client.PostAsync("/api/Notifications", postContent);
             Assert.Equal(HttpStatusCode.Created, postResponse.StatusCode);
 
-            // Lê o corpo para extrair o Id
             var createdJson = await postResponse.Content.ReadAsStringAsync();
             var created = JsonConvert.DeserializeObject<Notification>(createdJson);
             Assert.NotNull(created);
             Assert.True(created.Id > 0);
 
-            // Act: apaga pelo Id
             var deleteResponse = await client.DeleteAsync($"/api/Notifications/{created.Id}");
 
-            // Assert: apenas 200 OK
             Assert.Equal(HttpStatusCode.OK, deleteResponse.StatusCode);
         }
-
-
     }
 }

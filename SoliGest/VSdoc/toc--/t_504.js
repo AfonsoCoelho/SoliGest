@@ -1,0 +1,1 @@
+c['504']=[['505',"Get_EndpointReturnSuccessAndCorrectContentType Method","topic_00000000000001F3.html",0]];

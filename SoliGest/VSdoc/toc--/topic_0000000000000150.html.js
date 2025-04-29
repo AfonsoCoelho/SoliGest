@@ -1,0 +1,1 @@
+var breadcrumbs=[['-1',"",""],['2',"SOLUTION-WIDE PROPERTIES Reference","topic_00000000000001F4.html"],['506',"SoliGestTest Namespace","topic_0000000000000133.html"],['516',"ExceptionSoliGestServerContext Class","topic_000000000000014E.html"],['518',"Methods","topic_000000000000014E_methods--.html"],['519',"SaveChangesAsync Method","topic_0000000000000150.html"]];

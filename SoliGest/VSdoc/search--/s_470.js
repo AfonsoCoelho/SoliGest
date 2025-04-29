@@ -1,0 +1,1 @@
+search_result['470']=["topic_0000000000000106.html","User.isActive Property","Indica se o usuário está ativo no sistema."];
