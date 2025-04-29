@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SoliGest.Server.Controllers;
 using SoliGest.Server.Data;
-using SoliGest.Server.Hubs;
 using SoliGest.Server.Models;
 using SoliGest.Server.Repositories;
 using SoliGest.Server.Services;
@@ -15,23 +16,6 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<SoliGestServerContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SoliGestServerContext") ?? throw new InvalidOperationException("Connection string 'SoliGestServerContext' not found.")));
-
-// Add services to the container.
-builder.Services.Configure<JwtBearerOptions>(
-    IdentityConstants.BearerScheme,
-    options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-        };
-    });
 
 
 builder.Services.AddAuthentication(options =>
@@ -58,18 +42,19 @@ builder.Services.AddAuthentication(options =>
         OnMessageReceived = context =>
         {
             var accessToken = context.Request.Query["access_token"];
-
             var path = context.HttpContext.Request.Path;
 
-            if (!string.IsNullOrEmpty(accessToken) &&
-                (path.StartsWithSegments("/chatHub")))
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/ws"))
             {
                 context.Token = accessToken;
             }
-
             return Task.CompletedTask;
         }
     };
+}).AddCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
 builder.Services.AddIdentityCore<User>()
@@ -122,8 +107,6 @@ builder.Services.AddSwaggerGen(options =>
             }
         });
 });
-
-builder.Services.AddSignalR();
 
 builder.Services.AddScoped<IUserNotificationService, UserNotificationService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -178,12 +161,35 @@ if (app.Environment.IsDevelopment())
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseWebSockets();
+
+app.Map("/ws", async context =>
+{
+    var result = await context.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+    if (!result.Succeeded)
+    {
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        return;
+    }
+
+    var userId = result.Principal!
+                       .FindFirst(ClaimTypes.NameIdentifier)!
+                       .Value;
+
+    if (!context.WebSockets.IsWebSocketRequest)
+    {
+        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+        return;
+    }
+
+    var socket = await context.WebSockets.AcceptWebSocketAsync();
+    await ChatHandler.HandleConnectionAsync(userId, socket, context.RequestServices);
+});
 
 app.MapControllers();
 
 app.MapGroup("/api").MapIdentityApi<User>();
 
-app.MapHub<ChatHub>("/chathub");
 
 app.MapFallbackToFile("/index.html");
 

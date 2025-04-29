@@ -8,10 +8,12 @@ const PROXY_CONFIG = [
     context: [
       "/weatherforecast",
       "/api",
-      "/chathub"
+      "/ws"
     ],
     target,
-    secure: false
+    secure: false,
+    changeOrigin: true,
+    ws: true
   }
 ]
 

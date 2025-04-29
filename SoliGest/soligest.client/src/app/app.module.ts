@@ -48,12 +48,12 @@ import { MetricsComponent } from './metrics/metrics.component';
     FuncionarioDetailsComponent,
     PaineisSolaresComponent,
     AvariasComponent,
-    ChatComponent,
     AboutUsComponent,
     HelpComponent,
     HeaderComponent,
     FooterComponent,
-    MetricsComponent
+    MetricsComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,

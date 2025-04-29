@@ -3,7 +3,6 @@ import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, catchError, map, of } from 'rxjs';
 import { UserInfo } from './authorize.dto';
 import { ActivatedRoute } from '@angular/router';
-import { ChatService } from '../app/services/chat.service';
 import { User, UsersService } from '../app/services/users.service';
 
 
@@ -55,11 +54,6 @@ export class AuthorizeService {
         if (response && response.token) {
           this.saveToken(response.token);
           this._authStateChanged.next(true);
-
-          const chat = this.injector.get(ChatService);
-          chat.startConnection()
-            .then(() => console.log('Hub iniciado no login'))
-            .catch(err => console.error(err));
 
           this.loggedUserEmail = email;
           this.us.getUserByEmail(this.loggedUserEmail).subscribe(

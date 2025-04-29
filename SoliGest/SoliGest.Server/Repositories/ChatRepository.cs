@@ -10,67 +10,23 @@ namespace SoliGest.Server.Repositories
 {
     public class ChatRepository : IChatRepository
     {
-        private readonly SoliGestServerContext _db;
+        private readonly SoliGestServerContext _ctx;
+        public ChatRepository(SoliGestServerContext ctx) => _ctx = ctx;
 
-        public ChatRepository(SoliGestServerContext db)
+        public async Task SaveAsync(ChatMessage msg)
         {
-            _db = db;
+            _ctx.ChatMessages.Add(msg);
+            await _ctx.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Conversation>> GetConversationsFor(string userId)
+        public Task<List<ChatMessage>> GetConversationAsync(string userA, string userB)
         {
-            return await _db.Conversations
-                .Include(c => c.Contact)      // navegação para Contact
-                .Include(c => c.Messages)     // navegação para mensagens
-                .Where(c => c.Users.Any(u => u.Id == userId))
+            return _ctx.ChatMessages
+                .Where(m =>
+                    (m.FromUserId == userA && m.ToUserId == userB) ||
+                    (m.FromUserId == userB && m.ToUserId == userA))
+                .OrderBy(m => m.SentAt)
                 .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Contact>> GetAvailableContacts(string userId)
-        {
-            return await _db.Users
-                .Where(u => u.Id != userId)
-                .Select(u => new Contact { Id = u.Id, Name = u.Name })
-                .ToListAsync();
-        }
-
-        public async Task SaveMessage(string senderId, string receiverId, string content, DateTime timestamp)
-        {
-            // Tenta obter conversa existente entre sender e receiver
-            var conv = await _db.Conversations
-                .Include(c => c.Messages)
-                .FirstOrDefaultAsync(c =>
-                    c.Users.Any(u => u.Id == senderId) &&
-                    c.Users.Any(u => u.Id == receiverId));
-
-            if (conv == null)
-            {
-                // Criar nova conversa
-                conv = new Conversation
-                {
-                    CreatedAt = DateTime.UtcNow,
-                    Users = new List<User>
-                    {
-                        new User { Id = senderId },
-                        new User { Id = receiverId }
-                    },
-                    Messages = new List<Message>()
-                };
-                _db.Conversations.Add(conv);
-            }
-
-            // Adicionar mensagem
-            conv.Messages.Add(new Message
-            {
-                SenderId = senderId,
-                Sender = _db.Users.Find(senderId),
-                ReceiverId = receiverId,
-                Receiver = _db.Users.Find(receiverId),
-                Content = content,
-                Timestamp = timestamp
-            });
-
-            await _db.SaveChangesAsync();
         }
     }
 }

@@ -1,57 +1,25 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using SoliGest.Server.Hubs;
-using SoliGest.Server.Models;        // ajustar namespace
-using SoliGest.Server.Repositories;  // o teu repositório de chat
-using System;
-using System.Threading.Tasks;
+using SoliGest.Server.Repositories;
+using System.Security.Claims;
 
 namespace SoliGest.Server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    [Authorize]
+    [Route("api/chat")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ChatController : ControllerBase
     {
-        private readonly IHubContext<ChatHub> _hubContext;
         private readonly IChatRepository _repo;
+        public ChatController(IChatRepository repo) => _repo = repo;
 
-        public ChatController(IHubContext<ChatHub> hubContext, IChatRepository repo)
+        [HttpGet("history/{otherUserId}")]
+        public async Task<IActionResult> GetHistory(string otherUserId)
         {
-            _hubContext = hubContext;
-            _repo = repo;
+            var me = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            var history = await _repo.GetConversationAsync(me, otherUserId);
+            return Ok(history);
         }
-
-        // GET: api/chat/conversations
-        [HttpGet("conversations")]
-        public async Task<IActionResult> GetConversations()
-        {
-            var userId = User.FindFirst("sub")?.Value;
-            var convos = await _repo.GetConversationsFor(userId);
-            return Ok(convos);
-        }
-
-        // POST: api/chat/message
-        [HttpPost("message")]
-        public async Task<IActionResult> SendMessage([FromBody] ChatMessageDto dto)
-        {
-            var senderId = User.FindFirst("sub")?.Value;
-            var timestamp = DateTime.UtcNow;
-
-            await _repo.SaveMessage(senderId, dto.ReceiverId, dto.Content, timestamp);
-
-            await _hubContext.Clients.User(dto.ReceiverId)
-                .SendAsync("ReceiveMessage", senderId, dto.Content, timestamp);
-
-            return Ok();
-        }
-    }
-
-    // DTO usado no POST
-    public class ChatMessageDto
-    {
-        public string ReceiverId { get; set; }
-        public string Content { get; set; }
     }
 }

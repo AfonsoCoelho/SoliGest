@@ -1,42 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { AuthorizeService } from '../../api-authorization/authorize.service';
-import { ChatService, Conversation } from '../services/chat.service';
+import { HttpClient } from '@angular/common/http';
+import { WebsocketService } from '../services/websocket.service';
+import { User, UsersService } from '../services/users.service';
 
-// DTO interfaces (define here since chat.models.ts doesn't exist)
-interface Contact {
-  id: string;
-  name: string;
+export interface Message {
+  from: string;
+  text: string;
+  sentAt: string;
 }
-
-interface MessageDto {
-  id: number;
-  senderId: string;
-  receiverId: string;
-  content: string;
-  timestamp: string; // from server
-}
-
-interface ConversationDto {
-  id: number;
-  contact: Contact;
-  messages: MessageDto[];
-}
-
-// UI interfaces
-export interface UiMessage {
-  sent: boolean;
-  content: string;
-  time: Date;
-}
-export interface UiConversation {
-  id: number;
-  contact: Contact;
-  messages: UiMessage[];
-  lastMessage: UiMessage;
-  unreadCount: number;
-}
+export interface Contact { userId: string; displayName: string; }
 
 @Component({
   selector: 'app-chat',
@@ -45,174 +17,61 @@ export interface UiConversation {
   standalone: false
 })
 export class ChatComponent implements OnInit {
-  // Menu state
-  public isMenuCollapsed = false;
-  public isSignedIn = false;
+  myId = localStorage.getItem('userId')!;
+  contacts: Contact[] = [];     // preload via API or a static list
+  selectedId = '';
+  chatLog: Message[] = [];
+  text = '';
 
-  // Chat state
-  public showNewChatModal = false;
-  public searchTerm = '';
-  public newMessage = '';
+  constructor(private us: UsersService,
+    private ws: WebsocketService,
+    private http: HttpClient
+  ) { }
 
-  public currentUser = '';
-  public currentUserId = '';
-  public currentContact: Contact | null = null;
-  public currentMessages: UiMessage[] = [];
-  public conversations: UiConversation[] = [];
-  public contacts: Contact[] = [];
+  ngOnInit() {
+    // 1) connect websocket
+    const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+    const url = `${proto}://${location.hostname}:${location.port}/ws`;
 
-  constructor(
-    private auth: AuthorizeService,
-    private router: Router,
-    private chatService: ChatService
-  ) {
+    this.ws.connect(url);
 
-    this.auth.onStateChanged().subscribe(state => {
-      this.isSignedIn = state;
-      if (state) {
-        this.auth.getUserInfo().subscribe(userInfo => {
-          this.currentUser = userInfo.name;
-          this.currentUserId = userInfo.id;
-        });
+    this.ws.messages$.subscribe(raw => {
+      const m = JSON.parse(raw) as Message;
+      if (m.from === this.selectedId || m.from === this.myId) {
+        this.chatLog.push(m);
       }
     });
+
+    this.loadContacts();
+    
   }
 
-  ngOnInit(): void {
-    this.auth.onStateChanged()
-      .pipe(filter(signedIn => signedIn))
-      .subscribe(() => {
-        this.auth.getUserInfo().subscribe(userInfo => {
-          this.currentUser = userInfo.name;
-          this.currentUserId = userInfo.id;
-
-          this.loadConversations();
-
-        });
-      });
-  }
-
-
-  private loadConversations(): void {
-    this.chatService.getConversations()
-      .subscribe((dtos) => {
-        this.conversations = dtos.map(dto => {
-          const msgs = dto.messages.map(m => ({
-            content: m.content,
-            sent: m.senderId === this.currentUserId,
-            time: new Date(m.timestamp)
-          }));
-          return {
-            id: dto.id,
-            contact: dto.contact,
-            messages: msgs,
-            lastMessage: msgs[msgs.length - 1],
-            unreadCount: 0
-          } as UiConversation;
-        });
-      });
-
-    this.chatService.getAvailableContacts()
-      .subscribe(cts => this.contacts = cts);
-  }
-
-
-  sendMessage(): void {
-    if (!this.currentContact || !this.newMessage.trim()) return;
-
-    this.chatService.sendMessage(this.currentContact.id, this.newMessage);
-
-    this.chatService.saveMessage({
-      receiverId: this.currentContact.id,
-      content: this.newMessage
-    }).subscribe();
-
-    const uiMsg: UiMessage = {
-      content: this.newMessage,
-      sent: true,
-      time: new Date()
-    };
-    const conv = this.conversations.find(c => c.contact.id === this.currentContact!.id);
-    if (conv) {
-      conv.messages.push(uiMsg);
-      conv.lastMessage = uiMsg;
-    }
-
-    this.newMessage = '';
-  }
-
-  onMessageReceived(callback: (sender: string, message: any) => void): void {
-    if (this.hubConnection) {
-      this.hubConnection.on('ReceiveMessage', (sender: string, message: any) => {
-        callback(sender, message);
-      });
-    }
-  }
-
-  startNewConversation(contact: Contact): void {
-    let conv = this.conversations.find(c => c.contact.id === contact.id);
-    if (!conv) {
-      conv = { id: 0, contact, messages: [], lastMessage: { content: "", sent: false ,time: new Date()  }, unreadCount: 0 };
-      this.conversations.push(conv);
-    }
-
-    this.currentContact = contact;
-    this.currentMessages = conv.messages;
-    this.closeModal();
-  }
-
-  // Utility methods
-  getInitials(name: string): string {
-    return name ? name.split(' ').map(n => n[0]).join('').toUpperCase() : '';
-  }
-
-  truncate(text: string, maxLength: number): string {
-    if (!text) return '';
-    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-  }
-
-  formatTime(date: Date): string {
-    return date ? date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
-  }
-
-  filteredContacts(): Contact[] {
-    return this.contacts.filter(c => c.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
-  }
-
-  sortedConversations(): UiConversation[] {
-    return this.conversations.sort((a, b) => {
-      const aTime = a.messages.length ? a.messages[a.messages.length - 1].time.getTime() : 0;
-      const bTime = b.messages.length ? b.messages[b.messages.length - 1].time.getTime() : 0;
-      return bTime - aTime;
+  private loadContacts(): void {
+    this.us.getUsers().subscribe({
+      next: (users: User[]) => {
+        this.contacts = users.map(u => ({
+          userId: u.id,
+          displayName: u.name
+        }));
+      },
+      error: err => console.error('Failed to load contacts', err)
     });
   }
 
-  // Menu methods
-  toggleMenu(): void {
-    this.isMenuCollapsed = !this.isMenuCollapsed;
+  select(userId: string) {
+    this.selectedId = userId;
+    this.chatLog = [];
+    // fetch history
+    this.http
+      .get<Message[]>(`/api/chat/history/${userId}`)
+      .subscribe(history => this.chatLog = history);
   }
 
-  signOut(): void {
-    if (this.isSignedIn) {
-      this.auth.signOut();
-      this.router.navigateByUrl('');
-    } else {
-      this.router.navigateByUrl('login');
-    }
-  }
-
-  openNewChatModal(): void {
-    this.showNewChatModal = true;
-  }
-
-  closeModal(): void {
-    this.showNewChatModal = false;
-    this.searchTerm = '';
-  }
-
-  selectConversation(conv: UiConversation): void {
-    this.currentContact = conv.contact;
-    this.currentMessages = conv.messages;
-    conv.unreadCount = 0;
+  send() {
+    const t = this.text.trim();
+    if (!t || !this.selectedId) return;
+    const msg = { to: this.selectedId, text: t };
+    this.ws.send(msg);
+    this.text = '';
   }
 }
