@@ -24,10 +24,10 @@ jobs:
           dotnet-version: '8.0'
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build SoliGest/SoliGest.sln --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ./publish
+        run: dotnet publish SoliGest/SoliGest.sln -c Release -o ./publish
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
