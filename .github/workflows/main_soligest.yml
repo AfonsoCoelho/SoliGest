@@ -29,11 +29,13 @@ jobs:
           npm install
           npm run build
 
+      - name: Clean wwwroot
+        run: |
+          remove-item -recurse soligest/soligest.server/wwwroot/*
+          
       - name: Publish Angular app
         run: |
-          rmdir /s /q soligest/soligest.server/wwwroot
-          mkdir soligest/soligest.server/wwwroot
-          xcopy /s /e /y soligest/soligest.client/dist soligest/soligest.server/wwwroot
+          cp -r soligest/soligest.client/dist soligest/soligest.server/wwwroot
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
