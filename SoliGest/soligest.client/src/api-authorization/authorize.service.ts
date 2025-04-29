@@ -5,6 +5,8 @@ import { UserInfo } from './authorize.dto';
 import { ActivatedRoute } from '@angular/router';
 import { ChatService } from '../app/services/chat.service';
 import { User, UsersService } from '../app/services/users.service';
+import jwt_decode from 'jwt-decode';
+
 
 
 @Injectable({
@@ -210,4 +212,22 @@ export class AuthorizeService {
   //    return this.loggedUserEmail;
   //  }
   //}
+
+
+
+  public getUserRole(): string {
+    const token = localStorage.getItem('authToken');
+    if (!token) return '';
+
+    try {
+      const decoded: any = jwt_decode(token);
+
+      // Tenta extrair a role do JWT
+      return decoded["role"] || decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || '';
+    } catch (e) {
+      console.error("Erro ao decodificar o token JWT:", e);
+      return '';
+    }
+  }
+
 }
