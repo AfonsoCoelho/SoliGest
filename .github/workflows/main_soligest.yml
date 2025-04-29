@@ -17,6 +17,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install and build Angular app
+        run: |
+          cd SoliGest/soligest.client
+          npm install
+          npm run build --configuration production
+
+      - name: Publish Angular app
+        run: |
+          rmdir /s /q soligest/soligest.server/wwwroot
+          mkdir soligest/soligest.server/wwwroot
+          xcopy /s /e /y soligest/soligest.client/dist soligest/soligest.server/wwwroot
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
