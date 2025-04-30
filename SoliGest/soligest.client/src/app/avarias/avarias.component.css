@@ -447,9 +447,8 @@
 }
 
 /* Popup */
-/* overlay fixado, sem centralizar verticalmente */
 .popup-overlay {
-  display: flex; /* controlado por *ngIf */
+  display: flex; 
   position: fixed;
   top: 0;
   left: 0;

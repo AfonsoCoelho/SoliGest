@@ -24,6 +24,12 @@ export class FuncionarioComponent implements OnInit {
   selectedUser: User | null = null;
   imagepath: string = "/assets/img/plus-18.png";
   private map: any;
+  // Cenas do popup
+  popupVisible: boolean = false;
+  popupMessage: string = '';
+  popupType: 'success' | 'error' = 'success';
+  timerInterval!: any;
+  timerWidth = 100;
 
   constructor(private service: UsersService, private router: Router) { }
 
@@ -135,9 +141,11 @@ export class FuncionarioComponent implements OnInit {
           console.log(result);
           this.getUsers();
           this.closeModal();
+          this.showPopup('success', `Utilizador apagado com sucesso.`);
         },
         (error) => {
           console.error(error);
+          this.showPopup('error', `Erro ao apagar Utilizador. Tente novamente mais tarde.`);
         }
       );
     }
@@ -148,9 +156,11 @@ export class FuncionarioComponent implements OnInit {
           (result) => {
             console.log(result);
             this.getUsers();
+            this.showPopup('success', `Utilizadores apagados com sucesso.`);
           },
           (error) => {
             console.error(error);
+            this.showPopup('error', `Erro ao apagar Utilizadores. Tente novamente mais tarde.`);
           }
         );
       });
@@ -208,5 +218,33 @@ export class FuncionarioComponent implements OnInit {
     this.filteredFuncionarios = this.sortedFuncionarios.filter(
       funcionario => funcionario.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
+  }
+
+  showPopup(type: 'success' | 'error', message: string) {
+    // inicializa
+    this.popupType = type;
+    this.popupMessage = message;
+    this.timerWidth = 100;
+    this.popupVisible = true;
+
+    // limpa qualquer intervalo anterior
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+
+    // diminui 2% a cada 100ms → 50 ciclos → 5s total
+    this.timerInterval = setInterval(() => {
+      this.timerWidth -= 2;
+      if (this.timerWidth <= 0) {
+        this.closePopup();
+      }
+    }, 100);
+  }
+
+  closePopup() {
+    this.popupVisible = false;
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
   }
 }

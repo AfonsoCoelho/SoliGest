@@ -38,6 +38,13 @@ export class FuncionarioCreateComponent implements OnInit {
   
   passwordStrength = 0;
 
+  // Cenas do popup
+  popupVisible: boolean = false;
+  popupMessage: string = '';
+  popupType: 'success' | 'error' = 'success';
+  timerInterval!: any;
+  timerWidth = 100;
+
   constructor(private authService: AuthorizeService,
     private formBuilder: FormBuilder,
     private router: Router, private usersService: UsersService ) {
@@ -175,6 +182,37 @@ export class FuncionarioCreateComponent implements OnInit {
   //  }
   //    this.router.navigate(['/funcionarios']);
   // }
+  showPopup(type: 'success' | 'error', message: string) {
+    // inicializa
+    this.popupType = type;
+    this.popupMessage = message;
+    this.timerWidth = 100;
+    this.popupVisible = true;
+
+    // limpa qualquer intervalo anterior
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+
+    // diminui 2% a cada 100ms → 50 ciclos → 5s total
+    this.timerInterval = setInterval(() => {
+      this.timerWidth -= 2;
+      if (this.timerWidth <= 0) {
+        this.closePopup();
+      }
+    }, 100);
+  }
+
+  closePopup() {
+    this.popupVisible = false;
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+    if (this.popupMessage = 'Registo bem sucedido!') {
+      this.router.navigateByUrl("/");
+    }
+  }
+
   onFileSelected(event: any) {
     this.profilePic = event.target.files[0] as File;
     console.log(this.profilePic);
@@ -182,7 +220,8 @@ export class FuncionarioCreateComponent implements OnInit {
 
   public register(): void {
     if (!this.funcionarioCreateForm.valid) {
-      alert("Por favor corriga os erros do formulário!");
+      //alert("Por favor corriga os erros do formulário!");
+      this.showPopup('error', `Por favor corriga os erros do formulário!`)
       return;
     }
 
@@ -193,7 +232,8 @@ export class FuncionarioCreateComponent implements OnInit {
     if (profilePic?.value instanceof File) {
       var profilePicFile = profilePic.value as File;
     }
-    alert(profilePic?.value);
+    //alert(profilePic?.value);
+    //this.showPopup('success', `Utilizador criado com sucesso`) // mudar depois, tirar
     const name = this.funcionarioCreateForm.get('name')?.value;
     const email = this.funcionarioCreateForm.get('email')?.value;
     const password = this.funcionarioCreateForm.get('password')?.value;
@@ -214,19 +254,21 @@ export class FuncionarioCreateComponent implements OnInit {
           this.usersService.getUserByEmail(email).subscribe(
             (result) => {
               this.usersService.saveProfilePicture(result.id, this.profilePic).subscribe(
-                (result) => console.log("Foto de perfil guardada!"),
-                (error) => console.error("Erro ao guardar a foto de perfil")
+                (result) => this.showPopup('success', `Foto de perfil guardada`),
+                (error) => this.showPopup('error', `Erro ao guardar a foto de perfil`)
               )
             },
-            (error) => console.error("Erro a ir buscar o utilizador após criação")
+            (error) => this.showPopup('error', `Erro a ir buscar o utilizador após criação`)
           )
-          this.router.navigateByUrl("/");
-          alert("Registo bem sucedido!");
+          this.showPopup('success', `Registo bem sucedido!`);
+          //this.router.navigateByUrl("/");
+          //alert("Registo bem sucedido!");
         }
       }).catch(
         error => {
           this.funcionarioCreateFailed = true;
-          alert("Ocorreu um erro! Por favor tente novamente mais tarde.");
+          //alert("Ocorreu um erro! Por favor tente novamente mais tarde.");
+          this.showPopup('error', `Ocorreu um erro! Por favor tente novamente mais tarde.`);
           if (error.error) {
             const errorObj = JSON.parse(error.error);
             if (errorObj && errorObj.errors) {

@@ -79,7 +79,7 @@
             <div class="form-group">
               <label for="password">Password</label>
               <!--<input type="password" id="password" name="password" [(ngModel)]="user.password"
-    (input)="checkPasswordStrength()" required>-->
+              (input)="checkPasswordStrength()" required>-->
               <input type="password" id="password" name="password" formControlName="password"
                      (input)="checkPasswordStrength()">
               <div class="password-strength">
@@ -146,48 +146,83 @@
             <input type="date" id="endHoliday" name="endHoliday" formControlName="endHoliday">
           </div>
           <!--<div class="form-group">
-    <label for="folgasMes">Folgas do Mês (até 5 dias)</label>
-    <input type="date" (change)="adicionarFolga()" name="folgasMes" id="folgasMes">
-    <div *ngIf="folgasMes.length > 0" class="date-selections">
-      <p>Dias selecionados:</p>
-      <ul class="date-list">
-        <li *ngFor="let dia of folgasMes; let i = index">
-          {{ dia | date: 'dd/MM/yyyy' }}
-          <button type="button" class="small-btn" (click)="removerFolga(i)">Remover</button>
-        </li>
-      </ul>
-      <button type="button" (click)="limparFolgas()">Limpar Todas</button>
-    </div>
-    <div *ngIf="folgasMes.length >= 5" class="error-feedback">
-      Limite de 5 dias de folga atingido
-    </div>
-  </div>-->
+            <label for="folgasMes">Folgas do Mês (até 5 dias)</label>
+            <input type="date" (change)="adicionarFolga()" name="folgasMes" id="folgasMes">
+            <div *ngIf="folgasMes.length > 0" class="date-selections">
+              <p>Dias selecionados:</p>
+              <ul class="date-list">
+                <li *ngFor="let dia of folgasMes; let i = index">
+                  {{ dia | date: 'dd/MM/yyyy' }}
+                  <button type="button" class="small-btn" (click)="removerFolga(i)">Remover</button>
+                </li>
+              </ul>
+              <button type="button" (click)="limparFolgas()">Limpar Todas</button>
+            </div>
+            <div *ngIf="folgasMes.length >= 5" class="error-feedback">
+              Limite de 5 dias de folga atingido
+            </div>
+          </div>-->
           <!-- Férias do Ano -->
           <!--<div class="form-group">
-    <label for="feriasInicio">Férias do Ano:</label>
-    <div>
-      <input type="date" name="feriasInicio" id="feriasInicio">
-      <button type="button" (click)="adicionarFerias()">Adicionar Período</button>
-    </div>
-    <div *ngIf="feriasAno.length > 0" class="date-selections">
-      <p>Períodos selecionados:</p>
-      <ul class="date-list">
-        <li *ngFor="let periodo of feriasAno; let i = index">
-          {{ periodo.inicio | date: 'dd/MM/yyyy' }} - {{ periodo.fim | date: 'dd/MM/yyyy' }}
-          <button type="button" class="small-btn" (click)="removerFerias(i)">Remover</button>
-        </li>
-      </ul>
-      <button type="button" (click)="limparFerias()">Limpar Todos</button>
-    </div>
-    <div *ngIf="feriasAno.length >= 2" class="error-feedback">
-      Limite de 2 períodos de férias atingido
-    </div>
-  </div>-->
+            <label for="feriasInicio">Férias do Ano:</label>
+            <div>
+              <input type="date" name="feriasInicio" id="feriasInicio">
+              <button type="button" (click)="adicionarFerias()">Adicionar Período</button>
+            </div>
+            <div *ngIf="feriasAno.length > 0" class="date-selections">
+              <p>Períodos selecionados:</p>
+              <ul class="date-list">
+                <li *ngFor="let periodo of feriasAno; let i = index">
+                  {{ periodo.inicio | date: 'dd/MM/yyyy' }} - {{ periodo.fim | date: 'dd/MM/yyyy' }}
+                  <button type="button" class="small-btn" (click)="removerFerias(i)">Remover</button>
+                </li>
+              </ul>
+              <button type="button" (click)="limparFerias()">Limpar Todos</button>
+            </div>
+            <div *ngIf="feriasAno.length >= 2" class="error-feedback">
+              Limite de 2 períodos de férias atingido
+            </div>
+          </div>-->
 
           <button type="submit" class="submit-btn">
             Registar Utilizador
           </button>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup HTML -->
+  <div *ngIf="popupVisible" class="popup-overlay">
+    <div class="popup-box">
+      <div class="popup-header" [ngClass]="popupType">
+        <!-- Success SVG -->
+        <svg *ngIf="popupType==='success'" xmlns="http://www.w3.org/2000/svg"
+             class="icon-check" viewBox="0 0 24 24" fill="none"
+             stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6L9 17l-5-5" />
+        </svg>
+        <!-- Error SVG -->
+        <svg *ngIf="popupType==='error'" xmlns="http://www.w3.org/2000/svg"
+             class="icon-error" viewBox="0 0 24 24" fill="none"
+             stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="15" y1="9" x2="9" y2="15" />
+          <line x1="9" y1="9" x2="15" y2="15" />
+        </svg>
+      </div>
+
+      <!-- timer bar -->
+      <div class="popup-timer">
+        <div class="popup-timer-bar" [style.width.%]="timerWidth"></div>
+      </div>
+
+      <div class="popup-body">
+        <strong>{{ popupType === 'success' ? 'SUCESSO:' : 'ERRO:' }}</strong><br>
+        {{ popupMessage }}
+      </div>
+      <div class="popup-footer">
+        <button type="button" class="btn-close" (click)="closePopup()">Fechar</button>
       </div>
     </div>
   </div>

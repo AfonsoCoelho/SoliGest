@@ -15,6 +15,8 @@ export class PaineisSolaresComponent implements OnInit {
   sortBy: string = 'id';
   sortDirection: string = 'asc';
   searchTerm: string = '';
+  popupMessage: string = '';
+  popupType: 'success' | 'error' = 'success';
 
   public panelsData: SolarPanel[] = [];
   sortedPanels: SolarPanel[] = [];
@@ -24,16 +26,20 @@ export class PaineisSolaresComponent implements OnInit {
   selectedPanel: SolarPanel | null = null;
 
   map: any;
+  timerInterval!: any;
+  timerWidth = 100;
 
   showCreateModal: boolean = false;
   showEditModal: boolean = false;
   showDeleteModal: boolean = false;
   showViewModal: boolean = false;
+  popupVisible: boolean = false;
 
   newPanel: SolarPanel = this.createEmptyPanel();
   editingPanel: SolarPanel = this.createEmptyPanel();
   viewingPanel: SolarPanel | null = null;
   panelToDelete: number | null = null;
+
 
   constructor(private http: HttpClient, private service: SolarPanelsService, private router: Router) { }
 
@@ -197,7 +203,8 @@ export class PaineisSolaresComponent implements OnInit {
 
   updatePanel(): void {
     if (!this.editingPanel.name.trim()) {
-      alert('O nome do painel é obrigatório!');
+      //alert('O nome do painel é obrigatório!');
+      this.showPopup('error', `O nome do painel é obrigatório!`);
       return;
     }
 
@@ -216,12 +223,14 @@ export class PaineisSolaresComponent implements OnInit {
     if (id) {
       this.service.updateSolarPanel(id, name, priority, status, statusClass, latitude, longitude, description, phone, email, address).subscribe(
         (result) => {
-          alert("Painel solar atualizado com sucesso!");
+          //alert("Painel solar atualizado com sucesso!");
+          this.showPopup('success', `Painel solar atualizado com sucesso!`);
           this.closeEditPanelModal();
           this.loadPanels();
         },
         (error) => {
-          alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+          //alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+          this.showPopup('error', `Ocorreu um erro. Por favor tente novamente mais tarde.`);
           console.error(error);
         }
       );
@@ -239,7 +248,8 @@ export class PaineisSolaresComponent implements OnInit {
 
   createPanel(): void {
     if (!this.newPanel.name.trim()) {
-      alert('O nome do painel é obrigatório!');
+      //alert('O nome do painel é obrigatório!');
+      this.showPopup('error', `O nome do painel é obrigatório!`);
       return;
     }
 
@@ -259,12 +269,14 @@ export class PaineisSolaresComponent implements OnInit {
 
     this.service.createSolarPanel(solarPanel).subscribe(
       (result) => {
-        alert("Novo painel solar criado com sucesso!");
+        //alert("Novo painel solar criado com sucesso!");
+        this.showPopup('success', `Novo painel solar criado com sucesso!`);
         this.closeCreatePanelModal();
         this.loadPanels();
       },
       (error) => {
-        alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+        //alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+        this.showPopup('error', `Ocorreu um erro. Por favor tente novamente mais tarde.`);
         console.error(error);
       }
     );
@@ -284,12 +296,14 @@ export class PaineisSolaresComponent implements OnInit {
     if (this.panelToDelete) {
       this.service.deleteSolarPanel(this.panelToDelete).subscribe(
         (result) => {
-          alert("Painel solar removido com sucesso!");
+          //alert("Painel solar removido com sucesso!");
+          this.showPopup('success', `Painel solar removido com sucesso!`);
           this.cancelDelete();
           this.loadPanels();
         },
         (error) => {
-          alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+          //alert("Ocorreu um erro. Por favor tente novamente mais tarde.");
+          this.showPopup('error', `Ocorreu um erro. Por favor tente novamente mais tarde.`);
           console.error(error);
         }
       );
@@ -353,5 +367,33 @@ export class PaineisSolaresComponent implements OnInit {
 
   selectPanel(panel: SolarPanel): void {
     this.flyToPanel(panel);
+  }
+
+  showPopup(type: 'success' | 'error', message: string) {
+    // inicializa
+    this.popupType = type;
+    this.popupMessage = message;
+    this.timerWidth = 100;
+    this.popupVisible = true;
+
+    // limpa qualquer intervalo anterior
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+
+    // diminui 2% a cada 100ms → 50 ciclos → 5s total
+    this.timerInterval = setInterval(() => {
+      this.timerWidth -= 2;
+      if (this.timerWidth <= 0) {
+        this.closePopup();
+      }
+    }, 100);
+  }
+
+  closePopup() {
+    this.popupVisible = false;
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
   }
 }
