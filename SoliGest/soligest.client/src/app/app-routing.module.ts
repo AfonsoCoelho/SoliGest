@@ -16,24 +16,23 @@ import { ChatComponent } from './chat/chat.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { HelpComponent } from './help/help.component';
 import { MetricsComponent } from './metrics/metrics.component';
+import { AuthGuard } from '../api-authorization/authorize.guard';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent }, // A raiz agora carrega a página de registar
-  { path: 'registar', component: RegistarComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent }, // Corrigido para exibir a página de login corretamente
+  { path: '', title: 'SoliGest', component: HomeComponent, canActivate: [AuthGuard] }, // A raiz agora carrega a página de registar
+  { path: 'login', title: 'Login • SoliGest', component: LoginComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] }, // Corrigido para exibir a página de login corretamente
   { path: 'pwrecovery', component: PwrecoveryComponent },
   { path: 'changepw', component: ChangepwComponent },
-  { path: 'funcionario', component: FuncionarioComponent },
-  { path: 'funcionario-create', component: FuncionarioCreateComponent },
-  { path: 'paineis-solares', component: PaineisSolaresComponent },
-  { path: 'avarias', component: AvariasComponent },
-  { path: 'funcionario-edit/:id', component: FuncionarioEditComponent },
-  { path: 'chat', component: ChatComponent },
+  { path: 'funcionario', component: FuncionarioComponent, canActivate: [AuthGuard] },
+  { path: 'funcionario-create', component: FuncionarioCreateComponent, canActivate: [AuthGuard] },
+  { path: 'paineis-solares', component: PaineisSolaresComponent, canActivate: [AuthGuard] },
+  { path: 'avarias', component: AvariasComponent, canActivate: [AuthGuard] },
+  { path: 'funcionario-edit/:id', component: FuncionarioEditComponent, canActivate: [AuthGuard] },
+  { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
   { path: 'about-us', component: AboutUsComponent },
   { path: 'help', component: HelpComponent },
-  { path: 'metrics', component: MetricsComponent },
-  { path: '**', redirectTo: '' } // Qualquer rota inválida vai para registar
+  { path: 'metrics', component: MetricsComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
