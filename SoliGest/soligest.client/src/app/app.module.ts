@@ -6,7 +6,6 @@ import { NgApexchartsModule } from "ng-apexcharts";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { RegistarComponent } from './registar/registar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApiAuthorizationModule } from '../api-authorization/api-authorization.module';
 import { AuthInterceptor } from '../api-authorization/authorize.interceptor';
@@ -17,9 +16,7 @@ import { ChangepwComponent } from './changepw/changepw.component';
 import { PwrecoveryComponent } from './pwrecovery/pwrecovery.component';
 import { FuncionarioComponent } from './funcionario/funcionario.component';
 import { FuncionarioCreateComponent } from './funcionario-create/funcionario-create.component';
-import { FuncionarioDeleteComponent } from './funcionario-delete/funcionario-delete.component';
 import { FuncionarioEditComponent } from './funcionario-edit/funcionario-edit.component';
-import { FuncionarioDetailsComponent } from './funcionario-details/funcionario-details.component';
 import { PaineisSolaresComponent } from './paineis-solares/paineis-solares.component';
 
 import { AvariasComponent } from './avarias/avarias.component';
@@ -37,15 +34,12 @@ import { MetricsComponent } from './metrics/metrics.component';
   declarations: [
     AppComponent,
     LoginComponent,
-    RegistarComponent,
     ChangepwComponent,
     PwrecoveryComponent,
     HomeComponent,
     FuncionarioComponent,
     FuncionarioCreateComponent,
-    FuncionarioDeleteComponent,
     FuncionarioEditComponent,
-    FuncionarioDetailsComponent,
     PaineisSolaresComponent,
     AvariasComponent,
     ChatComponent,

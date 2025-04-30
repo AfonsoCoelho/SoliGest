@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { RegistarComponent } from './registar/registar.component';
 import { LoginComponent } from './login/login.component';
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
@@ -13,7 +12,6 @@ import { FuncionarioCreateComponent } from './funcionario-create/funcionario-cre
 import { FuncionarioEditComponent } from './funcionario-edit/funcionario-edit.component';
 import { PaineisSolaresComponent } from './paineis-solares/paineis-solares.component';
 import { AvariasComponent } from './avarias/avarias.component';
-import { FuncionarioDetailsComponent } from './funcionario-details/funcionario-details.component'; //vamos apagar
 import { ChatComponent } from './chat/chat.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { HelpComponent } from './help/help.component';
@@ -31,7 +29,6 @@ const routes: Routes = [
   { path: 'paineis-solares', component: PaineisSolaresComponent },
   { path: 'avarias', component: AvariasComponent },
   { path: 'funcionario-edit/:id', component: FuncionarioEditComponent },
-  { path: 'funcionario-details/:id', component: FuncionarioDetailsComponent },
   { path: 'chat', component: ChatComponent },
   { path: 'about-us', component: AboutUsComponent },
   { path: 'help', component: HelpComponent },

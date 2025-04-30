@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from '../app/login/login.component';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { RegistarComponent } from '../app/registar/registar.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FuncionarioCreateComponent } from '../app/funcionario-create/funcionario-create.component';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     RouterModule.forChild(
       [
         { path: 'signin', component: LoginComponent },
-        { path: 'new', component: RegistarComponent },
+        { path: 'new', component: FuncionarioCreateComponent },
       ]
     )
   ],
