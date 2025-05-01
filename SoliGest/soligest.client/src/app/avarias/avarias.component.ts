@@ -487,7 +487,7 @@ export class AvariasComponent implements OnInit {
         },
         (error) => {
           //alert("Ocorreu um erro ao atribuir o técnico.");
-          this.showPopup('error', `Avaria ID: ${this.selectedAvaria!.id} atribuída a ${user.name} com sucesso.`);
+          this.showPopup('error', `Ocorreu um erro ao atribuir o técnico.`);
           console.error(error);
         }
       );
@@ -543,7 +543,7 @@ export class AvariasComponent implements OnInit {
     this.aRService.create(newAssistanceRequest).subscribe(
       (result) => {
         //alert("Novo pedido de assistência técnica criado com sucesso!");
-        this.showPopup('error', 'Novo pedido de assistência técnica criado com sucesso!');
+        this.showPopup('success', 'Novo pedido de assistência técnica criado com sucesso!');
         this.onCloseModal();
         this.loadAssistanceRequests();
         setTimeout(() => {

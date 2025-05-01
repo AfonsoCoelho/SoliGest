@@ -32,12 +32,11 @@ export class PaineisSolaresComponent implements OnInit {
   showCreateModal: boolean = false;
   showEditModal: boolean = false;
   showDeleteModal: boolean = false;
-  showViewModal: boolean = false;
   popupVisible: boolean = false;
 
   newPanel: SolarPanel = this.createEmptyPanel();
   editingPanel: SolarPanel = this.createEmptyPanel();
-  viewingPanel: SolarPanel | null = null;
+
   panelToDelete: number | null = null;
 
 
@@ -159,9 +158,13 @@ export class PaineisSolaresComponent implements OnInit {
         this.infoWindow.close();
         const infoWindowContent = `
           <div style="padding: 10px;">
-            <h3 style="margin: 0 0 5px 0;">Painel ID: ${panel.id}</h3>
-            <p style="margin: 0 0 5px 0;"><strong>Nome:</strong> ${panel.name}</p>
-            <p style="margin: 0 0 5px 0;"><strong>Estado:</strong> ${panel.status}</p>
+            <h2>Detalhes do Painel ID: ${panel.id}</h2>
+            <p><strong>Nome/Localização:</strong> ${panel.name ?? 'N/A'}</p>
+            <p><strong>Prioridade:</strong> ${panel.priority ?? 'N/A'}</p>
+            <p><strong>Estado:</strong> ${panel.status ?? 'N/A'}</p>
+            <p><strong>Descrição:</strong> ${panel.description ?? 'N/A'}</p>
+            <p><strong>Telefone:</strong> ${panel.phoneNumber ?? 'N/A'}</p>
+            <p><strong>Email:</strong> ${panel.email ?? 'N/A'}</p>
           </div>
         `;
         this.infoWindow.setContent(infoWindowContent);
@@ -169,9 +172,13 @@ export class PaineisSolaresComponent implements OnInit {
       } else if (marker) {
         const infoWindowContent = `
           <div style="padding: 10px;">
-            <h3 style="margin: 0 0 5px 0;">Painel ID: ${panel.id}</h3>
-            <p style="margin: 0 0 5px 0;"><strong>Nome:</strong> ${panel.name}</p>
-            <p style="margin: 0 0 5px 0;"><strong>Estado:</strong> ${panel.status}</p>
+            <h2>Detalhes do Painel ID: ${panel.id}</h2>
+            <p><strong>Nome/Localização:</strong> ${panel.name ?? 'N/A'}</p>
+            <p><strong>Prioridade:</strong> ${panel.priority ?? 'N/A'}</p>
+            <p><strong>Estado:</strong> ${panel.status ?? 'N/A'}</p>
+            <p><strong>Descrição:</strong> ${panel.description ?? 'N/A'}</p>
+            <p><strong>Telefone:</strong> ${panel.phoneNumber ?? 'N/A'}</p>
+            <p><strong>Email:</strong> ${panel.email ?? 'N/A'}</p>
           </div>
         `;
         this.infoWindow = new google.maps.InfoWindow({ content: infoWindowContent });
@@ -179,16 +186,6 @@ export class PaineisSolaresComponent implements OnInit {
       }
       this.selectedPanel = panel;
     }
-  }
-
-  openViewPanelModal(panel: SolarPanel): void {
-    this.viewingPanel = panel;
-    this.showViewModal = true;
-  }
-
-  closeViewPanelModal(): void {
-    this.viewingPanel = null;
-    this.showViewModal = false;
   }
 
   openEditPanelModal(panel: SolarPanel): void {

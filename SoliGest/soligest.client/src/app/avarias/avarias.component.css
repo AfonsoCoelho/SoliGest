@@ -253,10 +253,10 @@
   font-weight: bold;
 }
 
-.selected {
+/*.selected {
   background-color: #f0f0f0;
   border: 2px solid #37AFE1;
-}
+}*/
 
 .no-panels-message {
   text-align: center;
