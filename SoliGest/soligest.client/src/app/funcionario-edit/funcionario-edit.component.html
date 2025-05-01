@@ -100,21 +100,7 @@
             <label for="endHoliday">Final Férias:</label>
             <input type="date" id="endHoliday" name="endHoliday" formControlName="endHoliday">
           </div>
-          <!-- Férias do Ano -->
-          <!--<div class="form-group">
-    <label for="feriasAno">Férias do Ano (até 2 semanas):</label>
-    <input type="date" id="feriasAno" name="feriasAno" (change)="adicionarFerias()" multiple>
-    <div *ngIf="feriasAno.length > 0">
-      <p>Período selecionado:</p>
-      <ul>
-        <li *ngFor="let periodo of feriasAno">
-          {{ periodo.inicio | date: 'dd/MM/yyyy' }} - {{ periodo.fim | date: 'dd/MM/yyyy' }}
-        </li>
-      </ul>
-      <button type="button" (click)="limparFerias()">Limpar Férias</button>
-    </div>
-    <p *ngIf="feriasAno.length >= 2" class="error-feedback">Limite de 2 semanas de férias atingido.</p>
-  </div>-->
+         
           <!-- Botão de Submissão -->
           <div class="submit-cancel-buttons-container">
             <button type="submit" class="submit-btn">Salvar Alterações</button>

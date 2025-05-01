@@ -16,18 +16,7 @@ export class FuncionarioEditComponent implements OnInit {
   funcionarioEditSucceeded: boolean = false;
   utilizador: User | undefined;
 
-  //user: User = {
-  //  id: '',
-  //  name: '',
-  //  email: '',
-  //  address1: '', // Morada 1
-  //  address2: '', // Morada 2
-  //  phoneNumber: 0, // Telemóvel
-  //  birthDate: undefined, // Data de Nascimento
-  //  role: '',
-  //  folgasMes: [],
-  //  feriasAno: []
-  //};
+  
 
   user: User | undefined;
 
@@ -47,8 +36,7 @@ export class FuncionarioEditComponent implements OnInit {
 }
 
   ngOnInit(): void {
-    //var user = this.getUser();
-    //user = this.utilizador;
+    
     this.getUser();
 
     this.funcionarioEditFailed = false;
@@ -56,21 +44,7 @@ export class FuncionarioEditComponent implements OnInit {
     this.errors = [];
   }
 
-  /*
-  // Carrega os dados do utilizador
-  carregarUtilizador(id: number): void {
-    this.usersService.getUserById(id).subscribe(
-      (user) => {
-        this.user = user;
-        this.folgasMes = user.folgasMes || [];
-        this.feriasAno = user.feriasAno || [];
-      },
-      (error) => {
-        console.error('Erro ao carregar utilizador:', error);
-      }
-    );
-  }
-  */
+ 
 
   // Adiciona um dia de folga à lista
   adicionarFolga(): void {

@@ -23,10 +23,7 @@ interface Notification {
 export class HeaderComponent implements OnInit{
   constructor(public router: Router, private authService: AuthorizeService, private un: UserNotificationsService, private us: UsersService) { }
     ngOnInit(): void {
-      //this.getNotifications();
-      //this.authService.user().subscribe(
-      //  (result) => console.log(result)
-      //)
+     
 
       if (localStorage.getItem('loggedUserId') != null) {
         this.getProfilePic();
@@ -128,7 +125,7 @@ export class HeaderComponent implements OnInit{
   }
 
   openChat(): void {
-    this.router.navigate(['/chat']); // ✅ Navega para o chat
+    this.router.navigate(['/chat']); 
   }
 
   logout(): void {
