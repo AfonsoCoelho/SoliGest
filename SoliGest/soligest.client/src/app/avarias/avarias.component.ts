@@ -145,21 +145,69 @@ export class AvariasComponent implements OnInit {
         console.error(error);
       }
     );
-    this.initMap();
+    //this.initMap();
   }
 
   loadAssistanceRequests(): void {
-    this.aRService.getAll().subscribe(
-      (result) => {
-        this.avariasData = result;
-        this.sortAvarias();
-        this.filterAvarias();
+    const loggedUserId = localStorage.getItem('loggedUserId');
+    if (!loggedUserId) {
+      // No user logged-in: clear everything
+      this.avariasData = [];
+      this.sortedAvarias = [];
+      this.filteredAvarias = [];
+      this.clearMarkers();
+      return;
+    }
+
+    // 1) Get the user (to check role)
+    this.uService.getUser(loggedUserId).subscribe(
+      (user) => {
+        // 2) Pull all requests
+        this.aRService.getAll().subscribe(
+          (all) => {
+            // 3) Role-based filter
+            if (user.role === 'Administrativo' || user.role === 'Supervisor') {
+              this.avariasData = all;
+            } else {
+              this.avariasData = all.filter(a =>
+                a.assignedUser?.id.toString() === loggedUserId
+              );
+            }
+
+            // 4) Sort & in-memory filter
+            this.sortAvarias();
+            this.filterAvarias();
+
+            // 5) Clear old markers & InfoWindow, then redraw
+            this.clearMarkers();
+            this.addAvariaMarkers();
+
+            // 6) (Optional) reset map view to default
+            this.map.setCenter({ lat: 39.3999, lng: -8.2245 });
+            this.map.setZoom(7);
+          },
+          (err) => console.error('Error loading avarias:', err)
+        );
       },
-      (error) => {
-        console.error(error);
+      (err) => {
+        console.error('Error fetching user:', err);
+        // Fallback: show only assigned
+        this.aRService.getAll().subscribe(
+          (all) => {
+            this.avariasData = all.filter(a =>
+              a.assignedUser?.id.toString() === loggedUserId
+            );
+            this.sortAvarias();
+            this.filterAvarias();
+            this.clearMarkers();
+            this.addAvariaMarkers();
+            this.map.setCenter({ lat: 39.3999, lng: -8.2245 });
+            this.map.setZoom(7);
+          },
+          (error) => console.error('Error loading avarias:', error)
+        );
       }
     );
-    this.initMap();
   }
 
   loadUsers(): void {
@@ -175,9 +223,15 @@ export class AvariasComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSolarPanels();
-    this.loadAssistanceRequests();
     this.loadUsers();
-    //this.availableTechnicians = this.users.filter(user => this.isUserAvailable(user));   
+    this.loadAssistanceRequests();
+  }
+
+  ngAfterViewInit(): void {
+    this.initMap();              
+    this.loadSolarPanels();      
+    this.loadUsers();            
+    this.loadAssistanceRequests();
   }
 
   initMap(): void {
@@ -236,9 +290,6 @@ export class AvariasComponent implements OnInit {
         }
       ]
     });
-
-
-    this.addAvariaMarkers();
   }
 
   addAvariaMarkers(): void {
@@ -341,7 +392,12 @@ export class AvariasComponent implements OnInit {
   }
 
   clearMarkers(): void {
-    this.initMap();
+    this.markers.forEach(m => m.setMap(null));
+    this.markers = [];
+    if (this.infoWindow) {
+      this.infoWindow.close();
+      this.infoWindow = null;
+    }
   }
 
   filterAvarias(): void {

@@ -24,15 +24,17 @@ namespace SoliGest.Server.Data
             var solarPanel2 = await context.SolarPanel.FirstOrDefaultAsync(a => a.Id == 2);
             var solarPanel3 = await context.SolarPanel.FirstOrDefaultAsync(a => a.Id == 3);
 
-            // Recupera um usuário com o papel de "Técnico"
-            var user1 = await context.Users.FirstOrDefaultAsync(u => u.Role.Equals("Técnico"));
+            var user1 = await context.Users
+                .FirstOrDefaultAsync(u => u.Name == "SoliGest Technician");
 
-            // Verifica se o usuário técnico foi encontrado, caso contrário, exibe mensagem de alerta
             if (user1 == null)
             {
-                Console.WriteLine("user1 e null atencao");
+                Console.WriteLine("SoliGest Technician não encontrado");
             }
-            Console.WriteLine("teste yaa");
+            else
+            {
+                Console.WriteLine("SoliGest Technician encontrado");
+            }
 
             // Verifica se já existem pedidos de assistência no banco de dados
             if (!context.AssistanceRequest.Any())
