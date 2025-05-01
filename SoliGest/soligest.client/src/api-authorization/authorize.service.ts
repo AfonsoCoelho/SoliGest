@@ -205,9 +205,5 @@ export class AuthorizeService {
     return this.loggedUserEmail;
   }
 
-  //public getLoggedUser(): Observable<User> {
-  //  if (this.isSignedIn()) {
-  //    return this.loggedUserEmail;
-  //  }
-  //}
+ 
 }

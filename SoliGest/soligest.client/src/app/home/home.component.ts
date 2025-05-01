@@ -77,8 +77,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.sPService.getSolarPanels().subscribe(
       (result) => {
         panels = result;
-        //this.sortPanels();
-        //this.addPanelMarkers(); // Adiciona os markers APÓS carregar e ordenar os painéis
         panels.forEach(panel => {
           const marker = new google.maps.Marker({
             position: new google.maps.LatLng(panel.latitude, panel.longitude),
