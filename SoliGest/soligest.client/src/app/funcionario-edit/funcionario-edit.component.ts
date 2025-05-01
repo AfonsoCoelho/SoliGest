@@ -16,18 +16,7 @@ export class FuncionarioEditComponent implements OnInit {
   funcionarioEditSucceeded: boolean = false;
   utilizador: User | undefined;
 
-  //user: User = {
-  //  id: '',
-  //  name: '',
-  //  email: '',
-  //  address1: '', // Morada 1
-  //  address2: '', // Morada 2
-  //  phoneNumber: 0, // Telemóvel
-  //  birthDate: undefined, // Data de Nascimento
-  //  role: '',
-  //  folgasMes: [],
-  //  feriasAno: []
-  //};
+  
 
   user: User | undefined;
 
@@ -36,6 +25,13 @@ export class FuncionarioEditComponent implements OnInit {
 
   feriasInicio: Date | null = null; // Data de início das férias
   feriasAno: { inicio: Date, fim: Date }[] = []; // Lista de períodos de férias
+
+  // Cenas do popup
+  popupVisible: boolean = false;
+  popupMessage: string = '';
+  popupType: 'success' | 'error' = 'success';
+  timerInterval!: any;
+  timerWidth = 100;
 
   constructor(
     private route: ActivatedRoute,
@@ -47,8 +43,7 @@ export class FuncionarioEditComponent implements OnInit {
 }
 
   ngOnInit(): void {
-    //var user = this.getUser();
-    //user = this.utilizador;
+    
     this.getUser();
 
     this.funcionarioEditFailed = false;
@@ -56,21 +51,7 @@ export class FuncionarioEditComponent implements OnInit {
     this.errors = [];
   }
 
-  /*
-  // Carrega os dados do utilizador
-  carregarUtilizador(id: number): void {
-    this.usersService.getUserById(id).subscribe(
-      (user) => {
-        this.user = user;
-        this.folgasMes = user.folgasMes || [];
-        this.feriasAno = user.feriasAno || [];
-      },
-      (error) => {
-        console.error('Erro ao carregar utilizador:', error);
-      }
-    );
-  }
-  */
+ 
 
   // Adiciona um dia de folga à lista
   adicionarFolga(): void {
@@ -158,6 +139,7 @@ export class FuncionarioEditComponent implements OnInit {
         },
         error: err => {
           console.error(err);
+          this.showPopup('error', `Ocorreu um erro.`);
         }
       });
     }
@@ -188,9 +170,41 @@ export class FuncionarioEditComponent implements OnInit {
 
     if (id) {
       this.usersService.updateUser(id, name, address1, address2, phoneNumber, birthDate, email, role, dayOff, startHoliday, endHoliday).subscribe(res => {
-        alert('Utilizador atualizado com sucesso!');
-        this.router.navigateByUrl('people');
+        this.showPopup('success', `Utilizador atualizado com sucesso!`);
+        //alert('Utilizador atualizado com sucesso!');
+        //this.router.navigateByUrl('people');
       });
+    }
+  }
+
+  showPopup(type: 'success' | 'error', message: string) {
+    // inicializa
+    this.popupType = type;
+    this.popupMessage = message;
+    this.timerWidth = 100;
+    this.popupVisible = true;
+
+    // limpa qualquer intervalo anterior
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+
+    // diminui 2% a cada 100ms → 50 ciclos → 5s total
+    this.timerInterval = setInterval(() => {
+      this.timerWidth -= 2;
+      if (this.timerWidth <= 0) {
+        this.closePopup();
+      }
+    }, 100);
+  }
+
+  closePopup() {
+    this.popupVisible = false;
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+    if (this.popupMessage = "Utilizador atualizado com sucesso!") {
+      this.router.navigateByUrl('/funcionario');
     }
   }
 }

@@ -13,6 +13,7 @@ using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddDbContext<SoliGestServerContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SoliGestServerContext") ?? throw new InvalidOperationException("Connection string 'SoliGestServerContext' not found.")));
 

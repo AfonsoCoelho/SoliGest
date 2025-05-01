@@ -34,42 +34,6 @@ export class UserNotificationsService {
     return this.http.delete<UserNotification>('api/UserNotifications/' + id);
   }
 
-  //getByLoggedInUser(): any {
-  //  var userEmail: string;
-  //  var user: User;
-  //  var users: User[];
-  //  var allNotifications: UserNotification[];
-  //  var userNotifications: UserNotification[];
-  //  var userInfo: UserInfo;
-  //  if (this.authService.isSignedIn()) {
-  //    this.authService.getUserInfo().subscribe(
-  //      (result) => {
-  //        userInfo = result;
-  //        userEmail = userInfo.email;
-  //        console.log(result);
-  //      },
-  //      (error) => {
-  //        console.error(error);
-  //      }
-  //    );
-  //    this.userService.getUsers().subscribe(
-  //      (result) => {
-  //        users = result;
-  //        users.forEach(u => { if(u.email.includes(userEmail)) { user = u; } });
-  //      },
-  //      (error) => { console.error(error); }
-  //    );
-  //    this.getAll().subscribe(
-  //      (result) => {
-  //        allNotifications = result;
-  //        allNotifications.forEach(n => { if (n.user == user) { userNotifications.push(n); } });
-  //        return userNotifications;
-  //      },
-  //      (error) => console.error(error)
-  //    );
-  //  }
-  //}
-
   getByLoggedInUser(): any {
     var loggedUserId = localStorage.getItem('loggedUserId');
     if (loggedUserId) {

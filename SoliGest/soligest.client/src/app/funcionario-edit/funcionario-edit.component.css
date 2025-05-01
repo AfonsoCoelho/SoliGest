@@ -191,3 +191,81 @@ button {
 .cancel-btn {
   order: 1;
 }
+
+/* Popup */
+.popup-overlay {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.4);
+  align-items: flex-start; /* topo */
+  justify-content: center; /* horizontal center */
+  padding-top: 40px; /* distância do topo */
+  z-index: 2000;
+  text-align: center; /* centraliza texto */
+}
+
+.popup-box {
+  background: #fff;
+  border-radius: 4px;
+  width: 400px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.popup-header {
+  padding: 20px;
+}
+
+  .popup-header.success {
+    background: #4caf50;
+  }
+
+  .popup-header.error {
+    background: #f44336;
+  }
+
+.icon-check, .icon-error {
+  width: 40px;
+  height: 40px;
+}
+
+/* timer bar */
+.popup-timer {
+  height: 4px;
+  background: rgba(0,0,0,0.1);
+  width: 100%;
+}
+
+.popup-timer-bar {
+  height: 100%;
+  background: #333;
+  transition: width 0.1s linear;
+}
+
+.popup-body {
+  padding: 20px;
+  font-size: 16px;
+  color: #333;
+}
+
+.popup-footer {
+  padding: 10px 20px 20px;
+}
+
+.btn-close {
+  background: #fff;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+  .btn-close:hover {
+    background: #f0f0f0;
+  }
