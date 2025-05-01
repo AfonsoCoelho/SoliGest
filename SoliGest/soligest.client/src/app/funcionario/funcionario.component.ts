@@ -11,6 +11,7 @@ declare var google: any;
   standalone: false
 })
 export class FuncionarioComponent implements OnInit {
+  userRole: string | null = null;
   sortBy: string = 'id';
   sortDirection: string = 'asc';
   searchTerm: string = '';
@@ -31,12 +32,25 @@ export class FuncionarioComponent implements OnInit {
   timerInterval!: any;
   timerWidth = 100;
 
-  constructor(private service: UsersService, private router: Router) { }
+  constructor(private service: UsersService, private router: Router, private uService: UsersService,) { }
 
 
   sortedFuncionarios: User[] = [];
 
   ngOnInit() {
+    const loggedUserId = localStorage.getItem('loggedUserId');
+    if (loggedUserId) {
+      this.uService.getUser(loggedUserId).subscribe(
+        (user) => {
+          this.userRole = user.role;
+        },
+        (err) => {
+          console.error('Error fetching user in funcionarios:', err);
+        }
+      );
+    }
+
+
     this.getUsers();
     this.initMap();
   }
@@ -246,5 +260,9 @@ export class FuncionarioComponent implements OnInit {
     if (this.timerInterval) {
       clearInterval(this.timerInterval);
     }
+  }
+
+  redirectHome(): void {
+    this.router.navigate(['/']); // or any route you want
   }
 }
