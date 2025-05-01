@@ -26,6 +26,13 @@ export class FuncionarioEditComponent implements OnInit {
   feriasInicio: Date | null = null; // Data de início das férias
   feriasAno: { inicio: Date, fim: Date }[] = []; // Lista de períodos de férias
 
+  // Cenas do popup
+  popupVisible: boolean = false;
+  popupMessage: string = '';
+  popupType: 'success' | 'error' = 'success';
+  timerInterval!: any;
+  timerWidth = 100;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -132,6 +139,7 @@ export class FuncionarioEditComponent implements OnInit {
         },
         error: err => {
           console.error(err);
+          this.showPopup('error', `Ocorreu um erro.`);
         }
       });
     }
@@ -162,9 +170,41 @@ export class FuncionarioEditComponent implements OnInit {
 
     if (id) {
       this.usersService.updateUser(id, name, address1, address2, phoneNumber, birthDate, email, role, dayOff, startHoliday, endHoliday).subscribe(res => {
-        alert('Utilizador atualizado com sucesso!');
-        this.router.navigateByUrl('people');
+        this.showPopup('success', `Utilizador atualizado com sucesso!`);
+        //alert('Utilizador atualizado com sucesso!');
+        //this.router.navigateByUrl('people');
       });
+    }
+  }
+
+  showPopup(type: 'success' | 'error', message: string) {
+    // inicializa
+    this.popupType = type;
+    this.popupMessage = message;
+    this.timerWidth = 100;
+    this.popupVisible = true;
+
+    // limpa qualquer intervalo anterior
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+
+    // diminui 2% a cada 100ms → 50 ciclos → 5s total
+    this.timerInterval = setInterval(() => {
+      this.timerWidth -= 2;
+      if (this.timerWidth <= 0) {
+        this.closePopup();
+      }
+    }, 100);
+  }
+
+  closePopup() {
+    this.popupVisible = false;
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+    if (this.popupMessage = "Utilizador atualizado com sucesso!") {
+      this.router.navigateByUrl('/funcionario');
     }
   }
 }
