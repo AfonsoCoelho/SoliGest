@@ -17,6 +17,7 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { HelpComponent } from './help/help.component';
 import { MetricsComponent } from './metrics/metrics.component';
 import { AuthGuard } from '../api-authorization/authorize.guard';
+import { MyprofileComponent } from './myprofile/myprofile.component';
 
 const routes: Routes = [
   { path: '', title: 'SoliGest', component: HomeComponent, canActivate: [AuthGuard] }, // A raiz agora carrega a página de registar
@@ -32,7 +33,9 @@ const routes: Routes = [
   { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
   { path: 'about-us', component: AboutUsComponent },
   { path: 'help', component: HelpComponent },
+  { path: 'myprofile', component: MyprofileComponent, canActivate: [AuthGuard] },
   { path: 'metrics', component: MetricsComponent, canActivate: [AuthGuard] },
+
 ];
 
 @NgModule({
