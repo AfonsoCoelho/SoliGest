@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User, UsersService } from '../services/users.service';
 import { Router } from '@angular/router';
+import { ActivityLogService } from '../services/activity-log.service';
 
 declare var google: any;
 
@@ -32,12 +33,18 @@ export class FuncionarioComponent implements OnInit {
   timerInterval!: any;
   timerWidth = 100;
 
-  constructor(private service: UsersService, private router: Router, private uService: UsersService,) { }
+  constructor(
+    private service: UsersService,
+    private router: Router,
+    private activityService: ActivityLogService,
+    private uService: UsersService,
+  ) { }
 
 
   sortedFuncionarios: User[] = [];
 
   ngOnInit() {
+    this.activityService.logAction("Viewed Technicians");
     const loggedUserId = localStorage.getItem('loggedUserId');
     if (loggedUserId) {
       this.uService.getUser(loggedUserId).subscribe(
