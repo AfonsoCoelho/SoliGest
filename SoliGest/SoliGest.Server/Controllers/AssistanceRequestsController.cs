@@ -66,6 +66,22 @@ namespace SoliGest.Server.Controllers
             return Ok(request);
         }
 
+        [HttpPatch("{id}/resolve")]
+        public async Task<ActionResult<AssistanceRequest>> ResolveById(int id)
+        {
+            var request = await _context.AssistanceRequest
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            if (request == null)
+            {
+                return NotFound(new { message = "Pedido de assistência não encontrado." });
+            }
+            request.State = "Resolvido";
+            _context.Update(request);
+            await _context.SaveChangesAsync();
+            return Ok(request);
+        }
+
         /// <summary>
         /// Cria um novo pedido de assistência.
         /// </summary>

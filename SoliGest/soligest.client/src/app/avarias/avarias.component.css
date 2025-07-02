@@ -376,6 +376,7 @@
   flex-wrap: wrap;
 }
 
+.resolve-btn,
 .manual-aloc,
 .auto-aloc {
   background-color: #FFC300;
@@ -391,6 +392,7 @@
   transition: all 0.3s ease;
 }
 
+  .resolve-btn:hover,
   .manual-aloc:hover,
   .auto-aloc:hover {
     background-color: #e6b800;

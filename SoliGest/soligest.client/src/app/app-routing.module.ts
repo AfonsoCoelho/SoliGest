@@ -18,6 +18,7 @@ import { HelpComponent } from './help/help.component';
 import { MetricsComponent } from './metrics/metrics.component';
 import { AuthGuard } from '../api-authorization/authorize.guard';
 import { MyprofileComponent } from './myprofile/myprofile.component';
+import { ActivityLogComponent } from './activity-log/activity-log.component';
 
 const routes: Routes = [
   { path: '', title: 'SoliGest', component: HomeComponent, canActivate: [AuthGuard] }, // A raiz agora carrega a página de registar
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'funcionario-create', component: FuncionarioCreateComponent, canActivate: [AuthGuard] },
   { path: 'paineis-solares', component: PaineisSolaresComponent, canActivate: [AuthGuard] },
   { path: 'avarias', component: AvariasComponent, canActivate: [AuthGuard] },
+  { path: 'activity', component: ActivityLogComponent, canActivate: [AuthGuard] },
   { path: 'funcionario-edit/:id', component: FuncionarioEditComponent, canActivate: [AuthGuard] },
   { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
   { path: 'about-us', component: AboutUsComponent },

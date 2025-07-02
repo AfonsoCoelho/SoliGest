@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { AssistanceRequestsService, AssistanceRequest, AssistanceRequestCreateModel } from '../services/assistance-requests.service';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { SolarPanel, SolarPanelsService } from '../services/solar-panels.service';
 import { formatDate } from '@angular/common';
 import { UsersService, User } from '../services/users.service';
+import { ActivityLogService } from '../services/activity-log.service';
 
 
 // Declaração do objeto google para TypeScript
@@ -53,11 +51,10 @@ export class AvariasComponent implements OnInit {
 
 
   constructor(
-    private http: HttpClient,
     private aRService: AssistanceRequestsService,
     private sPService: SolarPanelsService,
     private uService: UsersService,
-    private router: Router
+    private activityService: ActivityLogService
   ) { }
 
   panels: SolarPanel[] = [];
@@ -225,12 +222,13 @@ export class AvariasComponent implements OnInit {
     this.loadSolarPanels();
     this.loadUsers();
     this.loadAssistanceRequests();
+    this.activityService.logAction('Opened Avaries');
   }
 
   ngAfterViewInit(): void {
-    this.initMap();              
-    this.loadSolarPanels();      
-    this.loadUsers();            
+    this.initMap();
+    this.loadSolarPanels();
+    this.loadUsers();
     this.loadAssistanceRequests();
   }
 
@@ -389,6 +387,17 @@ export class AvariasComponent implements OnInit {
       this.clearMarkers();
       this.addAvariaMarkers();
     }
+  }
+
+  resolver(avairy: any): void {
+    this.aRService.resolveById(avairy.id)
+      .subscribe(
+        () => {
+          this.loadAssistanceRequests();
+          this.activityService.logAction('Marked Avairy as Resolved');
+        },
+        (error) => console.error('Error Changing state:', error)
+      );
   }
 
   clearMarkers(): void {

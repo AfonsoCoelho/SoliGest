@@ -65,5 +65,6 @@ namespace SoliGest.Server.Models
         /// </summary>
         /// <remarks>Este campo é opcional e pode estar vazio se o pedido não tiver um técnico atribuído.</remarks>
         public User? AssignedUser { get; set; }
+        public string State { get; set; } = "Pending";
     }
 }

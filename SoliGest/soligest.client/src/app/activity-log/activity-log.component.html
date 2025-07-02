@@ -1,0 +1,40 @@
+<div class="page-wrapper">
+    <app-header></app-header>
+
+    <div class="content-container">
+        <div class="left-section">
+            <!-- You can keep this section empty or add content later -->
+        </div>
+
+        <div class="right-section">
+            <div class="activity-log-section">
+                <h2>Registo de Atividade do Utilizador</h2>
+
+                <button class="clear-button" (click)="clearLogs()">Limpar Registo</button>
+
+                <table class="log-table" *ngIf="logs.length > 0; else noLogs">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Data</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let log of logs; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ log.timestamp | date: 'short' }}</td>
+                            <td>{{ log.action }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <ng-template #noLogs>
+                    <p class="no-logs-message">Sem atividades nesta sessão.</p>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>
