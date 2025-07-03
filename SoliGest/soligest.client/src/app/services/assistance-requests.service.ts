@@ -8,7 +8,7 @@ import { User } from './users.service';
   providedIn: 'root'
 })
 export class AssistanceRequestsService {
-  
+
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<AssistanceRequest[]> {
@@ -17,6 +17,9 @@ export class AssistanceRequestsService {
 
   getById(id: number): Observable<AssistanceRequest> {
     return this.http.get<AssistanceRequest>('api/AssistanceRequests/' + id);
+  }
+  resolveById(id: number): Observable<AssistanceRequest> {
+    return this.http.patch<AssistanceRequest>('api/AssistanceRequests/' + id + "/resolve", {});
   }
 
   create(request: AssistanceRequestCreateModel): Observable<AssistanceRequest> {
@@ -37,6 +40,7 @@ export interface AssistanceRequest {
   requestDate: string;
   priority?: string;
   status: string;
+  state: string;
   statusClass: string;
   resolutionDate: string;
   description: string;

@@ -27,6 +27,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { MetricsComponent } from './metrics/metrics.component';
 import { MyprofileComponent } from './myprofile/myprofile.component';
+import { ActivityLogComponent } from './activity-log/activity-log.component';
 
 
 
@@ -49,7 +50,8 @@ import { MyprofileComponent } from './myprofile/myprofile.component';
     HeaderComponent,
     FooterComponent,
     MetricsComponent,
-    MyprofileComponent
+    MyprofileComponent,
+    ActivityLogComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,

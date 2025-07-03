@@ -9,7 +9,8 @@
         <div class="sort-container">
           <div class="sort-options">
             <label for="search-bar">Procurar:</label>
-            <input type="text" id="search-bar" class="search-input" [(ngModel)]="searchTerm" (input)="filterAvarias()" placeholder="Rua ou Cidade" />
+            <input type="text" id="search-bar" class="search-input" [(ngModel)]="searchTerm" (input)="filterAvarias()"
+              placeholder="Rua ou Cidade" />
 
             <label for="sort-by">Ordenar por:</label>
             <select id="sort-by" class="sort-dropdown" [(ngModel)]="sortBy" (change)="sortAvarias()">
@@ -31,7 +32,8 @@
         </div>
 
         <div class="panels-container" *ngIf="filteredAvarias && filteredAvarias.length > 0; else noAvariasMessage">
-          <div class="panel" *ngFor="let avaria of filteredAvarias" [ngClass]="getAvariaClass(avaria)" (click)="selectAvaria(avaria)">
+          <div class="panel" *ngFor="let avaria of filteredAvarias" [ngClass]="getAvariaClass(avaria)"
+            (click)="selectAvaria(avaria)">
             <div class="panel-header">
               <h3>Avaria ID: {{ avaria.id }}</h3>
               <div class="panel-actions-container">
@@ -50,8 +52,12 @@
             <p *ngIf="avaria.priority">Prioridade: {{ avaria.priority }}</p>
             <p class="status-text">Estado: {{ avaria.status }}</p>
             <div class="aloc-buttons">
-              <button class="manual-aloc" (click)="openManualAllocateModal(avaria); $event.stopPropagation()">Alocar Manualmente</button>
-              <button class="auto-aloc" (click)="openAutoAllocateModal(avaria); $event.stopPropagation()">Alocar Automaticamente</button>
+              <button class="manual-aloc" (click)="openManualAllocateModal(avaria); $event.stopPropagation()">Alocar
+                Manualmente</button>
+              <button class="auto-aloc" (click)="openAutoAllocateModal(avaria); $event.stopPropagation()">Alocar
+                Automaticamente</button>
+              <button class="resolve-btn" (click)="resolver(avaria)"
+                *ngIf="avaria.state !== 'Resolvido'">Resolver</button>
             </div>
           </div>
         </div>
@@ -108,7 +114,8 @@
         </div>
         <div class="form-group" *ngIf="selectedAvaria">
           <label for="edit-description">Descrição:</label>
-          <textarea id="edit-description" [(ngModel)]="selectedAvaria.description" name="edit-description" class="form-control"></textarea>
+          <textarea id="edit-description" [(ngModel)]="selectedAvaria.description" name="edit-description"
+            class="form-control"></textarea>
         </div>
         <div class="form-actions">
           <button type="button" class="cancel-btn" (click)="onCloseEditModal()">Cancelar</button>
@@ -132,7 +139,8 @@
 
         <div class="form-group">
           <label for="create-priority">Prioridade:</label>
-          <select id="create-priority" [(ngModel)]="selectedPriority" name="create-priority" class="form-control" required>
+          <select id="create-priority" [(ngModel)]="selectedPriority" name="create-priority" class="form-control"
+            required>
             <option value="Alta">Alta</option>
             <option value="Média">Média</option>
             <option value="Baixa">Baixa</option>
@@ -157,7 +165,8 @@
         </div>
         <div class="form-group">
           <label for="create-description">Descrição:</label>
-          <textarea id="create-description" [(ngModel)]="newAvariaDescription" name="create-description" class="form-control"></textarea>
+          <textarea id="create-description" [(ngModel)]="newAvariaDescription" name="create-description"
+            class="form-control"></textarea>
         </div>
         <div class="form-actions">
           <button type="button" class="cancel-btn" (click)="onCloseModal()">Cancelar</button>
@@ -205,9 +214,8 @@
               <td>{{ user.name }}</td>
               <td>{{ user.role }}</td>
               <td class="status-dot-cell">
-                <span class="status-dot"
-                      [ngClass]="user.isActive ? 'green-dot' : 'red-dot'"
-                      title="{{ user.isActive ? 'Ativo' : 'Inativo' }}"></span>
+                <span class="status-dot" [ngClass]="user.isActive ? 'green-dot' : 'red-dot'"
+                  title="{{ user.isActive ? 'Ativo' : 'Inativo' }}"></span>
               </td>
               <td>
                 <button class="allocate-btn" (click)="allocateToUser(user)">Alocar</button>
@@ -233,12 +241,15 @@
         <strong>ID:</strong> {{ autoAllocationCandidate.id }} <br>
         <strong>Nome:</strong> {{ autoAllocationCandidate.name }} <br>
         <strong>Cargo:</strong> {{ autoAllocationCandidate.role }} <br>
-        <strong>Ativo: </strong><span class="status-dot" [ngClass]="autoAllocationCandidate.isActive ? 'green-dot' : 'red-dot'" title="{{ autoAllocationCandidate.isActive ? 'Ativo' : 'Inativo' }}"> </span>
+        <strong>Ativo: </strong><span class="status-dot"
+          [ngClass]="autoAllocationCandidate.isActive ? 'green-dot' : 'red-dot'"
+          title="{{ autoAllocationCandidate.isActive ? 'Ativo' : 'Inativo' }}"> </span>
       </p>
       <p *ngIf="!autoAllocationCandidate">Nenhum funcionário disponível.</p>
       <div class="modal-actions">
         <button class="cancel-btn" (click)="closeAutoAllocateModal()">Cancelar</button>
-        <button class="confirm-btn" (click)="confirmAutoAllocation()" [disabled]="!autoAllocationCandidate">Confirmar</button>
+        <button class="confirm-btn" (click)="confirmAutoAllocation()"
+          [disabled]="!autoAllocationCandidate">Confirmar</button>
       </div>
     </div>
   </div>
@@ -248,15 +259,13 @@
     <div class="popup-box">
       <div class="popup-header" [ngClass]="popupType">
         <!-- Success SVG -->
-        <svg *ngIf="popupType==='success'" xmlns="http://www.w3.org/2000/svg"
-             class="icon-check" viewBox="0 0 24 24" fill="none"
-             stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <svg *ngIf="popupType==='success'" xmlns="http://www.w3.org/2000/svg" class="icon-check" viewBox="0 0 24 24"
+          fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 6L9 17l-5-5" />
         </svg>
         <!-- Error SVG -->
-        <svg *ngIf="popupType==='error'" xmlns="http://www.w3.org/2000/svg"
-             class="icon-error" viewBox="0 0 24 24" fill="none"
-             stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <svg *ngIf="popupType==='error'" xmlns="http://www.w3.org/2000/svg" class="icon-error" viewBox="0 0 24 24"
+          fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10" />
           <line x1="15" y1="9" x2="9" y2="15" />
           <line x1="9" y1="9" x2="15" y2="15" />

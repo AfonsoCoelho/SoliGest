@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AuthorizeService } from '../../api-authorization/authorize.service';
 import { ChatService, Conversation } from '../services/chat.service';
+import { ActivityLogService } from '../services/activity-log.service';
 
 // DTO interfaces (define here since chat.models.ts doesn't exist)
 interface Contact {
@@ -64,7 +65,8 @@ export class ChatComponent implements OnInit {
   constructor(
     private auth: AuthorizeService,
     private router: Router,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private activityService: ActivityLogService
   ) {
 
     this.auth.onStateChanged().subscribe(state => {
@@ -76,6 +78,7 @@ export class ChatComponent implements OnInit {
         });
       }
     });
+    this.activityService.logAction('Opened Chat');
   }
 
   ngOnInit(): void {
@@ -152,7 +155,7 @@ export class ChatComponent implements OnInit {
   startNewConversation(contact: Contact): void {
     let conv = this.conversations.find(c => c.contact.id === contact.id);
     if (!conv) {
-      conv = { id: 0, contact, messages: [], lastMessage: { content: "", sent: false ,time: new Date()  }, unreadCount: 0 };
+      conv = { id: 0, contact, messages: [], lastMessage: { content: "", sent: false, time: new Date() }, unreadCount: 0 };
       this.conversations.push(conv);
     }
 

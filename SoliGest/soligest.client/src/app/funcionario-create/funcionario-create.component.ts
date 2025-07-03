@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from
 import { Router } from '@angular/router';
 import { AuthorizeService } from '../../api-authorization/authorize.service';
 import { UsersService } from '../services/users.service';
+import { ActivityLogService } from '../services/activity-log.service';
 
 @Component({
   selector: 'app-funcionario-create',
@@ -32,10 +33,10 @@ export class FuncionarioCreateComponent implements OnInit {
 
   folgaDia: Date | null = null;
   folgasMes: Date[] = [];
-  
+
   feriasInicio: Date | null = null;
   feriasAno: { inicio: Date, fim: Date }[] = [];
-  
+
   passwordStrength = 0;
 
   // Cenas do popup
@@ -47,33 +48,36 @@ export class FuncionarioCreateComponent implements OnInit {
 
   constructor(private authService: AuthorizeService,
     private formBuilder: FormBuilder,
-    private router: Router, private usersService: UsersService ) {
+    private router: Router,
+    private activityService: ActivityLogService,
+    private usersService: UsersService
+  ) {
   }
-    ngOnInit(): void {
-      this.funcionarioCreateFailed = false;
-      this.funcionarioCreateSucceeded = false;
-      this.errors = [];
+  ngOnInit(): void {
+    this.funcionarioCreateFailed = false;
+    this.funcionarioCreateSucceeded = false;
+    this.errors = [];
 
-      // Inicializar o formulário com validações
-      this.funcionarioCreateForm = this.formBuilder.group(
-        {
-          profilePic: [''],
-          name: ['', Validators.required],
-          email: ['', [Validators.required, Validators.email]],
-          address1: [],
-          address2: [],
-          phoneNumber: [],
-          birthDate: [],
-          password: ['', [
-            Validators.required,
-            Validators.minLength(6),
-            Validators.pattern(/(?=.*[^a-zA-Z0-9 ])/)]],
-          confirmPassword: ['', [Validators.required]],
-          role: [],
-          dayOff: [],
-          startHoliday: [],
-          endHoliday: []
-        }, { validators: this.passwordMatchValidator });
+    // Inicializar o formulário com validações
+    this.funcionarioCreateForm = this.formBuilder.group(
+      {
+        profilePic: [''],
+        name: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        address1: [],
+        address2: [],
+        phoneNumber: [],
+        birthDate: [],
+        password: ['', [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.pattern(/(?=.*[^a-zA-Z0-9 ])/)]],
+        confirmPassword: ['', [Validators.required]],
+        role: [],
+        dayOff: [],
+        startHoliday: [],
+        endHoliday: []
+      }, { validators: this.passwordMatchValidator });
   }
 
   passwordMatchValidator: ValidatorFn = (control: AbstractControl): null | object => {
@@ -90,16 +94,16 @@ export class FuncionarioCreateComponent implements OnInit {
   checkPasswordStrength() {
     const password = this.user.password;
     let strength = 0;
-    
+
     // Length check
     if (password.length > 5) strength += 20;
     if (password.length > 8) strength += 20;
-    
+
     // Complexity checks
     if (/[A-Z]/.test(password)) strength += 20;
     if (/[0-9]/.test(password)) strength += 20;
     if (/[^A-Za-z0-9]/.test(password)) strength += 20;
-    
+
     this.passwordStrength = Math.min(strength, 100);
   }
 
@@ -143,14 +147,14 @@ export class FuncionarioCreateComponent implements OnInit {
   }
 
   formValido() {
-    return this.user.name && 
-           this.user.email && 
-           this.user.address1 && 
-           this.user.phoneNumber && 
-           this.user.birthDate && 
-           this.user.password && 
-           this.user.password === this.user.confirmPassword && 
-           this.user.role;
+    return this.user.name &&
+      this.user.email &&
+      this.user.address1 &&
+      this.user.phoneNumber &&
+      this.user.birthDate &&
+      this.user.password &&
+      this.user.password === this.user.confirmPassword &&
+      this.user.role;
   }
 
   //onSubmit() {
@@ -249,6 +253,7 @@ export class FuncionarioCreateComponent implements OnInit {
     // Chamada ao serviço de registo
     this.authService.register(name, address1, address2, phoneNumber, birthDate, email, password, role, dayOff, startHoliday, endHoliday).forEach(
       response => {
+        this.activityService.logAction("Created Technician");
         if (response) {
           this.funcionarioCreateSucceeded = true;
           this.usersService.getUserByEmail(email).subscribe(

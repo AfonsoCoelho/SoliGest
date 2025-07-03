@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthorizeService } from "../../api-authorization/authorize.service";
+import { ActivityLogService } from "../services/activity-log.service";
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthorizeService,
     private formBuilder: FormBuilder,
+    private activityService: ActivityLogService,
     private router: Router) {
     this.signedIn = this.authService.isSignedIn();
   }
@@ -48,21 +50,22 @@ export class LoginComponent implements OnInit {
 
     this.authService.signIn(email, password).subscribe(
       (result) => {
-          if (result) {
-            //this.router.navigateByUrl("/");
-            //alert("Login efetuado com sucesso!"); // Redireciona para a página inicial
-            this.showPopup('success', `Login efetuado com sucesso!`);
-          } else {
-            //alert("Email ou password inválidos!");
-            this.showPopup('error', `Email ou password inválidos!`);
-          }
-          },
-          (error) => {
-            this.authFailed = true; // Mostra mensagem de erro se falhar
-            //alert("Ocorreu um erro! Por favor tente novamente mais tarde.");
-            this.showPopup('error', `Ocorreu um erro! Por favor tente novamente mais tarde.`);
-          },
-        )
+        if (result) {
+          this.activityService.logAction("Logged in");
+          //this.router.navigateByUrl("/");
+          //alert("Login efetuado com sucesso!"); // Redireciona para a página inicial
+          this.showPopup('success', `Login efetuado com sucesso!`);
+        } else {
+          //alert("Email ou password inválidos!");
+          this.showPopup('error', `Email ou password inválidos!`);
+        }
+      },
+      (error) => {
+        this.authFailed = true; // Mostra mensagem de erro se falhar
+        //alert("Ocorreu um erro! Por favor tente novamente mais tarde.");
+        this.showPopup('error', `Ocorreu um erro! Por favor tente novamente mais tarde.`);
+      },
+    )
   }
 
   showPopup(type: 'success' | 'error', message: string) {

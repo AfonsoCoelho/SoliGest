@@ -5,7 +5,7 @@ import { AuthorizeService } from '../../api-authorization/authorize.service';
 @Component({
   selector: 'app-about-us',
   standalone: false,
-  
+
   templateUrl: './about-us.component.html',
   styleUrl: './about-us.component.css'
 })
